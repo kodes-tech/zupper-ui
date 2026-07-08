@@ -4,6 +4,7 @@ import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import prettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default tseslint.config(
   {
@@ -44,6 +45,13 @@ export default tseslint.config(
     files: ['**/*.spec.{ts,tsx}', '**/*.stories.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    // Scripts Node do repo (ferramentas) — globals do Node (console, process, Buffer, URL…).
+    files: ['scripts/**/*.{js,mjs}'],
+    languageOptions: {
+      globals: globals.node,
     },
   },
   prettier, // desliga regras de formatação — quem formata é o Prettier

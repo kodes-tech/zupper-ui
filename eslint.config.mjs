@@ -46,5 +46,12 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+  {
+    // Scripts Node do repo (ferramentas) — globals do Node.
+    files: ['scripts/**/*.{js,mjs}'],
+    languageOptions: {
+      globals: { console: 'readonly', process: 'readonly' },
+    },
+  },
   prettier, // desliga regras de formatação — quem formata é o Prettier
 );

@@ -14,7 +14,6 @@ module.exports = (api) => {
     return {
       // `nativewind/babel` habilita `className` nos componentes RN (jsxImportSource).
       presets: ['module:@react-native/babel-preset', 'nativewind/babel'],
-      plugins: ['babel-plugin-styled-components'],
     };
   }
 
@@ -25,6 +24,5 @@ module.exports = (api) => {
       ['@babel/preset-react', { runtime: 'automatic' }],
       'nativewind/babel',
     ],
-    plugins: ['babel-plugin-styled-components'],
   };
 };

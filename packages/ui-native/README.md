@@ -4,9 +4,9 @@ Componentes **React Native** do design system Zupper (Community). Consome `@zupp
 Estilização via **NativeWind** (`className`), com os tokens expostos como preset Tailwind.
 
 ```tsx
-import { Badge } from '@zupper/ui-native';
+import { Badge } from "@zupper/ui-native";
 
-<Badge label="Novo" tone="success" />
+<Badge label='Viajante' tone='brand' />;
 ```
 
 > ⚠️ **Requer setup no app consumidor.** O NativeWind resolve `className` no build do app
@@ -14,6 +14,7 @@ import { Badge } from '@zupper/ui-native';
 > [`docs/nativewind-zupper-app.md`](../../docs/nativewind-zupper-app.md).
 
 ## Estrutura — Atomic Design (igual ao @zupper/app-ui)
+
 ```
 src/
 ├── atoms/       # blocos básicos: Badge, Text, Icon, Button
@@ -24,7 +25,9 @@ src/
 ```
 
 ## Como criar um componente (padrão)
+
 Cada componente numa pasta no nível certo (`atoms`/`molecules`/`organisms`), com 4 arquivos:
+
 ```
 <Nivel>/<Nome>/
 ├── <Nome>.tsx          # React Native + className (NativeWind) + tokens (apresentacional, sem API)
@@ -32,15 +35,18 @@ Cada componente numa pasta no nível certo (`atoms`/`molecules`/`organisms`), co
 ├── <Nome>.spec.tsx     # teste (@testing-library/react-native)
 └── index.ts
 ```
+
 E exportar no `index.ts` do nível (ex.: `atoms/index.ts`).
 
 ## Rodar (dev harness)
+
 ```bash
 npm install            # na raiz do zupper-ui (workspaces)
 npm run storybook -w @zupper/ui-native   # preview visual no navegador (via react-native-web)
 npm test        -w @zupper/ui-native     # jest + @testing-library/react-native
 npm run build   -w @zupper/ui-native     # builder-bob (compila lib/)
 ```
+
 - **Storybook** (web/RNW): vê e revisa componentes **sem simulador e sem backend**. Stories em `*.stories.tsx`.
 - **Testes**: `*.spec.tsx` ao lado de cada componente (ver `Badge.spec.tsx`).
 
@@ -48,10 +54,10 @@ npm run build   -w @zupper/ui-native     # builder-bob (compila lib/)
 
 ## Estilização — NativeWind + tokens
 - Componentes usam `className` (utilitários Tailwind). Os tokens (`@zupper/tokens`) viram um **preset Tailwind** (`@zupper/tokens/tailwind`), então as classes semânticas saem dos tokens:
-  - cores → `bg-primary`, `text-fg-strong`, `bg-surface-card`, `bg-feedback-success`, `text-like`
-  - spacing → `p-md`, `px-sm`, `gap-lg` · radius → `rounded-pill` · fonte → `font-sans`, `text-caption`, `font-medium`
+  - cores → `bg-brand-strong`, `text-fg-primary`, `bg-surface-tag`, `bg-partner-cardSurface`
+  - spacing → `p-md`, `px-sm`, `gap-lg` · radius → `rounded-pill` · fonte → `font-sans`, `text-xs`, `font-medium`
 - O harness local (Storybook/jest) já tem `tailwind.config.js` + `global.css` + `nativewind/babel`.
-- **`styled-components` continua peer opcional** — migração é gradual; conviver com `className` é permitido durante a transição.
+- `styled-components` foi removido — nenhum componente o utiliza mais.
 - ⚠️ A lib **não** transforma `className` no build (bob emite string crua); quem resolve é o app — ver [`docs/nativewind-zupper-app.md`](../../docs/nativewind-zupper-app.md).
 
 ## Blindagens já embutidas

@@ -64,7 +64,7 @@ tokens → utilitários, compartilhada pela lib e pelo `tailwind.config.js` do a
 > [`docs/nativewind-zupper-app.md`](docs/nativewind-zupper-app.md).
 
 ## As 4 blindagens (por que o pacote instala em qualquer app compatível)
-1. **peerDependencies permissivas** — react/react-native como peer (`>=0.72`); nativewind (`>=4.1`) e tailwindcss (`>=3.4 <4`) fornecidos pelo app; styled-components peer **opcional** (migração gradual).
+1. **peerDependencies permissivas** — react/react-native como peer (`>=0.72`); nativewind (`>=4.1`) e tailwindcss (`>=3.4 <4`) fornecidos pelo app. `styled-components` foi removido (sem componente usando).
 2. **Split tokens/native/web** — cada plataforma instala só o que roda nela. Os `@zupper/tokens` compilam em **CJS** (requeríveis por Node/CJS puro, ex.: `tailwind.config.js`).
 3. **Build correto** (builder-bob no RN, tsc nos tokens) — publica compilado + tipos.
 4. **Semver** — major só quando o consumidor quiser.

@@ -5,11 +5,11 @@ Design tokens do Zupper — **valores agnósticos de framework**. Podem ser cons
 ```ts
 import { colors, spacing, tokens } from '@zupper/tokens';
 
-colors.primary;      // '#009DAF'
-spacing.md;          // 16
-tokens.typography.size.title; // 18
+colors.brand.strong;          // '#008C99'
+spacing.md;                   // 8
+tokens.typography.textVariant.heading; // { fontFamily, fontSize, fontWeight, lineHeight, letterSpacing }
 ```
 
-> ⚠️ Os valores atuais são **PLACEHOLDER**. Substituir pelos do Figma do Community (Dev Mode) — ver os `TODO(Figma)` em cada arquivo de `src/`.
+Valores extraídos do Figma "Zupper 2.0" (Dev Mode) para o App 2.0 / Comunidade — próprios, não referenciam `@zupper/app-ui`.
 
 Sem `dependencies` e sem `peerDependencies` — é só JS/TS puro.

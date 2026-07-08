@@ -8,7 +8,7 @@ describe('Badge', () => {
   });
 
   it('aceita o tone', () => {
-    render(<Badge label="Ativo" tone="success" />);
-    expect(screen.getByText('Ativo')).toBeOnTheScreen();
+    render(<Badge label="Viajante" tone="brand" />);
+    expect(screen.getByText('Viajante')).toBeOnTheScreen();
   });
 });

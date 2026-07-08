@@ -17,13 +17,13 @@ describe('@zupper/tokens', () => {
   });
 
   it('cores são strings hex', () => {
-    expect(colors.primary).toMatch(/^#[0-9a-fA-F]{3,8}$/);
-    expect(colors.text.strong).toMatch(/^#/);
+    expect(colors.brand.strong).toMatch(/^#[0-9a-fA-F]{3,8}$/);
+    expect(colors.text.primary).toMatch(/^#/);
   });
 
   it('tipografia tem família, escala e pesos', () => {
     expect(typeof typography.family).toBe('string');
-    expect(typeof typography.size.body).toBe('number');
+    expect(typeof typography.size.md).toBe('number');
     expect(typography.weight.bold).toBe('700');
   });
 

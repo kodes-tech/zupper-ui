@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export type BadgeTone = 'neutral' | 'success' | 'danger';
+export type BadgeTone = 'neutral' | 'brand' | 'partner';
 
 export type BadgeProps = {
   label: string;
@@ -10,15 +10,15 @@ export type BadgeProps = {
 
 // Classes vindas dos tokens (ver @zupper/tokens/tailwind): cores, radius, spacing e tipografia.
 const containerByTone: Record<BadgeTone, string> = {
-  neutral: 'bg-surface-card',
-  success: 'bg-feedback-success',
-  danger: 'bg-feedback-danger',
+  neutral: 'bg-surface-tag',
+  brand: 'bg-brand-chipSurface',
+  partner: 'bg-partner-cardSurface',
 };
 
 const labelByTone: Record<BadgeTone, string> = {
-  neutral: 'text-fg-strong',
-  success: 'text-fg-inverse',
-  danger: 'text-fg-inverse',
+  neutral: 'text-fg-primary',
+  brand: 'text-brand-strong',
+  partner: 'text-fg-primary',
 };
 
 /**
@@ -30,6 +30,6 @@ const labelByTone: Record<BadgeTone, string> = {
  */
 export const Badge = ({ label, tone = 'neutral' }: BadgeProps): React.ReactElement => (
   <View className={`self-start rounded-pill px-sm py-xs ${containerByTone[tone]}`}>
-    <Text className={`font-sans text-caption font-medium ${labelByTone[tone]}`}>{label}</Text>
+    <Text className={`font-sans text-xs font-medium ${labelByTone[tone]}`}>{label}</Text>
   </View>
 );

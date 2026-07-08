@@ -14,15 +14,22 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "validate:publint": "publint packages/tokens && publint packages/ui-native",
+    "validate:types": "attw --pack packages/tokens && attw --pack packages/ui-native",
+    "validate:pack": "node scripts/check-pack.mjs",
+    "validate:pkg": "npm run validate:publint && npm run validate:types && npm run validate:pack",
     "clean": "rm -rf packages/*/lib packages/*/dist"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
     "@eslint/js": "^9.9.0",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^15.9.0",
     "prettier": "^3.3.0",
+    "publint": "^0.2.0",
     "typescript-eslint": "^8.0.0"
   },
   "engines": {

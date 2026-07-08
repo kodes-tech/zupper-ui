@@ -1,10 +1,13 @@
-/** Border radius. TODO(Figma): confirmar os raios do Community. */
+/** Border radius do Community (valores unitless para React Native). */
 export const radii = {
   none: 0,
-  sm: 8,
-  md: 12,
-  lg: 16,
-  pill: 999,
+  xs: 2, // tags (TypeTag / RoleBadge)
+  sm: 4, // cards de conteúdo (PostCard)
+  md: 8, // grupos com borda (RoteiroMeta "preview-rota")
+  lg: 12,
+  xl: 16,
+  xxl: 24, // quick-action cards
+  pill: 999, // cápsula completa
 } as const;
 
 export type Radii = typeof radii;

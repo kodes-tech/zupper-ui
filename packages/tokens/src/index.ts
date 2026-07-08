@@ -10,7 +10,7 @@ import { typography } from './typography';
 import { radii } from './radii';
 import { elevation } from './elevation';
 
-/** Objeto único com todos os tokens (útil como theme de styled-components). */
+/** Objeto único com todos os tokens (acesso agregado ergonômico). */
 export const tokens = {
   colors,
   spacing,

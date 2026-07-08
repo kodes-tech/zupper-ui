@@ -9,9 +9,41 @@ const packages = [
 
 let failed = false;
 
+/**
+ * Lista os arquivos que iriam no tarball. `npm pack` roda o `prepare` do pacote
+ * (rebuild) — idempotente e igual ao `npm run build` do passo anterior, então
+ * valida um artefato fresco (não dá pra pular: `--ignore-scripts` não desabilita
+ * o `prepare` no pack). Em caso de falha, o `npm pack` sai != 0 (execSync lança)
+ * OU devolve `{ error }` no --json; tratamos os dois para dar uma mensagem clara
+ * em vez de um stack trace cru.
+ */
+function packedFiles(dir) {
+  let raw;
+  try {
+    raw = execSync('npm pack --dry-run --json', { cwd: dir, encoding: 'utf8' });
+  } catch (e) {
+    return { error: e.stderr?.toString().trim() || e.message };
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { error: `saída não-JSON do npm pack:\n${raw.slice(0, 300)}` };
+  }
+  if (!Array.isArray(parsed) || !parsed[0]?.files) {
+    return { error: parsed?.error?.detail || parsed?.error?.summary || 'formato inesperado do npm pack --json' };
+  }
+  return { files: parsed[0].files.map((f) => f.path) };
+}
+
 for (const pkg of packages) {
-  const raw = execSync('npm pack --dry-run --json', { cwd: pkg.dir, encoding: 'utf8' });
-  const files = JSON.parse(raw)[0].files.map((f) => f.path);
+  const { files, error } = packedFiles(pkg.dir);
+
+  if (error) {
+    console.error(`\n📦 ${pkg.dir}\n  ❌ falha ao empacotar (build ausente/quebrado?): ${error}`);
+    failed = true;
+    continue;
+  }
 
   console.log(`\n📦 ${pkg.dir} — ${files.length} arquivos no tarball`);
 

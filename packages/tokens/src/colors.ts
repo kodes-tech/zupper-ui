@@ -35,13 +35,23 @@ export const colors = {
     link: '#0C4A6E', // text/link — "Meu perfil ›" / "Fazer login ›"
     heading: '#25314D', // color/brand/kontrip — título do WelcomeBackCard
     body: '#2E2E2E', // color/accent/dubai/800 — descrição do WelcomeBackCard
+    label: '#1C1C1A', // título de campo de formulário (Input)
   },
   surface: {
     default: '#FFFFFF', // background/surface — fundo de card
     tag: '#F5F5F5', // color/accent/dubai/100 — fundo do TypeTag
+    // TODO(Figma): definido pelo time (sem Figma) — validar com design
+    selection: '#737373', // neutral-500 — seleção de texto e cursor em campos (Input)
   },
   border: {
     default: '#D4D4D4', // border/default — contorno de cards e pills
+    subtle: '#EFEFEF', // contorno de campos de formulário (Input)
+    // TODO(Figma): definido pelo time (sem Figma) — validar com design
+    focus: '#737373', // neutral-500 — borda do campo focado (Input)
+  },
+  feedback: {
+    // TODO(Figma): sem estado de erro no Figma novo — valor espelhado do app antigo
+    danger: '#EF4444', // accents/danger/500 (amsterdam) do @zupper/app-ui — borda e mensagem de erro (Input)
   },
 } as const;
 

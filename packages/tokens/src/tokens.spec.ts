@@ -1,4 +1,4 @@
-import { tokens, colors, spacing, typography, radii, elevation } from './index';
+import { tokens, colors, spacing, typography, radii, elevation, sizes } from './index';
 
 describe('@zupper/tokens', () => {
   it('exposes all groups in the aggregate object', () => {
@@ -8,7 +8,13 @@ describe('@zupper/tokens', () => {
       typography,
       radii,
       elevation,
+      sizes,
     });
+  });
+
+  it('sizes uses a numeric scale (px)', () => {
+    expect(typeof sizes.control).toBe('number');
+    expect(sizes.control).toBeGreaterThan(0);
   });
 
   it('spacing uses a numeric scale (px)', () => {

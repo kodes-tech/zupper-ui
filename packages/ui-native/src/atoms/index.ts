@@ -1,2 +1,3 @@
 // Atoms — blocos mais básicos (leaf components): Badge, Text, Icon, Button...
 export * from './Badge';
+export * from './Input';

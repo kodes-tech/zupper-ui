@@ -35,6 +35,14 @@ Confirmado no 1º build: o bob emite `lib/typescript/index.d.ts` (sem o prefixo 
 o campo `types` do `@zupper/ui-native` já foi ajustado. Reconferir apenas se a versão
 do bob mudar.
 
+## Token novo não aparece no Storybook sem rebuildar os tokens
+O `tailwind.config.js` do ui-native lê o preset do **build** dos tokens
+(`require('@zupper/tokens/tailwind')` → `lib/`), não do source. Token novo sem
+`npm run build -w @zupper/tokens` = classe ausente do CSS gerado — e a falha é
+**silenciosa** (ex.: `border-feedback-danger` faltando fez a borda cair no fallback
+`black` do react-native-web). Após o build, **reiniciar o Storybook**: o processo
+mantém o build antigo no cache de `require()` do Node.
+
 ## NativeWind precisa do pipeline do app consumidor
 Os componentes publicam `className` como **string crua** — sem o setup NativeWind no
 app (babel + metro + tailwind com `content` incluindo `@zupper/ui-native`), renderizam

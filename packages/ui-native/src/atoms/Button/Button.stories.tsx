@@ -28,3 +28,5 @@ export const SecondaryWithIcon = {
     iconPosition: 'left',
   },
 };
+
+export const Ghost = { args: { label: 'Sair da minha conta zupper', variant: 'ghost' } };

@@ -23,6 +23,12 @@ describe('Button', () => {
   it('renders the secondary (outline) variant', () => {
     render(<Button label="Iniciar sessão" variant="secondary" />);
     expect(screen.getByText('Iniciar sessão')).toBeOnTheScreen();
-    expect(screen.getByTestId('button-outline')).toBeOnTheScreen();
+    expect(screen.getByTestId('button-container')).toBeOnTheScreen();
+  });
+
+  it('renders the ghost (text-only) variant', () => {
+    render(<Button label="Sair da minha conta zupper" variant="ghost" />);
+    expect(screen.getByText('Sair da minha conta zupper')).toBeOnTheScreen();
+    expect(screen.getByTestId('button-container')).toBeOnTheScreen();
   });
 });

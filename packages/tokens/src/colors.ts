@@ -45,6 +45,9 @@ export const colors = {
   border: {
     default: '#D4D4D4', // border/default — contorno de cards e pills
   },
+  feedback: {
+    danger: '#EF4444', // Accents/Amsterdam/Amsterdam 500 — texto do Button variant="ghost" (ex.: "Sair da minha conta")
+  },
 } as const;
 
 export type Colors = typeof colors;

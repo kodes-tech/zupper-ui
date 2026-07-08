@@ -4,7 +4,7 @@ import { Pressable, Text, View } from 'react-native';
 import type { PressableProps } from 'react-native';
 import { colors, radii, spacing } from '@zupper/tokens';
 
-export type ButtonVariant = 'primary' | 'secondary';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
 export type ButtonProps = PressableProps & {
   /** Texto do botão. Opcional — um botão só de ícone (ex.: fechar o FAB) não tem label. */
@@ -15,6 +15,7 @@ export type ButtonProps = PressableProps & {
   /**
    * `primary` (padrão) — pill com gradiente, usado no FAB de Publicar.
    * `secondary` — pill outline, usado em ações como "Iniciar sessão".
+   * `ghost` — só texto, sem fundo/borda, usado em ações destrutivas (ex.: "Sair da minha conta").
    */
   variant?: ButtonVariant;
 };
@@ -30,17 +31,24 @@ const gradientStyle = {
   padding: spacing.lg,
 };
 
-const secondaryClassName =
-  'flex-row items-center justify-center gap-md rounded-pill border border-brand-zupper px-screenMargin py-md';
+const containerClassByVariant = {
+  secondary:
+    'flex-row items-center justify-center gap-md rounded-pill border border-brand-zupper px-screenMargin py-md',
+  ghost: 'flex-row items-center justify-center gap-md rounded-pill px-screenMargin py-lg',
+} as const;
+
+const labelClassByVariant: Record<ButtonVariant, string> = {
+  primary: 'font-sans text-buttonLabel text-fg-inverse',
+  secondary: 'font-sans text-buttonLabelLg text-brand-zupper',
+  ghost: 'font-sans text-buttonLabel text-feedback-danger',
+};
 
 /**
  * Button — botão base do design system, no padrão pill.
  * `primary` corresponde ao "Botão LG primario normal" do Figma (gradiente,
  * usado no FAB de Publicar/Dica/Foto/Roteiro/fechar). `secondary` corresponde
- * ao "Secundary button - App" (outline, ex.: "Iniciar sessão").
- *
- * `ghost` (só texto) entra como prop deste mesmo componente numa PR seguinte,
- * não como componente novo.
+ * ao "Secundary button - App" (outline, ex.: "Iniciar sessão"). `ghost`
+ * corresponde ao "Primary button - App" (só texto, ex.: "Sair da minha conta").
  */
 export const Button = ({
   label,
@@ -52,25 +60,15 @@ export const Button = ({
   const content = (
     <>
       {icon && iconPosition === 'left' ? icon : null}
-      {label ? (
-        <Text
-          className={
-            variant === 'primary'
-              ? 'font-sans text-buttonLabel text-fg-inverse'
-              : 'font-sans text-buttonLabelLg text-brand-zupper'
-          }
-        >
-          {label}
-        </Text>
-      ) : null}
+      {label ? <Text className={labelClassByVariant[variant]}>{label}</Text> : null}
       {icon && iconPosition === 'right' ? icon : null}
     </>
   );
 
-  if (variant === 'secondary') {
+  if (variant === 'secondary' || variant === 'ghost') {
     return (
       <Pressable testID="button" {...rest}>
-        <View testID="button-outline" className={secondaryClassName}>
+        <View testID="button-container" className={containerClassByVariant[variant]}>
           {content}
         </View>
       </Pressable>

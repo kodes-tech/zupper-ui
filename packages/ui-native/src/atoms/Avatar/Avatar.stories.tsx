@@ -1,0 +1,9 @@
+import { Avatar } from './Avatar';
+
+export default {
+  title: 'Atoms/Avatar',
+  component: Avatar,
+};
+
+export const Small = { args: { size: 'sm', source: { uri: 'https://i.pravatar.cc/56' } } };
+export const Large = { args: { size: 'lg', source: { uri: 'https://i.pravatar.cc/128' } } };

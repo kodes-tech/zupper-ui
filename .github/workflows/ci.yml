@@ -31,6 +31,17 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      # Lint/format começam NÃO bloqueantes: o código existente ainda não passou
+      # por lint. Rodar `npm run lint:fix` + `npm run format`, limpar, e então
+      # remover os `continue-on-error` para tornar obrigatório.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Format check
+        run: npm run format:check
+        continue-on-error: true
+
       - name: Test (regressões)
         run: npm test
 

@@ -19,8 +19,9 @@ export const colors = {
     partner: ['#FFCE00', '#EA580C'],
     // transparente → 40% preto — legibilidade sobre imagem (DestinationCard)
     overlay: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)'],
-    // #4CBAC7 → #009DAF — botão de busca redondo (SearchInput)
-    searchButton: ['#4CBAC7', '#009DAF'],
+    // Gradients/Button (Figma) — #4CBAC7 → #009DAF. Usado no botão de busca
+    // redondo (SearchInput) e no Button/FAB de ação primária (Publicar etc.).
+    button: ['#4CBAC7', '#009DAF'],
   },
   partner: {
     surface: '#FFCE00', // início do gradiente — para consumidores sem gradiente

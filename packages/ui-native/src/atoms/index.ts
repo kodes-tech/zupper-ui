@@ -2,4 +2,5 @@
 export * from './Avatar';
 export * from './AvatarFallback';
 export * from './Badge';
+export * from './Button';
 export * from './RoleBadge';

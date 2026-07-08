@@ -19,4 +19,10 @@ describe('Button', () => {
     fireEvent.press(screen.getByTestId('button'));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
+
+  it('renders the secondary (outline) variant', () => {
+    render(<Button label="Iniciar sessão" variant="secondary" />);
+    expect(screen.getByText('Iniciar sessão')).toBeOnTheScreen();
+    expect(screen.getByTestId('button-outline')).toBeOnTheScreen();
+  });
 });

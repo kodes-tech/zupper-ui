@@ -11,6 +11,7 @@ export const colors = {
     base: '#4CBAC7', // color/mexico/900 — início do gradiente
     strong: '#008C99', // color/brand/zupper — fim do gradiente / texto sobre claro
     borderHighlight: '#78C8CE', // border/highlight
+    zupper: '#009DAF', // Primary/Brand Zupper — fim do gradient.button; borda/texto do Button variant="secondary"
   },
   gradient: {
     // color/mexico/900 → color/brand/zupper, ~139°

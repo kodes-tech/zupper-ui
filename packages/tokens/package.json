@@ -1,0 +1,25 @@
+{
+  "name": "@zupper/tokens",
+  "version": "0.1.0",
+  "description": "Design tokens do Zupper — valores agnósticos de framework (cores, spacing, tipografia, radius, elevação). Consumido por RN, React web, Angular, etc.",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepare": "tsc -p tsconfig.json"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,3 @@
+// Organisms — componentes compostos e complexos: PostCard, Comment, FeedItem...
+// TODO(Community): adicionar e exportar aqui.
+export {};

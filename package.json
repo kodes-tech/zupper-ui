@@ -1,0 +1,17 @@
+{
+  "name": "zupper-ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Design system do Zupper — tokens (agnóstico) + componentes (RN agora, web no futuro).",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "clean": "rm -rf packages/*/lib packages/*/dist"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

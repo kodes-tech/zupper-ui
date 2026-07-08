@@ -23,10 +23,11 @@ jobs:
           cache: npm
 
       # npm ci = install estrito pelo lockfile (valida que as dependências estão
-      # em sincronia com o package-lock). --legacy-peer-deps: react-native-web@0.19
-      # ainda pede React 18 e o repo usa React 19 (ver docs/known-issues.md).
+      # em sincronia com o package-lock). Conflitos de peer (react-native-web@0.19
+      # vs React 19; ajv do ajv-keywords vs ajv do eslint) resolvidos via
+      # `overrides` no package.json raiz — ver docs/known-issues.md.
       - name: Install
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Typecheck
         run: npm run typecheck

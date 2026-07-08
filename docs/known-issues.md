@@ -6,10 +6,14 @@ política da org (só **owner** muda visibilidade) — HTTP 422 para não-owners
 um owner troca em Settings → Danger Zone, ou habilita "members can change visibility".
 Nada sensível foi commitado, mas privar antes de crescer.
 
-## Install exige `--legacy-peer-deps`
-`react-native-web@0.19` declara peer `react@^18` e o repo usa React 19 → `npm install`
-puro falha com ERESOLVE. Usar **`npm install --legacy-peer-deps`** (documentado no
-README). Revisitar quando o react-native-web suportar React 19.
+## Install — resolvido via `overrides` (não precisa mais de `--legacy-peer-deps`)
+`react-native-web@0.19` declara peer `react@^18`/`react-dom@^18` e o repo usa React 19;
+`ajv-keywords` (usado pelo `babel-loader`/Storybook) precisa de `ajv@^8`, mas o `eslint@9`
+fixa `ajv@6` na raiz e o npm hospeda essa versão, quebrando `storybook dev`/`build-storybook`
+com `Cannot find module 'ajv/dist/compile/codegen'`. Os dois estão resolvidos via
+`overrides` no `package.json` raiz (força `react-native-web` a aceitar o React 19 já
+instalado; força o `ajv` do `ajv-keywords` para `^8`, sem tocar no `ajv@6` que o próprio
+ESLint usa). `npm install` puro (sem `--legacy-peer-deps`) volta a funcionar.
 
 ## Storybook 8: compilador + CSS + cache (validado, com gotchas)
 Storybook 8.6 + React 19 + react-native-web **funciona**, mas: (1) o SB8 **não traz

@@ -50,7 +50,7 @@ npm run build   -w @zupper/ui-native     # builder-bob (compila lib/)
 - **Storybook** (web/RNW): vê e revisa componentes **sem simulador e sem backend**. Stories em `*.stories.tsx`.
 - **Testes**: `*.spec.tsx` ao lado de cada componente (ver `Badge.spec.tsx`).
 
-> ✅ **Validado** (RN 0.83 / React 19 / nativewind 4.2.6 / SB 8.6): install requer `--legacy-peer-deps` (react-native-web pede React 18). No Storybook, o TS/TSX compila via regra explícita de `babel-loader` no `webpackFinal` (SB8 não traz compilador) e o `global.css` via PostCSS — ver `.storybook/main.ts`. Se o preview quebrar com erro estranho após mexer em babel/webpack, limpe `node_modules/.cache`.
+> ✅ **Validado** (RN 0.83 / React 19 / nativewind 4.2.6 / SB 8.6): `npm install` puro funciona — conflitos de peer (react-native-web pede React 18, ajv-keywords pede ajv@8) resolvidos via `overrides` na raiz. No Storybook, o TS/TSX compila via regra explícita de `babel-loader` no `webpackFinal` (SB8 não traz compilador) e o `global.css` via PostCSS — ver `.storybook/main.ts`. Se o preview quebrar com erro estranho após mexer em babel/webpack, limpe `node_modules/.cache`.
 
 ## Estilização — NativeWind + tokens
 - Componentes usam `className` (utilitários Tailwind). Os tokens (`@zupper/tokens`) viram um **preset Tailwind** (`@zupper/tokens/tailwind`), então as classes semânticas saem dos tokens:

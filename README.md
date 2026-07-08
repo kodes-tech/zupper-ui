@@ -26,7 +26,7 @@ zupper-ui/
 ## Desenvolvimento
 
 ```bash
-npm install --legacy-peer-deps   # react-native-web@0.19 ainda pede React 18 (temos 19)
+npm install                      # conflitos de peer (react-native-web, ajv) resolvidos via overrides
 npm run build                    # builda todos os pacotes
 npm run typecheck
 npm test -w @zupper/ui-native

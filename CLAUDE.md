@@ -66,7 +66,7 @@ zupper-ui/
 ## Comandos
 
 ```bash
-npm install --legacy-peer-deps           # raiz (react-native-web ainda pede React 18)
+npm install                              # raiz (conflitos de peer resolvidos via overrides)
 npm run storybook -w @zupper/ui-native   # preview no navegador
 npm test -w @zupper/ui-native            # testes RN
 npm test -w @zupper/tokens               # testes dos tokens

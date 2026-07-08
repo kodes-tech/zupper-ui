@@ -48,6 +48,21 @@ jobs:
       - name: Build (saída publicável)
         run: npm run build
 
+      # Validação do pacote publicado — pega erros de exports/types/files que
+      # quebram consumidores silenciosamente. NÃO bloqueantes no início (attw pode
+      # reportar falsos positivos em pacote RN); endurecer após revisar os achados.
+      - name: Package lint (publint)
+        run: npm run validate:publint
+        continue-on-error: true
+
+      - name: Types resolution (are-the-types-wrong)
+        run: npm run validate:types
+        continue-on-error: true
+
+      - name: Pack contents (sem spec/story; build presente)
+        run: npm run validate:pack
+        continue-on-error: true
+
   audit:
     name: Dependency audit
     runs-on: ubuntu-latest

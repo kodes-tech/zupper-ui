@@ -12,8 +12,7 @@ let failed = false;
 /**
  * Lista os arquivos que iriam no tarball. `npm pack` roda o `prepare` do pacote
  * (rebuild) — idempotente e igual ao `npm run build` do passo anterior, então
- * valida um artefato fresco (não dá pra pular: `--ignore-scripts` não desabilita
- * o `prepare` no pack). Em caso de falha, o `npm pack` sai != 0 (execSync lança)
+ * valida um artefato fresco. Em caso de falha, o `npm pack` sai != 0 (execSync lança)
  * OU devolve `{ error }` no --json; tratamos os dois para dar uma mensagem clara
  * em vez de um stack trace cru.
  */

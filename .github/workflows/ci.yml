@@ -49,8 +49,8 @@ jobs:
         run: npm run build
 
       # Validação do pacote publicado — pega erros de exports/types/files que
-      # quebram consumidores silenciosamente. NÃO bloqueantes no início (attw pode
-      # reportar falsos positivos em pacote RN); endurecer após revisar os achados.
+      # quebram consumidores silenciosamente. publint/attw seguem NÃO bloqueantes
+      # (attw reporta falsos positivos em pacote RN); endurecer após revisar.
       - name: Package lint (publint)
         run: npm run validate:publint
         continue-on-error: true
@@ -59,9 +59,10 @@ jobs:
         run: npm run validate:types
         continue-on-error: true
 
+      # BLOQUEANTE: determinístico, sem falso-positivo de RN, e é o guard exato do
+      # bug que esta PR corrige (vazamento de .spec/.stories no publish / build ausente).
       - name: Pack contents (sem spec/story; build presente)
         run: npm run validate:pack
-        continue-on-error: true
 
   audit:
     name: Dependency audit

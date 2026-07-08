@@ -14,14 +14,26 @@ substituir pelos reais. Não inventar valores fora do design.
 ```
 packages/tokens/src/
 ├── colors.ts · spacing.ts · typography.ts · radii.ts · elevation.ts
-└── index.ts   # reexporta tudo + objeto agregado `tokens`
+├── tailwind.ts   # preset Tailwind gerado dos tokens (@zupper/tokens/tailwind)
+└── index.ts      # reexporta tudo + objeto agregado `tokens`
 ```
 Cada arquivo exporta um objeto `as const` (tipos estreitos) + o `type`.
+O build é **CJS** de propósito: `tailwind.config.js` (Node puro) precisa dar
+`require('@zupper/tokens/tailwind')`.
 
 ## Como usar num componente
+Via **NativeWind** (padrão — ADR 0006): as classes saem do preset
+`@zupper/tokens/tailwind`:
+```tsx
+<View className="bg-surface-card p-md rounded-pill" />
+```
+Mapa: cores → `bg-primary`, `text-fg-strong`, `bg-feedback-success`, `text-like` ·
+spacing → `p-md`, `px-sm`, `gap-lg` · radius → `rounded-pill` · fonte → `font-sans`,
+`text-caption`, `font-medium`.
+
+Em componente **legado** (styled-components, ainda não migrado):
 ```ts
 import { colors, spacing, radii } from '@zupper/tokens';
-// dentro de styled-components/native:
 background-color: ${colors.surface.card};
 padding: ${spacing.md}px;
 border-radius: ${radii.pill}px;

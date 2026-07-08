@@ -1,12 +1,17 @@
 # @zupper/ui-native
 
 Componentes **React Native** do design system Zupper (Community). Consome `@zupper/tokens`.
+Estilização via **NativeWind** (`className`), com os tokens expostos como preset Tailwind.
 
 ```tsx
 import { Badge } from '@zupper/ui-native';
 
 <Badge label="Novo" tone="success" />
 ```
+
+> ⚠️ **Requer setup no app consumidor.** O NativeWind resolve `className` no build do app
+> (babel + metro + tailwind), não na lib. Antes de usar no zupper-app, siga
+> [`docs/nativewind-zupper-app.md`](../../docs/nativewind-zupper-app.md).
 
 ## Estrutura — Atomic Design (igual ao @zupper/app-ui)
 ```
@@ -22,7 +27,7 @@ src/
 Cada componente numa pasta no nível certo (`atoms`/`molecules`/`organisms`), com 4 arquivos:
 ```
 <Nivel>/<Nome>/
-├── <Nome>.tsx          # styled-components/native + tokens (apresentacional, sem API)
+├── <Nome>.tsx          # React Native + className (NativeWind) + tokens (apresentacional, sem API)
 ├── <Nome>.stories.tsx  # story (Storybook)
 ├── <Nome>.spec.tsx     # teste (@testing-library/react-native)
 └── index.ts
@@ -39,10 +44,18 @@ npm run build   -w @zupper/ui-native     # builder-bob (compila lib/)
 - **Storybook** (web/RNW): vê e revisa componentes **sem simulador e sem backend**. Stories em `*.stories.tsx`.
 - **Testes**: `*.spec.tsx` ao lado de cada componente (ver `Badge.spec.tsx`).
 
-> ⚠️ **Validar no install:** o app é RN 0.83 / React 19 (recente). A combinação React 19 + react-native-web + Storybook 8 pode pedir **ajuste de versão** no primeiro `npm install`. O **jest** é a parte estável; o **Storybook** pode precisar de um tweak. Se `bob build` reclamar do `babel.config.js`, isolamos um babel dedicado ao bob.
+> ✅ **Validado** (RN 0.83 / React 19 / nativewind 4.2.6 / SB 8.6): install requer `--legacy-peer-deps` (react-native-web pede React 18). No Storybook, o TS/TSX compila via regra explícita de `babel-loader` no `webpackFinal` (SB8 não traz compilador) e o `global.css` via PostCSS — ver `.storybook/main.ts`. Se o preview quebrar com erro estranho após mexer em babel/webpack, limpe `node_modules/.cache`.
+
+## Estilização — NativeWind + tokens
+- Componentes usam `className` (utilitários Tailwind). Os tokens (`@zupper/tokens`) viram um **preset Tailwind** (`@zupper/tokens/tailwind`), então as classes semânticas saem dos tokens:
+  - cores → `bg-primary`, `text-fg-strong`, `bg-surface-card`, `bg-feedback-success`, `text-like`
+  - spacing → `p-md`, `px-sm`, `gap-lg` · radius → `rounded-pill` · fonte → `font-sans`, `text-caption`, `font-medium`
+- O harness local (Storybook/jest) já tem `tailwind.config.js` + `global.css` + `nativewind/babel`.
+- **`styled-components` continua peer opcional** — migração é gradual; conviver com `className` é permitido durante a transição.
+- ⚠️ A lib **não** transforma `className` no build (bob emite string crua); quem resolve é o app — ver [`docs/nativewind-zupper-app.md`](../../docs/nativewind-zupper-app.md).
 
 ## Blindagens já embutidas
-- **peerDependencies permissivas** — `react: *`, `react-native: >=0.72`, `styled-components: >=6` (o app fornece as instâncias; sem cópia dupla de React).
+- **peerDependencies permissivas** — `react: *`, `react-native: >=0.72`, `nativewind: >=4.1`, `tailwindcss: >=3.4 <4` (o app fornece as instâncias; sem cópia dupla).
 - **Build via `react-native-builder-bob`** — gera `lib/` (CJS + ESM + types); publica compilado, não `.tsx` cru.
 - **Módulos nativos** entram como `peerDependencies` (nunca `dependencies`).
 

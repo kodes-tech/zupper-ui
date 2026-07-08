@@ -1,6 +1,6 @@
 /**
  * Elevação neutra (agnóstica). Cada plataforma interpreta:
- * RN → shadow*/elevation; web → box-shadow. TODO(Figma): calibrar.
+ * RN → props de shadow e elevation; web → box-shadow. TODO(Figma): calibrar.
  */
 export const elevation = {
   none: 0,

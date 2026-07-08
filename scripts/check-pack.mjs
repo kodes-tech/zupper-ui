@@ -10,11 +10,23 @@ const packages = [
 let failed = false;
 
 /**
- * Lista os arquivos que iriam no tarball via `npm pack --dry-run --json`. O `prepare`
- * dos pacotes (ex.: o `bob build` do ui-native) escreve progresso no stdout junto do
- * JSON, então extraímos só o array JSON da saída (o `ℹ`/`✓` do bob não tem colchetes).
- * Em caso de falha, o `npm pack` sai != 0 (execSync lança) OU devolve `{ error }` no
- * --json; tratamos os dois para dar uma mensagem clara em vez de stack trace cru.
+ * O `npm pack --json` vem pretty-printed (linha isolada `[` … linha isolada `]`).
+ * O `prepare` dos pacotes (ex.: o `bob build` do ui-native) imprime progresso no
+ * stdout junto — inclusive com colchetes inline (`[BABEL]`, `[1/9]`) — então
+ * delimitamos o bloco JSON pelas linhas isoladas `[` e `]`, ignorando o resto.
+ */
+function extractJsonArray(raw) {
+  const lines = raw.split('\n');
+  const start = lines.findIndex((l) => l.trim() === '[');
+  const end = lines.map((l) => l.trim()).lastIndexOf(']');
+  if (start === -1 || end <= start) return null;
+  return lines.slice(start, end + 1).join('\n');
+}
+
+/**
+ * Lista os arquivos que iriam no tarball. Em caso de falha, o `npm pack` sai != 0
+ * (execSync lança) OU devolve `{ error }` no --json; tratamos os dois para dar uma
+ * mensagem clara em vez de stack trace cru.
  */
 function packedFiles(dir) {
   let raw;
@@ -23,15 +35,15 @@ function packedFiles(dir) {
   } catch (e) {
     return { error: e.stderr?.toString().trim() || e.message };
   }
-  const json = raw.match(/\[[\s\S]*\]/); // ignora o ruído do prepare antes do JSON
-  if (!json) {
-    return { error: `saída sem JSON do npm pack:\n${raw.slice(0, 300)}` };
+  const jsonText = extractJsonArray(raw);
+  if (!jsonText) {
+    return { error: `sem bloco JSON no npm pack:\n${raw.slice(-400)}` };
   }
   let parsed;
   try {
-    parsed = JSON.parse(json[0]);
+    parsed = JSON.parse(jsonText);
   } catch {
-    return { error: `JSON inválido do npm pack:\n${raw.slice(0, 300)}` };
+    return { error: `JSON inválido do npm pack:\n${raw.slice(-400)}` };
   }
   if (!Array.isArray(parsed) || !parsed[0]?.files) {
     return { error: parsed?.error?.detail || parsed?.error?.summary || 'formato inesperado do npm pack --json' };

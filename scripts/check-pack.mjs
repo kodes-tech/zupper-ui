@@ -10,25 +10,28 @@ const packages = [
 let failed = false;
 
 /**
- * Lista os arquivos que iriam no tarball. Usa `--ignore-scripts` para PULAR o
- * `prepare`/`prepack` — o `bob build` do ui-native escreve progresso no stdout e
- * poluiria o JSON do `--json`. A validação roda depois do passo `npm run build`,
- * então o `lib`/`dist` já existe (se faltar, o próprio check acusa "build ausente").
- * Em caso de falha, o `npm pack` sai != 0 (execSync lança) OU devolve `{ error }`
- * no --json; tratamos os dois para dar uma mensagem clara em vez de stack trace cru.
+ * Lista os arquivos que iriam no tarball via `npm pack --dry-run --json`. O `prepare`
+ * dos pacotes (ex.: o `bob build` do ui-native) escreve progresso no stdout junto do
+ * JSON, então extraímos só o array JSON da saída (o `ℹ`/`✓` do bob não tem colchetes).
+ * Em caso de falha, o `npm pack` sai != 0 (execSync lança) OU devolve `{ error }` no
+ * --json; tratamos os dois para dar uma mensagem clara em vez de stack trace cru.
  */
 function packedFiles(dir) {
   let raw;
   try {
-    raw = execSync('npm pack --dry-run --json --ignore-scripts', { cwd: dir, encoding: 'utf8' });
+    raw = execSync('npm pack --dry-run --json', { cwd: dir, encoding: 'utf8' });
   } catch (e) {
     return { error: e.stderr?.toString().trim() || e.message };
   }
+  const json = raw.match(/\[[\s\S]*\]/); // ignora o ruído do prepare antes do JSON
+  if (!json) {
+    return { error: `saída sem JSON do npm pack:\n${raw.slice(0, 300)}` };
+  }
   let parsed;
   try {
-    parsed = JSON.parse(raw);
+    parsed = JSON.parse(json[0]);
   } catch {
-    return { error: `saída não-JSON do npm pack:\n${raw.slice(0, 300)}` };
+    return { error: `JSON inválido do npm pack:\n${raw.slice(0, 300)}` };
   }
   if (!Array.isArray(parsed) || !parsed[0]?.files) {
     return { error: parsed?.error?.detail || parsed?.error?.summary || 'formato inesperado do npm pack --json' };

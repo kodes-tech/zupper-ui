@@ -24,7 +24,9 @@ Não existe "um componente para RN + React + Angular". Ver
 ## Stack
 
 - **React Native** 0.83 + **React** 19 · **TypeScript** 5 (strict)
-- **styled-components/native** 6 (mesma engine do `@zupper/app-ui` do app)
+- **NativeWind 4** (`className` + preset Tailwind gerado dos tokens) — ver
+  [ADR 0006](docs/decisions/0006-nativewind-styling.md); `styled-components` 6 é
+  peer **opcional** (legado, migração gradual)
 - **Storybook** (web via `react-native-web`) — preview sem simulador/backend
 - **jest** + **@testing-library/react-native** (ui-native) · **ts-jest** (tokens)
 - Build: **react-native-builder-bob** (ui-native) · **tsc** (tokens)
@@ -46,8 +48,9 @@ zupper-ui/
 
 1. **Componente é apresentacional** — só props (`onLike`, `author`…), **zero chamada
    de API**. Dados entram por props; a integração fica no app consumidor.
-2. **Estilo com `styled-components/native` + `@zupper/tokens`** — nunca hardcode de
-   cor/spacing; sempre token. Ver `docs/conventions/tokens.md`.
+2. **Estilo com `className` (NativeWind) + tokens** — classes vindas do preset
+   `@zupper/tokens/tailwind` (`bg-primary`, `p-md`, `rounded-pill`…); nunca hardcode
+   de cor/spacing; sempre token. Ver `docs/conventions/tokens.md` e ADR 0006.
 3. **Atomic Design** — `atoms/` (básicos) · `molecules/` (combinações) · `organisms/`
    (compostos). Ver `docs/conventions/components.md`.
 4. **Isolamento** — `ui-native` **não importa** do `@zupper/app-ui` (do app), e
@@ -62,7 +65,7 @@ zupper-ui/
 ## Comandos
 
 ```bash
-npm install                              # raiz (workspaces)
+npm install --legacy-peer-deps           # raiz (react-native-web ainda pede React 18)
 npm run storybook -w @zupper/ui-native   # preview no navegador
 npm test -w @zupper/ui-native            # testes RN
 npm test -w @zupper/tokens               # testes dos tokens
@@ -87,4 +90,5 @@ pago vs GitHub Packages vs Verdaccio). Ver `docs/decisions/0001-separate-repo-np
 
 - **Repo ainda PÚBLICO** (troca pra privado depende de owner da org).
 - **Tokens são placeholder** — preencher do Figma do Community (`TODO(Figma)` em `packages/tokens/src`).
-- **Storybook (React 19 + react-native-web) não validado** — pode pedir ajuste de versão no 1º `npm install`. Ver `docs/known-issues.md`.
+- **NativeWind exige setup no app consumidor** — ver `docs/nativewind-zupper-app.md` (ainda não aplicado no zupper-app).
+- Storybook/jest/build **validados** neste repo; gotchas em `docs/known-issues.md`.

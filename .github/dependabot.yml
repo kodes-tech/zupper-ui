@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Atualizações de dependências npm (raiz do monorepo cobre os workspaces).
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Agrupa dev tooling num PR só (menos ruído).
+      dev-tooling:
+        patterns:
+          - "@babel/*"
+          - "@storybook/*"
+          - "storybook"
+          - "jest"
+          - "ts-jest"
+          - "@types/*"
+          - "typescript"
+    ignore:
+      # react-native-web@0.19 ainda pede React 18 — bump manual controlado.
+      - dependency-name: react-native-web
+
+  # Mantém as actions do CI atualizadas.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

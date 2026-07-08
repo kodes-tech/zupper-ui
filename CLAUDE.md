@@ -24,9 +24,10 @@ Não existe "um componente para RN + React + Angular". Ver
 ## Stack
 
 - **React Native** 0.83 + **React** 19 · **TypeScript** 5 (strict)
-- **NativeWind 4** (`className` + preset Tailwind gerado dos tokens) — ver
-  [ADR 0006](docs/decisions/0006-nativewind-styling.md); `styled-components` 6 é
-  peer **opcional** (legado, migração gradual)
+- **NativeWind 4** (`className` + preset Tailwind gerado dos tokens) — **única**
+  abordagem de estilo, sem styled-components. Ver
+  [ADR 0006](docs/decisions/0006-nativewind-styling.md) e
+  [ADR 0007](docs/decisions/0007-drop-styled-components.md)
 - **Storybook** (web via `react-native-web`) — preview sem simulador/backend
 - **jest** + **@testing-library/react-native** (ui-native) · **ts-jest** (tokens)
 - Build: **react-native-builder-bob** (ui-native) · **tsc** (tokens)
@@ -57,7 +58,7 @@ zupper-ui/
    vice-versa. Compartilhar só o neutro.
 5. **Cada componente = 4 arquivos**: `<Nome>.tsx`, `<Nome>.stories.tsx`,
    `<Nome>.spec.tsx`, `index.ts`.
-6. **peerDependencies permissivas** — react/react-native/styled-components como
+6. **peerDependencies permissivas** — react/react-native/nativewind/tailwindcss como
    `peer` com faixa ampla. Nunca em `dependencies`. Ver
    [ADR 0004](docs/decisions/0004-distribution-safeguards.md).
 7. **Nada de segredo no repo**; PT-BR nas strings de UI.

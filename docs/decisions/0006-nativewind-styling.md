@@ -1,6 +1,6 @@
 # 0006 — NativeWind como camada de estilo do ui-native
 
-- **Status:** Accepted
+- **Status:** Accepted — parcialmente superseded por [ADR 0007](0007-drop-styled-components.md) (a "migração gradual / `styled-components` peer opcional" do item 1 não vale mais; styled-components foi removido)
 - **Date:** 2026-07-08
 - **Deciders:** Jerson Janke
 

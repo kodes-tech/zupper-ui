@@ -29,10 +29,10 @@ E exportar no `index.ts` do nível.
 1. **Apresentacional puro** — só props. **Nenhuma chamada de API**, nenhum acesso a
    store/navegação. Estado de dados entra por props (`author`, `likes`, `onLike`).
 2. **Estilo com `className` (NativeWind) + tokens** — classes do preset
-   `@zupper/tokens/tailwind` (ver ADR 0006). **Proibido hardcode** de
+   `@zupper/tokens/tailwind` (ver ADR 0006). É a **única** abordagem de estilo —
+   sem styled-components (ver ADR 0007). **Proibido hardcode** de
    cor/spacing/fonte/radius. Errado: `style={{ padding: 16 }}` ou `p-[16px]`.
-   Certo: `className="p-md"`. (`styled-components` só em componente legado ainda
-   não migrado — não usar em componente novo.)
+   Certo: `className="p-md"`.
 3. **Tipar as props** — `export type <Nome>Props = {...}`. Callbacks nomeados por
    intenção (`onLike`, `onPressAuthor`).
 4. **Isolamento** — não importar de `@zupper/app-ui`. Só de `@zupper/tokens` e libs neutras.

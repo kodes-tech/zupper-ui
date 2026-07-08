@@ -25,19 +25,15 @@ O build é **CJS** de propósito: `tailwind.config.js` (Node puro) precisa dar
 Via **NativeWind** (padrão — ADR 0006): as classes saem do preset
 `@zupper/tokens/tailwind`:
 ```tsx
-<View className="bg-surface-card p-md rounded-pill" />
+<View className="bg-surface-tag p-md rounded-pill" />
 ```
-Mapa: cores → `bg-primary`, `text-fg-strong`, `bg-feedback-success`, `text-like` ·
-spacing → `p-md`, `px-sm`, `gap-lg` · radius → `rounded-pill` · fonte → `font-sans`,
-`text-caption`, `font-medium`.
+Mapa: cores → `bg-brand-strong`, `text-fg-primary`, `bg-surface-tag`, `bg-partner-cardSurface` ·
+spacing → `p-md`, `px-sm`, `gap-lg`, `p-screenMargin` · radius → `rounded-pill`, `rounded-md` ·
+fonte → `font-sans`, `text-xs`, `font-medium`, presets compostos `text-heading`, `text-authorName`.
 
-Em componente **legado** (styled-components, ainda não migrado):
-```ts
-import { colors, spacing, radii } from '@zupper/tokens';
-background-color: ${colors.surface.card};
-padding: ${spacing.md}px;
-border-radius: ${radii.pill}px;
-```
+> Gradientes (`colors.gradient.*`) ficam **fora** do preset (arrays não são cor Tailwind) —
+> consumir via import JS direto (ex.: `LinearGradient`). NativeWind é a **única** estilização
+> (sem styled-components — ADR 0007).
 
 ## Regras
 1. **Nunca hardcode** no componente — sempre um token.

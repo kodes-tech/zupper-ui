@@ -1,7 +1,7 @@
 import { tokens, colors, spacing, typography, radii, elevation } from './index';
 
 describe('@zupper/tokens', () => {
-  it('expõe todos os grupos no objeto agregado', () => {
+  it('exposes all groups in the aggregate object', () => {
     expect(tokens).toMatchObject({
       colors,
       spacing,
@@ -11,27 +11,27 @@ describe('@zupper/tokens', () => {
     });
   });
 
-  it('spacing usa escala numérica (px)', () => {
+  it('spacing uses a numeric scale (px)', () => {
     expect(typeof spacing.md).toBe('number');
     expect(spacing.md).toBeGreaterThan(0);
   });
 
-  it('cores são strings hex', () => {
-    expect(colors.primary).toMatch(/^#[0-9a-fA-F]{3,8}$/);
-    expect(colors.text.strong).toMatch(/^#/);
+  it('colors are hex strings', () => {
+    expect(colors.brand.strong).toMatch(/^#[0-9a-fA-F]{3,8}$/);
+    expect(colors.text.primary).toMatch(/^#/);
   });
 
-  it('tipografia tem família, escala e pesos', () => {
+  it('typography has family, scale, and weights', () => {
     expect(typeof typography.family).toBe('string');
-    expect(typeof typography.size.body).toBe('number');
+    expect(typeof typography.size.md).toBe('number');
     expect(typography.weight.bold).toBe('700');
   });
 
-  it('radii inclui o pill (arredondado total)', () => {
+  it('radii includes pill (fully rounded)', () => {
     expect(radii.pill).toBeGreaterThanOrEqual(999);
   });
 
-  it('elevation é uma escala numérica crescente', () => {
+  it('elevation is an increasing numeric scale', () => {
     expect(elevation.none).toBe(0);
     expect(elevation.high).toBeGreaterThan(elevation.low);
   });

@@ -47,6 +47,10 @@ templates/
 ├── destinos/              # Tela 3 — Destinos em alta (Ver todos)
 │   ├── ver-todos.tsx      # node 118:10544
 │   └── preview.html
+├── conteudo/               # Tela 5 — visualização individual de um post (Foto / Dica / Roteiro)
+│   ├── foto.tsx            # node 140:7928
+│   ├── dica.tsx            # node 143:8671
+│   ├── roteiro.tsx         # node 143:8826 (inclui card-roteiro por dia + cards de oferta)
 ├── detalhes-destino/      # Tela 4 — Detalhes do destino (Ver tudo / Fotos / Dicas / Roteiros)
 │   ├── ver-tudo.tsx       # node 118:11497 (inclui cards de oferta: passagens/hospedagens/pacotes)
 │   ├── fotos.tsx          # node 123:13288

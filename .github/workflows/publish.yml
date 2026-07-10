@@ -21,16 +21,16 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@kodes-tech'
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - run: npm run build --workspaces --if-present
 
       - name: Publish @kodes-tech/tokens
-        run: npm publish --workspace packages/tokens
+        run: npm publish --workspace packages/tokens --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish @kodes-tech/ui-native
-        run: npm publish --workspace packages/ui-native
+        run: npm publish --workspace packages/ui-native --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

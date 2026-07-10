@@ -39,7 +39,11 @@ templates/
 │   ├── viajante.tsx
 │   ├── parceiro.tsx
 │   └── preview.html      # reprodução renderizável das 3 variantes — abre direto no navegador
-└── assets/                # arquivos reais baixados do Figma, usados só pelo preview.html
+├── comunidade/            # Tela 2 — Meu Perfil / Comunidade (só persona Viajante no Figma)
+│   ├── fotos.tsx          # aba "Fotos" — node 118:7339
+│   ├── dicas.tsx          # aba "Dicas" — node 118:8284
+│   └── roteiros.tsx       # aba "Roteiros" — node 118:8735
+└── assets/                # arquivos reais baixados do Figma, usados pelos preview.html
     ├── icon-*.svg / .png  # ícones soltos (flat)
     ├── fonts/              # Satoshi-{Regular,Medium,Bold}.otf
     └── photos/             # avatares, foto de post, foto de card-destino (comprimidas)

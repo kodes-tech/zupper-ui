@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Comunidade — referência Figma (Fotos / Dicas / Roteiros)</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Cores vieram de get_variable_defs (Figma Dev Mode) nos 3 nós desta tela. */
+  :root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-border: #d4d4d4;
+    --text-primary: #262626;
+    --text-secondary: #404040;
+    --text-muted: #a3a3a3;
+    --text-inverse: #ffffff;
+    --text-highlight: #008c99;
+    --header-title: #1c1c1a;
+    --brand-chip: #d8fcfe;
+    --brand-gradient-start: #4cbac7;
+    --brand-gradient-end: #008c99;
+    --tag-bg: #f5f5f5;
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--text-primary);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  img { max-width: none; }
+
+  .page-header { max-width: 1200px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 680px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: nowrap; gap: 28px; align-items: flex-start; justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; -ms-overflow-style: none; }
+  .screens::-webkit-scrollbar { display: none; }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  .phone {
+    width: 390px;
+    max-width: 92vw;
+    height: 844px;
+    background: var(--color-bg);
+    border-radius: 36px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .screen-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  /* header: nav + greeting + tabs */
+  .head { background: var(--color-surface); display: flex; flex-direction: column; }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 24px 4px; padding-top: 40px; }
+  .nav-row img { width: 24px; height: 24px; }
+  .nav-row .spacer { width: 24px; height: 24px; }
+  .nav-title { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0.32px; color: var(--header-title); }
+
+  .greeting { padding: 16px; display: flex; gap: 8px; align-items: center; }
+  .avatar { width: 64px; height: 64px; border-radius: 999px; background: var(--color-surface); flex-shrink: 0; overflow: hidden; position: relative; }
+  .avatar img { position: absolute; left: -53.75%; top: -16.31%; width: 199.08%; height: 199.08%; }
+  .greeting-body { flex: 1; min-width: 0; height: 64px; display: flex; flex-direction: column; justify-content: space-between; }
+  .greeting-title { font-weight: 700; font-size: 24px; letter-spacing: 0.48px; line-height: 1; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .greeting-sub { font-weight: 500; font-size: 16px; letter-spacing: 0.32px; line-height: 1.5; color: var(--text-secondary); }
+  .greeting-side { display: flex; align-items: flex-end; padding: 4px 4px 2px; align-self: stretch; }
+  .tag-comunidade { font-size: 12px; line-height: 16px; padding: 4px 8px; border-radius: 2px; white-space: nowrap; background: var(--brand-chip); color: var(--text-highlight); font-weight: 700; }
+
+  .tabs { display: flex; gap: 4px; height: 48px; align-items: flex-end; border-top: 1px solid var(--color-border); }
+  .tab { flex: 1; height: 34px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+  .tab-label-row { display: flex; align-items: center; gap: 4px; }
+  .tab img { width: 16px; height: 16px; }
+  .tab span { font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; }
+  .tab.active span { font-weight: 700; color: var(--text-highlight); }
+  .tab:not(.active) span { font-weight: 400; color: var(--text-muted); }
+  .tab-underline { width: 100%; height: 2px; }
+  .tab.active .tab-underline { background: var(--text-highlight); }
+
+  /* fotos: grid */
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .photo-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+
+  /* dicas/roteiros: sections + cards (mesmo padrão do Feed) */
+  .sec-destinos { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+  .location-title { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0.32px; color: var(--text-primary); }
+  .post-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .post-header { display: flex; align-items: flex-start; justify-content: space-between; }
+  .post-author { display: flex; align-items: center; gap: 8px; }
+  .post-avatar { width: 28px; height: 28px; border-radius: 999px; overflow: hidden; background: var(--tag-bg); flex-shrink: 0; }
+  .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .post-name { font-weight: 700; font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-primary); }
+  .post-body { font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary); font-weight: 400; }
+  .post-title { font-weight: 700; font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary); }
+  .preview-rota { border: 1px solid var(--color-border); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+  .preview-rota img { width: 8px; height: 8px; }
+  .preview-rota .muted { color: var(--text-muted); }
+  .post-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 4px; }
+  .post-footer-left { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .tag-content { display: flex; align-items: center; gap: 4px; background: var(--tag-bg); padding: 4px 8px; border-radius: 2px; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-primary); }
+  .tag-content img { width: 14px; height: 14px; }
+  .location, .likes { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+  .location img, .likes img { width: 16px; height: 16px; }
+
+  /* bottom nav */
+  .bottom-nav { flex-shrink: 0; background: var(--color-surface); display: flex; gap: 8px; padding: 16px 20px; width: 100%; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-primary); font-weight: 500; }
+  .nav-item img { width: 24px; height: 24px; }
+  .nav-item.active { color: var(--text-highlight); font-weight: 700; }
+
+  /* float button (Publicar) */
+  .float-button-wrap { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: flex-end; padding: 0 24px; pointer-events: none; }
+  .float-button { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 40px; background: linear-gradient(to right, var(--brand-gradient-start), var(--brand-gradient-end)); box-shadow: 0 4px 2px rgba(23,23,23,0.2); color: var(--text-inverse); font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; }
+  .float-button img { width: 20px; height: 20px; }
+
+  .legend { max-width: 1200px; margin: 40px auto 0; font-size: 12px; color: #6b6b70; line-height: 1.6; }
+  @media (prefers-color-scheme: dark) { .legend { color: #9a9aa0; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Comunidade — referência visual (Figma Dev Mode)</h1>
+  <p>
+    Reprodução em CSS real das 3 abas de "Meu Perfil - Comunidade" (só existe pra persona
+    Viajante no Figma) — cores, spacing e ícones extraídos direto do Figma
+    (<code>get_variable_defs</code> + <code>get_design_context</code> escopado por instância,
+    nunca pela tela inteira — ver nota no rodapé). Ícones e fotos reais em
+    <code>../assets/</code>.
+  </p>
+</div>
+
+<div class="screens">
+
+  <!-- ================= FOTOS ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Fotos</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="head">
+          <div class="nav-row">
+            <img src="../assets/icon-back-arrow.svg" alt="" />
+            <div class="nav-title">Meu Perfil - Comunidade</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="greeting">
+            <div class="avatar"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+            <div class="greeting-body">
+              <div class="greeting-title">Olá, Carlos</div>
+              <div class="greeting-sub">@carlosviaja</div>
+            </div>
+            <div class="greeting-side"><div class="tag-comunidade">Viajante</div></div>
+          </div>
+          <div class="tabs">
+            <div class="tab">
+              <div class="tab-label-row"><img src="../assets/icon-tab-dicas-inactive.svg" alt="" /><span>Dicas</span></div>
+              <div class="tab-underline"></div>
+            </div>
+            <div class="tab active">
+              <div class="tab-label-row"><img src="../assets/icon-tab-fotos-active.svg" alt="" /><span>Fotos</span></div>
+              <div class="tab-underline"></div>
+            </div>
+            <div class="tab">
+              <div class="tab-label-row"><img src="../assets/icon-tab-roteiros-inactive.svg" alt="" /><span>Roteiros</span></div>
+              <div class="tab-underline"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-grid">
+          <img src="../assets/photos/comunidade-grid-01.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-02.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-03.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-04.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-05.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-06.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-07.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-08.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-09.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-10.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-11.jpg" alt="" />
+          <img src="../assets/photos/comunidade-grid-12.jpg" alt="" />
+        </div>
+      </div>
+
+      <div class="float-button-wrap">
+        <div class="float-button"><span>Publicar</span><img src="../assets/icon-publish.svg" alt="" /></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DICAS ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Dicas</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="head">
+          <div class="nav-row">
+            <img src="../assets/icon-back-arrow.svg" alt="" />
+            <div class="nav-title">Meu Perfil - Comunidade</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="greeting">
+            <div class="avatar"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+            <div class="greeting-body">
+              <div class="greeting-title">Olá, Carlos</div>
+              <div class="greeting-sub">@carlosviaja</div>
+            </div>
+            <div class="greeting-side"><div class="tag-comunidade">Viajante</div></div>
+          </div>
+          <div class="tabs">
+            <div class="tab active">
+              <div class="tab-label-row"><img src="../assets/icon-tab-dicas-active.svg" alt="" /><span>Dicas</span></div>
+              <div class="tab-underline"></div>
+            </div>
+            <div class="tab">
+              <div class="tab-label-row"><img src="../assets/icon-tab-fotos-inactive.svg" alt="" /><span>Fotos</span></div>
+              <div class="tab-underline"></div>
+            </div>
+            <div class="tab">
+              <div class="tab-label-row"><img src="../assets/icon-tab-roteiros-inactive.svg" alt="" /><span>Roteiros</span></div>
+              <div class="tab-underline"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-destinos">
+          <div class="location-title">Recife, PE</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="location-title">São Paulo, SP</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />São Paulo, SP</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="float-button-wrap">
+        <div class="float-button"><span>Publicar</span><img src="../assets/icon-publish.svg" alt="" /></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ROTEIROS ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Roteiros</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="head">
+          <div class="nav-row">
+            <img src="../assets/icon-back-arrow.svg" alt="" />
+            <div class="nav-title">Meu Perfil - Comunidade</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="greeting">
+            <div class="avatar"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+            <div class="greeting-body">
+              <div class="greeting-title">Olá, Carlos</div>
+              <div class="greeting-sub">@carlosviaja</div>
+            </div>
+            <div class="greeting-side"><div class="tag-comunidade">Viajante</div></div>
+          </div>
+          <div class="tabs">
+            <div class="tab">
+              <div class="tab-label-row"><img src="../assets/icon-tab-dicas-inactive.svg" alt="" /><span>Dicas</span></div>
+              <div class="tab-underline"></div>
+            </div>
+            <div class="tab">
+              <div class="tab-label-row"><img src="../assets/icon-tab-fotos-inactive.svg" alt="" /><span>Fotos</span></div>
+              <div class="tab-underline"></div>
+            </div>
+            <div class="tab active">
+              <div class="tab-label-row"><img src="../assets/icon-tab-roteiros-active.svg" alt="" /><span>Roteiros</span></div>
+              <div class="tab-underline"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-destinos">
+          <div class="location-title">Recife, PE</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Recife, PE</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="location-title">São Paulo, SP</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar-carlos.png" alt="" /></div>
+                <span class="post-name">Carlos Souza</span>
+              </div>
+              <div class="tag-comunidade">Viajante</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />São Paulo, SP</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="float-button-wrap">
+        <div class="float-button"><span>Publicar</span><img src="../assets/icon-publish.svg" alt="" /></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  Cores/spacing extraídos via <code>get_variable_defs</code> + <code>get_design_context</code> (Figma Dev Mode),
+  sempre escopado direto na instância (nunca na tela inteira — lição aprendida na tela Feed: escopo amplo
+  resolve ícone/foto de instância trocada errado). Ícones/fotos novos em <code>templates/assets/</code>;
+  Bottom Nav, ícone de curtida e avatar de saudação reaproveitados dos assets já baixados pra tela Feed
+  (mesmo componente/instância no Figma, confirmado por MD5). O botão "Publicar" flutua sobre o conteúdo,
+  ancorado perto do bottom nav — no Figma ele fica em posição absoluta dentro do frame inteiro (não
+  fixo/sticky), então essa é uma adaptação de layout, não um valor 1:1 do Figma.
+</div>
+
+</body>
+</html>

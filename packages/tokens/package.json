@@ -13,8 +13,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepare": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

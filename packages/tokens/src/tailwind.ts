@@ -2,6 +2,7 @@ import { colors } from './colors';
 import { spacing } from './spacing';
 import { radii } from './radii';
 import { typography } from './typography';
+import { sizes } from './sizes';
 
 /** Converte uma escala numérica (px) em strings com unidade (`16` → `'16px'`). */
 const px = <T extends Record<string, number>>(obj: T): Record<keyof T, string> =>
@@ -46,6 +47,7 @@ const composedFontSize = Object.fromEntries(
  *   spacing  → `p-md`, `px-sm`, `gap-lg`, `p-screenMargin` …
  *   radius   → `rounded-pill`, `rounded-md` …
  *   fonte    → `font-sans`, `text-xs`, `font-medium`, presets compostos `text-heading`, `text-authorName` …
+ *   altura   → `h-control` (campos de formulário) …
  */
 export const tailwindPreset = {
   theme: {
@@ -56,9 +58,11 @@ export const tailwindPreset = {
         fg: colors.text, // bg-fg-primary / text-fg-muted / text-fg-inverse …
         surface: colors.surface, // bg-surface-default / bg-surface-tag
         border: colors.border, // border-border-default
-        feedback: colors.feedback, // text-feedback-danger
+        feedback: colors.feedback, // border-feedback-danger / text-feedback-danger
       },
       spacing: px(spacing),
+      height: px(sizes),
+      minHeight: px(sizes),
       borderRadius: px(radii),
       fontFamily: { sans: [typography.family] },
       fontSize: { ...px(typography.size), ...composedFontSize },

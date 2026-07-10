@@ -51,6 +51,20 @@ export const textVariant = {
     lineHeight: 17,
     letterSpacing: 0.28,
   },
+  // título de campo de formulário (Input) — line-height 100% no Figma
+  inputLabel: {
+    fontFamily,
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.bold,
+    lineHeight: 14,
+  },
+  // mensagem de erro do Input — paridade com o app antigo (Typography md + medium)
+  inputError: {
+    fontFamily,
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.medium,
+    lineHeight: 17,
+  },
   heading: {
     fontFamily,
     fontSize: fontSize.xxl,

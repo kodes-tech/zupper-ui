@@ -38,6 +38,7 @@ export const colors = {
     heading: '#25314D', // color/brand/kontrip — título do WelcomeBackCard
     body: '#2E2E2E', // color/accent/dubai/800 — descrição do WelcomeBackCard
     label: '#1C1C1A', // título de campo de formulário (Input)
+    subtle: '#737373', // Accents/Dubai/Dubai 500 — label do FilterChip não selecionado
   },
   surface: {
     default: '#FFFFFF', // background/surface — fundo de card
@@ -47,7 +48,7 @@ export const colors = {
   },
   border: {
     default: '#D4D4D4', // border/default — contorno de cards e pills
-    subtle: '#EFEFEF', // contorno de campos de formulário (Input)
+    subtle: '#EFEFEF', // Accents/Dubai/Dubai 200 — contorno de campos de formulário (Input) e do FilterChip não selecionado
     // TODO(Figma): definido pelo time (sem Figma) — validar com design
     focus: '#737373', // neutral-500 — borda do campo focado (Input)
   },

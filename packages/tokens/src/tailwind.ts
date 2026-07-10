@@ -6,9 +6,10 @@ import { sizes } from './sizes';
 
 /** Converte uma escala numérica (px) em strings com unidade (`16` → `'16px'`). */
 const px = <T extends Record<string, number>>(obj: T): Record<keyof T, string> =>
-  Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, `${value}px`]),
-  ) as Record<keyof T, string>;
+  Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, `${value}px`])) as Record<
+    keyof T,
+    string
+  >;
 
 /**
  * `fontSize` no formato tuple do Tailwind para os presets de texto compostos

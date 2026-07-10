@@ -11,6 +11,7 @@ export const colors = {
     base: '#4CBAC7', // color/mexico/900 — início do gradiente
     strong: '#008C99', // color/brand/zupper — fim do gradiente / texto sobre claro
     borderHighlight: '#78C8CE', // border/highlight
+    zupper: '#009DAF', // Primary/Brand Zupper — fim do gradient.button; borda/texto do Button variant="secondary"
   },
   gradient: {
     // color/mexico/900 → color/brand/zupper, ~139°
@@ -19,8 +20,9 @@ export const colors = {
     partner: ['#FFCE00', '#EA580C'],
     // transparente → 40% preto — legibilidade sobre imagem (DestinationCard)
     overlay: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)'],
-    // #4CBAC7 → #009DAF — botão de busca redondo (SearchInput)
-    searchButton: ['#4CBAC7', '#009DAF'],
+    // Gradients/Button (Figma) — #4CBAC7 → #009DAF. Usado no botão de busca
+    // redondo (SearchInput) e no Button/FAB de ação primária (Publicar etc.).
+    button: ['#4CBAC7', '#009DAF'],
   },
   partner: {
     surface: '#FFCE00', // início do gradiente — para consumidores sem gradiente
@@ -50,8 +52,8 @@ export const colors = {
     focus: '#737373', // neutral-500 — borda do campo focado (Input)
   },
   feedback: {
-    // TODO(Figma): sem estado de erro no Figma novo — valor espelhado do app antigo
-    danger: '#EF4444', // accents/danger/500 (amsterdam) do @zupper/app-ui — borda e mensagem de erro (Input)
+    // TODO(Figma): sem estado de erro no Figma novo — valor espelhado do @zupper/app-ui
+    danger: '#EF4444', // Accents/Amsterdam 500 — texto do Button ghost ("Sair da minha conta") e borda/mensagem de erro do Input
   },
 } as const;
 

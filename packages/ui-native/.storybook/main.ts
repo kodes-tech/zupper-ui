@@ -18,6 +18,9 @@ const config: StorybookConfig = {
     cfg.resolve.alias = {
       ...(cfg.resolve.alias ?? {}),
       'react-native$': 'react-native-web',
+      // mesmo alias usado em libs/aerial e libs/app-ui (zupper-app): o pacote
+      // nativo não tem shim web, este tem.
+      'react-native-linear-gradient': 'react-native-web-linear-gradient',
     };
     cfg.resolve.extensions = [
       '.web.tsx',

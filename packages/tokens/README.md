@@ -1,9 +1,9 @@
-# @zupper/tokens
+# @kodes-tech/tokens
 
 Design tokens do Zupper — **valores agnósticos de framework**. Podem ser consumidos por React Native, React web, Angular, etc.
 
 ```ts
-import { colors, spacing, tokens } from '@zupper/tokens';
+import { colors, spacing, tokens } from '@kodes-tech/tokens';
 
 colors.primary;      // '#009DAF'
 spacing.md;          // 16

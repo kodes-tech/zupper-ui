@@ -11,6 +11,7 @@ export const colors = {
     base: '#4CBAC7', // color/mexico/900 — início do gradiente
     strong: '#008C99', // color/brand/zupper — fim do gradiente / texto sobre claro
     borderHighlight: '#78C8CE', // border/highlight
+    zupper: '#009DAF', // Primary/Brand Zupper — fim do gradient.button; borda/texto do Button variant="secondary"
   },
   gradient: {
     // color/mexico/900 → color/brand/zupper, ~139°
@@ -19,8 +20,9 @@ export const colors = {
     partner: ['#FFCE00', '#EA580C'],
     // transparente → 40% preto — legibilidade sobre imagem (DestinationCard)
     overlay: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)'],
-    // #4CBAC7 → #009DAF — botão de busca redondo (SearchInput)
-    searchButton: ['#4CBAC7', '#009DAF'],
+    // Gradients/Button (Figma) — #4CBAC7 → #009DAF. Usado no botão de busca
+    // redondo (SearchInput) e no Button/FAB de ação primária (Publicar etc.).
+    button: ['#4CBAC7', '#009DAF'],
   },
   partner: {
     surface: '#FFCE00', // início do gradiente — para consumidores sem gradiente
@@ -44,6 +46,9 @@ export const colors = {
   border: {
     default: '#D4D4D4', // border/default — contorno de cards e pills
     subtle: '#EFEFEF', // Accents/Dubai/Dubai 200 — contorno do FilterChip não selecionado
+  },
+  feedback: {
+    danger: '#EF4444', // Accents/Amsterdam/Amsterdam 500 — texto do Button variant="ghost" (ex.: "Sair da minha conta")
   },
 } as const;
 

@@ -87,6 +87,13 @@ export const textVariant = {
     lineHeight: 20,
     letterSpacing: 0.28,
   },
+  buttonLabelLg: {
+    fontFamily,
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.bold,
+    lineHeight: 24,
+    letterSpacing: 0.32,
+  },
   sectionTitle: {
     fontFamily,
     fontSize: fontSize.lg,

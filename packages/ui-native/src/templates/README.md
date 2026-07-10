@@ -42,7 +42,14 @@ templates/
 ├── comunidade/            # Tela 2 — Meu Perfil / Comunidade (só persona Viajante no Figma)
 │   ├── fotos.tsx          # aba "Fotos" — node 118:7339
 │   ├── dicas.tsx          # aba "Dicas" — node 118:8284
-│   └── roteiros.tsx       # aba "Roteiros" — node 118:8735
+│   ├── roteiros.tsx       # aba "Roteiros" — node 118:8735
+│   └── preview.html
+├── detalhes-destino/      # Tela 4 — Detalhes do destino (Ver tudo / Fotos / Dicas / Roteiros)
+│   ├── ver-tudo.tsx       # node 118:11497 (inclui cards de oferta: passagens/hospedagens/pacotes)
+│   ├── fotos.tsx          # node 123:13288
+│   ├── dicas.tsx          # node 123:12858
+│   ├── roteiros.tsx       # node 123:13756
+│   └── preview.html
 └── assets/                # arquivos reais baixados do Figma, usados pelos preview.html
     ├── icon-*.svg / .png  # ícones soltos (flat)
     ├── fonts/              # Satoshi-{Regular,Medium,Bold}.otf

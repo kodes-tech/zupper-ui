@@ -22,7 +22,8 @@
     "lib",
     "!**/*.stories.*",
     "!**/*.spec.*",
-    "!**/__tests__"
+    "!**/__tests__",
+    "!src/templates"
   ],
   "scripts": {
     "build": "bob build",

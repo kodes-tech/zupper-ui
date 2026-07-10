@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { colors, radii, spacing, typography } from '@zupper/tokens';
+import { colors, radii, spacing, typography } from '@kodes-tech/tokens';
 
 export type BadgeTone = 'neutral' | 'success' | 'danger';
 

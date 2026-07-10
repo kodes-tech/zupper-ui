@@ -1,5 +1,5 @@
 {
-  "name": "@zupper/tokens",
+  "name": "@kodes-tech/tokens",
   "version": "0.1.0",
   "description": "Design tokens do Zupper — valores agnósticos de framework (cores, spacing, tipografia, radius, elevação). Consumido por RN, React web, Angular, etc.",
   "license": "UNLICENSED",
@@ -17,7 +17,7 @@
     "prepare": "tsc -p tsconfig.json"
   },
   "publishConfig": {
-    "access": "restricted"
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

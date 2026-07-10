@@ -45,15 +45,15 @@ function BottomNav({ className, propriedade1 = "default" }: BottomNavProps) {
   return (
     <div className={className || "bg-white content-stretch flex gap-[8px] items-start justify-center px-[20px] py-[16px] relative w-[390px]"} data-node-id="116:6700">
       <div className="content-stretch flex flex-[1_0_0] flex-col gap-[8px] items-center min-w-px relative" data-node-id="116:6662" data-name="Promos">
-        <div className="relative shrink-0 size-[24px]" data-node-id="116:6663" data-name="Iconografia PadrÃƒÂ£o - Zupper">
+        <div className="relative shrink-0 size-[24px]" data-node-id="116:6663" data-name="Iconografia Padrão - Zupper">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconografiaPadraoZupper} />
         </div>
         <div className="[word-break:break-word] flex flex-col font-['Satoshi:Medium'] h-[14px] justify-center leading-[0] not-italic relative shrink-0 text-[0px] text-[color:var(--text\/highlight,#008c99)] text-center w-[62px]" data-node-id="116:6664">
-          <p className="leading-[16px] text-[#262626] text-[12px]">InÃƒÂ­cio</p>
+          <p className="leading-[16px] text-[#262626] text-[12px]">Início</p>
         </div>
       </div>
       <div className="content-stretch flex flex-[1_0_0] flex-col gap-[8px] items-center min-w-px relative" data-node-id="116:6665" data-name="Buscar">
-        <div className="relative shrink-0 size-[24px]" data-node-id="116:6666" data-name="Iconografia PadrÃƒÂ£o - Zupper">
+        <div className="relative shrink-0 size-[24px]" data-node-id="116:6666" data-name="Iconografia Padrão - Zupper">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconografiaPadraoZupper1} />
         </div>
         <div className="[word-break:break-word] flex flex-col font-['Satoshi:Medium'] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[color:var(--text\/primary,#262626)] text-center whitespace-nowrap" data-node-id="116:6667">
@@ -61,7 +61,7 @@ function BottomNav({ className, propriedade1 = "default" }: BottomNavProps) {
         </div>
       </div>
       <div className="content-stretch flex flex-[1_0_0] flex-col gap-[8px] items-center min-w-px relative" data-node-id="116:6668" data-name="Pedidos">
-        <div className="relative shrink-0 size-[24px]" data-node-id="116:6669" data-name="Iconografia PadrÃƒÂ£o - Zupper">
+        <div className="relative shrink-0 size-[24px]" data-node-id="116:6669" data-name="Iconografia Padrão - Zupper">
           <div className="absolute contents inset-0" data-node-id="I116:6669;578:3667" data-name="Grupo 8263">
             <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGrupo8263} />
             <div className="absolute contents inset-[8.33%_16.67%]" data-node-id="I116:6669;578:3669" data-name="Grupo 8262">
@@ -82,7 +82,7 @@ function BottomNav({ className, propriedade1 = "default" }: BottomNavProps) {
                   <img alt="" className="block max-w-none size-full" src={imgLinha112} />
                 </div>
               </div>
-              <div className="absolute inset-[8.33%_16.67%_20.83%_29.17%]" data-node-id="I116:6669;578:3675" data-name="RetÃƒÂ¢ngulo 528">
+              <div className="absolute inset-[8.33%_16.67%_20.83%_29.17%]" data-node-id="I116:6669;578:3675" data-name="Retângulo 528">
                 <div className="absolute inset-[-2.94%_-3.85%]">
                   <img alt="" className="block max-w-none size-full" src={imgRetangulo528} />
                 </div>
@@ -120,7 +120,7 @@ function BottomNav({ className, propriedade1 = "default" }: BottomNavProps) {
         </div>
       </div>
       <div className="content-stretch flex flex-[1_0_0] flex-col gap-[8px] items-center min-w-px relative" data-node-id="116:6671" data-name="Conta">
-        <div className="relative shrink-0 size-[24px]" data-node-id="116:6672" data-name="Iconografia PadrÃƒÂ£o - Zupper">
+        <div className="relative shrink-0 size-[24px]" data-node-id="116:6672" data-name="Iconografia Padrão - Zupper">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconografiaPadraoZupper2} />
         </div>
         <div className="[word-break:break-word] flex flex-col font-['Satoshi:Medium'] h-[14px] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[color:var(--text\/primary,#262626)] text-center w-[33px]" data-node-id="116:6673">
@@ -139,7 +139,7 @@ type LikesProps = {
 function Likes({ className, propriedade1 = "default" }: LikesProps) {
   return (
     <div className={className || "content-stretch flex gap-[4px] items-center relative"} data-node-id="116:6283">
-      <div className="relative shrink-0 size-[16px]" data-node-id="116:6269" data-name="Iconografia PadrÃƒÂ£o - Zupper">
+      <div className="relative shrink-0 size-[16px]" data-node-id="116:6269" data-name="Iconografia Padrão - Zupper">
         <div className="absolute contents inset-0" data-node-id="I116:6269;578:3724" data-name="Grupo 10781">
           <div className="absolute contents inset-[16.67%_12.87%]" data-node-id="I116:6269;578:3725" data-name="Grupo 10780">
             <div className="absolute contents inset-[36.77%_12.87%_16.67%_37.28%]" data-node-id="I116:6269;578:3726" data-name="Grupo 10779">
@@ -189,7 +189,7 @@ function TabsConteudo({ className, aba = "Roteiros", verTudo = "false" }: TabsCo
             Dicas
           </p>
         </div>
-        <div className="h-[1.947px] relative shrink-0 w-full" data-node-id="118:8259" data-name="RetÃƒÂ¢ngulo 532">
+        <div className="h-[1.947px] relative shrink-0 w-full" data-node-id="118:8259" data-name="Retângulo 532">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgRetangulo532} />
         </div>
       </div>
@@ -206,7 +206,7 @@ function TabsConteudo({ className, aba = "Roteiros", verTudo = "false" }: TabsCo
             Fotos
           </p>
         </div>
-        <div className="h-[1.947px] relative shrink-0 w-full" data-node-id="118:8264" data-name="RetÃƒÂ¢ngulo 532">
+        <div className="h-[1.947px] relative shrink-0 w-full" data-node-id="118:8264" data-name="Retângulo 532">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgRetangulo533} />
         </div>
       </div>
@@ -223,7 +223,7 @@ function TabsConteudo({ className, aba = "Roteiros", verTudo = "false" }: TabsCo
             Roteiros
           </p>
         </div>
-        <div className="h-[1.947px] relative shrink-0 w-full" data-node-id="118:8269" data-name="RetÃƒÂ¢ngulo 532">
+        <div className="h-[1.947px] relative shrink-0 w-full" data-node-id="118:8269" data-name="Retângulo 532">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgRetangulo534} />
         </div>
       </div>
@@ -271,7 +271,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
                 <div className="flex flex-[1_0_0] flex-row items-center self-stretch" data-node-id="I118:8744;110:5887">
                   <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col h-full items-start justify-between min-w-px not-italic relative" data-name="body">
                     <div className="flex flex-col font-['Satoshi:Bold'] justify-center leading-[0] relative shrink-0 text-[color:var(--text\/primary,#262626)] text-[length:var(--font-size\/heading,24px)] tracking-[0.48px] w-full" data-node-id="I118:8744;110:5888">
-                      <p className="leading-none">OlÃƒÂ¡, Carlos</p>
+                      <p className="leading-none">Olá, Carlos</p>
                     </div>
                     <p className="font-['Satoshi:Medium'] leading-[1.5] relative shrink-0 text-[color:var(--text\/secondary,#404040)] text-[length:var(--spacing\/16,16px)] tracking-[0.32px] w-full" data-node-id="I118:8744;110:5889">
                       @carlosviaja
@@ -315,7 +315,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
             <p className="[word-break:break-word] font-['Satoshi:Bold'] leading-[1.2] not-italic relative shrink-0 text-[#404040] text-[14px] tracking-[0.28px] w-[322px]" data-node-id="I118:8748;116:6598">
-              7 dias inesquecÃƒÂ­veis em Noronha
+              7 dias inesquecíveis em Noronha
             </p>
             <div className="border border-[var(--border\/default,#d4d4d4)] border-solid content-stretch flex gap-[6px] items-center overflow-clip px-[10px] py-[8px] relative rounded-[8px] shrink-0 w-full" data-node-id="I118:8748;116:6645" data-name="preview-rota">
               <div className="relative shrink-0 size-[8px]" data-node-id="I118:8748;116:6646" data-name="Ellipse">
@@ -388,7 +388,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
             <p className="[word-break:break-word] font-['Satoshi:Bold'] leading-[1.2] not-italic relative shrink-0 text-[#404040] text-[14px] tracking-[0.28px] w-[322px]" data-node-id="I118:8749;116:6598">
-              7 dias inesquecÃƒÂ­veis em Noronha
+              7 dias inesquecíveis em Noronha
             </p>
             <div className="border border-[var(--border\/default,#d4d4d4)] border-solid content-stretch flex gap-[6px] items-center overflow-clip px-[10px] py-[8px] relative rounded-[8px] shrink-0 w-full" data-node-id="I118:8749;116:6645" data-name="preview-rota">
               <div className="relative shrink-0 size-[8px]" data-node-id="I118:8749;116:6646" data-name="Ellipse">
@@ -461,7 +461,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
             <p className="[word-break:break-word] font-['Satoshi:Bold'] leading-[1.2] not-italic relative shrink-0 text-[#404040] text-[14px] tracking-[0.28px] w-[322px]" data-node-id="I118:8750;116:6598">
-              7 dias inesquecÃƒÂ­veis em Noronha
+              7 dias inesquecíveis em Noronha
             </p>
             <div className="border border-[var(--border\/default,#d4d4d4)] border-solid content-stretch flex gap-[6px] items-center overflow-clip px-[10px] py-[8px] relative rounded-[8px] shrink-0 w-full" data-node-id="I118:8750;116:6645" data-name="preview-rota">
               <div className="relative shrink-0 size-[8px]" data-node-id="I118:8750;116:6646" data-name="Ellipse">
@@ -534,7 +534,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
             <p className="[word-break:break-word] font-['Satoshi:Bold'] leading-[1.2] not-italic relative shrink-0 text-[#404040] text-[14px] tracking-[0.28px] w-[322px]" data-node-id="I118:8751;116:6598">
-              7 dias inesquecÃƒÂ­veis em Noronha
+              7 dias inesquecíveis em Noronha
             </p>
             <div className="border border-[var(--border\/default,#d4d4d4)] border-solid content-stretch flex gap-[6px] items-center overflow-clip px-[10px] py-[8px] relative rounded-[8px] shrink-0 w-full" data-node-id="I118:8751;116:6645" data-name="preview-rota">
               <div className="relative shrink-0 size-[8px]" data-node-id="I118:8751;116:6646" data-name="Ellipse">
@@ -589,7 +589,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
             </div>
           </div>
           <p className="[word-break:break-word] font-['Satoshi:Bold'] leading-[1.5] not-italic relative shrink-0 text-[16px] text-[color:var(--text\/primary,#262626)] tracking-[0.32px] whitespace-nowrap" data-node-id="118:8752">
-            SÃƒÂ£o Paulo, SP
+            São Paulo, SP
           </p>
           <div className="bg-[var(--background\/surface,white)] border border-[var(--border\/default,#d4d4d4)] border-solid content-stretch flex flex-col gap-[12px] items-end justify-center overflow-clip p-[12px] relative rounded-[4px] shrink-0 w-full" data-node-id="118:8753" data-name="card content">
             <div className="content-stretch flex items-start justify-between overflow-clip relative shrink-0 w-full" data-node-id="I118:8753;116:6591" data-name="header">
@@ -610,7 +610,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
             <p className="[word-break:break-word] font-['Satoshi:Bold'] leading-[1.2] not-italic relative shrink-0 text-[#404040] text-[14px] tracking-[0.28px] w-[322px]" data-node-id="I118:8753;116:6598">
-              7 dias inesquecÃƒÂ­veis em Noronha
+              7 dias inesquecíveis em Noronha
             </p>
             <div className="border border-[var(--border\/default,#d4d4d4)] border-solid content-stretch flex gap-[6px] items-center overflow-clip px-[10px] py-[8px] relative rounded-[8px] shrink-0 w-full" data-node-id="I118:8753;116:6645" data-name="preview-rota">
               <div className="relative shrink-0 size-[8px]" data-node-id="I118:8753;116:6646" data-name="Ellipse">
@@ -657,7 +657,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
                     <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGrupo11310} />
                   </div>
                   <p className="[word-break:break-word] font-['Satoshi:Medium'] leading-[16px] not-italic relative shrink-0 text-[12px] text-[color:var(--text\/secondary,#404040)] whitespace-nowrap" data-node-id="I118:8753;116:6602;116:6169">
-                    SÃƒÂ£o Paulo, SP
+                    São Paulo, SP
                   </p>
                 </div>
               </div>
@@ -667,9 +667,9 @@ export default function Component2ComunidadeViajanteRoteiros() {
         </div>
         <BottomNav className="bg-white content-stretch flex gap-[8px] items-start justify-center px-[20px] py-[16px] relative shrink-0 w-[390px]" />
       </div>
-      <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[16px] items-end left-1/2 px-[var(--spacing\/24,24px)] top-[933px] w-[390px]" data-node-id="118:8755" data-development-annotations="Comportamento do botÃƒÂ£o publicar: No clique, abre as opÃƒÂ§ÃƒÂµes de conteÃƒÂºdo. Ao clicar no -, recolhe o botÃƒÂ£o." data-name="float button">
+      <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[16px] items-end left-1/2 px-[var(--spacing\/24,24px)] top-[933px] w-[390px]" data-node-id="118:8755" data-development-annotations="Comportamento do botão publicar: No clique, abre as opções de conteúdo. Ao clicar no -, recolhe o botão." data-name="float button">
         <div className="content-stretch flex flex-col gap-[12px] items-end relative shrink-0" data-node-id="I118:8755;118:8148">
-          <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] gap-[8px] items-center justify-center px-[8px] py-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8149" data-name="BotÃƒÂ£o LG primario normal - Default">
+          <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] gap-[8px] items-center justify-center px-[8px] py-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8149" data-name="Botão LG primario normal - Default">
             <div className="overflow-clip relative shrink-0 size-[20px]" data-node-id="I118:8755;118:8150" data-name="Iconografia">
               <div className="absolute inset-[12.5%_8.33%]" data-node-id="I118:8755;118:8150;1587:39177" data-name="elements">
                 <div className="absolute inset-[-5%_-4.5%]">
@@ -683,7 +683,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
           </div>
-          <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] gap-[8px] items-center justify-center px-[8px] py-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8153" data-name="BotÃƒÂ£o LG primario normal - Default">
+          <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] gap-[8px] items-center justify-center px-[8px] py-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8153" data-name="Botão LG primario normal - Default">
             <div className="overflow-clip relative shrink-0 size-[20px]" data-node-id="I118:8755;118:8154" data-name="image-01">
               <div className="absolute inset-[10.42%]" data-node-id="I118:8755;118:8154;2:6799" data-name="elements">
                 <div className="absolute inset-[-4.74%]">
@@ -697,7 +697,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
               </div>
             </div>
           </div>
-          <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] gap-[8px] items-center justify-center px-[8px] py-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8157" data-name="BotÃƒÂ£o LG primario normal - Default">
+          <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] gap-[8px] items-center justify-center px-[8px] py-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8157" data-name="Botão LG primario normal - Default">
             <div className="overflow-clip relative shrink-0 size-[20px]" data-node-id="I118:8755;118:8158" data-name="maping">
               <div className="absolute inset-[12.5%_8.33%]" data-node-id="I118:8755;118:8158;2:14990" data-name="elements">
                 <div className="absolute inset-[-5%_-4.5%]">
@@ -712,7 +712,7 @@ export default function Component2ComunidadeViajanteRoteiros() {
             </div>
           </div>
         </div>
-        <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] items-center justify-center p-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8161" data-name="BotÃƒÂ£o LG primario normal - Default">
+        <div className="bg-gradient-to-r content-stretch drop-shadow-[0px_4px_2px_rgba(23,23,23,0.2)] flex from-[#4cbac7] items-center justify-center p-[12px] relative rounded-[40px] shrink-0 to-[#009daf]" data-node-id="I118:8755;118:8161" data-name="Botão LG primario normal - Default">
           <div className="overflow-clip relative shrink-0 size-[20px]" data-node-id="I118:8755;118:8162" data-name="remove-circle">
             <div className="absolute inset-[8.33%]" data-node-id="I118:8755;118:8162;2:3165" data-name="elements">
               <div className="absolute inset-[-4.5%]">

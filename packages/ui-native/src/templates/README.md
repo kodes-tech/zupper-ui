@@ -53,6 +53,11 @@ templates/
 │   ├── dicas.tsx          # node 123:12858
 │   ├── roteiros.tsx       # node 123:13756
 │   └── preview.html
+├── publicar-conteudo/     # Tela 6/7/8 — Publicar conteúdo (Foto / Dica / Roteiro)
+│   ├── foto.tsx           # node 150:10349
+│   ├── dica.tsx           # node 154:10802
+│   ├── roteiro.tsx        # node 168:7109 (nomeado "Dica" no Figma — na verdade é o wizard de Roteiro)
+│   └── preview.html
 └── assets/                # arquivos reais baixados do Figma, usados pelos preview.html
     ├── icon-*.svg / .png  # ícones soltos (flat)
     ├── fonts/              # Satoshi-{Regular,Medium,Bold}.otf

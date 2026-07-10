@@ -44,6 +44,9 @@ templates/
 │   ├── dicas.tsx          # aba "Dicas" — node 118:8284
 │   ├── roteiros.tsx       # aba "Roteiros" — node 118:8735
 │   └── preview.html
+├── destinos/              # Tela 3 — Destinos em alta (Ver todos)
+│   ├── ver-todos.tsx      # node 118:10544
+│   └── preview.html
 ├── conteudo/               # Tela 5 — visualização individual de um post (Foto / Dica / Roteiro)
 │   ├── foto.tsx            # node 140:7928
 │   ├── dica.tsx            # node 143:8671

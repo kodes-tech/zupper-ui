@@ -133,6 +133,8 @@
   .paradas { display: flex; flex-direction: column; gap: 10px; }
   .parada { display: flex; gap: 10px; align-items: flex-start; }
   .parada img { width: 10px; flex-shrink: 0; }
+  .parada img.tall { height: 49px; }
+  .parada img.short { height: 13px; }
   .parada-info { display: flex; flex-direction: column; gap: 2px; }
   .parada-period { font-size: 12px; font-weight: 500; color: var(--text-muted); }
   .parada-title { font-size: 14px; font-weight: 700; letter-spacing: 0.28px; color: var(--text-primary); }
@@ -151,7 +153,7 @@
   .oferta-date { width: 100%; display: flex; align-items: center; gap: 4px; }
   .oferta-date img { width: 16px; height: 16px; }
   .oferta-date span { font-size: 12px; line-height: 1.5; color: var(--text-muted); }
-  .oferta-cta { width: 100%; padding: 12px 8px; border-radius: 40px; text-align: center; color: var(--text-inverse); font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; background: linear-gradient(164deg, var(--brand-gradient-start) 5.5%, var(--brand-gradient-end) 94.5%); }
+  .oferta-cta { width: 100%; padding: 12px 8px; border-radius: 40px; text-align: center; color: var(--text-inverse); font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; white-space: nowrap; background: linear-gradient(164deg, var(--brand-gradient-start) 5.5%, var(--brand-gradient-end) 94.5%); }
 
   /* social bar + comments */
   .social-block { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -160,7 +162,8 @@
   .social-item { display: flex; gap: 4px; align-items: center; }
   .social-item img { width: 24px; height: 24px; }
   .social-item span { font-size: 14px; font-weight: 700; letter-spacing: 0.28px; color: var(--text-secondary); }
-  .social-more img { width: 24px; height: 24px; }
+  .social-more { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .social-more img { width: 20px; height: 3.45px; }
 
   .comment-main { display: flex; flex-direction: column; gap: 4px; }
   .comment-main .name { font-size: 16px; font-weight: 700; letter-spacing: 0.32px; color: var(--text-primary); }
@@ -379,15 +382,15 @@
             <div class="roteiro-day-header"><span class="day">Dia 1.</span><span class="title">Recife Antigo</span></div>
             <div class="paradas">
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">MANHÃ</div><div class="parada-title">Marco Zero e Rua do Bom Jesus</div><div class="parada-desc">Comece cedo, tem sombra e é plano pra carrinho.</div></div>
               </div>
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">TARDE</div><div class="parada-title">Embaixada dos Bonecos Gigantes</div><div class="parada-desc">As crianças amam. Ingresso barato.</div></div>
               </div>
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">NOITE</div><div class="parada-title">Jantar na Rua da Moeda</div><div class="parada-desc">Opções pra todos os gostos.</div></div>
               </div>
             </div>
@@ -397,15 +400,15 @@
             <div class="roteiro-day-header"><span class="day">Dia 2.</span><span class="title">Recife Antigo</span></div>
             <div class="paradas">
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">MANHÃ</div><div class="parada-title">Marco Zero e Rua do Bom Jesus</div><div class="parada-desc">Comece cedo, tem sombra e é plano pra carrinho.</div></div>
               </div>
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">TARDE</div><div class="parada-title">Embaixada dos Bonecos Gigantes</div><div class="parada-desc">As crianças amam. Ingresso barato.</div></div>
               </div>
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">NOITE</div><div class="parada-title">Jantar na Rua da Moeda</div><div class="parada-desc">Opções pra todos os gostos.</div></div>
               </div>
             </div>
@@ -415,15 +418,15 @@
             <div class="roteiro-day-header"><span class="day">Dia 3.</span><span class="title">Recife Antigo</span></div>
             <div class="paradas">
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">MANHÃ</div><div class="parada-title">Marco Zero e Rua do Bom Jesus</div><div class="parada-desc">Comece cedo, tem sombra e é plano pra carrinho.</div></div>
               </div>
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">TARDE</div><div class="parada-title">Embaixada dos Bonecos Gigantes</div><div class="parada-desc">As crianças amam. Ingresso barato.</div></div>
               </div>
               <div class="parada">
-                <img src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
                 <div class="parada-info"><div class="parada-period">NOITE</div><div class="parada-title">Jantar na Rua da Moeda</div><div class="parada-desc">Opções pra todos os gostos.</div></div>
               </div>
             </div>

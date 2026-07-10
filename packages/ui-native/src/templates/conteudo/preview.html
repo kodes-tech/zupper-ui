@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Conteúdo — referência Figma (Foto / Dica / Roteiro)</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Cores vieram de get_variable_defs (Figma Dev Mode) nos 3 nós desta tela. */
+  :root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-border: #d4d4d4;
+    --text-primary: #262626;
+    --text-secondary: #404040;
+    --text-muted: #a3a3a3;
+    --text-inverse: #ffffff;
+    --text-highlight: #008c99;
+    --header-title: #1c1c1a;
+    --brand-chip: #d8fcfe;
+    --brand-card: #e5f5f7;
+    --brand-gradient-start: #4cbac7;
+    --brand-gradient-end: #008c99;
+    --connector-dot: #009daf;
+    --connector-line: #baf2f5;
+    --tag-bg: #f5f5f5;
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--text-primary);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  img { max-width: none; }
+
+  .page-header { max-width: 1200px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 680px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: nowrap; gap: 28px; align-items: flex-start; justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; -ms-overflow-style: none; }
+  .screens::-webkit-scrollbar { display: none; }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  .phone {
+    width: 390px;
+    max-width: 92vw;
+    height: 844px;
+    background: var(--color-bg);
+    border-radius: 36px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+  .screen-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  /* header: nav + greeting */
+  .head { background: var(--color-surface); display: flex; flex-direction: column; }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 24px; padding-top: 40px; }
+  .nav-row img { width: 24px; height: 24px; }
+  .nav-row .spacer { width: 24px; height: 24px; }
+  .nav-title { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0.32px; color: var(--header-title); }
+
+  .greeting-sm { padding: 8px 16px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .greeting-sm-row { display: flex; gap: 8px; align-items: center; width: 100%; }
+  .avatar-sm { width: 44px; height: 44px; border-radius: 999px; background: var(--color-surface); flex-shrink: 0; overflow: hidden; position: relative; }
+  .avatar-sm img { position: absolute; left: -53.75%; top: -16.31%; width: 199.08%; height: 199.08%; }
+  .greeting-sm-body { flex: 1; min-width: 0; padding: 4px; }
+  .greeting-sm-name { font-weight: 700; font-size: 16px; letter-spacing: 0.32px; color: var(--text-primary); }
+  .greeting-sm-handle { font-size: 12px; color: var(--text-secondary); }
+  .greeting-sm-tag { align-self: flex-start; }
+  .tag-comunidade { font-size: 12px; line-height: 16px; padding: 4px 8px; border-radius: 2px; white-space: nowrap; background: var(--brand-chip); color: var(--text-highlight); font-weight: 700; }
+  .location { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+  .location img { width: 16px; height: 16px; }
+
+  /* foto: big photo */
+  .body-photo { width: 100%; height: 404px; object-fit: cover; display: block; }
+
+  /* dica/roteiro: title + meta + description */
+  .content-block { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  .content-title { font-size: 18px; font-weight: 700; color: var(--text-primary); width: 100%; }
+  .content-meta-row { display: flex; gap: 16px; width: 100%; }
+  .content-meta-item { display: flex; align-items: center; gap: 8px; }
+  .content-meta-item img { width: 16px; height: 16px; }
+  .content-meta-item span { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+  .content-metadados { display: flex; gap: 6px; width: 100%; font-size: 12px; font-weight: 500; color: var(--text-highlight); }
+  .content-desc { font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary); width: 100%; }
+
+  /* card-roteiro */
+  .card-roteiro { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px; width: 100%; }
+  .roteiro-day-header { display: flex; gap: 10px; font-size: 18px; font-weight: 700; }
+  .roteiro-day-header .day { color: var(--text-highlight); white-space: nowrap; }
+  .roteiro-day-header .title { color: var(--text-primary); }
+  .paradas { display: flex; flex-direction: column; gap: 10px; }
+  .parada { display: flex; gap: 10px; align-items: flex-start; }
+  .parada img { width: 10px; flex-shrink: 0; }
+  .parada img.tall { height: 49px; }
+  .parada img.short { height: 13px; }
+  .parada-info { display: flex; flex-direction: column; gap: 2px; }
+  .parada-period { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+  .parada-title { font-size: 14px; font-weight: 700; letter-spacing: 0.28px; color: var(--text-primary); }
+  .parada-desc { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+
+  /* card-oferta (mesmo padrão da tela Detalhes do destino) */
+  .ofertas-row { display: flex; gap: 12px; width: 100%; }
+  .card-oferta { flex: 1; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 24px; padding: 12px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .oferta-selo { width: 100%; background: var(--brand-card); border-radius: 30px; padding: 4px 8px; display: flex; align-items: center; justify-content: space-between; }
+  .oferta-selo span { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-highlight); }
+  .oferta-selo img { width: 16px; height: 16px; }
+  .oferta-price { width: 100%; }
+  .oferta-price .label { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--text-primary); }
+  .oferta-price .value { font-size: 16px; line-height: 1.5; color: var(--text-primary); }
+  .oferta-price .value b { font-weight: 700; }
+  .oferta-date { width: 100%; display: flex; align-items: center; gap: 4px; }
+  .oferta-date img { width: 16px; height: 16px; }
+  .oferta-date span { font-size: 12px; line-height: 1.5; color: var(--text-muted); }
+  .oferta-cta { width: 100%; padding: 12px 8px; border-radius: 40px; text-align: center; color: var(--text-inverse); font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; white-space: nowrap; background: linear-gradient(164deg, var(--brand-gradient-start) 5.5%, var(--brand-gradient-end) 94.5%); }
+
+  /* social bar + comments */
+  .social-block { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .social-bar { height: 52px; display: flex; align-items: center; justify-content: space-between; }
+  .social-left { display: flex; gap: 24px; align-items: center; }
+  .social-item { display: flex; gap: 4px; align-items: center; }
+  .social-item img { width: 24px; height: 24px; }
+  .social-item span { font-size: 14px; font-weight: 700; letter-spacing: 0.28px; color: var(--text-secondary); }
+  .social-more { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .social-more img { width: 20px; height: 3.45px; }
+
+  .comment-main { display: flex; flex-direction: column; gap: 4px; }
+  .comment-main .name { font-size: 16px; font-weight: 700; letter-spacing: 0.32px; color: var(--text-primary); }
+  .comment-main .text { font-size: 14px; letter-spacing: 0.28px; color: var(--text-secondary); }
+  .comments-heading { text-align: center; font-size: 16px; font-weight: 700; letter-spacing: 0.32px; color: var(--text-primary); }
+  .comment-reply { display: flex; gap: 10px; align-items: flex-start; }
+  .comment-avatar-flat { width: 28px; height: 28px; border-radius: 999px; background: var(--color-border); flex-shrink: 0; }
+  .comment-reply-col { display: flex; flex-direction: column; gap: 2px; }
+  .comment-reply-col .name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .comment-reply-col .text { font-size: 14px; color: var(--text-secondary); }
+
+  .comment-input-wrap { padding: 16px; }
+  .comment-input-row { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 28px; height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 8px 0 20px; }
+  .comment-input-row .placeholder { flex: 1; font-size: 16px; color: var(--text-muted); }
+  .comment-send-btn { width: 40px; height: 40px; border-radius: 20px; background: linear-gradient(to right, var(--brand-gradient-start), var(--brand-gradient-end)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .comment-send-btn img { width: 20px; height: 20px; }
+
+  /* bottom nav */
+  .bottom-nav { flex-shrink: 0; background: var(--color-surface); display: flex; gap: 8px; padding: 16px 20px; width: 100%; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-primary); font-weight: 500; }
+  .nav-item img { width: 24px; height: 24px; }
+
+  .legend { max-width: 1200px; margin: 40px auto 0; font-size: 12px; color: #6b6b70; line-height: 1.6; }
+  @media (prefers-color-scheme: dark) { .legend { color: #9a9aa0; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Conteúdo — referência visual (Figma Dev Mode)</h1>
+  <p>
+    Reprodução em CSS real das 3 variantes de "5. Conteúdo" (Foto / Dica / Roteiro) — a tela de
+    visualização individual de um post, diferente das listagens já feitas. Cores/spacing extraídos via
+    <code>get_variable_defs</code>/<code>get_design_context</code> escopado por instância. Ícones e fotos
+    reais em <code>../assets/</code>.
+  </p>
+</div>
+
+<div class="screens">
+
+  <!-- ================= FOTO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Foto</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="head">
+          <div class="nav-row">
+            <img src="../assets/icon-back-arrow.svg" alt="" />
+            <div class="nav-title">Foto</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="greeting-sm">
+            <div class="greeting-sm-row">
+              <div class="avatar-sm"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+              <div class="greeting-sm-body">
+                <div class="greeting-sm-name">Carlos Souza</div>
+                <div class="greeting-sm-handle">@carlosviaja</div>
+              </div>
+              <div class="greeting-sm-tag"><div class="tag-comunidade">Viajante</div></div>
+            </div>
+            <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+          </div>
+        </div>
+
+        <img class="body-photo" src="../assets/photos/conteudo-foto-full.jpg" alt="" />
+
+        <div class="social-block">
+          <div class="social-bar">
+            <div class="social-left">
+              <div class="social-item"><img src="../assets/icon-heart.svg" alt="" /><span>00</span></div>
+              <div class="social-item"><img src="../assets/icon-social-comment.svg" alt="" /><span>00</span></div>
+              <div class="social-item"><img src="../assets/icon-social-share.svg" alt="" /></div>
+            </div>
+            <div class="social-more"><img src="../assets/icon-social-more.svg" alt="" /></div>
+          </div>
+          <div class="comment-main">
+            <div class="name">Carlos Souza</div>
+            <div class="text">Passei pelo Cais do Sertão e fiquei encantado com a cultura e a arte local. Vale muito a visita!</div>
+          </div>
+          <div class="comments-heading">Comentários (2)</div>
+          <div class="comment-reply">
+            <div class="comment-avatar-flat"></div>
+            <div class="comment-reply-col"><div class="name">Marina</div><div class="text">Anotado! Vou nessa semana.</div></div>
+          </div>
+          <div class="comment-reply">
+            <div class="comment-avatar-flat"></div>
+            <div class="comment-reply-col"><div class="name">Pedro</div><div class="text">O Cais é incrível mesmo</div></div>
+          </div>
+        </div>
+
+        <div class="comment-input-wrap">
+          <div class="comment-input-row">
+            <span class="placeholder">Escreva um comentário...</span>
+            <div class="comment-send-btn"><img src="../assets/icon-comment-send.svg" alt="" /></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DICA ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Dica</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="head">
+          <div class="nav-row">
+            <img src="../assets/icon-back-arrow.svg" alt="" />
+            <div class="nav-title">Foto</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="greeting-sm">
+            <div class="greeting-sm-row">
+              <div class="avatar-sm"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+              <div class="greeting-sm-body">
+                <div class="greeting-sm-name">Carlos Souza</div>
+                <div class="greeting-sm-handle">@carlosviaja</div>
+              </div>
+              <div class="greeting-sm-tag"><div class="tag-comunidade">Viajante</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <div class="content-title">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+          <div class="content-meta-row">
+            <div class="content-meta-item"><img src="../assets/icon-calendar-03.svg" alt="" /><span>02/07/2026</span></div>
+            <div class="content-meta-item"><img src="../assets/icon-clock.svg" alt="" /><span>2 min de leitura</span></div>
+          </div>
+          <div class="content-desc">
+            Fernando de Noronha é um paraíso que pode ser aproveitado sem gastar muito. Para economizar, prefira visitar durante a baixa temporada, quando os preços de hospedagem e passeios são mais acessíveis. Opte por pousadas familiares ou hostels, que oferecem conforto a preços justos. Aproveite as praias públicas e faça trilhas autoguiadas para explorar a natureza sem custos extras. Leve lanches e água para evitar gastos com alimentação dentro do parque. Alugue bicicletas para se locomover de forma econômica e sustentável. Reserve passeios com antecedência e busque pacotes promocionais. Por fim, respeite as regras ambientais para garantir que esse paraíso continue acessível e preservado para todos.
+          </div>
+        </div>
+
+        <div class="social-block">
+          <div class="social-bar">
+            <div class="social-left">
+              <div class="social-item"><img src="../assets/icon-heart.svg" alt="" /><span>00</span></div>
+              <div class="social-item"><img src="../assets/icon-social-comment.svg" alt="" /><span>00</span></div>
+              <div class="social-item"><img src="../assets/icon-social-share.svg" alt="" /></div>
+            </div>
+            <div class="social-more"><img src="../assets/icon-social-more.svg" alt="" /></div>
+          </div>
+          <div class="comment-main">
+            <div class="name">Carlos Souza</div>
+            <div class="text">Passei pelo Cais do Sertão e fiquei encantado com a cultura e a arte local. Vale muito a visita!</div>
+          </div>
+          <div class="comments-heading">Comentários (2)</div>
+          <div class="comment-reply">
+            <div class="comment-avatar-flat"></div>
+            <div class="comment-reply-col"><div class="name">Marina</div><div class="text">Anotado! Vou nessa semana.</div></div>
+          </div>
+          <div class="comment-reply">
+            <div class="comment-avatar-flat"></div>
+            <div class="comment-reply-col"><div class="name">Pedro</div><div class="text">O Cais é incrível mesmo</div></div>
+          </div>
+        </div>
+
+        <div class="comment-input-wrap">
+          <div class="comment-input-row">
+            <span class="placeholder">Escreva um comentário...</span>
+            <div class="comment-send-btn"><img src="../assets/icon-comment-send.svg" alt="" /></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ROTEIRO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Roteiro</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="head">
+          <div class="nav-row">
+            <img src="../assets/icon-back-arrow.svg" alt="" />
+            <div class="nav-title">Foto</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="greeting-sm">
+            <div class="greeting-sm-row">
+              <div class="avatar-sm"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+              <div class="greeting-sm-body">
+                <div class="greeting-sm-name">Carlos Souza</div>
+                <div class="greeting-sm-handle">@carlosviaja</div>
+              </div>
+              <div class="greeting-sm-tag"><div class="tag-comunidade">Viajante</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <div class="content-title">3 dias em Recife com crianças</div>
+          <div class="content-meta-row">
+            <div class="content-meta-item"><img src="../assets/icon-calendar-03.svg" alt="" /><span>02/07/2026</span></div>
+            <div class="content-meta-item"><img src="../assets/icon-clock.svg" alt="" /><span>5 min de leitura</span></div>
+          </div>
+          <div class="content-metadados"><span>3 dias</span><span>8 paradas</span><span>Família</span></div>
+          <div class="content-desc">Fizemos essa viagem em julho com duas crianças (5 e 9 anos). Roteiro testado e aprovado, com ritmo leve e muita praia.</div>
+
+          <div class="card-roteiro">
+            <div class="roteiro-day-header"><span class="day">Dia 1.</span><span class="title">Recife Antigo</span></div>
+            <div class="paradas">
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">MANHÃ</div><div class="parada-title">Marco Zero e Rua do Bom Jesus</div><div class="parada-desc">Comece cedo, tem sombra e é plano pra carrinho.</div></div>
+              </div>
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">TARDE</div><div class="parada-title">Embaixada dos Bonecos Gigantes</div><div class="parada-desc">As crianças amam. Ingresso barato.</div></div>
+              </div>
+              <div class="parada">
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">NOITE</div><div class="parada-title">Jantar na Rua da Moeda</div><div class="parada-desc">Opções pra todos os gostos.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-roteiro">
+            <div class="roteiro-day-header"><span class="day">Dia 2.</span><span class="title">Recife Antigo</span></div>
+            <div class="paradas">
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">MANHÃ</div><div class="parada-title">Marco Zero e Rua do Bom Jesus</div><div class="parada-desc">Comece cedo, tem sombra e é plano pra carrinho.</div></div>
+              </div>
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">TARDE</div><div class="parada-title">Embaixada dos Bonecos Gigantes</div><div class="parada-desc">As crianças amam. Ingresso barato.</div></div>
+              </div>
+              <div class="parada">
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">NOITE</div><div class="parada-title">Jantar na Rua da Moeda</div><div class="parada-desc">Opções pra todos os gostos.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-roteiro">
+            <div class="roteiro-day-header"><span class="day">Dia 3.</span><span class="title">Recife Antigo</span></div>
+            <div class="paradas">
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">MANHÃ</div><div class="parada-title">Marco Zero e Rua do Bom Jesus</div><div class="parada-desc">Comece cedo, tem sombra e é plano pra carrinho.</div></div>
+              </div>
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">TARDE</div><div class="parada-title">Embaixada dos Bonecos Gigantes</div><div class="parada-desc">As crianças amam. Ingresso barato.</div></div>
+              </div>
+              <div class="parada">
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <div class="parada-info"><div class="parada-period">NOITE</div><div class="parada-title">Jantar na Rua da Moeda</div><div class="parada-desc">Opções pra todos os gostos.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-title" style="font-size: 18px;">Gostou do roteiro? Aproveite as ofertas</div>
+          <div class="ofertas-row">
+            <div class="card-oferta">
+              <div class="oferta-selo"><span>Passagens aéreas</span><img src="../assets/icon-oferta-passagens.svg" alt="" /></div>
+              <div class="oferta-price"><div class="label">Voos a partir</div><div class="value">de <b>R$ 1.086</b></div></div>
+              <div class="oferta-date"><img src="../assets/icon-calendar.svg" alt="" /><span>Jul 12 – Jul 19</span></div>
+              <div class="oferta-cta">Ver passagens</div>
+            </div>
+            <div class="card-oferta">
+              <div class="oferta-selo"><span>Hospedagens</span><img src="../assets/icon-oferta-hospedagens.svg" alt="" /></div>
+              <div class="oferta-price"><div class="label">Diárias a partir</div><div class="value">de <b>R$ 390</b></div></div>
+              <div class="oferta-date"><img src="../assets/icon-calendar.svg" alt="" /><span>Jul 12 – Jul 19</span></div>
+              <div class="oferta-cta">Ver hospedagens</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="social-block">
+          <div class="social-bar">
+            <div class="social-left">
+              <div class="social-item"><img src="../assets/icon-heart.svg" alt="" /><span>00</span></div>
+              <div class="social-item"><img src="../assets/icon-social-comment.svg" alt="" /><span>00</span></div>
+              <div class="social-item"><img src="../assets/icon-social-share.svg" alt="" /></div>
+            </div>
+            <div class="social-more"><img src="../assets/icon-social-more.svg" alt="" /></div>
+          </div>
+          <div class="comment-main">
+            <div class="name">Carlos Souza</div>
+            <div class="text">Passei pelo Cais do Sertão e fiquei encantado com a cultura e a arte local. Vale muito a visita!</div>
+          </div>
+          <div class="comments-heading">Comentários (2)</div>
+          <div class="comment-reply">
+            <div class="comment-avatar-flat"></div>
+            <div class="comment-reply-col"><div class="name">Marina</div><div class="text">Anotado! Vou nessa semana.</div></div>
+          </div>
+          <div class="comment-reply">
+            <div class="comment-avatar-flat"></div>
+            <div class="comment-reply-col"><div class="name">Pedro</div><div class="text">O Cais é incrível mesmo</div></div>
+          </div>
+        </div>
+
+        <div class="comment-input-wrap">
+          <div class="comment-input-row">
+            <span class="placeholder">Escreva um comentário...</span>
+            <div class="comment-send-btn"><img src="../assets/icon-comment-send.svg" alt="" /></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  Cores/spacing extraídos via <code>get_variable_defs</code> + <code>get_design_context</code> (Figma Dev Mode),
+  sempre escopado por instância. <strong>Achado:</strong> o label da nav mostra "Foto" fixo nas 3 variantes
+  (Foto/Dica/Roteiro) — confirmado no Figma, não é erro de captura, parece artefato de copiar-colar no
+  arquivo original. Avatares das respostas "Marina"/"Pedro" são círculos de cor sólida no Figma (sem foto).
+  Ícone de curtida reaproveitado da Feed/Comunidade (mesmo desenho, export fresco). Cards de oferta reaproveitados
+  da tela Detalhes do destino (mesmo componente/node no Figma).
+</div>
+
+</body>
+</html>

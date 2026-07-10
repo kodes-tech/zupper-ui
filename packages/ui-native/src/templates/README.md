@@ -51,6 +51,11 @@ templates/
 │   ├── foto.tsx            # node 140:7928
 │   ├── dica.tsx            # node 143:8671
 │   ├── roteiro.tsx         # node 143:8826 (inclui card-roteiro por dia + cards de oferta)
+├── detalhes-destino/      # Tela 4 — Detalhes do destino (Ver tudo / Fotos / Dicas / Roteiros)
+│   ├── ver-tudo.tsx       # node 118:11497 (inclui cards de oferta: passagens/hospedagens/pacotes)
+│   ├── fotos.tsx          # node 123:13288
+│   ├── dicas.tsx          # node 123:12858
+│   ├── roteiros.tsx       # node 123:13756
 │   └── preview.html
 └── assets/                # arquivos reais baixados do Figma, usados pelos preview.html
     ├── icon-*.svg / .png  # ícones soltos (flat)

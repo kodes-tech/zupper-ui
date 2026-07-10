@@ -37,6 +37,7 @@ export const colors = {
     link: '#0C4A6E', // text/link — "Meu perfil ›" / "Fazer login ›"
     heading: '#25314D', // color/brand/kontrip — título do WelcomeBackCard
     body: '#2E2E2E', // color/accent/dubai/800 — descrição do WelcomeBackCard
+    subtle: '#737373', // Accents/Dubai/Dubai 500 — label do FilterChip não selecionado
   },
   surface: {
     default: '#FFFFFF', // background/surface — fundo de card
@@ -44,6 +45,7 @@ export const colors = {
   },
   border: {
     default: '#D4D4D4', // border/default — contorno de cards e pills
+    subtle: '#EFEFEF', // Accents/Dubai/Dubai 200 — contorno do FilterChip não selecionado
   },
   feedback: {
     danger: '#EF4444', // Accents/Amsterdam/Amsterdam 500 — texto do Button variant="ghost" (ex.: "Sair da minha conta")

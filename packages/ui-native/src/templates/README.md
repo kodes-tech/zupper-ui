@@ -39,6 +39,11 @@ templates/
 │   ├── viajante.tsx
 │   ├── parceiro.tsx
 │   └── preview.html      # reprodução renderizável das 3 variantes — abre direto no navegador
+├── comunidade/            # Tela 2 — Meu Perfil / Comunidade (só persona Viajante no Figma)
+│   ├── fotos.tsx          # aba "Fotos" — node 118:7339
+│   ├── dicas.tsx          # aba "Dicas" — node 118:8284
+│   ├── roteiros.tsx       # aba "Roteiros" — node 118:8735
+│   └── preview.html
 ├── destinos/              # Tela 3 — Destinos em alta (Ver todos)
 │   ├── ver-todos.tsx      # node 118:10544
 │   └── preview.html
@@ -47,9 +52,6 @@ templates/
     ├── fonts/              # Satoshi-{Regular,Medium,Bold}.otf
     └── photos/             # avatares, foto de post, foto de card-destino (comprimidas)
 ```
-
-`comunidade/` (Tela 2) existe numa branch separada ainda não integrada a esta —
-some daqui até o merge, mas volta assim que a base de novo tiver os dois.
 
 Ver a PR que introduziu esses arquivos pra detalhes sobre o que é confiável
 extrair do `.tsx` (spacing/cor/tipografia) vs. o que não é (assets de

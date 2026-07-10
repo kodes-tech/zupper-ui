@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Feed — referência Figma (Visitante / Viajante / Parceiro)</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Todas as cores abaixo vieram de get_variable_defs (Figma Dev Mode) nos 3 nós da
+     tela de Feed — não são valores de memória/documentação, são o hex resolvido real. */
+  :root {
+    --color-bg: #f5f5f5; /* background/background */
+    --color-surface: #ffffff; /* background/surface */
+    --color-border: #d4d4d4; /* border/default */
+    --color-border-highlight: #78c8ce; /* border/highlight */
+    --text-primary: #262626; /* text/primary */
+    --text-secondary: #404040; /* text/secondary */
+    --text-muted: #a3a3a3; /* text/muted */
+    --text-inverse: #ffffff; /* text/inverse */
+    --text-link: #0c4a6e; /* text/link */
+    --text-highlight: #008c99; /* text/highlight, icon/highlight, color/brand/zupper */
+    --icon-primary: #171717; /* icon/primary */
+    --icon-secondary: #2e2e2e; /* icon/secondary */
+    --brand-chip: #d8fcfe; /* color/mexico/200 */
+    --brand-card: #e5f5f7; /* color/mexico/50 */
+    --brand-gradient-start: #4cbac7; /* color/mexico/900 */
+    --brand-gradient-end: #008c99; /* color/brand/zupper */
+    --brand-kontrip: #25314d; /* color/brand/kontrip — welcome-card title */
+    --partner-surface: #ffce00; /* color/accent/madrid/400 */
+    --partner-gradient-end: #ea580c; /* color/accent/albania/600 */
+    --partner-card: #fefce8; /* color/accent/madrid/50 */
+    --partner-border: #fed7aa; /* color/accent/albania/200 */
+    --tag-bg: #f5f5f5; /* color/accent/dubai/100 */
+    --body-color: #2e2e2e; /* color/accent/dubai/800 */
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--text-primary);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  img { max-width: none; }
+
+  .page-header { max-width: 1200px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 680px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: nowrap; gap: 28px; align-items: flex-start; justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; -ms-overflow-style: none; }
+  .screens::-webkit-scrollbar { display: none; }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  .phone {
+    width: 390px;
+    max-width: 92vw;
+    height: 844px;
+    background: var(--color-bg);
+    border-radius: 36px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+  .screen-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  /* greeting */
+  .greeting { padding: 16px; display: flex; gap: 8px; align-items: center; }
+  .avatar { width: 64px; height: 64px; border-radius: 999px; background: var(--color-surface); flex-shrink: 0; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+  .avatar-fallback { font-weight: 700; font-size: 16px; letter-spacing: 0.32px; color: var(--text-muted); }
+  .avatar img { position: absolute; }
+  .avatar.viajante img { left: -53.75%; top: -16.31%; width: 199.08%; height: 199.08%; }
+  .avatar.parceiro img { left: -175.86%; top: -76.35%; width: 518.71%; height: 518.71%; }
+  .greeting-body { flex: 1; min-width: 0; height: 64px; display: flex; flex-direction: column; justify-content: space-between; }
+  .greeting-title { font-weight: 700; font-size: 24px; letter-spacing: 0.48px; line-height: 1; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .greeting-sub { font-weight: 500; font-size: 16px; letter-spacing: 0.32px; line-height: 1.5; color: var(--text-secondary); }
+  .greeting-side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 8px; padding: 4px 4px 2px; align-self: stretch; }
+  .tag-comunidade { font-size: 12px; line-height: 16px; padding: 4px 8px; border-radius: 2px; white-space: nowrap; }
+  .tag-comunidade.guest { background: var(--color-surface); color: var(--text-primary); font-weight: 500; }
+  .tag-comunidade.traveler { background: var(--brand-chip); color: var(--text-highlight); font-weight: 700; }
+  .tag-comunidade.partner { background: linear-gradient(159.88deg, var(--partner-surface) 5.5%, var(--partner-gradient-end) 94.5%); color: var(--text-inverse); font-weight: 700; }
+  .cta-link { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--text-link); white-space: nowrap; }
+  .cta-link img { width: 12px; height: 12px; }
+
+  /* search */
+  .search-container { padding: 0 16px; }
+  .search-field { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 96px; height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 8px 0 16px; }
+  .search-field .placeholder { flex: 1; font-size: 16px; font-weight: 500; letter-spacing: 0.32px; color: var(--text-secondary); }
+  .search-icon { width: 24px; height: 24px; flex-shrink: 0; }
+  .search-btn { width: 40px; height: 40px; border-radius: 20px; background: linear-gradient(to right, var(--brand-gradient-start), var(--brand-gradient-end)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .search-btn img { width: 20px; height: 20px; transform: scaleX(-1); filter: brightness(0) invert(1); }
+
+  /* quick actions */
+  .quick-actions { padding: 0 16px; display: flex; gap: 12px; }
+  .quick-action { flex: 1; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 24px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 16px; gap: 4px; text-align: center; }
+  .quick-action img { width: 48px; height: 48px; object-fit: contain; }
+  .quick-action .label { font-size: 12px; font-weight: 700; line-height: 16px; color: var(--text-primary); }
+
+  /* welcome card */
+  .welcome-section { padding: 0 16px; }
+  .welcome-card { border-radius: 4px; padding: 16px; display: flex; flex-direction: column; gap: 24px; }
+  .welcome-card.traveler { background: var(--brand-card); border: 1px solid var(--color-border-highlight); }
+  .welcome-card.partner { background: var(--partner-card); border: 1px solid var(--partner-border); }
+  .welcome-title { font-weight: 700; font-size: 17px; line-height: 22px; color: var(--brand-kontrip); }
+  .welcome-desc { font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--body-color); font-weight: 400; }
+  .welcome-actions { display: flex; gap: 8px; }
+  .cta-pill { flex: 1; border-radius: 40px; padding: 12px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--text-inverse); font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; background: linear-gradient(157.2deg, var(--brand-gradient-start) 5.5%, var(--brand-gradient-end) 94.5%); }
+  .welcome-card.partner .cta-pill { background: linear-gradient(157.2deg, var(--partner-surface) 5.5%, var(--partner-gradient-end) 94.5%); }
+  .cta-pill img { width: 20px; height: 20px; }
+
+  /* destinos */
+  .destinos-section { display: flex; flex-direction: column; gap: 12px; }
+  .section-head { padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+  .section-title { display: flex; align-items: center; gap: 4px; font-size: 18px; font-weight: 700; line-height: 1; color: var(--text-primary); }
+  .section-title img { width: 24px; height: 24px; }
+  .destinos-cards { display: flex; gap: 12px; padding-left: 20px; overflow-x: auto; }
+  .destino-card { width: 130px; height: 150px; border-radius: 4px; flex-shrink: 0; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .destino-card img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .destino-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 50.447%, rgba(0,0,0,0.4) 100%); }
+  .destino-card span { position: relative; z-index: 1; padding: 0 12px 12px; color: var(--text-inverse); font-weight: 700; font-size: 16px; line-height: 1.5; letter-spacing: 0.32px; }
+
+  /* feed */
+  .feed-section { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
+  .post-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .post-header { display: flex; align-items: flex-start; justify-content: space-between; }
+  .post-author { display: flex; align-items: center; gap: 8px; }
+  .post-avatar { width: 28px; height: 28px; border-radius: 999px; overflow: hidden; background: var(--tag-bg); flex-shrink: 0; }
+  .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .post-name-row { display: flex; align-items: center; gap: 4px; }
+  .post-name { font-weight: 700; font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-primary); }
+  .post-name-row img { width: 16px; height: 16px; }
+  .post-body { font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary); font-weight: 400; }
+  .post-title { font-weight: 700; font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary); }
+  .post-image { width: 100%; height: 338px; border-radius: 2px; object-fit: cover; display: block; }
+  .preview-rota { border: 1px solid var(--color-border); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+  .preview-rota img { width: 8px; height: 8px; }
+  .preview-rota .muted { color: var(--text-muted); }
+  .post-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 4px; }
+  .post-footer-left { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .tag-content { display: flex; align-items: center; gap: 4px; background: var(--tag-bg); padding: 4px 8px; border-radius: 2px; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-primary); }
+  .tag-content img { width: 14px; height: 14px; }
+  .location, .likes { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+  .location img, .likes img { width: 16px; height: 16px; }
+
+  /* bottom nav */
+  .bottom-nav { flex-shrink: 0; background: var(--color-surface); display: flex; gap: 8px; padding: 16px 20px; width: 100%; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-primary); font-weight: 500; }
+  .nav-item img { width: 24px; height: 24px; }
+  .nav-item.active { color: var(--text-highlight); font-weight: 700; }
+
+  .legend { max-width: 1200px; margin: 40px auto 0; font-size: 12px; color: #6b6b70; line-height: 1.6; }
+  @media (prefers-color-scheme: dark) { .legend { color: #9a9aa0; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Feed — referência visual (Figma Dev Mode)</h1>
+  <p>
+    Reprodução em CSS real, extraída 100% do Figma Dev Mode (<code>get_design_context</code> +
+    <code>get_variable_defs</code> + <code>get_metadata</code> + assets reais baixados via
+    <code>get_screenshot</code>/asset URLs) — cores, spacing, ícones e fotos vindos diretamente
+    do arquivo, não de memória/documentação. Ícones em <code>../assets/*.svg</code>, fotos em
+    <code>../assets/photos/*.jpg</code>.
+  </p>
+</div>
+
+<div class="screens">
+
+  <!-- ================= DESLOGADO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Visitante (deslogado)</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="greeting">
+          <div class="avatar"><span class="avatar-fallback">HN</span></div>
+          <div class="greeting-body">
+            <div class="greeting-title">Olá, viajante</div>
+            <div class="greeting-sub">seja bem-vindo</div>
+          </div>
+          <div class="greeting-side">
+            <div class="tag-comunidade guest">Visitante</div>
+            <div class="cta-link">Fazer login <img src="../assets/icon-chevron-right.svg" alt="" /></div>
+          </div>
+        </div>
+
+        <div class="search-container">
+          <div class="search-field">
+            <img class="search-icon" src="../assets/icon-globe.svg" alt="" />
+            <span class="placeholder">Qual seu destino?</span>
+            <div class="search-btn"><img src="../assets/icon-search.svg" alt="" /></div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <div class="quick-action"><img src="../assets/icon-quick-voos.png" alt="" /><span class="label">Buscar Voos</span></div>
+          <div class="quick-action"><img src="../assets/icon-quick-hospedagens.png" alt="" /><span class="label">Hospedagens</span></div>
+          <div class="quick-action"><img src="../assets/icon-quick-pacotes.png" alt="" /><span class="label">Pacotes</span></div>
+        </div>
+
+        <div class="destinos-section">
+          <div class="section-head">
+            <div class="section-title"><img src="../assets/icon-fire.svg" alt="" />Destinos em alta</div>
+            <div class="cta-link">Ver todos <img src="../assets/icon-chevron-right.svg" alt="" /></div>
+          </div>
+          <div class="destinos-cards">
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          </div>
+        </div>
+
+        <div class="feed-section">
+          <div class="section-title"><img src="../assets/icon-community.svg" alt="" />Comunidade Zupper</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span></div>
+              </div>
+              <div class="tag-comunidade traveler">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span><img src="../assets/icon-verified.svg" alt="" /></div>
+              </div>
+              <div class="tag-comunidade partner">Parceiro</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <img class="post-image" src="../assets/photos/post-image.jpg" alt="" />
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-foto.svg" alt="" />Foto</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active"><img src="../assets/icon-nav-inicio.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= VIAJANTE ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Viajante</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="greeting">
+          <div class="avatar viajante"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+          <div class="greeting-body">
+            <div class="greeting-title">Olá, Carlos</div>
+            <div class="greeting-sub">@carlosviaja</div>
+          </div>
+          <div class="greeting-side">
+            <div class="tag-comunidade traveler">Viajante</div>
+            <div class="cta-link">Meu perfil <img src="../assets/icon-chevron-right.svg" alt="" /></div>
+          </div>
+        </div>
+
+        <div class="search-container">
+          <div class="search-field">
+            <img class="search-icon" src="../assets/icon-globe.svg" alt="" />
+            <span class="placeholder">Qual seu destino?</span>
+            <div class="search-btn"><img src="../assets/icon-search.svg" alt="" /></div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <div class="quick-action"><img src="../assets/icon-quick-voos.png" alt="" /><span class="label">Buscar Voos</span></div>
+          <div class="quick-action"><img src="../assets/icon-quick-hospedagens.png" alt="" /><span class="label">Hospedagens</span></div>
+          <div class="quick-action"><img src="../assets/icon-quick-pacotes.png" alt="" /><span class="label">Pacotes</span></div>
+        </div>
+
+        <div class="welcome-section">
+          <div class="welcome-card traveler">
+            <div>
+              <div class="welcome-title">Bem-vindo de volta do Recife</div>
+              <div class="welcome-desc">Sua experiência pode ajudar outros viajantes. Publique e faça parte da nossa comunidade!</div>
+            </div>
+            <div class="welcome-actions">
+              <div class="cta-pill"><img src="../assets/icon-content-dica-white.svg" alt="" />Dica</div>
+              <div class="cta-pill"><img src="../assets/icon-content-foto-white.svg" alt="" />Foto</div>
+              <div class="cta-pill"><img src="../assets/icon-content-roteiro-white.svg" alt="" />Roteiro</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="destinos-section">
+          <div class="section-head">
+            <div class="section-title"><img src="../assets/icon-fire.svg" alt="" />Destinos em alta</div>
+            <div class="cta-link">Ver todos <img src="../assets/icon-chevron-right.svg" alt="" /></div>
+          </div>
+          <div class="destinos-cards">
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          </div>
+        </div>
+
+        <div class="feed-section">
+          <div class="section-title"><img src="../assets/icon-community.svg" alt="" />Comunidade Zupper</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span></div>
+              </div>
+              <div class="tag-comunidade traveler">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span><img src="../assets/icon-verified.svg" alt="" /></div>
+              </div>
+              <div class="tag-comunidade partner">Parceiro</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <img class="post-image" src="../assets/photos/post-image.jpg" alt="" />
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-foto.svg" alt="" />Foto</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span><img src="../assets/icon-verified.svg" alt="" /></div>
+              </div>
+              <div class="tag-comunidade partner">Parceiro</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active"><img src="../assets/icon-nav-inicio.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PARCEIRO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Parceiro</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="greeting">
+          <div class="avatar parceiro"><img src="../assets/photos/avatar-parceiro.jpg" alt="" /></div>
+          <div class="greeting-body">
+            <div class="greeting-title">Olá, Ana</div>
+            <div class="greeting-sub">@anasilvatrip</div>
+          </div>
+          <div class="greeting-side">
+            <div class="tag-comunidade partner">Parceiro</div>
+            <div class="cta-link">Meu perfil <img src="../assets/icon-chevron-right.svg" alt="" /></div>
+          </div>
+        </div>
+
+        <div class="search-container">
+          <div class="search-field">
+            <img class="search-icon" src="../assets/icon-globe.svg" alt="" />
+            <span class="placeholder">Qual seu destino?</span>
+            <div class="search-btn"><img src="../assets/icon-search.svg" alt="" /></div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <div class="quick-action"><img src="../assets/icon-quick-voos.png" alt="" /><span class="label">Buscar Voos</span></div>
+          <div class="quick-action"><img src="../assets/icon-quick-hospedagens.png" alt="" /><span class="label">Hospedagens</span></div>
+          <div class="quick-action"><img src="../assets/icon-quick-pacotes.png" alt="" /><span class="label">Pacotes</span></div>
+        </div>
+
+        <div class="welcome-section">
+          <div class="welcome-card partner">
+            <div>
+              <div class="welcome-title">Sua audiência quer te ver viajando</div>
+              <div class="welcome-desc">Como Zupper Parceiro, você publica suas experiências sem limites e inspira a comunidade Zupper.</div>
+            </div>
+            <div class="welcome-actions">
+              <div class="cta-pill"><img src="../assets/icon-content-dica-white.svg" alt="" />Dica</div>
+              <div class="cta-pill"><img src="../assets/icon-content-foto-white.svg" alt="" />Foto</div>
+              <div class="cta-pill"><img src="../assets/icon-content-roteiro-white.svg" alt="" />Roteiro</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="destinos-section">
+          <div class="section-head">
+            <div class="section-title"><img src="../assets/icon-fire.svg" alt="" />Destinos em alta</div>
+            <div class="cta-link">Ver todos <img src="../assets/icon-chevron-right.svg" alt="" /></div>
+          </div>
+          <div class="destinos-cards">
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+            <div class="destino-card"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          </div>
+        </div>
+
+        <div class="feed-section">
+          <div class="section-title"><img src="../assets/icon-community.svg" alt="" />Comunidade Zupper</div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span></div>
+              </div>
+              <div class="tag-comunidade traveler">Viajante</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-dica.svg" alt="" />Dica</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span><img src="../assets/icon-verified.svg" alt="" /></div>
+              </div>
+              <div class="tag-comunidade partner">Parceiro</div>
+            </div>
+            <div class="post-body">Dicas essenciais para aproveitar Noronha sem gastar uma fortuna...</div>
+            <img class="post-image" src="../assets/photos/post-image.jpg" alt="" />
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-foto.svg" alt="" />Foto</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-author">
+                <div class="post-avatar"><img src="../assets/photos/post-avatar.png" alt="" /></div>
+                <div class="post-name-row"><span class="post-name">Ana Silva</span><img src="../assets/icon-verified.svg" alt="" /></div>
+              </div>
+              <div class="tag-comunidade partner">Parceiro</div>
+            </div>
+            <div class="post-title">7 dias inesquecíveis em Noronha</div>
+            <div class="preview-rota">
+              <span>Marco Zero</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Boa Viagem</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span>Olinda</span><img src="../assets/icon-dot-separator.svg" alt="" />
+              <span class="muted">+12 paradas</span>
+            </div>
+            <div class="post-footer">
+              <div class="post-footer-left">
+                <div class="tag-content"><img src="../assets/icon-content-roteiro.svg" alt="" />Roteiro</div>
+                <div class="location"><img src="../assets/icon-location.svg" alt="" />Fernando de Noronha</div>
+              </div>
+              <div class="likes"><img src="../assets/icon-heart.svg" alt="" />00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active"><img src="../assets/icon-nav-inicio.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../assets/icon-nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../assets/icon-nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  Cores/spacing extraídos via <code>get_variable_defs</code> + <code>get_design_context</code> (Figma Dev Mode).
+  Ícones e fotos são arquivos reais baixados do Figma em <code>templates/assets/</code> — nada de emoji ou
+  base64 embutido. Fonte Satoshi carregada de <code>apps/web/public/fonts/</code> (mesmo asset já usado no
+  projeto). Bottom nav fica presa ao fundo do frame (844px, altura padrão iPhone), com a lista de posts
+  rolando por baixo dela — igual ao comportamento real do app.
+</div>
+
+</body>
+</html>

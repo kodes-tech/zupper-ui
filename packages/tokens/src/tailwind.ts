@@ -5,9 +5,10 @@ import { typography } from './typography';
 
 /** Converte uma escala numérica (px) em strings com unidade (`16` → `'16px'`). */
 const px = <T extends Record<string, number>>(obj: T): Record<keyof T, string> =>
-  Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, `${value}px`]),
-  ) as Record<keyof T, string>;
+  Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, `${value}px`])) as Record<
+    keyof T,
+    string
+  >;
 
 /**
  * `fontSize` no formato tuple do Tailwind para os presets de texto compostos
@@ -55,6 +56,7 @@ export const tailwindPreset = {
         fg: colors.text, // bg-fg-primary / text-fg-muted / text-fg-inverse …
         surface: colors.surface, // bg-surface-default / bg-surface-tag
         border: colors.border, // border-border-default
+        feedback: colors.feedback, // text-feedback-danger
       },
       spacing: px(spacing),
       borderRadius: px(radii),

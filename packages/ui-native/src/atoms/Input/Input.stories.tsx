@@ -1,9 +1,15 @@
+import { action } from '@storybook/addon-actions';
 import { Input } from './Input';
 
 // CSF (Component Story Format) — compatível com Storybook.
 export default {
   title: 'Atoms/Input',
   component: Input,
+  // Instrumenta os callbacks de interação p/ o painel "Actions".
+  args: {
+    onChangeText: action('onChangeText'),
+    onSubmitEditing: action('onSubmitEditing'),
+  },
 };
 
 export const Default = {

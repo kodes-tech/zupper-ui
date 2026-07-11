@@ -1,4 +1,8 @@
-# templates/
+# _figma/
+
+> Antes chamada `templates/` — renomeada para `_figma/` porque "template" é um
+> **nível do Atomic Design** (layout de tela). Telas mockadas do design system
+> vivem em `src/screens/`, não aqui. Esta pasta é **só referência do Figma**.
 
 Referência gerada pelo **Figma Dev Mode** (`get_design_context`), organizada **por
 tela**. Não é código pra rodar — é o código React+Tailwind que o Dev Mode exporta,
@@ -32,7 +36,7 @@ excluído do `tsc` (typecheck), do lint e do pacote publicado no npm (ver
 ## Estrutura
 
 ```
-templates/
+_figma/
 ├── README.md
 ├── feed/
 │   ├── deslogado.tsx     # export bruto do Figma Dev Mode — só consulta

@@ -1,9 +1,13 @@
 import { Text } from 'react-native';
+import { action } from '@storybook/addon-actions';
 import { Button } from './Button';
 
 export default {
   title: 'Atoms/Button',
   component: Button,
+  // Instrumenta o callback: tocar no botão loga no painel "Actions".
+  // (SB8 removeu o auto-actions por argTypesRegex; declaramos explicitamente.)
+  args: { onPress: action('onPress') },
 };
 
 export const Label = { args: { label: 'Publicar' } };

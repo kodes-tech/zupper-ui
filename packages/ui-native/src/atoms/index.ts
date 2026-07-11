@@ -4,5 +4,6 @@ export * from './AvatarFallback';
 export * from './Badge';
 export * from './Button';
 export * from './FilterChip';
+export * from './Icon';
 export * from './Input';
 export * from './RoleBadge';

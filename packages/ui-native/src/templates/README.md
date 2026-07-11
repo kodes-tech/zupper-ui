@@ -63,6 +63,12 @@ templates/
 │   ├── dica.tsx           # node 154:10802
 │   ├── roteiro.tsx        # node 168:7109 (nomeado "Dica" no Figma — na verdade é o wizard de Roteiro)
 │   └── preview.html
+├── minha-conta/           # Tela de conta (Logado viajante / sem viagem / parceiro / Deslogado) — KSA-46
+│   ├── logado-viajante.tsx    # node 18:4193
+│   ├── logado-sem-viagem.tsx  # node 60:6943
+│   ├── logado-parceiro.tsx    # node 37:2055
+│   ├── deslogado.tsx          # node 60:7229
+│   └── preview.html
 └── assets/                # arquivos reais baixados do Figma, usados pelos preview.html
     ├── icon-*.svg / .png  # ícones soltos (flat)
     ├── fonts/              # Satoshi-{Regular,Medium,Bold}.otf

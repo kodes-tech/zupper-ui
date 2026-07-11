@@ -8,5 +8,4 @@
 //   (default / loading / empty / error / success).
 // - NÃO confundir com `src/_figma/` (referência do Figma, não roda).
 //
-// TODO(Community): adicionar as telas (Feed, Comunidade, Destinos, ...) aqui.
-export {};
+export * from './Feed';

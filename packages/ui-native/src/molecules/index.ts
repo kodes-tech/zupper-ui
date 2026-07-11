@@ -1,3 +1,2 @@
 // Molecules — combinações de atoms: LikeButton (icon+count), CommentInput, Avatar+nome...
-// TODO(Community): adicionar e exportar aqui.
-export {};
+export * from './LikeButton';

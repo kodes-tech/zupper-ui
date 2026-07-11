@@ -47,16 +47,21 @@ templates/
 ├── destinos/              # Tela 3 — Destinos em alta (Ver todos)
 │   ├── ver-todos.tsx      # node 118:10544
 │   └── preview.html
-├── conteudo/               # Tela 5 — visualização individual de um post (Foto / Dica / Roteiro)
-│   ├── foto.tsx            # node 140:7928
-│   ├── dica.tsx            # node 143:8671
-│   ├── roteiro.tsx         # node 143:8826 (inclui card-roteiro por dia + cards de oferta)
-│   └── preview.html
 ├── detalhes-destino/      # Tela 4 — Detalhes do destino (Ver tudo / Fotos / Dicas / Roteiros)
 │   ├── ver-tudo.tsx       # node 118:11497 (inclui cards de oferta: passagens/hospedagens/pacotes)
 │   ├── fotos.tsx          # node 123:13288
 │   ├── dicas.tsx          # node 123:12858
 │   ├── roteiros.tsx       # node 123:13756
+│   └── preview.html
+├── conteudo/               # Tela 5 — visualização individual de um post (Foto / Dica / Roteiro)
+│   ├── foto.tsx            # node 140:7928
+│   ├── dica.tsx            # node 143:8671
+│   ├── roteiro.tsx         # node 143:8826 (inclui card-roteiro por dia + cards de oferta)
+│   └── preview.html
+├── publicar-conteudo/     # Tela 6/7/8 — Publicar conteúdo (Foto / Dica / Roteiro)
+│   ├── foto.tsx           # node 150:10349
+│   ├── dica.tsx           # node 154:10802
+│   ├── roteiro.tsx        # node 168:7109 (nomeado "Dica" no Figma — na verdade é o wizard de Roteiro)
 │   └── preview.html
 ├── minha-conta/           # Tela de conta (Logado viajante / sem viagem / parceiro / Deslogado) — KSA-46
 │   ├── logado-viajante.tsx    # node 18:4193

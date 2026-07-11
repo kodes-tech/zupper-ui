@@ -32,6 +32,11 @@ E exportar no `index.ts` do nível.
 
 ## Regras (obrigatórias)
 
+0. **Antes de criar, confirme que não existe** — abra o Storybook (é o inventário) ou
+   dê um `grep` no barrel do nível (`src/atoms/index.ts` etc.). Cheque também se já
+   existe no `@zupper/app-ui` do zupper-app: o design system é **fonte única** — se
+   existe, **reusar/migrar pro `ui-native`**, nunca recriar. Não componentize a partir
+   de `src/_figma/` (é só referência).
 1. **Apresentacional puro** — só props. **Nenhuma chamada de API**, nenhum acesso a
    store/navegação. Estado de dados entra por props (`author`, `likes`, `onLike`).
 2. **Estilo com `className` (NativeWind) + tokens** — classes do preset

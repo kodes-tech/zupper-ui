@@ -19,7 +19,7 @@ export default tseslint.config(
       '**/babel.config.js',
       '**/jest.setup.ts',
       '**/nativewind-env.d.ts',
-      '**/templates/**',
+      '**/_figma/**',
     ],
   },
   js.configs.recommended,

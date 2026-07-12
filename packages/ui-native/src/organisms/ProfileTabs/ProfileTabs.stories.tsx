@@ -13,3 +13,8 @@ export default {
 export const Dicas = { args: { active: 'dicas' } };
 export const Fotos = { args: { active: 'fotos' } };
 export const Roteiros = { args: { active: 'roteiros' } };
+
+// Variante de "Detalhes do destino": quatro abas, começando por "Ver tudo".
+export const ComVerTudo = {
+  args: { active: 'ver-tudo', tabs: ['ver-tudo', 'dicas', 'fotos', 'roteiros'] },
+};

@@ -12,14 +12,30 @@ const baseProps: PostCardProps = {
 };
 
 describe('PostCard', () => {
-  it('renders author, text and type tag', () => {
+  it('renders author, body and type tag', () => {
     render(<PostCard {...baseProps} />);
     expect(screen.getByText('Ana Silva')).toBeOnTheScreen();
     expect(screen.getByText('Dica de teste')).toBeOnTheScreen();
-    expect(screen.getByText('Dica local')).toBeOnTheScreen();
+    expect(screen.getByText('Dica')).toBeOnTheScreen();
   });
 
-  it('fires onLike when the like button is pressed', () => {
+  it('renders the roteiro stops', () => {
+    render(
+      <PostCard
+        {...baseProps}
+        type="roteiro"
+        text={undefined}
+        title="Roteiro X"
+        stops={['Marco Zero', 'Olinda']}
+        extraStops={12}
+      />,
+    );
+    expect(screen.getByText('Roteiro X')).toBeOnTheScreen();
+    expect(screen.getByText('Olinda')).toBeOnTheScreen();
+    expect(screen.getByText('+12 paradas')).toBeOnTheScreen();
+  });
+
+  it('fires onLike', () => {
     const onLike = jest.fn();
     render(<PostCard {...baseProps} onLike={onLike} />);
     fireEvent.press(screen.getByLabelText(/Curtir/));

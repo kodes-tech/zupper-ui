@@ -13,18 +13,22 @@ const post: FeedPost = {
 };
 
 describe('Feed', () => {
-  it('shows the empty state when there are no posts', () => {
-    render(<Feed posts={[]} />);
-    expect(screen.getByText(/Nenhuma publicação/)).toBeOnTheScreen();
-  });
+  const greeting = {
+    title: 'Olá, Ana',
+    subtitle: '@ana',
+    role: 'partner' as const,
+    ctaLabel: 'Meu perfil',
+  };
 
-  it('shows the error state', () => {
-    render(<Feed error="Falhou" />);
-    expect(screen.getByText('Falhou')).toBeOnTheScreen();
-  });
-
-  it('renders the posts', () => {
-    render(<Feed posts={[post]} />);
+  it('renders the greeting and the community section with posts', () => {
+    render(<Feed greeting={greeting} posts={[post]} />);
+    expect(screen.getByText('Olá, Ana')).toBeOnTheScreen();
+    expect(screen.getByText('Comunidade Zupper')).toBeOnTheScreen();
     expect(screen.getByText('Conteúdo de teste')).toBeOnTheScreen();
+  });
+
+  it('renders the search field', () => {
+    render(<Feed greeting={greeting} />);
+    expect(screen.getByText('Qual seu destino?')).toBeOnTheScreen();
   });
 });

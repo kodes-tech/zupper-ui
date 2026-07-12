@@ -9,4 +9,5 @@
 // - NÃO confundir com `src/_figma/` (referência do Figma, não roda).
 //
 export * from './CommunityProfile';
+export * from './Destinations';
 export * from './Feed';

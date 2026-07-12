@@ -11,6 +11,7 @@ const registry = {
   search: Svgs.Search,
   'chevron-right': Svgs.ChevronRight,
   fire: Svgs.Fire,
+  'fire-destinos': Svgs.FireDestinos,
   community: Svgs.Community,
   heart: Svgs.Heart,
   location: Svgs.Location,

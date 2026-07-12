@@ -7,6 +7,8 @@ import { colors } from '@zupper/tokens';
 export type DestinationCardProps = PressableProps & {
   name: string;
   image: ImageSourcePropType;
+  /** Ocupa a largura do container (grid). Padrão: largura fixa de 130px (carrossel). */
+  fill?: boolean;
 };
 
 /**
@@ -15,11 +17,12 @@ export type DestinationCardProps = PressableProps & {
 export const DestinationCard = ({
   name,
   image,
+  fill = false,
   ...rest
 }: DestinationCardProps): React.ReactElement => (
   <Pressable
     accessibilityRole="button"
-    className="h-[150px] w-[130px] overflow-hidden rounded-sm"
+    className={`h-[150px] overflow-hidden rounded-sm ${fill ? 'w-full' : 'w-[130px]'}`}
     {...rest}
   >
     <Image

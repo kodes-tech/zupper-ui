@@ -8,6 +8,7 @@ export { default as ContentFoto } from './ContentFoto';
 export { default as ContentRoteiroWhite } from './ContentRoteiroWhite';
 export { default as ContentRoteiro } from './ContentRoteiro';
 export { default as DotSeparator } from './DotSeparator';
+export { default as FireDestinos } from './FireDestinos';
 export { default as Fire } from './Fire';
 export { default as Globe } from './Globe';
 export { default as Heart } from './Heart';

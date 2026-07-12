@@ -3,3 +3,5 @@ export * from './BottomNav';
 export * from './CommunityCTA';
 export * from './GreetingHeader';
 export * from './PostCard';
+export * from './ProfileTabs';
+export * from './ScreenHeader';

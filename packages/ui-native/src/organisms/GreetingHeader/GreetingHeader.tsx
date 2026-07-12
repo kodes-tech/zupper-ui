@@ -16,8 +16,8 @@ export type GreetingHeaderProps = {
   /** Foto do usuário; se ausente, usa AvatarFallback com as iniciais. */
   avatar?: ImageSourcePropType;
   initials?: string;
-  /** "Meu perfil" (logado) / "Fazer login" (visitante). */
-  ctaLabel: string;
+  /** "Meu perfil" / "Fazer login". Omitido = sem link de CTA (ex.: tela de perfil). */
+  ctaLabel?: string;
   onCtaPress?: () => void;
 };
 
@@ -47,14 +47,16 @@ export const GreetingHeader = ({
     </View>
     <View className="items-end gap-md">
       <RoleBadge variant={role} />
-      <Pressable
-        accessibilityRole="button"
-        onPress={onCtaPress}
-        className="flex-row items-center gap-md"
-      >
-        <Text className="font-sans text-caption text-fg-link">{ctaLabel}</Text>
-        <Icon name="chevron-right" size={12} />
-      </Pressable>
+      {ctaLabel ? (
+        <Pressable
+          accessibilityRole="button"
+          onPress={onCtaPress}
+          className="flex-row items-center gap-md"
+        >
+          <Text className="font-sans text-caption text-fg-link">{ctaLabel}</Text>
+          <Icon name="chevron-right" size={12} />
+        </Pressable>
+      ) : null}
     </View>
   </View>
 );

@@ -15,4 +15,17 @@ describe('ProfileTabs', () => {
     fireEvent.press(screen.getByText('Roteiros'));
     expect(onChange).toHaveBeenCalledWith('roteiros');
   });
+
+  it('renders the "Ver tudo" tab when passed a custom tab list', () => {
+    const onChange = jest.fn();
+    render(
+      <ProfileTabs
+        active="ver-tudo"
+        tabs={['ver-tudo', 'dicas', 'fotos', 'roteiros']}
+        onChange={onChange}
+      />,
+    );
+    fireEvent.press(screen.getByText('Ver tudo'));
+    expect(onChange).toHaveBeenCalledWith('ver-tudo');
+  });
 });

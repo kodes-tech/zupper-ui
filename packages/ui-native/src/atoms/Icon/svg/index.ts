@@ -1,4 +1,5 @@
 export { default as BackArrow } from './BackArrow';
+export { default as Calendar } from './Calendar';
 export { default as ChevronRight } from './ChevronRight';
 export { default as Community } from './Community';
 export { default as ContentDicaWhite } from './ContentDicaWhite';
@@ -18,6 +19,9 @@ export { default as NavInicioNeutral } from './NavInicioNeutral';
 export { default as NavInicio } from './NavInicio';
 export { default as NavPedidos } from './NavPedidos';
 export { default as NavReservar } from './NavReservar';
+export { default as OfertaHospedagens } from './OfertaHospedagens';
+export { default as OfertaPacotes } from './OfertaPacotes';
+export { default as OfertaPassagens } from './OfertaPassagens';
 export { default as Publish } from './Publish';
 export { default as Search } from './Search';
 export { default as TabDicasActive } from './TabDicasActive';

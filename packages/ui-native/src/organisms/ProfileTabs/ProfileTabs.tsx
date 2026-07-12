@@ -3,44 +3,60 @@ import { Pressable, Text, View } from 'react-native';
 import { Icon } from '../../atoms/Icon';
 import type { IconName } from '../../atoms/Icon';
 
-export type ProfileTab = 'dicas' | 'fotos' | 'roteiros';
+export type ProfileTab = 'ver-tudo' | 'dicas' | 'fotos' | 'roteiros';
 
 export type ProfileTabsProps = {
   active: ProfileTab;
+  /**
+   * Abas exibidas, na ordem. Padrão: Dicas/Fotos/Roteiros (perfil da comunidade).
+   * "Detalhes do destino" passa as quatro, começando por "Ver tudo".
+   */
+  tabs?: ProfileTab[];
   onChange?: (tab: ProfileTab) => void;
 };
 
-const tabs: { key: ProfileTab; label: string }[] = [
-  { key: 'dicas', label: 'Dicas' },
-  { key: 'fotos', label: 'Fotos' },
-  { key: 'roteiros', label: 'Roteiros' },
-];
+const LABELS: Record<ProfileTab, string> = {
+  'ver-tudo': 'Ver tudo',
+  dicas: 'Dicas',
+  fotos: 'Fotos',
+  roteiros: 'Roteiros',
+};
+
+const DEFAULT_TABS: ProfileTab[] = ['dicas', 'fotos', 'roteiros'];
 
 /**
- * ProfileTabs — seletor de abas do perfil da comunidade (Dicas/Fotos/Roteiros),
- * com ícone por estado e sublinhado no ativo.
+ * ProfileTabs — seletor de abas com ícone por estado e sublinhado no ativo.
+ * Usado no perfil da comunidade (Dicas/Fotos/Roteiros) e em "Detalhes do
+ * destino", que acrescenta "Ver tudo" (só texto, sem ícone — confirmado no Figma).
  */
-export const ProfileTabs = ({ active, onChange }: ProfileTabsProps): React.ReactElement => (
+export const ProfileTabs = ({
+  active,
+  tabs = DEFAULT_TABS,
+  onChange,
+}: ProfileTabsProps): React.ReactElement => (
   <View className="flex-row gap-xs border-t border-border-default">
     {tabs.map((tab) => {
-      const isActive = tab.key === active;
-      const iconName = `tab-${tab.key}-${isActive ? 'active' : 'inactive'}` as IconName;
+      const isActive = tab === active;
+      const iconName =
+        tab === 'ver-tudo'
+          ? null
+          : (`tab-${tab}-${isActive ? 'active' : 'inactive'}` as IconName);
       return (
         <Pressable
-          key={tab.key}
+          key={tab}
           accessibilityRole="tab"
           accessibilityState={{ selected: isActive }}
-          onPress={() => onChange?.(tab.key)}
+          onPress={() => onChange?.(tab)}
           className="h-[48px] flex-1 items-center justify-end gap-md"
         >
           <View className="flex-row items-center gap-xs">
-            <Icon name={iconName} size={16} />
+            {iconName ? <Icon name={iconName} size={16} /> : null}
             <Text
               className={`font-sans text-[14px] ${
                 isActive ? 'font-bold text-brand-strong' : 'font-normal text-fg-muted'
               }`}
             >
-              {tab.label}
+              {LABELS[tab]}
             </Text>
           </View>
           <View className={`h-[2px] w-full ${isActive ? 'bg-brand-strong' : ''}`} />

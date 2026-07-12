@@ -18,6 +18,8 @@ export type ButtonProps = PressableProps & {
    * `ghost` — só texto, sem fundo/borda, usado em ações destrutivas (ex.: "Sair da minha conta").
    */
   variant?: ButtonVariant;
+  /** Ocupa a largura do container (ex.: botão "Publicar" do formulário). */
+  fullWidth?: boolean;
 };
 
 // LinearGradient é ortogonal ao NativeWind (mesma exceção documentada do
@@ -55,6 +57,7 @@ export const Button = ({
   icon,
   iconPosition = 'right',
   variant = 'primary',
+  fullWidth = false,
   ...rest
 }: ButtonProps) => {
   const content = (
@@ -67,8 +70,11 @@ export const Button = ({
 
   if (variant === 'secondary' || variant === 'ghost') {
     return (
-      <Pressable testID="button" {...rest}>
-        <View testID="button-container" className={containerClassByVariant[variant]}>
+      <Pressable testID="button" className={fullWidth ? 'w-full' : undefined} {...rest}>
+        <View
+          testID="button-container"
+          className={`${containerClassByVariant[variant]} ${fullWidth ? 'w-full' : ''}`}
+        >
           {content}
         </View>
       </Pressable>
@@ -76,13 +82,13 @@ export const Button = ({
   }
 
   return (
-    <Pressable testID="button" {...rest}>
+    <Pressable testID="button" className={fullWidth ? 'w-full' : undefined} {...rest}>
       <LinearGradient
         testID="button-gradient"
         colors={[...colors.gradient.button]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        style={gradientStyle}
+        style={fullWidth ? { ...gradientStyle, width: '100%' } : gradientStyle}
       >
         {content}
       </LinearGradient>

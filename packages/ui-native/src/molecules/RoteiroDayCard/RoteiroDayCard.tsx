@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import { Icon } from '../../atoms/Icon';
 
 export type RoteiroStop = {
   id: string;
@@ -15,6 +16,8 @@ export type RoteiroDayCardProps = {
   /** Título do dia (ex.: "Recife Antigo"). */
   title: string;
   stops: RoteiroStop[];
+  /** Quando definido, mostra o botão de editar no cabeçalho (variante do formulário). */
+  onEdit?: () => void;
 };
 
 /**
@@ -28,11 +31,25 @@ export const RoteiroDayCard = ({
   day,
   title,
   stops,
+  onEdit,
 }: RoteiroDayCardProps): React.ReactElement => (
   <View className="w-full gap-xl rounded-lg border border-border-default bg-surface-default p-xl">
-    <View className="flex-row gap-[10px]">
+    <View
+      className={`flex-row items-start gap-[10px] ${
+        onEdit ? 'border-b border-border-subtle pb-md' : ''
+      }`}
+    >
       <Text className="font-sans text-[18px] font-bold text-brand-strong">{day}</Text>
-      <Text className="font-sans text-[18px] font-bold text-fg-primary">{title}</Text>
+      <Text
+        className={`font-sans text-[18px] font-bold text-fg-primary ${onEdit ? 'flex-1' : ''}`}
+      >
+        {title}
+      </Text>
+      {onEdit ? (
+        <Pressable accessibilityRole="button" accessibilityLabel="Editar dia" onPress={onEdit}>
+          <Icon name="roteiro-card-edit" size={24} />
+        </Pressable>
+      ) : null}
     </View>
 
     <View className="gap-[10px]">

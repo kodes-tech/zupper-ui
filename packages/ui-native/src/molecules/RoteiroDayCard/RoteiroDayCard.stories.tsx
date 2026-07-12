@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { action } from '@storybook/addon-actions';
 import { RoteiroDayCard } from './RoteiroDayCard';
 import type { RoteiroStop } from './RoteiroDayCard';
 
@@ -32,3 +33,4 @@ export default {
 };
 
 export const Padrao = { args: {} };
+export const ComEdicao = { args: { onEdit: action('onEdit') } };

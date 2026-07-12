@@ -9,4 +9,5 @@ export * from './PhotoGrid';
 export * from './QuickAction';
 export * from './RoteiroDayCard';
 export * from './SearchField';
+export * from './SelectField';
 export * from './SocialBar';

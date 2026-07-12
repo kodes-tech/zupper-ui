@@ -5,6 +5,9 @@ import '../global.css'; // NativeWind: registra os utilitários do Tailwind no p
 import './preview.css'; // @font-face da Satoshi — o navegador não tem a fonte nativa do app
 
 const preview: Preview = {
+  // Gera uma página "Docs" automática por componente (catálogo do design system).
+  // Serve de inventário navegável — ajuda a não recriar componente que já existe.
+  tags: ['autodocs'],
   parameters: {
     controls: { matchers: { color: /(background|color)$/i } },
   },

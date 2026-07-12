@@ -2,16 +2,17 @@ import React from 'react';
 import { Image, View } from 'react-native';
 import type { ImageSourcePropType, ViewProps } from 'react-native';
 
-export type AvatarSize = 'sm' | 'lg';
+export type AvatarSize = 'sm' | 'md' | 'lg';
 
 export type AvatarProps = ViewProps & {
-  /** sm = 28px (autor do post) · lg = 64px (saudação) — únicos tamanhos confirmados no Figma. */
+  /** sm = 28px (autor do post) · md = 44px (header do conteúdo) · lg = 64px (saudação) — tamanhos confirmados no Figma. */
   size?: AvatarSize;
   source: ImageSourcePropType;
 };
 
 const containerClassBySize: Record<AvatarSize, string> = {
   sm: 'w-[28px] h-[28px] rounded-[14px]',
+  md: 'w-[44px] h-[44px] rounded-[22px]',
   lg: 'w-[64px] h-[64px] rounded-[32px]',
 };
 

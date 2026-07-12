@@ -6,6 +6,7 @@ import type { IconName } from '../../atoms/Icon';
 export type BottomNavKey = 'inicio' | 'reservar' | 'pedidos' | 'conta';
 
 export type BottomNavProps = {
+  /** Item ativo; omitido = nenhum destacado (ex.: telas fora das tabs). */
   active?: BottomNavKey;
   onNavigate?: (key: BottomNavKey) => void;
 };
@@ -19,27 +20,32 @@ const items: { key: BottomNavKey; icon: IconName; label: string }[] = [
 
 /**
  * BottomNav — barra inferior (Início/Reservar/Pedidos/Conta). O item ativo fica
- * com o label em destaque (marca).
+ * com o label em destaque; o ícone de Início troca entre ativo (marca) e neutro.
  */
-export const BottomNav = ({ active = 'inicio', onNavigate }: BottomNavProps): React.ReactElement => (
+export const BottomNav = ({ active, onNavigate }: BottomNavProps): React.ReactElement => (
   <View className="w-full flex-row gap-md bg-surface-default px-screenMargin py-xl">
-    {items.map((item) => (
-      <Pressable
-        key={item.key}
-        accessibilityRole="button"
-        accessibilityState={{ selected: item.key === active }}
-        onPress={() => onNavigate?.(item.key)}
-        className="flex-1 items-center gap-md"
-      >
-        <Icon name={item.icon} size={24} />
-        <Text
-          className={`font-sans text-xs ${
-            item.key === active ? 'font-bold text-brand-strong' : 'font-medium text-fg-primary'
-          }`}
+    {items.map((item) => {
+      const isActive = item.key === active;
+      const iconName: IconName =
+        item.key === 'inicio' ? (isActive ? 'nav-inicio' : 'nav-inicio-neutral') : item.icon;
+      return (
+        <Pressable
+          key={item.key}
+          accessibilityRole="button"
+          accessibilityState={{ selected: isActive }}
+          onPress={() => onNavigate?.(item.key)}
+          className="flex-1 items-center gap-md"
         >
-          {item.label}
-        </Text>
-      </Pressable>
-    ))}
+          <Icon name={iconName} size={24} />
+          <Text
+            className={`font-sans text-xs ${
+              isActive ? 'font-bold text-brand-strong' : 'font-medium text-fg-primary'
+            }`}
+          >
+            {item.label}
+          </Text>
+        </Pressable>
+      );
+    })}
   </View>
 );

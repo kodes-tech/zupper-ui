@@ -34,3 +34,6 @@ export const SecondaryWithIcon = {
 };
 
 export const Ghost = { args: { label: 'Sair da minha conta zupper', variant: 'ghost' } };
+
+// Botão de largura total, usado no CTA "Publicar" dos formulários.
+export const FullWidth = { args: { label: 'Publicar', fullWidth: true } };

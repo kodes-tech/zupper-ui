@@ -7,3 +7,4 @@ export * from './FilterChip';
 export * from './Icon';
 export * from './Input';
 export * from './RoleBadge';
+export * from './Textarea';

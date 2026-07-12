@@ -11,3 +11,17 @@ export default {
 };
 
 export const Default = { args: { title: 'Meu Perfil - Comunidade' } };
+export const ComIconeTitulo = { args: { title: 'Destinos em alta', titleIcon: 'fire-destinos' } };
+
+// Variante do formulário "Publicar conteúdo": ícone do tipo após o título e
+// fundo transparente (herda o cinza da tela).
+export const Publicar = {
+  args: { title: 'Publicar uma foto', trailingIcon: 'content-foto', background: 'transparent' },
+  decorators: [
+    (Story: React.ComponentType) => (
+      <View style={{ width: 390, backgroundColor: '#f5f5f5' }}>
+        <Story />
+      </View>
+    ),
+  ],
+};

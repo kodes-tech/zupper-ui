@@ -25,6 +25,8 @@ export type OfferCardProps = PressableProps & {
   dateRange: string;
   /** Texto do CTA (ex.: "Ver passagens"). */
   ctaLabel: string;
+  /** Ocupa a largura do container (linha com `flex`). Padrão: largura fixa de 160px (carrossel). */
+  fill?: boolean;
 };
 
 // LinearGradient é ortogonal ao NativeWind (mesma exceção do Button/RoleBadge):
@@ -50,11 +52,14 @@ export const OfferCard = ({
   price,
   dateRange,
   ctaLabel,
+  fill = false,
   ...rest
 }: OfferCardProps): React.ReactElement => (
   <Pressable
     accessibilityRole="button"
-    className="w-[160px] gap-lg rounded-xxl border border-border-default bg-surface-default p-lg"
+    className={`gap-lg rounded-xxl border border-border-default bg-surface-default p-lg ${
+      fill ? 'flex-1' : 'w-[160px]'
+    }`}
     {...rest}
   >
     <View className="w-full flex-row items-center justify-between rounded-pill bg-brand-cardSurface px-md py-xs">

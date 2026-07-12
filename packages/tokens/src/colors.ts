@@ -57,6 +57,8 @@ export const colors = {
   feedback: {
     // TODO(Figma): sem estado de erro no Figma novo — valor espelhado do @zupper/app-ui
     danger: '#EF4444', // Accents/Amsterdam 500 — texto do Button ghost ("Sair da minha conta") e borda/mensagem de erro do Input
+    success: '#44BA68', // status "Completo" (Minha conta — Dados pessoais)
+    warning: '#EAB308', // status "Pendente" (Minha conta — Endereço/Preferências)
   },
 } as const;
 

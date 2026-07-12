@@ -67,6 +67,9 @@ const registry = {
 
 export type IconName = keyof typeof registry;
 
+/** Todos os nomes de ícone registrados (para galerias, pickers e o audit visual). */
+export const iconNames = Object.keys(registry) as IconName[];
+
 export type IconProps = SvgProps & {
   name: IconName;
   /** Largura = altura, em dp. Default 24. */

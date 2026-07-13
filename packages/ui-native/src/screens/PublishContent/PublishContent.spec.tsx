@@ -71,4 +71,23 @@ describe('PublishContent', () => {
     fireEvent.press(screen.getByText('Adicionar novo dia no roteiro'));
     expect(onAddDay).toHaveBeenCalledTimes(1);
   });
+
+  // No Figma o estado vazio de foto/dica não tem CTA de publicar — só o roteiro
+  // mostra o pill desabilitado.
+  it.each(['foto', 'dica'] as const)(
+    'hides the publish CTA on the empty %s variant',
+    (type) => {
+      render(<PublishContent type={type} categories={categories} canPublish={false} />);
+      expect(screen.queryByText('Publicar')).toBeNull();
+    },
+  );
+
+  it.each(['foto', 'dica'] as const)('shows the publish CTA on a ready %s', (type) => {
+    const onPublish = jest.fn();
+    render(
+      <PublishContent type={type} categories={categories} canPublish onPublish={onPublish} />,
+    );
+    fireEvent.press(screen.getByText('Publicar'));
+    expect(onPublish).toHaveBeenCalledTimes(1);
+  });
 });

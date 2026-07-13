@@ -103,6 +103,15 @@ export const FotoVazio = {
   },
 };
 
+/** Dica — estado vazio: só placeholders e, como no Figma, sem o CTA de publicar. */
+export const DicaVazio = {
+  args: {
+    type: 'dica',
+    destination: undefined,
+    canPublish: false,
+  },
+};
+
 export const Dica = {
   args: {
     type: 'dica',

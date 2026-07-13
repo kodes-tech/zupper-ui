@@ -59,6 +59,13 @@ export const colors = {
     danger: '#EF4444', // Accents/Amsterdam 500 — texto do Button ghost ("Sair da minha conta") e borda/mensagem de erro do Input
     success: '#44BA68', // status "Completo" (Minha conta — Dados pessoais)
     warning: '#EAB308', // status "Pendente" (Minha conta — Endereço/Preferências)
+    // Pares superfície/conteúdo dos banners de moderação (StatusBanner). Precisam
+    // de contraste sobre fundo claro, por isso não reaproveitam danger/warning
+    // acima, que são cores de ponto/status e não de texto sobre superfície.
+    warningSurface: '#FEF9C3', // banner "Publicação em análise"
+    warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
+    dangerSurface: '#FEE2E2', // banner "Publicação removida"
+    dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
   },
 } as const;
 

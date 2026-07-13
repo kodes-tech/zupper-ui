@@ -14,4 +14,6 @@ export * from './RoteiroDayCard';
 export * from './RoteiroDayForm';
 export * from './SearchField';
 export * from './SelectField';
+export * from './SheetOption';
 export * from './SocialBar';
+export * from './StatusBanner';

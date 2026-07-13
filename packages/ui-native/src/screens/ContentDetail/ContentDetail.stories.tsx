@@ -5,6 +5,11 @@ import { ContentDetail } from './ContentDetail';
 import type { ContentOffer } from './ContentDetail';
 import type { Comment } from '../../molecules/CommentThread';
 import type { RoteiroDayCardProps } from '../../molecules/RoteiroDayCard';
+import { NotInterestedSheet } from '../../organisms/NotInterestedSheet';
+import { PostActionsSheet } from '../../organisms/PostActionsSheet';
+import { ReportReasonsSheet } from '../../organisms/ReportReasonsSheet';
+import type { ReportReason } from '../../organisms/ReportReasonsSheet';
+import { ReportSentSheet } from '../../organisms/ReportSentSheet';
 
 const avatar = require('../../_figma/assets/photos/avatar-viajante.jpg');
 const fullPhoto = require('../../_figma/assets/photos/conteudo-foto-full.jpg');
@@ -146,5 +151,116 @@ export const Roteiro = {
     days: [day('Dia 1.'), day('Dia 2.'), day('Dia 3.')],
     offersTitle: 'Gostou do roteiro? Aproveite as ofertas',
     offers,
+  },
+};
+
+// ── Moderação ───────────────────────────────────────────────────────────────
+// Os quatro sheets abaixo entram pela prop `overlay`; os dois banners, por
+// `banner`. Quem decide o que está aberto é o app — a tela só compõe.
+
+const foto = {
+  type: 'foto' as const,
+  title: 'Foto',
+  author: { ...author, location: 'Cais do Sertão - Recife, PE' },
+  photo: fullPhoto,
+};
+
+const reportReasons: ReportReason[] = [
+  { id: 'spam', label: 'Spam ou propaganda enganosa' },
+  { id: 'improprio', label: 'Conteúdo impróprio ou ofensivo' },
+  { id: 'informacao-falsa', label: 'Informação falsa sobre o destino' },
+  { id: 'odio', label: 'Discurso de ódio ou bullying' },
+  { id: 'golpe', label: 'Golpe ou fraude' },
+  { id: 'fora-de-contexto', label: 'Não é sobre viagem / fora de contexto' },
+];
+
+/** Menu de ações da publicação, aberto pelo "..." da barra social. */
+export const MenuDeAcoes = {
+  args: {
+    ...foto,
+    overlay: (
+      <PostActionsSheet
+        onSave={action('onSave')}
+        onNotInterested={action('onNotInterested')}
+        onShare={action('onShare')}
+        onReport={action('onReport')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** Denúncia, passo 1: escolha do motivo. */
+export const DenunciaMotivos = {
+  args: {
+    ...foto,
+    overlay: (
+      <ReportReasonsSheet
+        reasons={reportReasons}
+        onSelectReason={action('onSelectReason')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** Denúncia, passo 2: confirmação de envio. */
+export const DenunciaEnviada = {
+  args: {
+    ...foto,
+    overlay: (
+      <ReportSentSheet
+        onDone={action('onDone')}
+        onBlockAuthor={action('onBlockAuthor')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** "Não tenho interesse" — confirmação + ajustes de feed. */
+export const NaoTenhoInteresse = {
+  args: {
+    ...foto,
+    overlay: (
+      <NotInterestedSheet
+        destination="Recife"
+        onSeeLessDestination={action('onSeeLessDestination')}
+        onSeeLessAuthor={action('onSeeLessAuthor')}
+        onSeeLessPhotos={action('onSeeLessPhotos')}
+        onUndo={action('onUndo')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** Visão do autor: a publicação foi denunciada e está sob análise. */
+export const ConteudoEmAnalise = {
+  args: {
+    ...foto,
+    banner: {
+      tone: 'warning',
+      title: 'Publicação em análise',
+      description:
+        'Recebemos uma denúncia sobre esta publicação. Nossa equipe está avaliando e ela segue visível por enquanto. Avisaremos o resultado.',
+      actionLabel: 'Entenda as regras da comunidade',
+      onPressAction: action('onPressAction'),
+    },
+  },
+};
+
+/** Visão do autor: a publicação foi removida pela moderação. */
+export const ConteudoRemovido = {
+  args: {
+    ...foto,
+    banner: {
+      tone: 'danger',
+      title: 'Publicação removida',
+      description:
+        'Esta publicação foi removida por violar as diretrizes da comunidade Zupper (motivo: informação incorreta sobre o destino). Ela não está mais visível para outros viajantes.',
+      actionLabel: 'Contestar decisão',
+      onPressAction: action('onPressAction'),
+    },
   },
 };

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { action } from '@storybook/addon-actions';
 import { CommunityProfile } from './CommunityProfile';
 import type { ProfilePost, ProfilePostSection } from './CommunityProfile';
+import { PublishedModal } from '../../organisms/PublishedModal';
 
 const avatarViajante = require('../../_figma/assets/photos/avatar-viajante.jpg');
 const emptyIllustration = require('../../_figma/assets/illustrations/empty-comunidade.png');
@@ -96,4 +97,33 @@ export const Roteiros = { args: { tab: 'roteiros' } };
 /** Estado "Sem conteúdo": nenhuma publicação em nenhuma aba → ilustração + chamada pra publicar. */
 export const SemConteudo = {
   args: { tab: 'fotos', photos: [], dicaSections: [], roteiroSections: [] },
+};
+
+// ── Feedback de publicação ──────────────────────────────────────────────────
+// O modal entra pela prop `overlay`: o app abre ao voltar de "Publicar conteúdo".
+// `autoDismissMs` fica de fora de propósito — no Figma o modal se fecha sozinho
+// em 3s, o que aqui só faria a story sumir enquanto se olha pra ela.
+
+/** Voltando de "Publicar conteúdo — Foto": modal de sucesso sobre o perfil. */
+export const FotoPublicada = {
+  args: {
+    tab: 'fotos',
+    overlay: <PublishedModal type="foto" onDismiss={action('onDismiss')} />,
+  },
+};
+
+/** Voltando de "Publicar conteúdo — Dica". */
+export const DicaPublicada = {
+  args: {
+    tab: 'fotos',
+    overlay: <PublishedModal type="dica" onDismiss={action('onDismiss')} />,
+  },
+};
+
+/** Voltando de "Publicar conteúdo — Roteiro". */
+export const RoteiroPublicado = {
+  args: {
+    tab: 'fotos',
+    overlay: <PublishedModal type="roteiro" onDismiss={action('onDismiss')} />,
+  },
 };

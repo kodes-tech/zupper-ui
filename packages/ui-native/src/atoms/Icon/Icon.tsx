@@ -59,6 +59,7 @@ const registry = {
   'roteiro-card-edit': Svgs.RoteiroCardEdit,
   'add-day': Svgs.AddDay,
   publish: Svgs.Publish,
+  'status-success': Svgs.StatusSuccess,
   'tab-dicas-active': Svgs.TabDicasActive,
   'tab-dicas-inactive': Svgs.TabDicasInactive,
   'tab-fotos-active': Svgs.TabFotosActive,

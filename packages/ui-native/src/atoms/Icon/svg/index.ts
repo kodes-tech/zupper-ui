@@ -52,6 +52,7 @@ export { default as SocialShare } from './SocialShare';
 export { default as TabDicasActive } from './TabDicasActive';
 export { default as TabDicasInactive } from './TabDicasInactive';
 export { default as TabFotosActive } from './TabFotosActive';
+export { default as StatusSuccess } from './StatusSuccess';
 export { default as TabFotosInactive } from './TabFotosInactive';
 export { default as TabRoteirosActive } from './TabRoteirosActive';
 export { default as TabRoteirosInactive } from './TabRoteirosInactive';

@@ -23,8 +23,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "jest",
-    "prepare": "tsc -p tsconfig.json"
+    "test": "jest"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

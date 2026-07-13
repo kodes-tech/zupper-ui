@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { ContentDetail } from './ContentDetail';
 import type { ContentOffer } from './ContentDetail';
+import { PostActionsSheet } from '../../organisms/PostActionsSheet';
 
 const author = {
   name: 'Carlos Souza',
@@ -83,5 +84,41 @@ describe('ContentDetail', () => {
       />,
     );
     expect(screen.queryByText('Ver passagens')).toBeNull();
+  });
+
+  it('renders the moderation banner when given one', () => {
+    render(
+      <ContentDetail
+        type="foto"
+        title="Foto"
+        banner={{
+          tone: 'warning',
+          title: 'Publicação em análise',
+          description: 'Nossa equipe está avaliando.',
+          actionLabel: 'Entenda as regras da comunidade',
+        }}
+        author={author}
+        photo={{ uri: 'photo' }}
+        likes={0}
+        commentCount={0}
+      />,
+    );
+    expect(screen.getByText('Publicação em análise')).toBeOnTheScreen();
+    expect(screen.getByText('Entenda as regras da comunidade')).toBeOnTheScreen();
+  });
+
+  it('renders the overlay above the screen', () => {
+    render(
+      <ContentDetail
+        type="foto"
+        title="Foto"
+        author={author}
+        photo={{ uri: 'photo' }}
+        likes={0}
+        commentCount={0}
+        overlay={<PostActionsSheet />}
+      />,
+    );
+    expect(screen.getByText('Denunciar')).toBeOnTheScreen();
   });
 });

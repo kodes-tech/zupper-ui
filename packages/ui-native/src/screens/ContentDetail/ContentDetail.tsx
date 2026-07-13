@@ -12,6 +12,8 @@ import type { OfferCardProps } from '../../molecules/OfferCard';
 import { RoteiroDayCard } from '../../molecules/RoteiroDayCard';
 import type { RoteiroDayCardProps } from '../../molecules/RoteiroDayCard';
 import { SocialBar } from '../../molecules/SocialBar';
+import { StatusBanner } from '../../molecules/StatusBanner';
+import type { StatusBannerProps } from '../../molecules/StatusBanner';
 import { BottomNav } from '../../organisms/BottomNav';
 import type { BottomNavKey } from '../../organisms/BottomNav';
 import { ScreenHeader } from '../../organisms/ScreenHeader';
@@ -23,6 +25,11 @@ export type ContentDetailProps = {
   type: ContentType;
   /** Título da barra de topo (ex.: "Foto" / "Dica" / "Roteiro"). */
   title: string;
+  /**
+   * Aviso de moderação exibido ao autor acima do conteúdo ("Publicação em
+   * análise" / "Publicação removida"). Só o autor vê — quem decide é o app.
+   */
+  banner?: StatusBannerProps;
   author: ContentAuthorProps;
   /** Foto em tela cheia (variante `foto`). */
   photo?: ImageSourcePropType;
@@ -49,6 +56,12 @@ export type ContentDetailProps = {
   comments?: Comment[];
   commentDraft?: string;
   active?: BottomNavKey;
+  /**
+   * Camada sobreposta à tela — o bottom sheet aberto no momento (menu de ações,
+   * motivos da denúncia, denúncia enviada, "não tenho interesse"). Quem controla
+   * qual sheet está aberto é o app; a tela só o renderiza por cima.
+   */
+  overlay?: React.ReactNode;
   onBack?: () => void;
   onLike?: () => void;
   onComment?: () => void;
@@ -89,6 +102,7 @@ const MetaRow = ({ date, readingTime }: { date?: string; readingTime?: string })
 export const ContentDetail = ({
   type,
   title,
+  banner,
   author,
   photo,
   contentTitle,
@@ -106,6 +120,7 @@ export const ContentDetail = ({
   comments = [],
   commentDraft,
   active,
+  overlay,
   onBack,
   onLike,
   onComment,
@@ -119,6 +134,11 @@ export const ContentDetail = ({
   <View className="flex-1 bg-surface-tag">
     <ScrollView showsVerticalScrollIndicator={false}>
       <ScreenHeader title={title} onBack={onBack} />
+      {banner ? (
+        <View className="bg-surface-default px-xl pt-md">
+          <StatusBanner {...banner} />
+        </View>
+      ) : null}
       <ContentAuthor {...author} />
 
       {type === 'foto' && photo ? (
@@ -186,5 +206,7 @@ export const ContentDetail = ({
     </ScrollView>
 
     <BottomNav active={active} onNavigate={onNavigate} />
+
+    {overlay}
   </View>
 );

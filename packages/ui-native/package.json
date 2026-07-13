@@ -31,7 +31,9 @@
     "prepare": "tsc -p ../tokens/tsconfig.json && bob build",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "icons:audit": "node scripts/audit-icons.mjs",
+    "icons:generate": "node scripts/generate-icon.mjs"
   },
   "publishConfig": {
     "access": "restricted"

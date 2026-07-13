@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { colors } from '@zupper/tokens';
+import { colors } from '@kodes-tech/tokens';
 import { Input } from './Input';
 
 describe('Input', () => {

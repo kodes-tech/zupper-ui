@@ -1,4 +1,4 @@
-import { colors } from '@zupper/tokens';
+import { colors } from '@kodes-tech/tokens';
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';

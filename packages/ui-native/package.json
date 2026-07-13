@@ -1,7 +1,7 @@
 {
-  "name": "@zupper/ui-native",
-  "version": "0.1.0",
-  "description": "Componentes React Native do design system Zupper (Community). Consome @zupper/tokens.",
+  "name": "@kodes-tech/ui-native",
+  "version": "0.1.1",
+  "description": "Componentes React Native do design system Zupper (Community). Consome @kodes-tech/tokens.",
   "license": "UNLICENSED",
   "source": "src/index.ts",
   "main": "lib/commonjs/index.js",
@@ -36,10 +36,10 @@
     "icons:generate": "node scripts/generate-icon.mjs"
   },
   "publishConfig": {
-    "access": "restricted"
+    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@zupper/tokens": "^0.1.0"
+    "@kodes-tech/tokens": "^0.1.1"
   },
   "peerDependencies": {
     "nativewind": ">=4.1",

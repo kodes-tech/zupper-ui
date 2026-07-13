@@ -1,4 +1,4 @@
-const { tailwindPreset } = require('@zupper/tokens/tailwind');
+const { tailwindPreset } = require('@kodes-tech/tokens/tailwind');
 
 /**
  * Tailwind da lib — usado pelo harness local (Storybook/jest).
@@ -6,7 +6,7 @@ const { tailwindPreset } = require('@zupper/tokens/tailwind');
  * `tailwindPreset` (dos tokens) injeta cores/spacing/radius/tipografia do Zupper.
  *
  * ⚠️ O **zupper-app** tem o SEU próprio tailwind.config.js — ele soma estes dois
- * presets E inclui `@zupper/ui-native` no `content` (ver docs/nativewind-zupper-app.md).
+ * presets E inclui `@kodes-tech/ui-native` no `content` (ver docs/nativewind-zupper-app.md).
  *
  * @type {import('tailwindcss').Config}
  */

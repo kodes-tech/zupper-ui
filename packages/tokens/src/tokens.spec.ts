@@ -1,6 +1,6 @@
 import { tokens, colors, spacing, typography, radii, elevation, sizes } from './index';
 
-describe('@zupper/tokens', () => {
+describe('@kodes-tech/tokens', () => {
   it('exposes all groups in the aggregate object', () => {
     expect(tokens).toMatchObject({
       colors,

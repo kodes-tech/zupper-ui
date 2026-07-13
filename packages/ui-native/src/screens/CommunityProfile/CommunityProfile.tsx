@@ -32,6 +32,11 @@ export type CommunityProfileProps = {
    * prop (o pacote não empacota assets do `_figma`); a story fornece o arquivo.
    */
   emptyIllustration?: ImageSourcePropType;
+  /**
+   * Camada sobreposta à tela — hoje, o modal de "conteúdo publicado" que aparece
+   * ao voltar de "Publicar conteúdo". Quem decide se está aberto é o app.
+   */
+  overlay?: React.ReactNode;
   onBack?: () => void;
   onTabChange?: (tab: ProfileTab) => void;
   onPublish?: () => void;
@@ -54,6 +59,7 @@ export const CommunityProfile = ({
   dicaSections = [],
   roteiroSections = [],
   emptyIllustration,
+  overlay,
   onBack,
   onTabChange,
   onPublish,
@@ -136,6 +142,8 @@ export const CommunityProfile = ({
       </View>
 
       <BottomNav onNavigate={onNavigate} />
+
+      {overlay}
     </View>
   );
 };

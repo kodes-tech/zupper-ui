@@ -8,7 +8,7 @@ export type BadgeProps = {
   tone?: BadgeTone;
 };
 
-// Classes vindas dos tokens (ver @zupper/tokens/tailwind): cores, radius, spacing e tipografia.
+// Classes vindas dos tokens (ver @kodes-tech/tokens/tailwind): cores, radius, spacing e tipografia.
 const containerByTone: Record<BadgeTone, string> = {
   neutral: 'bg-surface-tag',
   brand: 'bg-brand-chipSurface',

@@ -36,7 +36,7 @@ const composedFontSize = Object.fromEntries(
  * Figma "Zupper 2.0" — Community).
  *
  * Fonte ÚNICA da ponte tokens → utilitários. É compartilhado por:
- *  - `@zupper/ui-native` (Storybook/jest — `tailwind.config.js` da lib);
+ *  - `@kodes-tech/ui-native` (Storybook/jest — `tailwind.config.js` da lib);
  *  - o `tailwind.config.js` do **zupper-app** (que soma este preset ao seu).
  *
  * Não depende de `nativewind` — o consumidor soma `nativewind/preset` por cima.

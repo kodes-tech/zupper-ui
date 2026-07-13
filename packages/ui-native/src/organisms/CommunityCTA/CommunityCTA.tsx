@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import { colors } from '@zupper/tokens';
+import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 import type { IconName } from '../../atoms/Icon';
 

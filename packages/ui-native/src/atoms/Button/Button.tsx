@@ -2,7 +2,7 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 import type { PressableProps } from 'react-native';
-import { colors, radii, spacing } from '@zupper/tokens';
+import { colors, radii, spacing } from '@kodes-tech/tokens';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 

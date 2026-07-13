@@ -1,10 +1,10 @@
-# @zupper/ui-native
+# @kodes-tech/ui-native
 
-Componentes **React Native** do design system Zupper (Community). Consome `@zupper/tokens`.
+Componentes **React Native** do design system Zupper (Community). Consome `@kodes-tech/tokens`.
 Estilização via **NativeWind** (`className`), com os tokens expostos como preset Tailwind.
 
 ```tsx
-import { Badge } from "@zupper/ui-native";
+import { Badge } from '@kodes-tech/ui-native';
 
 <Badge label='Viajante' tone='brand' />;
 ```
@@ -42,9 +42,9 @@ E exportar no `index.ts` do nível (ex.: `atoms/index.ts`).
 
 ```bash
 npm install            # na raiz do zupper-ui (workspaces)
-npm run storybook -w @zupper/ui-native   # preview visual no navegador (via react-native-web)
-npm test        -w @zupper/ui-native     # jest + @testing-library/react-native
-npm run build   -w @zupper/ui-native     # builder-bob (compila lib/)
+npm run storybook -w @kodes-tech/ui-native   # preview visual no navegador (via react-native-web)
+npm test        -w @kodes-tech/ui-native     # jest + @testing-library/react-native
+npm run build   -w @kodes-tech/ui-native     # builder-bob (compila lib/)
 ```
 
 - **Storybook** (web/RNW): vê e revisa componentes **sem simulador e sem backend**. Stories em `*.stories.tsx`.

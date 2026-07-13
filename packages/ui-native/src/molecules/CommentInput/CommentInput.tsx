@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import { colors, radii } from '@zupper/tokens';
+import { colors, radii } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 
 export type CommentInputProps = {

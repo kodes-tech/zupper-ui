@@ -2,7 +2,7 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text } from 'react-native';
 import type { PressableProps } from 'react-native';
-import { colors } from '@zupper/tokens';
+import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 
 export type SearchFieldProps = PressableProps & {

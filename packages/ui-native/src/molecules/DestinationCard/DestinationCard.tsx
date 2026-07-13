@@ -2,7 +2,7 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Image, Pressable, Text, View } from 'react-native';
 import type { ImageSourcePropType, PressableProps } from 'react-native';
-import { colors } from '@zupper/tokens';
+import { colors } from '@kodes-tech/tokens';
 
 export type DestinationCardProps = PressableProps & {
   name: string;

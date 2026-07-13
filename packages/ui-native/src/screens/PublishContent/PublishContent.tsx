@@ -9,6 +9,8 @@ import { Input } from '../../atoms/Input';
 import { Textarea } from '../../atoms/Textarea';
 import { RoteiroDayCard } from '../../molecules/RoteiroDayCard';
 import type { RoteiroStop } from '../../molecules/RoteiroDayCard';
+import { RoteiroDayForm } from '../../molecules/RoteiroDayForm';
+import type { RoteiroDayFormProps } from '../../molecules/RoteiroDayForm';
 import { SelectField } from '../../molecules/SelectField';
 import { BottomNav } from '../../organisms/BottomNav';
 import type { BottomNavKey } from '../../organisms/BottomNav';
@@ -36,6 +38,11 @@ export type PublishContentProps = {
   summary?: string;
   /** Dias do roteiro (variante `roteiro`). */
   days?: PublishDay[];
+  /**
+   * Dia em edição (wizard "adicionar dia", variante `roteiro`). Quando definido,
+   * abre o formulário do dia e esconde "Adicionar novo dia" e "Publicar".
+   */
+  editingDay?: RoteiroDayFormProps;
   /** Localização (variantes `foto`/`dica`). */
   location?: string;
   /** Habilita o botão de publicar (no roteiro começa desabilitado, como no Figma). */
@@ -43,7 +50,12 @@ export type PublishContentProps = {
   active?: BottomNavKey;
   onBack?: () => void;
   onSelectDestination?: () => void;
+  /** Trocar a mídia já selecionada (lápis, variante `foto` preenchida). */
   onChangeMedia?: () => void;
+  /** Abrir a galeria (variante `foto` vazia). */
+  onPickGallery?: () => void;
+  /** Abrir a câmera (variante `foto` vazia). */
+  onPickCamera?: () => void;
   onChangeCaption?: (text: string) => void;
   onChangeTitle?: (text: string) => void;
   onChangeTip?: (text: string) => void;
@@ -72,6 +84,27 @@ const FieldLabel = ({ children }: { children: string }) => (
   <Text className="font-sans text-authorName text-fg-primary">{children}</Text>
 );
 
+/** Quadro do picker de mídia (Galeria / Tirar Foto) do estado vazio da variante `foto`. */
+const MediaPickerBox = ({
+  icon,
+  label,
+  onPress,
+}: {
+  icon: IconName;
+  label: string;
+  onPress?: () => void;
+}) => (
+  <Pressable
+    accessibilityRole="button"
+    accessibilityLabel={label}
+    onPress={onPress}
+    className="h-[111px] flex-1 items-center justify-center gap-[12px] rounded-[10px] border border-brand-borderHighlight bg-surface-default"
+  >
+    <Icon name={icon} size={40} />
+    <Text className="font-sans text-authorName text-fg-secondary">{label}</Text>
+  </Pressable>
+);
+
 /**
  * PublishContent — "Publicar conteúdo": formulário de criação de post nas três
  * variantes (Foto / Dica / Roteiro). Header + campos por tipo + categorias +
@@ -89,12 +122,15 @@ export const PublishContent = ({
   tipText,
   summary,
   days = [],
+  editingDay,
   location,
   canPublish = false,
   active,
   onBack,
   onSelectDestination,
   onChangeMedia,
+  onPickGallery,
+  onPickCamera,
   onChangeCaption,
   onChangeTitle,
   onChangeTip,
@@ -127,17 +163,24 @@ export const PublishContent = ({
           <>
             <View className="flex-row items-center justify-between gap-md">
               <FieldLabel>Selecione a mídia que deseja publicar</FieldLabel>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Trocar mídia"
-                onPress={onChangeMedia}
-              >
-                <Icon name="edit" size={24} />
-              </Pressable>
+              {media ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Trocar mídia"
+                  onPress={onChangeMedia}
+                >
+                  <Icon name="edit" size={24} />
+                </Pressable>
+              ) : null}
             </View>
             {media ? (
               <Image source={media} resizeMode="cover" className="h-[314px] w-full rounded-[10px]" />
-            ) : null}
+            ) : (
+              <View className="w-full flex-row gap-md">
+                <MediaPickerBox icon="media-gallery" label="Galeria" onPress={onPickGallery} />
+                <MediaPickerBox icon="media-camera" label="Tirar Foto" onPress={onPickCamera} />
+              </View>
+            )}
             <FieldLabel>Legenda</FieldLabel>
             <Textarea
               value={caption}
@@ -199,16 +242,20 @@ export const PublishContent = ({
                 onEdit={() => onEditDay?.(dayItem.id)}
               />
             ))}
-            <Pressable
-              accessibilityRole="button"
-              onPress={onAddDay}
-              className="w-full flex-row items-center justify-between rounded-pill border border-brand-borderHighlight bg-surface-default p-lg"
-            >
-              <Text className="font-sans text-buttonLabel text-brand-strong">
-                Adicionar novo dia no roteiro
-              </Text>
-              <Icon name="add-day" size={20} />
-            </Pressable>
+            {editingDay ? (
+              <RoteiroDayForm {...editingDay} />
+            ) : (
+              <Pressable
+                accessibilityRole="button"
+                onPress={onAddDay}
+                className="w-full flex-row items-center justify-between rounded-pill border border-brand-borderHighlight bg-surface-default p-lg"
+              >
+                <Text className="font-sans text-buttonLabel text-brand-strong">
+                  Adicionar novo dia no roteiro
+                </Text>
+                <Icon name="add-day" size={20} />
+              </Pressable>
+            )}
           </>
         ) : null}
 
@@ -223,7 +270,8 @@ export const PublishContent = ({
           </>
         ) : null}
 
-        {type === 'roteiro' && !canPublish ? (
+        {/* No wizard de adicionar dia, a navegação é do próprio formulário (Anterior/Próximo). */}
+        {type === 'roteiro' && editingDay ? null : type === 'roteiro' && !canPublish ? (
           <View className="w-full rounded-pill border border-border-default bg-surface-default p-lg">
             <Text className="text-center font-sans text-buttonLabel text-fg-muted">
               Publicar roteiro

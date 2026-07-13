@@ -51,6 +51,8 @@ export default {
     onBack: action('onBack'),
     onSelectDestination: action('onSelectDestination'),
     onChangeMedia: action('onChangeMedia'),
+    onPickGallery: action('onPickGallery'),
+    onPickCamera: action('onPickCamera'),
     onChangeCaption: action('onChangeCaption'),
     onChangeTitle: action('onChangeTitle'),
     onChangeTip: action('onChangeTip'),
@@ -92,6 +94,15 @@ export const Foto = {
   },
 };
 
+/** Foto — estado vazio: sem mídia selecionada, mostra o picker Galeria / Tirar Foto. */
+export const FotoVazio = {
+  args: {
+    type: 'foto',
+    destination: undefined,
+    canPublish: false,
+  },
+};
+
 export const Dica = {
   args: {
     type: 'dica',
@@ -113,5 +124,35 @@ export const Roteiro = {
       'Descubra Recife em 7 dias explorando seu centro histórico vibrante e suas praias deslumbrantes.',
     days,
     canPublish: false,
+  },
+};
+
+const periods = [
+  { id: 'manha', label: 'Manhã' },
+  { id: 'tarde', label: 'Tarde' },
+  { id: 'noite', label: 'Noite' },
+];
+
+/** Roteiro — wizard "adicionar dia": abre o formulário de edição do Dia 1 (vazio). */
+export const RoteiroAdicionarDia = {
+  args: {
+    type: 'roteiro',
+    contentTitle: 'Explorando os encantos do Recife Antigo',
+    selectedCategoryId: 'gastronomia',
+    summary:
+      'Descubra Recife em 7 dias explorando seu centro histórico vibrante e suas praias deslumbrantes.',
+    days: [],
+    editingDay: {
+      day: 'Dia 1',
+      periods,
+      selectedPeriodId: 'manha',
+      canGoNext: false,
+      onChangeTitle: action('onChangeTitle'),
+      onSelectPeriod: action('onSelectPeriod'),
+      onChangeLocal: action('onChangeLocal'),
+      onChangeTip: action('onChangeTip'),
+      onPrev: action('onPrev'),
+      onNext: action('onNext'),
+    },
   },
 };

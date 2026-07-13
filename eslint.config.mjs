@@ -46,11 +46,15 @@ export default tseslint.config(
     files: ['**/*.spec.{ts,tsx}', '**/*.stories.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+      // stories usam `require('...jpg/png')` pra assets estáticos (idioma do
+      // Metro/React Native pra imagens) — só faz sentido barrar require em produção.
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
   {
     // Scripts Node do repo (ferramentas) — globals do Node (console, process, Buffer, URL…).
-    files: ['scripts/**/*.{js,mjs}'],
+    // Inclui os scripts na raiz e os de cada pacote (ex.: packages/ui-native/scripts).
+    files: ['scripts/**/*.{js,mjs}', '**/scripts/**/*.{js,mjs}'],
     languageOptions: {
       globals: globals.node,
     },

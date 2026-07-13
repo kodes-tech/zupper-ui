@@ -15,6 +15,8 @@ const registry = {
   community: Svgs.Community,
   heart: Svgs.Heart,
   location: Svgs.Location,
+  'media-gallery': Svgs.MediaGallery,
+  'media-camera': Svgs.MediaCamera,
   verified: Svgs.Verified,
   'dot-separator': Svgs.DotSeparator,
   'content-dica': Svgs.ContentDica,

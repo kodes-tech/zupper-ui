@@ -5,6 +5,7 @@ import { CommunityProfile } from './CommunityProfile';
 import type { ProfilePost, ProfilePostSection } from './CommunityProfile';
 
 const avatarViajante = require('../../_figma/assets/photos/avatar-viajante.jpg');
+const emptyIllustration = require('../../_figma/assets/illustrations/empty-comunidade.png');
 const postAvatar = require('../../_figma/assets/photos/post-avatar-carlos.png');
 const grid = [
   require('../../_figma/assets/photos/comunidade-grid-01.jpg'),
@@ -63,6 +64,7 @@ export default {
     photos: grid,
     dicaSections,
     roteiroSections,
+    emptyIllustration,
     onBack: action('onBack'),
     onTabChange: action('onTabChange'),
     onPublish: action('onPublish'),
@@ -90,3 +92,8 @@ export default {
 export const Fotos = { args: { tab: 'fotos' } };
 export const Dicas = { args: { tab: 'dicas' } };
 export const Roteiros = { args: { tab: 'roteiros' } };
+
+/** Estado "Sem conteúdo": nenhuma publicação em nenhuma aba → ilustração + chamada pra publicar. */
+export const SemConteudo = {
+  args: { tab: 'fotos', photos: [], dicaSections: [], roteiroSections: [] },
+};

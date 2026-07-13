@@ -6,7 +6,7 @@ module.exports = {
     '^@kodes-tech/tokens$': '<rootDir>/../tokens/src/index.ts',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(?:@react-native|react-native|styled-components)/)',
+    'node_modules/(?!(?:@react-native|react-native|styled-components|nativewind|react-native-css-interop|react-native-reanimated|react-native-safe-area-context|react-native-linear-gradient|react-native-svg)/)',
   ],
   testMatch: ['<rootDir>/src/**/*.spec.{ts,tsx}'],
 };

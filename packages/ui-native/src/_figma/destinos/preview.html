@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Destinos em alta — referência Figma (Ver todos)</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Cores vieram de get_variable_defs (Figma Dev Mode) nesse nó. */
+  :root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --text-primary: #262626;
+    --header-title: #1c1c1a;
+    --text-inverse: #ffffff;
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--text-primary);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  img { max-width: none; }
+
+  .page-header { max-width: 1200px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 680px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  .phone {
+    width: 390px;
+    max-width: 92vw;
+    height: 844px;
+    background: var(--color-bg);
+    border-radius: 36px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+  .screen-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  .nav-row { background: var(--color-surface); display: flex; align-items: center; justify-content: space-between; padding: 40px 24px 24px; }
+  .nav-row img { width: 24px; height: 24px; }
+  .nav-row .spacer { width: 24px; height: 24px; }
+  .nav-title-group { display: flex; align-items: center; gap: 4px; }
+  .nav-title { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0.32px; color: var(--header-title); }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
+  .card-destino { height: 150px; border-radius: 4px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .card-destino img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .card-destino::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 50.447%, rgba(0,0,0,0.4) 100%); }
+  .card-destino span { position: relative; z-index: 1; padding: 0 12px 12px; color: var(--text-inverse); font-weight: 700; font-size: 16px; line-height: 1.5; letter-spacing: 0.32px; }
+
+  .bottom-nav { flex-shrink: 0; background: var(--color-surface); display: flex; gap: 8px; padding: 16px 20px; width: 100%; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-primary); font-weight: 500; }
+  .nav-item img { width: 24px; height: 24px; }
+
+  .legend { max-width: 1200px; margin: 40px auto 0; font-size: 12px; color: #6b6b70; line-height: 1.6; }
+  @media (prefers-color-scheme: dark) { .legend { color: #9a9aa0; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Destinos em alta — referência visual (Figma Dev Mode)</h1>
+  <p>
+    Reprodução em CSS real da tela "Ver todos" de Destinos em alta — cores/spacing extraídos via
+    <code>get_variable_defs</code>/<code>get_design_context</code> escopado por instância. Ícones e foto reais em
+    <code>../assets/</code>.
+  </p>
+</div>
+
+<div class="screens">
+  <div class="screen-wrap">
+    <div class="screen-label">Ver todos</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="nav-row">
+          <img src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <div class="nav-title-group">
+            <img src="../../../../../assets/icons/fire-destinos.svg" alt="" />
+            <div class="nav-title">Destinos em alta</div>
+          </div>
+          <div class="spacer"></div>
+        </div>
+
+        <div class="grid">
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+          <div class="card-destino"><img class="bg" src="../assets/photos/card-destino.jpg" alt="" /><span>Destino</span></div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  Cores/spacing extraídos via <code>get_variable_defs</code> + <code>get_design_context</code> (Figma Dev Mode),
+  sempre escopado por instância. Ícone de fogo tem uma variação de cor real no Figma nesta tela
+  (<code>#F97316</code>) vs. o usado na seção "Destinos em alta" do Feed (<code>#EA580C</code>) — salvo como
+  arquivo separado (<code>icon-fire-destinos.svg</code>) em vez de forçar reaproveitamento. Foto do card e
+  ícones de Bottom Nav/seta reaproveitados dos assets já baixados (mesma instância no Figma, confirmado por
+  comparação de conteúdo). Nenhuma aba do Bottom Nav fica ativa aqui.
+</div>
+
+</body>
+</html>

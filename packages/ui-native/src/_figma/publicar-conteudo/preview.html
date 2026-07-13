@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Publicar conteúdo — referência Figma (Foto / Dica / Roteiro)</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Cores vieram de get_variable_defs (Figma Dev Mode) no nó 168:7109. */
+  :root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-border: #d4d4d4;
+    --color-border-highlight: #78c8ce;
+    --text-primary: #262626;
+    --text-secondary: #404040;
+    --text-muted: #a3a3a3;
+    --text-inverse: #ffffff;
+    --text-highlight: #008c99;
+    --header-title: #262626;
+    --brand-gradient-start: #4cbac7;
+    --brand-gradient-end: #008c99;
+    --connector-dot: #009daf;
+    --connector-line: #baf2f5;
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--text-primary);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  img { max-width: none; }
+
+  .page-header { max-width: 1200px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 680px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: nowrap; gap: 28px; align-items: flex-start; justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; -ms-overflow-style: none; }
+  .screens::-webkit-scrollbar { display: none; }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  .phone {
+    width: 390px;
+    max-width: 92vw;
+    height: 844px;
+    background: var(--color-bg);
+    border-radius: 36px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+  .screen-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  /* nav */
+  .nav-row { background: var(--color-bg); display: flex; align-items: center; justify-content: space-between; padding: 4px 24px; padding-top: 40px; padding-bottom: 24px; }
+  .nav-row img.nav-icon { width: 24px; height: 24px; }
+  .nav-row .spacer { width: 24px; height: 24px; }
+  .nav-title-group { display: flex; align-items: center; gap: 8px; }
+  .nav-title { font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: 0.32px; color: var(--header-title); white-space: nowrap; }
+  .nav-title-group img { width: 20px; height: 20px; }
+
+  /* body */
+  .body { display: flex; flex-direction: column; gap: 14px; padding: 16px; }
+  .field-label { font-size: 14px; font-weight: 700; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-primary); }
+  .field-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .field-row img.edit-icon { width: 24px; height: 24px; flex-shrink: 0; }
+
+  .dropdown { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: 12px 8px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .dropdown span { font-size: 14px; font-weight: 700; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary); }
+  .dropdown img { width: 24px; height: 24px; transform: rotate(-90deg); }
+
+  .input, .textarea {
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px;
+    padding: 12px 8px; width: 100%; font-size: 14px; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-secondary);
+  }
+  .textarea { white-space: pre-wrap; }
+  .textarea p { margin: 0 0 8px; }
+  .textarea p:last-child { margin-bottom: 0; }
+  .input.h-84 { height: 84px; }
+  .textarea.h-72 { height: 72px; }
+
+  .grid-upload { width: 100%; height: 314px; border-radius: 10px; overflow: hidden; }
+  .grid-upload img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .categoria-row { display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; }
+  .cta-categoria {
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px;
+    padding: 8px 4px; font-size: 14px; font-weight: 400; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .cta-categoria.selected { border-color: var(--color-border-highlight); color: var(--text-highlight); font-weight: 700; }
+
+  .cta-publicar {
+    width: 100%; padding: 12px; border-radius: 40px; text-align: center; color: var(--text-inverse);
+    font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px;
+    background: linear-gradient(164deg, var(--brand-gradient-start) 5.5%, var(--brand-gradient-end) 94.5%);
+  }
+
+  /* card-roteiro */
+  .card-roteiro { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px; width: 100%; }
+  .card-roteiro-header { border-bottom: 1px solid #e5e7eb; display: flex; align-items: flex-start; gap: 10px; height: 30px; }
+  .card-roteiro-header .dia { font-weight: 700; font-size: 18px; color: #009daf; white-space: nowrap; }
+  .card-roteiro-header .titulo { flex: 1; font-weight: 700; font-size: 18px; color: var(--text-primary); }
+  .card-roteiro-header img { width: 24px; height: 24px; flex-shrink: 0; }
+  .paradas { display: flex; flex-direction: column; gap: 10px; }
+  .parada { display: flex; gap: 10px; align-items: flex-start; }
+  .parada img { width: 10px; flex-shrink: 0; display: block; }
+  .parada img.tall { height: 49px; }
+  .parada img.short { height: 13px; }
+  .parada-info { display: flex; flex-direction: column; gap: 2px; }
+  .parada-info .periodo { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-muted); white-space: nowrap; }
+  .parada-info .titulo { font-size: 14px; font-weight: 700; line-height: 1.2; letter-spacing: 0.28px; color: var(--text-primary); }
+  .parada-info .desc { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+
+  .cta-outline {
+    width: 100%; padding: 12px; border-radius: 40px; background: var(--color-surface); border: 1px solid var(--color-border-highlight);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cta-outline span { font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; color: var(--text-highlight); }
+  .cta-outline img { width: 20px; height: 20px; }
+  .cta-disabled {
+    width: 100%; padding: 12px; border-radius: 40px; background: var(--color-surface); border: 1px solid var(--color-border);
+    text-align: center; font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: 0.28px; color: var(--text-muted);
+  }
+
+  /* bottom nav */
+  .bottom-nav { flex-shrink: 0; background: var(--color-surface); display: flex; gap: 8px; padding: 16px 20px; width: 100%; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-primary); font-weight: 500; }
+  .nav-item img { width: 24px; height: 24px; }
+  .nav-item.muted-label { color: #737373; }
+
+  .legend { max-width: 1200px; margin: 40px auto 0; font-size: 12px; color: #6b6b70; line-height: 1.6; }
+  @media (prefers-color-scheme: dark) { .legend { color: #9a9aa0; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Publicar conteúdo — referência visual (Figma Dev Mode)</h1>
+  <p>
+    Reprodução em CSS real das 3 variantes de "Publicar conteúdo" (Foto / Dica / Roteiro) —
+    cores/spacing extraídos via <code>get_variable_defs</code>/<code>get_design_context</code> escopado por
+    instância. Ícones e foto reais em <code>../assets/</code>; bottom nav de Foto/Dica reaproveitado das telas
+    anteriores (mesma instância no Figma). Ver <code>../README.md</code> antes de usar.
+  </p>
+</div>
+
+<div class="screens">
+
+  <!-- ================= FOTO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Foto</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="nav-row">
+          <img class="nav-icon" src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <div class="nav-title-group">
+            <div class="nav-title">Publicar uma foto</div>
+            <img src="../../../../../assets/icons/content-foto.svg" alt="" />
+          </div>
+          <div class="spacer"></div>
+        </div>
+
+        <div class="body">
+          <div class="field-label">Sobre qual destino você deseja publicar?</div>
+          <div class="dropdown"><span>Recife, PE</span><img src="../../../../../assets/icons/dropdown-arrow.svg" alt="" /></div>
+
+          <div class="field-row">
+            <div class="field-label">Selecione a mídia que deseja publicar</div>
+            <img class="edit-icon" src="../../../../../assets/icons/edit.svg" alt="" title="refresh/repeat — reabre a seleção de fotos" />
+          </div>
+          <div class="grid-upload"><img src="../assets/photos/publicar-foto-praia.jpg" alt="" /></div>
+
+          <div class="field-label">Legenda</div>
+          <div class="input h-84">Curtindo o sol radiante e a vibe incrível da praia de Recife!</div>
+
+          <div class="field-label">Categoria (opcional)</div>
+          <div class="categoria-row">
+            <div class="cta-categoria selected">Gastronomia</div>
+            <div class="cta-categoria">Hospedagem</div>
+            <div class="cta-categoria">Transporte</div>
+            <div class="cta-categoria">Transporte</div>
+            <div class="cta-categoria">Compras</div>
+          </div>
+
+          <div class="field-label">Localização (opcional)</div>
+          <div class="input">Praia de Boa Viagem - Recife, PE</div>
+
+          <div class="cta-publicar">Publicar</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DICA ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Dica</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="nav-row">
+          <img class="nav-icon" src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <div class="nav-title-group">
+            <div class="nav-title">Publicar uma dica</div>
+            <img src="../../../../../assets/icons/content-dica.svg" alt="" />
+          </div>
+          <div class="spacer"></div>
+        </div>
+
+        <div class="body">
+          <div class="field-label">Sobre qual destino você deseja publicar?</div>
+          <div class="dropdown"><span>Recife, PE</span><img src="../../../../../assets/icons/dropdown-arrow.svg" alt="" /></div>
+
+          <div class="field-label">Título da dica</div>
+          <div class="input">Explorando os encantos do Recife Antigo</div>
+
+          <div class="field-label">Categoria</div>
+          <div class="categoria-row">
+            <div class="cta-categoria">Gastronomia</div>
+            <div class="cta-categoria selected">Passeios</div>
+            <div class="cta-categoria">Hospedagem</div>
+            <div class="cta-categoria">Transporte</div>
+            <div class="cta-categoria">Compras</div>
+          </div>
+
+          <div class="field-label">Sua dica</div>
+          <div class="textarea">
+            <p>O centro histórico de Recife, conhecido como Recife Antigo, vale um dia inteirinho de visita. Não se limite a fazer aqueles city tours rapidões, que passam voando por lá e ainda incluem uma visita a Olinda e a shoppings. A região é cheia de atrações históricas e culturais, todas próximas umas das outras e tudo pode ser percorrido a pé.</p>
+            <p>Por isso, preparei uma listinha das atrações imperdíveis, com minhas impressões sobre os pontos turísticos do centro histórico de Recife e detalhes do meu roteiro a pé. Viajei sozinha e me senti segura.</p>
+            <p>Do museu em que você vai ficar sabendo mais sobre a vida de Luiz Gonzaga até uma oficina de frevo, passando pelo famoso Marco Zero, você vai se divertir muito no Recife Antigo!</p>
+          </div>
+
+          <div class="field-label">Localização (opcional)</div>
+          <div class="input">Centro Histórico de Recife</div>
+
+          <div class="cta-publicar">Publicar</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-reservar.svg" alt="" />Reservar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ROTEIRO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Roteiro</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="nav-row">
+          <img class="nav-icon" src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <div class="nav-title-group">
+            <div class="nav-title">Publicar um roteiro</div>
+            <img src="../../../../../assets/icons/content-roteiro.svg" alt="" />
+          </div>
+          <div class="spacer"></div>
+        </div>
+
+        <div class="body">
+          <div class="field-label">Sobre qual destino você deseja publicar?</div>
+          <div class="dropdown"><span>Recife, PE</span><img src="../../../../../assets/icons/dropdown-arrow.svg" alt="" /></div>
+
+          <div class="field-label">Título do roteiro</div>
+          <div class="input">Explorando os encantos do Recife Antigo</div>
+
+          <div class="field-label">Categoria (opcional)</div>
+          <div class="categoria-row">
+            <div class="cta-categoria selected">Gastronomia</div>
+            <div class="cta-categoria">Passeios</div>
+            <div class="cta-categoria">Hospedagem</div>
+            <div class="cta-categoria">Transporte</div>
+            <div class="cta-categoria">Compras</div>
+          </div>
+
+          <div class="field-label">Resumo</div>
+          <div class="textarea h-72">
+            <p>Descubra Recife em 7 dias explorando seu centro histórico vibrante e suas praias deslumbrantes.</p>
+          </div>
+
+          <div class="card-roteiro">
+            <div class="card-roteiro-header">
+              <span class="dia">Dia 1.</span>
+              <span class="titulo">Recife Antigo</span>
+              <img src="../../../../../assets/icons/roteiro-card-edit.svg" alt="" />
+            </div>
+            <div class="paradas">
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info">
+                  <span class="periodo">MANHÃ</span>
+                  <span class="titulo">Marco Zero e Rua do Bom Jesus</span>
+                  <span class="desc">Comece cedo, tem sombra e é plano pra carrinho.</span>
+                </div>
+              </div>
+              <div class="parada">
+                <img class="tall" src="../assets/icon-roteiro-connector-tall.svg" alt="" />
+                <div class="parada-info">
+                  <span class="periodo">TARDE</span>
+                  <span class="titulo">Embaixada dos Bonecos Gigantes</span>
+                  <span class="desc">As crianças amam. Ingresso barato.</span>
+                </div>
+              </div>
+              <div class="parada">
+                <img class="short" src="../assets/icon-roteiro-connector-short.svg" alt="" />
+                <div class="parada-info">
+                  <span class="periodo">NOITE</span>
+                  <span class="titulo">Jantar na Rua da Moeda</span>
+                  <span class="desc">Opções pra todos os gostos.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-outline">
+            <span>Adicionar novo dia no roteiro</span>
+            <img src="../../../../../assets/icons/add-day.svg" alt="" />
+          </div>
+          <div class="cta-disabled">Publicar roteiro</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item muted-label"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item muted-label"><img src="../assets/icon-nav-buscar-search-roteiro.svg" alt="" />Buscar</div>
+        <div class="nav-item muted-label"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item muted-label"><img src="../../../../../assets/icons/nav-conta.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  Cores/spacing extraídos via <code>get_variable_defs</code> + <code>get_design_context</code> (Figma Dev Mode),
+  sempre escopado direto na instância. Ícone de nav superior direito é vazio nas 3 variantes (confirmado no
+  Figma, mesmo padrão das telas 4/5/6 — não é omissão). A aba "Categoria" de Foto tem "Transporte" duplicado
+  no lugar de um 5º chip (esperado "Passeios", como em Dica/Roteiro) — reproduzido fielmente, é um bug do
+  arquivo Figma, não corrigido aqui. O nó de "Publicar um roteiro" está nomeado "Dica - dia 1 completo" no
+  Figma — mesma inconsistência de nomenclatura de camada já vista em telas anteriores. O bottom nav do
+  Roteiro usa uma instância diferente ("Bottom Nav Principal - Buscar") do componente padrão: mesmos rótulos
+  Início/Buscar/Pedidos/Conta, mas o ícone da posição "Buscar" é uma lupa de busca (não o calendário usado em
+  "Reservar" nas outras 2 variantes) e a cor de texto/ícone é um cinza mais claro (#737373).
+</div>
+
+</body>
+</html>

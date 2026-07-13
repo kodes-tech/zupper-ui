@@ -1,46 +1,35 @@
 import React from 'react';
-import styled from 'styled-components/native';
-import { colors, radii, spacing, typography } from '@kodes-tech/tokens';
+import { Text, View } from 'react-native';
 
-export type BadgeTone = 'neutral' | 'success' | 'danger';
+export type BadgeTone = 'neutral' | 'brand' | 'partner';
 
 export type BadgeProps = {
   label: string;
   tone?: BadgeTone;
 };
 
-const backgroundByTone: Record<BadgeTone, string> = {
-  neutral: colors.surface.card,
-  success: colors.feedback.success,
-  danger: colors.feedback.danger,
+// Classes vindas dos tokens (ver @kodes-tech/tokens/tailwind): cores, radius, spacing e tipografia.
+const containerByTone: Record<BadgeTone, string> = {
+  neutral: 'bg-surface-tag',
+  brand: 'bg-brand-chipSurface',
+  partner: 'bg-partner-cardSurface',
 };
 
-const textByTone: Record<BadgeTone, string> = {
-  neutral: colors.text.strong,
-  success: colors.text.inverse,
-  danger: colors.text.inverse,
+const labelByTone: Record<BadgeTone, string> = {
+  neutral: 'text-fg-primary',
+  brand: 'text-brand-strong',
+  partner: 'text-fg-primary',
 };
-
-const Container = styled.View<{ tone: BadgeTone }>`
-  align-self: flex-start;
-  background-color: ${({ tone }) => backgroundByTone[tone]};
-  padding: ${spacing.xs}px ${spacing.sm}px;
-  border-radius: ${radii.pill}px;
-`;
-
-const Label = styled.Text<{ tone: BadgeTone }>`
-  font-family: ${typography.family};
-  font-size: ${typography.size.caption}px;
-  font-weight: ${typography.weight.medium};
-  color: ${({ tone }) => textByTone[tone]};
-`;
 
 /**
- * Badge — exemplo de referência (componente apresentacional, sem chamada de API).
- * Serve de molde para os componentes do Community: styled-components/native + tokens.
+ * Badge — molde de referência dos componentes do Community.
+ * Padrão: React Native + `className` (NativeWind) + tokens. Sem chamada de API.
+ *
+ * As classes ficam como string no build publicado; é o pipeline NativeWind do
+ * app consumidor (babel + metro + tailwind) que as resolve em estilo.
  */
 export const Badge = ({ label, tone = 'neutral' }: BadgeProps): React.ReactElement => (
-  <Container tone={tone}>
-    <Label tone={tone}>{label}</Label>
-  </Container>
+  <View className={`self-start rounded-pill px-sm py-xs ${containerByTone[tone]}`}>
+    <Text className={`font-sans text-xs font-medium ${labelByTone[tone]}`}>{label}</Text>
+  </View>
 );

@@ -13,6 +13,7 @@ export default tseslint.config(
       '**/lib/**',
       '**/dist/**',
       '**/.storybook/**',
+      '**/storybook-static/**',
       '**/*.config.js',
       '**/*.config.mjs',
       '**/*.config.ts',

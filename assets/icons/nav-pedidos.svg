@@ -1,46 +1,25 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Reconstructed from Figma node 118:11003 "Iconografia Padrão - Zupper" (Pedidos icon),
        fileKey CRJYlaF0ep3mKL5fwH3e31. Base group (Grupo 8263 / Retângulo 527) is an empty
-       placeholder in Figma; the visible icon is these 8 vector fragments, each scoped-fetched
-       individually and positioned here using the exact inset percentages from the scoped
-       get_design_context call so the composite is pixel-accurate. -->
-
-  <!-- Retângulo 528: outer rounded-rect ticket outline -->
-  <svg x="6.5" y="1.5" width="14" height="18" viewBox="0 0 14 18" overflow="visible">
-    <path d="M11.5 0.5H2.5C1.39543 0.5 0.5 1.39543 0.5 2.5V15.5C0.5 16.6046 1.39543 17.5 2.5 17.5H11.5C12.6046 17.5 13.5 16.6046 13.5 15.5V2.5C13.5 1.39543 12.6046 0.5 11.5 0.5Z" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-
-  <!-- Caminho 5728: inner open outline (second, offset ticket) -->
-  <svg x="3.5" y="5.5" width="14" height="17" viewBox="0 0 14 17" overflow="visible">
-    <path d="M3.5 0.5H2.5C1.96957 0.5 1.46089 0.710376 1.08582 1.08545C0.710743 1.46052 0.5 1.96957 0.5 2.5V14.5C0.5 15.0304 0.710743 15.539 1.08582 15.9141C1.46089 16.2891 1.96957 16.5 2.5 16.5H11.5C12.0304 16.5 12.5391 16.2891 12.9142 15.9141C13.2893 15.539 13.5 15.0304 13.5 14.5V13.5" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-
-  <!-- Caminho 5727: large chevron (arrowhead, outer) -->
-  <svg x="10" y="11.01" width="7.00003" height="3.48634" viewBox="0 0 7.00003 3.48634" overflow="visible">
-    <path d="M6.50001 2.98633L3.52602 0.5L0.500014 2.98633" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-
-  <!-- Grupo 8257 / Caminho 5726: small chevron (arrowhead, inner) -->
-  <svg x="12" y="14.61" width="3.00001" height="1.89014" viewBox="0 0 3.00001 1.89014" overflow="visible">
-    <path d="M2.50001 1.39014L1.52601 0.5L0.500008 1.39014" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-
-  <!-- Linha 112: arrow shaft -->
-  <svg x="12.987" y="8.5" width="1.026" height="7.11" viewBox="0 0 1.026 7.11" overflow="visible">
-    <path d="M0.526 6.61L0.5 0.5" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-
-  <!-- Shape 3077 x4: perforation dots -->
-  <svg x="8.865" y="5.505" width="1.01001" height="1" viewBox="0 0 1.01001 1" overflow="visible">
-    <path d="M0.5 0.5H0.505005H0.51001" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  <svg x="11.615" y="5.505" width="1.01001" height="1" viewBox="0 0 1.01001 1" overflow="visible">
-    <path d="M0.5 0.5H0.505005H0.51001" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  <svg x="14.37" y="5.505" width="1.01001" height="1" viewBox="0 0 1.01001 1" overflow="visible">
-    <path d="M0.5 0.5H0.505005H0.51001" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  <svg x="17.125" y="5.505" width="1.01001" height="1" viewBox="0 0 1.01001 1" overflow="visible">
-    <path d="M0.5 0.5H0.505005H0.51001" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+       placeholder in Figma; the visible icon is these 8 vector fragments. Fragments are placed
+       with <g transform="translate(...)"> — svgr/SVGO bakes the translate into the path coords so
+       the generated atom is a single flat <Svg> (NOT nested <svg x= y=>, which react-native-svg /
+       react-native-web position incorrectly and which leak width/height via {...props}). -->
+  <g stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Retângulo 528: outer rounded-rect ticket outline -->
+    <path transform="translate(6.5 1.5)" d="M11.5 0.5H2.5C1.39543 0.5 0.5 1.39543 0.5 2.5V15.5C0.5 16.6046 1.39543 17.5 2.5 17.5H11.5C12.6046 17.5 13.5 16.6046 13.5 15.5V2.5C13.5 1.39543 12.6046 0.5 11.5 0.5Z"/>
+    <!-- Caminho 5728: inner open outline (second, offset ticket) -->
+    <path transform="translate(3.5 5.5)" d="M3.5 0.5H2.5C1.96957 0.5 1.46089 0.710376 1.08582 1.08545C0.710743 1.46052 0.5 1.96957 0.5 2.5V14.5C0.5 15.0304 0.710743 15.539 1.08582 15.9141C1.46089 16.2891 1.96957 16.5 2.5 16.5H11.5C12.0304 16.5 12.5391 16.2891 12.9142 15.9141C13.2893 15.539 13.5 15.0304 13.5 14.5V13.5"/>
+    <!-- Caminho 5727: large chevron (arrowhead, outer) -->
+    <path transform="translate(10 11.01)" d="M6.50001 2.98633L3.52602 0.5L0.500014 2.98633"/>
+    <!-- Grupo 8257 / Caminho 5726: small chevron (arrowhead, inner) -->
+    <path transform="translate(12 14.61)" d="M2.50001 1.39014L1.52601 0.5L0.500008 1.39014"/>
+    <!-- Linha 112: arrow shaft -->
+    <path transform="translate(12.987 8.5)" d="M0.526 6.61L0.5 0.5"/>
+    <!-- Shape 3077 x4: perforation dots -->
+    <path transform="translate(8.865 5.505)" d="M0.5 0.5H0.505005H0.51001"/>
+    <path transform="translate(11.615 5.505)" d="M0.5 0.5H0.505005H0.51001"/>
+    <path transform="translate(14.37 5.505)" d="M0.5 0.5H0.505005H0.51001"/>
+    <path transform="translate(17.125 5.505)" d="M0.5 0.5H0.505005H0.51001"/>
+  </g>
 </svg>

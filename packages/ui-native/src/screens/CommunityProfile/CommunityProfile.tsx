@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Button } from '../../atoms/Button';
 import { Icon } from '../../atoms/Icon';
@@ -27,6 +27,11 @@ export type CommunityProfileProps = {
   photos?: ImageSourcePropType[];
   dicaSections?: ProfilePostSection[];
   roteiroSections?: ProfilePostSection[];
+  /**
+   * Ilustração do estado vazio ("Sem conteúdo"). Como as imagens, entra por
+   * prop (o pacote não empacota assets do `_figma`); a story fornece o arquivo.
+   */
+  emptyIllustration?: ImageSourcePropType;
   onBack?: () => void;
   onTabChange?: (tab: ProfileTab) => void;
   onPublish?: () => void;
@@ -48,12 +53,17 @@ export const CommunityProfile = ({
   photos = [],
   dicaSections = [],
   roteiroSections = [],
+  emptyIllustration,
   onBack,
   onTabChange,
   onPublish,
   onNavigate,
 }: CommunityProfileProps): React.ReactElement => {
   const sections = tab === 'dicas' ? dicaSections : roteiroSections;
+  const isEmpty =
+    tab === 'fotos'
+      ? photos.length === 0
+      : sections.every((section) => section.posts.length === 0);
   return (
     <View className="flex-1 bg-surface-tag">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -69,7 +79,26 @@ export const CommunityProfile = ({
           <ProfileTabs active={tab} onChange={onTabChange} />
         </View>
 
-        {tab === 'fotos' ? (
+        {isEmpty ? (
+          <View className="flex-1 items-center gap-[32px] px-md py-xl">
+            {emptyIllustration ? (
+              <Image
+                source={emptyIllustration}
+                resizeMode="contain"
+                style={{ width: 236, height: 257 }}
+                accessibilityIgnoresInvertColors
+              />
+            ) : null}
+            <View className="w-full items-center gap-md">
+              <Text className="text-center font-sans text-[16px] leading-[24px] text-fg-subtle">
+                Você ainda não tem publicações
+              </Text>
+              <Text className="text-center font-sans text-[22px] font-bold leading-[32px] text-fg-secondary">
+                Compartilhe conteúdo na comunidade Zupper
+              </Text>
+            </View>
+          </View>
+        ) : tab === 'fotos' ? (
           <PhotoGrid photos={photos} />
         ) : (
           <View className="gap-lg p-xl">

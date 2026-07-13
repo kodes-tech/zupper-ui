@@ -39,4 +39,10 @@ describe('CommunityProfile', () => {
     // 3 fotos + FAB Publicar + 4 itens do bottom nav = pressables presentes
     expect(screen.getByText('Publicar')).toBeOnTheScreen();
   });
+
+  it('renders the empty state when the active tab has no content', () => {
+    render(<CommunityProfile {...base} tab="fotos" photos={[]} />);
+    expect(screen.getByText('Você ainda não tem publicações')).toBeOnTheScreen();
+    expect(screen.getByText('Compartilhe conteúdo na comunidade Zupper')).toBeOnTheScreen();
+  });
 });

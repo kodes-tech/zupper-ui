@@ -33,6 +33,8 @@ export { default as Fire } from './Fire';
 export { default as Globe } from './Globe';
 export { default as Heart } from './Heart';
 export { default as Location } from './Location';
+export { default as MediaCamera } from './MediaCamera';
+export { default as MediaGallery } from './MediaGallery';
 export { default as NavConta } from './NavConta';
 export { default as NavInicioNeutral } from './NavInicioNeutral';
 export { default as NavInicio } from './NavInicio';

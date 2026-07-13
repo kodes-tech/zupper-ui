@@ -2,19 +2,21 @@
   <!-- Reconstructed from Figma node 116:6269 "Iconografia Padrão - Zupper" (the "Likes" component's
        heart icon), scoped-fetched via node 118:6155 (fileKey CRJYlaF0ep3mKL5fwH3e31). Base group
        (Grupo 10781 / Retângulo 4016) is an empty placeholder in Figma; the visible icon is these
-       2 vector fragments (5 paths total, a curled/swirl-style heart outline), positioned here using
-       the exact inset percentages from the scoped get_design_context call. -->
+       2 vector fragments (5 paths total, a curled/swirl-style heart outline). Fragments are placed
+       with <g transform="translate(...)"> — svgr/SVGO bakes the translate into the path coords so
+       the generated atom is a single flat <Svg> (NOT nested <svg x= y=>, which react-native-svg /
+       react-native-web position incorrectly and which leak width/height via {...props}). -->
 
-  <!-- Grupo 10777: right lobe (curled swirl paths) -->
-  <svg x="5.46" y="5.38" width="8.97669" height="8.4502" viewBox="0 0 8.97669 8.4502" overflow="visible">
-    <path d="M4.34589 0.815593C3.757 0.494269 3.0662 0.41463 2.41967 0.593624C1.77315 0.772617 1.22163 1.19632 0.881845 1.77475C-0.427926 3.96166 2.04681 7.86894 2.10912 7.91048" stroke="#171717" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M7.31385 2.59224C7.87303 2.96185 8.2673 3.53368 8.41391 4.18775C8.56052 4.84181 8.44807 5.52733 8.10017 6.10027C6.79456 8.28065 2.17328 7.94759 2.10622 7.9108" stroke="#171717" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M5.4343 2.36737C5.37566 2.04554 5.24801 1.74034 5.06013 1.47254C4.87224 1.20474 4.62858 0.980558 4.3459 0.815906" stroke="#171717" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M5.4343 2.36757C5.74496 2.2653 6.07429 2.23251 6.39904 2.27137C6.72379 2.31023 7.03606 2.41975 7.31381 2.59244" stroke="#171717" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+  <!-- Grupo 10777: right lobe (curled swirl paths), offset (5.46, 5.38) -->
+  <g transform="translate(5.46 5.38)" stroke="#171717" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.34589 0.815593C3.757 0.494269 3.0662 0.41463 2.41967 0.593624C1.77315 0.772617 1.22163 1.19632 0.881845 1.77475C-0.427926 3.96166 2.04681 7.86894 2.10912 7.91048"/>
+    <path d="M7.31385 2.59224C7.87303 2.96185 8.2673 3.53368 8.41391 4.18775C8.56052 4.84181 8.44807 5.52733 8.10017 6.10027C6.79456 8.28065 2.17328 7.94759 2.10622 7.9108"/>
+    <path d="M5.4343 2.36737C5.37566 2.04554 5.24801 1.74034 5.06013 1.47254C4.87224 1.20474 4.62858 0.980558 4.3459 0.815906"/>
+    <path d="M5.4343 2.36757C5.74496 2.2653 6.07429 2.23251 6.39904 2.27137C6.72379 2.31023 7.03606 2.41975 7.31381 2.59244"/>
+  </g>
 
-  <!-- Caminho 22381: left lobe -->
-  <svg x="1.56" y="2.17" width="8.36429" height="7.43922" viewBox="0 0 8.36429 7.43922" overflow="visible">
-    <path d="M7.67661 3.78632C7.86988 3.30446 7.91512 2.77616 7.80657 2.26847C7.67139 1.69028 7.31687 1.18714 6.81784 0.86537C6.3188 0.543604 5.71428 0.428239 5.13184 0.543718C4.85044 0.608351 4.5864 0.733349 4.35801 0.909996C4.12962 1.08664 3.94232 1.31109 3.80901 1.56721C3.57278 1.39986 3.30283 1.28614 3.01807 1.23397C2.7333 1.18179 2.44059 1.19196 2.16037 1.26468C1.58927 1.42525 1.10341 1.80256 0.806239 2.31599C0.509064 2.82943 0.424049 3.4389 0.569293 4.01408C0.959791 5.63424 3.23275 6.5658 4.42383 6.93909" stroke="#171717" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+  <!-- Caminho 22381: left lobe, offset (1.56, 2.17) -->
+  <g transform="translate(1.56 2.17)" stroke="#171717" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7.67661 3.78632C7.86988 3.30446 7.91512 2.77616 7.80657 2.26847C7.67139 1.69028 7.31687 1.18714 6.81784 0.86537C6.3188 0.543604 5.71428 0.428239 5.13184 0.543718C4.85044 0.608351 4.5864 0.733349 4.35801 0.909996C4.12962 1.08664 3.94232 1.31109 3.80901 1.56721C3.57278 1.39986 3.30283 1.28614 3.01807 1.23397C2.7333 1.18179 2.44059 1.19196 2.16037 1.26468C1.58927 1.42525 1.10341 1.80256 0.806239 2.31599C0.509064 2.82943 0.424049 3.4389 0.569293 4.01408C0.959791 5.63424 3.23275 6.5658 4.42383 6.93909"/>
+  </g>
 </svg>

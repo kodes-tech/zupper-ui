@@ -11,6 +11,7 @@ export * from './OfferCard';
 export * from './PhotoGrid';
 export * from './QuickAction';
 export * from './RoteiroDayCard';
+export * from './RoteiroDayForm';
 export * from './SearchField';
 export * from './SelectField';
 export * from './SocialBar';

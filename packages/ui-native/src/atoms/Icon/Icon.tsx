@@ -70,6 +70,30 @@ export type IconName = keyof typeof registry;
 /** Todos os nomes de ícone registrados (para galerias, pickers e o audit visual). */
 export const iconNames = Object.keys(registry) as IconName[];
 
+// Primeiro stroke/fill não-"none" encontrado na árvore do SVG.
+const firstColor = (node: unknown): string | undefined => {
+  if (!node || typeof node !== 'object') return undefined;
+  const props = (node as { props?: Record<string, unknown> }).props ?? {};
+  for (const key of ['stroke', 'fill'] as const) {
+    const value = props[key];
+    if (typeof value === 'string' && value !== 'none') return value;
+  }
+  const children = props.children;
+  const list = Array.isArray(children) ? children : children != null ? [children] : [];
+  for (const child of list) {
+    const found = firstColor(child);
+    if (found) return found;
+  }
+  return undefined;
+};
+
+/**
+ * Cor intrínseca (stroke/fill do Figma) de um ícone. Cada ícone carrega a própria
+ * cor; isto expõe qual é — útil pra escolher um fundo contrastante (ex.: os ícones
+ * brancos, que ficam sobre gradiente, precisam de fundo escuro pra serem vistos).
+ */
+export const iconColor = (name: IconName): string => firstColor(registry[name]({})) ?? '#000000';
+
 export type IconProps = SvgProps & {
   name: IconName;
   /** Largura = altura, em dp. Default 24. */

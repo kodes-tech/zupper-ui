@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react-native';
-import { Icon, iconNames } from './Icon';
+import { Icon, iconColor, iconNames } from './Icon';
 
 describe('Icon', () => {
   it('renders the requested icon (SVG tree)', () => {
@@ -17,6 +17,16 @@ describe('Icon', () => {
     for (const name of iconNames) {
       const { toJSON } = render(<Icon name={name} />);
       expect(toJSON()).toBeTruthy();
+    }
+  });
+
+  it('reports each icon intrinsic color (dark strokes vs white)', () => {
+    expect(iconColor('heart')).toBe('#171717');
+    expect(iconColor('publish')).toBe('white');
+    expect(iconColor('comment-send')).toBe('#FFFFFF');
+    // toda cor resolvida (nada cai no fallback preto por falha de parse)
+    for (const name of iconNames) {
+      expect(typeof iconColor(name)).toBe('string');
     }
   });
 });

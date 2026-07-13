@@ -106,6 +106,47 @@ const MediaPickerBox = ({
 );
 
 /**
+ * CTA do rodapé. As três formas vêm do Figma:
+ *  - wizard de dia aberto (roteiro): nada — quem navega é o próprio formulário
+ *    (Anterior/Próximo);
+ *  - nada a publicar ainda: no roteiro, o pill "Publicar roteiro" desabilitado;
+ *    na foto/dica, o estado vazio simplesmente não tem CTA;
+ *  - pronto pra publicar: o Button primário.
+ */
+const PublishCta = ({
+  type,
+  canPublish,
+  isEditingDay,
+  onPublish,
+}: {
+  type: PublishType;
+  canPublish: boolean;
+  isEditingDay: boolean;
+  onPublish?: () => void;
+}) => {
+  if (type === 'roteiro' && isEditingDay) return null;
+
+  if (!canPublish) {
+    if (type !== 'roteiro') return null;
+    return (
+      <View className="w-full rounded-pill border border-border-default bg-surface-default p-lg">
+        <Text className="text-center font-sans text-buttonLabel text-fg-muted">
+          Publicar roteiro
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+    <Button
+      label={type === 'roteiro' ? 'Publicar roteiro' : 'Publicar'}
+      fullWidth
+      onPress={onPublish}
+    />
+  );
+};
+
+/**
  * PublishContent — "Publicar conteúdo": formulário de criação de post nas três
  * variantes (Foto / Dica / Roteiro). Header + campos por tipo + categorias +
  * CTA de publicar + bottom nav. Apresentacional: valores e ações por props;
@@ -270,20 +311,12 @@ export const PublishContent = ({
           </>
         ) : null}
 
-        {/* No wizard de adicionar dia, a navegação é do próprio formulário (Anterior/Próximo). */}
-        {type === 'roteiro' && editingDay ? null : type === 'roteiro' && !canPublish ? (
-          <View className="w-full rounded-pill border border-border-default bg-surface-default p-lg">
-            <Text className="text-center font-sans text-buttonLabel text-fg-muted">
-              Publicar roteiro
-            </Text>
-          </View>
-        ) : (
-          <Button
-            label={type === 'roteiro' ? 'Publicar roteiro' : 'Publicar'}
-            fullWidth
-            onPress={onPublish}
-          />
-        )}
+        <PublishCta
+          type={type}
+          canPublish={canPublish}
+          isEditingDay={Boolean(editingDay)}
+          onPublish={onPublish}
+        />
       </View>
     </ScrollView>
 

@@ -1,0 +1,9 @@
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill="url(#hotelStar)" d="M12.028 4.483 14.5 9.53l5.527.813-3.999 3.926.944 5.545-4.945-2.62-4.945 2.62.944-5.545-3.999-3.926 5.527-.813 2.474-5.046Z"/>
+<defs>
+<linearGradient id="hotelStar" x1="4.027" y1="12.148" x2="20.027" y2="12.148" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FB923C"/>
+<stop offset="1" stop-color="#FFCE00"/>
+</linearGradient>
+</defs>
+</svg>

@@ -81,6 +81,17 @@ const registry = {
   'travel-chevron-right': Svgs.TravelChevronRight,
   'support-help': Svgs.SupportHelp,
   'support-whatsapp': Svgs.SupportWhatsapp,
+  // Fluxo de hospedagem (resultados/detalhes/quartos/modais). currentColor,
+  // exceto hotel-star, que carrega o gradiente laranja→amarelo do app.
+  'hotel-star': Svgs.HotelStar,
+  'amenity-coffee': Svgs.AmenityCoffee,
+  'hotel-circle-check': Svgs.HotelCircleCheck,
+  'amenity-check': Svgs.AmenityCheck,
+  'payment-card': Svgs.PaymentCard,
+  'hotel-filter': Svgs.HotelFilter,
+  'hotel-trash': Svgs.HotelTrash,
+  close: Svgs.Close,
+  'hotel-placeholder': Svgs.HotelPlaceholder,
 } as const;
 
 export type IconName = keyof typeof registry;

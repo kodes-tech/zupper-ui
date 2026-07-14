@@ -24,7 +24,7 @@
     "!**/*.spec.*",
     "!**/__tests__",
     "!src/_figma",
-    "!src/_zupper-app"
+    "!**/*.html"
   ],
   "scripts": {
     "build": "bob build",
@@ -90,7 +90,7 @@
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
-    "exclude": "**/{__tests__,__fixtures__,__mocks__,_figma,_zupper-app}/**",
+    "exclude": "{**/{__tests__,__fixtures__,__mocks__,_figma}/**,**/*.html}",
     "targets": [
       "commonjs",
       "module",

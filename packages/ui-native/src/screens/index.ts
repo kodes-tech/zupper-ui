@@ -15,3 +15,4 @@ export * from './Destinations';
 export * from './Feed';
 export * from './MyAccount';
 export * from './PublishContent';
+export * from './TravelHome';

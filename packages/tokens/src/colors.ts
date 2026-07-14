@@ -66,6 +66,10 @@ export const colors = {
     warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
+    // Banner sólido (fundo cheio + texto branco), diferente do par surface/strong
+    // acima (fundo claro + texto escuro). Extraído do Tag status="danger" do
+    // zupper-app — "Duração da oferta" (CheckoutTimer, contagem regressiva).
+    dangerBanner: '#ED2121',
   },
 } as const;
 

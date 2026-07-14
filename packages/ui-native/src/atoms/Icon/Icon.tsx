@@ -66,6 +66,17 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
+  // Ícones do Checkout — contato (arte extraída do código do zupper-app,
+  // libs/app-ui/src/lib/atoms/icons). `clock-countdown` usa `currentColor`
+  // porque aparece branco sobre o banner vermelho de contagem regressiva.
+  'id-card': Svgs.IdCard,
+  email: Svgs.Email,
+  phone: Svgs.Phone,
+  lock: Svgs.Lock,
+  'chevron-up': Svgs.ChevronUp,
+  'checkbox-check': Svgs.CheckboxCheck,
+  'checkbox-empty': Svgs.CheckboxEmpty,
+  'clock-countdown': Svgs.ClockCountdown,
 } as const;
 
 export type IconName = keyof typeof registry;

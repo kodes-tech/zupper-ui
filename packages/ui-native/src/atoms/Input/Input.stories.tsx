@@ -45,3 +45,20 @@ export const Desabilitado = {
     editable: false,
   },
 };
+
+export const ComIcone = {
+  args: {
+    label: 'Nome Completo *',
+    placeholder: 'Insira seu nome',
+    icon: 'id-card',
+  },
+};
+
+export const ComIconeEErro = {
+  args: {
+    label: 'Contato *',
+    placeholder: '(00) 99999-9999',
+    icon: 'phone',
+    error: 'Campo obrigatório',
+  },
+};

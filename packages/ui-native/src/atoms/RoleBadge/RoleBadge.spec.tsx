@@ -6,13 +6,13 @@ describe('RoleBadge', () => {
     ['guest', 'Visitante'],
     ['traveler', 'Viajante'],
     ['partner', 'Parceiro'],
-  ] as const)('renders the default label for the %s variant', (variant, expected) => {
-    render(<RoleBadge variant={variant} />);
+  ] as const)('renders the default label for the %s variant', async (variant, expected) => {
+    await render(<RoleBadge variant={variant} />);
     expect(screen.getByText(expected)).toBeOnTheScreen();
   });
 
-  it('renders a custom label when provided', () => {
-    render(<RoleBadge variant="traveler" label="Influencer" />);
+  it('renders a custom label when provided', async () => {
+    await render(<RoleBadge variant="traveler" label="Influencer" />);
     expect(screen.getByText('Influencer')).toBeOnTheScreen();
     expect(screen.queryByText('Viajante')).not.toBeOnTheScreen();
   });

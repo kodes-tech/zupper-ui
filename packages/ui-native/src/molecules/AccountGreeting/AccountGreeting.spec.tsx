@@ -4,19 +4,19 @@ import { AccountGreeting } from './AccountGreeting';
 const avatar = { uri: 'avatar' };
 
 describe('AccountGreeting', () => {
-  it('renders the name and subtitle', () => {
-    render(<AccountGreeting name="Olá, Carlos!" subtitle="@carlosviaja" avatar={avatar} />);
+  it('renders the name and subtitle', async () => {
+    await render(<AccountGreeting name="Olá, Carlos!" subtitle="@carlosviaja" avatar={avatar} />);
     expect(screen.getByText('Olá, Carlos!')).toBeOnTheScreen();
     expect(screen.getByText('@carlosviaja')).toBeOnTheScreen();
   });
 
-  it('renders no badge when role is omitted', () => {
-    render(<AccountGreeting name="Olá, Carlos!" subtitle="contato@dominio.com.br" avatar={avatar} />);
+  it('renders no badge when role is omitted', async () => {
+    await render(<AccountGreeting name="Olá, Carlos!" subtitle="contato@dominio.com.br" avatar={avatar} />);
     expect(screen.queryByText('Viajante')).toBeNull();
   });
 
-  it('renders the partner badge with a custom label', () => {
-    render(
+  it('renders the partner badge with a custom label', async () => {
+    await render(
       <AccountGreeting
         name="Olá, Ana!"
         subtitle="@anasilvatrip"

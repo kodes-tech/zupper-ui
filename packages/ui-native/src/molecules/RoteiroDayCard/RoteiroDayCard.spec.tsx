@@ -8,8 +8,8 @@ const stops: RoteiroStop[] = [
 ];
 
 describe('RoteiroDayCard', () => {
-  it('renders the day header and every stop', () => {
-    render(<RoteiroDayCard day="Dia 1." title="Recife Antigo" stops={stops} />);
+  it('renders the day header and every stop', async () => {
+    await render(<RoteiroDayCard day="Dia 1." title="Recife Antigo" stops={stops} />);
     expect(screen.getByText('Dia 1.')).toBeOnTheScreen();
     expect(screen.getByText('Recife Antigo')).toBeOnTheScreen();
     expect(screen.getByText('MANHÃ')).toBeOnTheScreen();

@@ -20,15 +20,15 @@ describe('Feed', () => {
     ctaLabel: 'Meu perfil',
   };
 
-  it('renders the greeting and the community section with posts', () => {
-    render(<Feed greeting={greeting} posts={[post]} />);
+  it('renders the greeting and the community section with posts', async () => {
+    await render(<Feed greeting={greeting} posts={[post]} />);
     expect(screen.getByText('Olá, Ana')).toBeOnTheScreen();
     expect(screen.getByText('Comunidade Zupper')).toBeOnTheScreen();
     expect(screen.getByText('Conteúdo de teste')).toBeOnTheScreen();
   });
 
-  it('renders the search field', () => {
-    render(<Feed greeting={greeting} />);
+  it('renders the search field', async () => {
+    await render(<Feed greeting={greeting} />);
     expect(screen.getByText('Qual seu destino?')).toBeOnTheScreen();
   });
 });

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "lib": ["ES2019"],
     "jsx": "react-jsx",
     "strict": true,

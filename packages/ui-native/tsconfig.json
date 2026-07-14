@@ -3,6 +3,7 @@
   "compilerOptions": {
     "lib": ["ES2019", "DOM"],
     "types": ["react", "react-native"],
+    "rootDir": "src",
     "noEmit": true
   },
   "include": ["src"],

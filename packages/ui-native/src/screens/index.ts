@@ -13,5 +13,6 @@ export * from './ContentDetail';
 export * from './DestinationDetails';
 export * from './Destinations';
 export * from './Feed';
+export * from './FlightResults';
 export * from './MyAccount';
 export * from './PublishContent';

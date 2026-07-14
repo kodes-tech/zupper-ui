@@ -2,6 +2,7 @@
 export * from './AccountGreeting';
 export * from './AccountRow';
 export * from './AccountSection';
+export * from './BaggageIndicator';
 export * from './CommentInput';
 export * from './CommentThread';
 export * from './ContentAuthor';

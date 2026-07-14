@@ -11,18 +11,18 @@ const baseProps = {
 };
 
 describe('OfferCard', () => {
-  it('renders the seal, price and CTA', () => {
-    render(<OfferCard {...baseProps} />);
+  it('renders the seal, price and CTA', async () => {
+    await render(<OfferCard {...baseProps} />);
     expect(screen.getByText('Passagens aéreas')).toBeOnTheScreen();
     expect(screen.getByText('R$ 1.086')).toBeOnTheScreen();
     expect(screen.getByText('Jul 12 – Jul 19')).toBeOnTheScreen();
     expect(screen.getByText('Ver passagens')).toBeOnTheScreen();
   });
 
-  it('fires onPress when tapped', () => {
+  it('fires onPress when tapped', async () => {
     const onPress = jest.fn();
-    render(<OfferCard {...baseProps} onPress={onPress} />);
-    fireEvent.press(screen.getByText('Ver passagens'));
+    await render(<OfferCard {...baseProps} onPress={onPress} />);
+    await fireEvent.press(screen.getByText('Ver passagens'));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 });

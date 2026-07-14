@@ -42,13 +42,50 @@ npx yalc add @kodes-tech/ui-native && npm install
 ```
 Assim o app usa a versão local; só publique no npm versões estáveis.
 
-## Publicação
+## Fluxo de branches e release
+
+Só duas branches de longa vida:
+
+- **`develop`** — onde todo trabalho entra (features, fixes, PRs do Dependabot).
+  É a branch default de trabalho.
+- **`main`** — só recebe **releases**, via PR `develop → main`. Nunca commite
+  nem abra PR de trabalho direto na `main`.
+
+> ⚠️ **Apps consumidores instalam versões publicadas (tags cortadas da `main`),
+> nunca a `develop`.** Publicar a partir da `develop` entrega trabalho não
+> aprovado. Por isso as tags saem **só da `main`**.
+
+## Publicação (release)
 
 Registry: **GitHub Packages**, escopo `@kodes-tech` (grátis — vinculado à org dona deste repo).
 
-1. Bump de `version` (mesmo semver) em `packages/tokens/package.json` e `packages/ui-native/package.json`.
-2. Commit + `git tag vX.Y.Z` + `git push --tags`.
-3. O workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml) builda e publica os dois pacotes automaticamente.
+1. Abra um PR **`develop → main`** e mergeie quando o CI passar (isso é o "aprovar").
+2. Na `main` atualizada: bump de `version` (mesmo semver) em
+   `packages/tokens/package.json` **e** `packages/ui-native/package.json` (via PR,
+   pois `main` é protegida). Garanta que a tag vai bater com esse número.
+3. **Na `main`**: `git tag vX.Y.Z` + `git push origin vX.Y.Z`.
+4. O workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml)
+   (dispara em tags `v*.*.*`) builda e publica os dois pacotes automaticamente.
+5. Back-merge `main → develop` para a `develop` não ficar atrás do bump de versão.
+
+## Dependabot
+
+O repo tem [`.github/dependabot.yml`](.github/dependabot.yml) configurado — o
+Dependabot é um bot do GitHub que **abre PRs semanais** atualizando dependências
+(npm + GitHub Actions). Como funciona aqui:
+
+- **Mira a `develop`** (`target-branch: develop`) — as PRs dele entram como
+  qualquer trabalho e só chegam na `main` via o release acima. **Nunca** direto na `main`.
+- **Ignora bumps _major_** — majors quebram API e às vezes o ecossistema nem
+  acompanhou (ex.: TypeScript 7 quebra o `ts-jest`). Major é upgrade **manual e
+  deliberado**, não automático. `react-native-web` também é ignorado (preso em React 18).
+- **Agrupa** ferramentas de dev (`@babel/*`, `jest`, `storybook`, `typescript`…)
+  num PR só, pra reduzir ruído.
+
+**O que fazer com uma PR do Dependabot:** revisar → conferir o CI verde → mergear
+na `develop`. Se o CI falhar, é sinal de que o update quebra algo (não mergeie sem
+corrigir). Segurança (`dependabot_security_updates`) está **desligado** hoje — só
+atualização de versão está ativa.
 
 ### Consumindo em outro projeto (fora deste monorepo)
 

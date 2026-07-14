@@ -12,15 +12,15 @@ const baseProps: PostCardProps = {
 };
 
 describe('PostCard', () => {
-  it('renders author, body and type tag', () => {
-    render(<PostCard {...baseProps} />);
+  it('renders author, body and type tag', async () => {
+    await render(<PostCard {...baseProps} />);
     expect(screen.getByText('Ana Silva')).toBeOnTheScreen();
     expect(screen.getByText('Dica de teste')).toBeOnTheScreen();
     expect(screen.getByText('Dica')).toBeOnTheScreen();
   });
 
-  it('renders the roteiro stops', () => {
-    render(
+  it('renders the roteiro stops', async () => {
+    await render(
       <PostCard
         {...baseProps}
         type="roteiro"
@@ -35,10 +35,10 @@ describe('PostCard', () => {
     expect(screen.getByText('+12 paradas')).toBeOnTheScreen();
   });
 
-  it('fires onLike', () => {
+  it('fires onLike', async () => {
     const onLike = jest.fn();
-    render(<PostCard {...baseProps} onLike={onLike} />);
-    fireEvent.press(screen.getByLabelText(/Curtir/));
+    await render(<PostCard {...baseProps} onLike={onLike} />);
+    await fireEvent.press(screen.getByLabelText(/Curtir/));
     expect(onLike).toHaveBeenCalledTimes(1);
   });
 });

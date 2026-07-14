@@ -23,8 +23,8 @@ const offers: ContentOffer[] = [
 ];
 
 describe('ContentDetail', () => {
-  it('renders the photo variant with the author and social bar', () => {
-    render(
+  it('renders the photo variant with the author and social bar', async () => {
+    await render(
       <ContentDetail
         type="foto"
         title="Foto"
@@ -40,9 +40,9 @@ describe('ContentDetail', () => {
     expect(screen.getByText('Comentários (0)')).toBeOnTheScreen();
   });
 
-  it('renders roteiro days, metadata and offers', () => {
+  it('renders roteiro days, metadata and offers', async () => {
     const onPressOffer = jest.fn();
-    render(
+    await render(
       <ContentDetail
         type="roteiro"
         title="Roteiro"
@@ -66,12 +66,12 @@ describe('ContentDetail', () => {
     expect(screen.getByText('3 dias em Recife com crianças')).toBeOnTheScreen();
     expect(screen.getByText('8 paradas')).toBeOnTheScreen();
     expect(screen.getByText('Dia 1.')).toBeOnTheScreen();
-    fireEvent.press(screen.getByText('Ver passagens'));
+    await fireEvent.press(screen.getByText('Ver passagens'));
     expect(onPressOffer).toHaveBeenCalledWith('passagens');
   });
 
-  it('does not render the roteiro body on the photo variant', () => {
-    render(
+  it('does not render the roteiro body on the photo variant', async () => {
+    await render(
       <ContentDetail
         type="foto"
         title="Foto"
@@ -86,8 +86,8 @@ describe('ContentDetail', () => {
     expect(screen.queryByText('Ver passagens')).toBeNull();
   });
 
-  it('renders the moderation banner when given one', () => {
-    render(
+  it('renders the moderation banner when given one', async () => {
+    await render(
       <ContentDetail
         type="foto"
         title="Foto"
@@ -107,8 +107,8 @@ describe('ContentDetail', () => {
     expect(screen.getByText('Entenda as regras da comunidade')).toBeOnTheScreen();
   });
 
-  it('renders the overlay above the screen', () => {
-    render(
+  it('renders the overlay above the screen', async () => {
+    await render(
       <ContentDetail
         type="foto"
         title="Foto"

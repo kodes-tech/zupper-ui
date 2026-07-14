@@ -8,17 +8,17 @@ const destinations: Destination[] = [
 ];
 
 describe('Destinations', () => {
-  it('renders the header and the destination cards', () => {
-    render(<Destinations destinations={destinations} />);
+  it('renders the header and the destination cards', async () => {
+    await render(<Destinations destinations={destinations} />);
     expect(screen.getByText('Destinos em alta')).toBeOnTheScreen();
     expect(screen.getByText('Recife')).toBeOnTheScreen();
     expect(screen.getByText('Noronha')).toBeOnTheScreen();
   });
 
-  it('fires onPressDestination with the id', () => {
+  it('fires onPressDestination with the id', async () => {
     const onPressDestination = jest.fn();
-    render(<Destinations destinations={destinations} onPressDestination={onPressDestination} />);
-    fireEvent.press(screen.getByText('Noronha'));
+    await render(<Destinations destinations={destinations} onPressDestination={onPressDestination} />);
+    await fireEvent.press(screen.getByText('Noronha'));
     expect(onPressDestination).toHaveBeenCalledWith('2');
   });
 });

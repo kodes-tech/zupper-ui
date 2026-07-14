@@ -28,31 +28,31 @@ const post: DestinationPost = {
 };
 
 describe('DestinationDetails', () => {
-  it('renders header, tabs and offers on the "Ver tudo" tab', () => {
-    render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} offers={offers} posts={[post]} />);
+  it('renders header, tabs and offers on the "Ver tudo" tab', async () => {
+    await render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} offers={offers} posts={[post]} />);
     expect(screen.getByText('Fernando de Noronha, PE')).toBeOnTheScreen();
     expect(screen.getByText('Ver tudo')).toBeOnTheScreen();
     expect(screen.getByText('Passagens aéreas')).toBeOnTheScreen();
     expect(screen.getByText('Carlos Souza')).toBeOnTheScreen();
   });
 
-  it('hides offers on tabs other than "Ver tudo"', () => {
-    render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} tab="dicas" offers={offers} posts={[post]} />);
+  it('hides offers on tabs other than "Ver tudo"', async () => {
+    await render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} tab="dicas" offers={offers} posts={[post]} />);
     expect(screen.queryByText('Passagens aéreas')).toBeNull();
     expect(screen.getByText('Carlos Souza')).toBeOnTheScreen();
   });
 
-  it('fires onTabChange when a tab is pressed', () => {
+  it('fires onTabChange when a tab is pressed', async () => {
     const onTabChange = jest.fn();
-    render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} onTabChange={onTabChange} />);
-    fireEvent.press(screen.getByText('Fotos'));
+    await render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} onTabChange={onTabChange} />);
+    await fireEvent.press(screen.getByText('Fotos'));
     expect(onTabChange).toHaveBeenCalledWith('fotos');
   });
 
-  it('fires onPressOffer with the offer id', () => {
+  it('fires onPressOffer with the offer id', async () => {
     const onPressOffer = jest.fn();
-    render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} offers={offers} onPressOffer={onPressOffer} />);
-    fireEvent.press(screen.getByText('Ver passagens'));
+    await render(<DestinationDetails title="Fernando de Noronha, PE" banner={banner} offers={offers} onPressOffer={onPressOffer} />);
+    await fireEvent.press(screen.getByText('Ver passagens'));
     expect(onPressOffer).toHaveBeenCalledWith('passagens');
   });
 });

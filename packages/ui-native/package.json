@@ -23,7 +23,8 @@
     "!**/*.stories.*",
     "!**/*.spec.*",
     "!**/__tests__",
-    "!src/_figma"
+    "!src/_figma",
+    "!src/_zupper-app"
   ],
   "scripts": {
     "build": "bob build",
@@ -89,7 +90,7 @@
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
-    "exclude": "**/{__tests__,__fixtures__,__mocks__,_figma}/**",
+    "exclude": "**/{__tests__,__fixtures__,__mocks__,_figma,_zupper-app}/**",
     "targets": [
       "commonjs",
       "module",

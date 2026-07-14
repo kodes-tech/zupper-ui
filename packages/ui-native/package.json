@@ -70,7 +70,7 @@
     "postcss": "^8.4.0",
     "postcss-loader": "^8.1.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react-dom": "19.2.7",
     "react-native": "0.83.2",
     "react-native-builder-bob": "^0.30.0",
     "react-native-linear-gradient": "2.8.3",

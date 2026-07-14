@@ -20,3 +20,4 @@ export * from './StatusBanner';
 export * from './HotelBenefitItem';
 export * from './NumberStepper';
 export * from './StarRating';
+export * from './HotelSearchSummary';

@@ -3,6 +3,7 @@ export * from './BottomNav';
 export * from './BottomSheet';
 export * from './CommunityCTA';
 export * from './GreetingHeader';
+export * from './HotelCard';
 export * from './NewsBanner';
 export * from './NotInterestedSheet';
 export * from './PostActionsSheet';

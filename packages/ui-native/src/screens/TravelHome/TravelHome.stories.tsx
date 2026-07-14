@@ -86,3 +86,37 @@ export const SoIda = {
     tripType: 'soIda',
   },
 };
+
+/** Aba Hospedagens — estado inicial: destino/datas vazios, CTA desabilitado. */
+export const HospedagensVazio = {
+  args: {
+    productTab: 'hospedagens',
+  },
+};
+
+/** Aba Hospedagens — preenchida: destino, datas e hóspedes escolhidos. */
+export const HospedagensPreenchido = {
+  args: {
+    productTab: 'hospedagens',
+    stay: {
+      destination: 'Recife, PE',
+      dates: '10 Set 26 - 20 Set 26',
+      guests: '2 Adultos, 1 Quarto',
+      canSearch: true,
+      onPressDestination: action('stay.onPressDestination'),
+      onPressDates: action('stay.onPressDates'),
+      onPressGuests: action('stay.onPressGuests'),
+      onSearch: action('stay.onSearch'),
+    },
+    searchHistory,
+    news,
+    support,
+  },
+};
+
+/** Aba Pacotes — abre WebView no app; aqui é só a nota. */
+export const Pacotes = {
+  args: {
+    productTab: 'pacotes',
+  },
+};

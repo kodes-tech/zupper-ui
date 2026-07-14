@@ -68,3 +68,4 @@ export { default as TravelMapsSearch } from './TravelMapsSearch';
 export { default as TravelChevronRight } from './TravelChevronRight';
 export { default as SupportHelp } from './SupportHelp';
 export { default as SupportWhatsapp } from './SupportWhatsapp';
+export { default as TravelGuests } from './TravelGuests';

@@ -270,16 +270,17 @@
     <g id="i-maps-search"><path fill="currentColor" d="M21.4697 23.0303C21.7626 23.3232 22.2374 23.3232 22.5303 23.0303C22.8232 22.7374 22.8232 22.2626 22.5303 21.9697L22 22.5L21.4697 23.0303ZM20.4 20.9L19.8697 21.4303L21.4697 23.0303L22 22.5L22.5303 21.9697L20.9303 20.3697L20.4 20.9ZM21.2 18.1H21.95C21.95 15.6976 20.0024 13.75 17.6 13.75V14.5V15.25C19.174 15.25 20.45 16.526 20.45 18.1H21.2ZM17.6 14.5V13.75C15.1976 13.75 13.25 15.6976 13.25 18.1H14H14.75C14.75 16.526 16.026 15.25 17.6 15.25V14.5ZM14 18.1H13.25C13.25 20.5024 15.1976 22.45 17.6 22.45V21.7V20.95C16.026 20.95 14.75 19.674 14.75 18.1H14ZM17.6 21.7V22.45C20.0024 22.45 21.95 20.5024 21.95 18.1H21.2H20.45C20.45 19.674 19.174 20.95 17.6 20.95V21.7Z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M22 12.5642V9.71749C22 7.77787 22 6.80807 21.4142 6.2055C20.8284 5.60294 19.8856 5.60294 18 5.60294H15.9214C15.004 5.60294 14.9964 5.60116 14.1715 5.18834L10.8399 3.52114C9.44884 2.82504 8.75332 2.47699 8.01238 2.50118C7.27143 2.52537 6.59877 2.91808 5.25345 3.70351L4.02558 4.42037C3.03739 4.99729 2.54329 5.28576 2.27164 5.76564C2 6.24553 2 6.82993 2 7.99873V16.2157C2 17.7514 2 18.5193 2.34226 18.9467C2.57001 19.231 2.88916 19.4222 3.242 19.4856C3.77226 19.5808 4.42148 19.2018 5.71987 18.4437C6.60156 17.929 7.45011 17.3944 8.50487 17.5394C9.38869 17.6608 10.21 18.2185 11 18.6138M8 2.5L8 17.5M15 5.5V11.5"/></g>
     <g id="i-chevron-right"><path fill="none" stroke="currentColor" stroke-linecap="round" d="m8.028 4.148 7.999 8-8 8"/></g>
     <g id="i-help"><circle cx="12.027" cy="15.786" r="0.5" fill="none" stroke="currentColor" stroke-width="0.622"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M12.027 13.218v-.213a1.6 1.6 0 0 1 .866-1.37 1.57 1.57 0 0 0 .847-1.341 1.712 1.712 0 0 0-3.425 0m7.272 4.634 1.589.794A7.99 7.99 0 0 0 6.89 6.024m-.423 3.344L4.88 8.573a7.99 7.99 0 0 0 12.285 9.698"/></g>
+    <g id="i-guests"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.416 7.704a2.611 2.611 0 1 1 5.222 0 2.611 2.611 0 0 1-5.222 0Zm2.611-3.611a3.611 3.611 0 1 0 0 7.222 3.611 3.611 0 0 0 0-7.222Zm0 8.895c-1.872 0-3.74.454-5.156 1.279-1.413.822-2.455 2.068-2.455 3.659v.889a1.389 1.389 0 0 0 1.389 1.389h12.444a1.389 1.389 0 0 0 1.39-1.39v-.888c0-1.59-1.043-2.837-2.455-3.66-1.417-.824-3.285-1.277-5.157-1.277Zm-6.611 4.938c0-1.1.714-2.071 1.958-2.795 1.239-.722 2.927-1.143 4.653-1.143 1.727 0 3.414.421 4.653 1.143 1.244.724 1.958 1.696 1.958 2.795v.889a.389.389 0 0 1-.389.389H5.805a.389.389 0 0 1-.389-.39v-.888Z"/></g>
   </defs>
 </svg>
 
 <header class="page-header">
-  <h1>Home / Busca de voos — referência do código do Zupper App</h1>
+  <h1>Home / Busca (voos e hospedagens) — referência do código do Zupper App</h1>
   <p>
-    Reprodução da tela Home do app (aba <strong>Voos</strong>) com os valores extraídos direto do código
-    (<code>apps/zupper-app/.../Dashboard/Home</code> + <code>libs/aerial/search-engine</code> +
-    <code>libs/app-ui</code>). Os blocos tracejados são seções cujo interior ainda não foi extraído
-    (DealItem, Banner, ActionList) — ficam para as próximas telas. O componente real é o <code>TravelHome.tsx</code> ao lado (Screens/TravelHome no Storybook).
+    Reprodução da tela Home do app (abas <strong>Voos</strong> e <strong>Hospedagens</strong>) com os valores extraídos direto do código
+    (<code>apps/zupper-app/.../Dashboard/Home</code> + <code>libs/aerial</code> + <code>libs/hotel/search-engine</code> +
+    <code>libs/app-ui</code>). Os blocos tracejados são seções cujo interior ainda não foi extraído (DealItem). Pacotes abre
+    WebView no app. O componente real é o <code>TravelHome.tsx</code> ao lado (Screens/TravelHome no Storybook).
   </p>
 </header>
 
@@ -605,6 +606,90 @@
           <h3>Novidades</h3>
           <div class="placeholder" style="height:120px">Banner (carrossel) — interior não extraído</div>
         </div>
+      </div>
+
+      <nav class="tab-bar">
+        <div class="slot focused"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-search"/></svg></span>
+          <span class="label">Buscar</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-tickets"/></svg></span>
+          <span class="label">Meus Pedidos</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-user-01"/></svg></span>
+          <span class="label">Minha Conta</span>
+        </div></div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ============ VARIANTE 4: Hospedagens — preenchido ============ -->
+  <div class="screen-wrap">
+    <span class="screen-label">Hospedagens — preenchido</span>
+    <div class="screen">
+      <div class="search-box">
+        <div class="greeting">
+          <div class="texts">
+            <h2>Olá, viajante</h2>
+            <p>O que você deseja buscar?</p>
+          </div>
+          <div class="spacer"></div>
+        </div>
+        <div class="product-tabs">
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+            <span class="label">Voos</span>
+          </button>
+          <button class="product-tab active">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-hotel"/></svg></span>
+            <span class="label">Hospedagens</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-packages"/></svg></span>
+            <span class="label">Pacotes</span>
+          </button>
+        </div>
+        <div class="scene">
+          <div class="engine-card">
+            <div class="engine-fields">
+              <button class="p-input filled">
+                <span class="label-row">Destino</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-pinmap"/></svg></span>
+                  <span class="txt">Recife, PE</span>
+                </span>
+              </button>
+              <button class="p-input filled">
+                <span class="label-row">Datas de entrada e saída</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-calendar"/></svg></span>
+                  <span class="txt">10 Set 26 - 20 Set 26</span>
+                </span>
+              </button>
+              <button class="p-input filled">
+                <span class="label-row">Hóspedes</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-guests"/></svg></span>
+                  <span class="txt">2 Adultos, 1 Quarto</span>
+                </span>
+              </button>
+            </div>
+            <div class="engine-footer">
+              <button class="cta">
+                <span class="inner">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-search"/></svg></span>
+                  <span class="txt">Pesquisar hospedagens</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-content">
+        <div class="placeholder" style="height:96px">DealItem (ofertas) — interior não extraído</div>
       </div>
 
       <nav class="tab-bar">

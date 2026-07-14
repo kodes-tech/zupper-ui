@@ -66,6 +66,42 @@ describe('TravelHome', () => {
     expect(onPressHistoryItem).toHaveBeenCalledWith('rec');
   });
 
+  it('renders the hotel engine on the hospedagens tab', () => {
+    const onSearch = jest.fn();
+    render(
+      <TravelHome
+        productTab="hospedagens"
+        stay={{
+          destination: 'Recife, PE',
+          dates: '10 Set 26 - 20 Set 26',
+          guests: '2 Adultos, 1 Quarto',
+          canSearch: true,
+          onSearch,
+        }}
+      />,
+    );
+    // campos de hotel presentes; campos de voo ausentes
+    expect(screen.getByText('Recife, PE')).toBeOnTheScreen();
+    expect(screen.getByText('2 Adultos, 1 Quarto')).toBeOnTheScreen();
+    expect(screen.queryByText('Qual sua origem ?')).toBeNull();
+    fireEvent.press(screen.getByRole('button', { name: 'Pesquisar hospedagens' }));
+    expect(onSearch).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows placeholders and disabled CTA on the empty hospedagens tab', () => {
+    render(<TravelHome productTab="hospedagens" />);
+    expect(screen.getByText('Qual seu destino ?')).toBeOnTheScreen();
+    expect(screen.getByText('Datas de entrada e saída')).toBeOnTheScreen();
+    expect(screen.getByText('1 Adulto, 1 Quarto')).toBeOnTheScreen();
+    expect(screen.queryByRole('button', { name: 'Pesquisar hospedagens' })).toBeNull();
+  });
+
+  it('renders the webview note on the pacotes tab', () => {
+    render(<TravelHome productTab="pacotes" />);
+    expect(screen.getByText('Os pacotes abrem no site do Zupper.')).toBeOnTheScreen();
+    expect(screen.queryByText('Qual sua origem ?')).toBeNull();
+  });
+
   it('only exposes the search action when canSearch is true', () => {
     const onSearch = jest.fn();
     const { rerender } = render(<TravelHome onSearch={onSearch} />);

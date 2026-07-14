@@ -76,6 +76,7 @@ const registry = {
   'travel-viajantes': Svgs.TravelViajantes,
   'travel-swap': Svgs.TravelSwap,
   'travel-search': Svgs.TravelSearch,
+  'travel-guests': Svgs.TravelGuests,
   'travel-maps-search': Svgs.TravelMapsSearch,
   'travel-chevron-right': Svgs.TravelChevronRight,
   'support-help': Svgs.SupportHelp,

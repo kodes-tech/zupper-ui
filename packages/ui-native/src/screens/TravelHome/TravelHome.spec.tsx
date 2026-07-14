@@ -50,6 +50,22 @@ describe('TravelHome', () => {
     expect(onPressOrigin).toHaveBeenCalledTimes(1);
   });
 
+  it('renders the search history section only when there are items', () => {
+    const onPressHistoryItem = jest.fn();
+    const { rerender } = render(<TravelHome />);
+    expect(screen.queryByText('Pesquisas recentes')).toBeNull();
+
+    rerender(
+      <TravelHome
+        searchHistory={[{ id: 'rec', type: 'voo', destination: 'Recife', dates: '10 set - 20 set' }]}
+        onPressHistoryItem={onPressHistoryItem}
+      />,
+    );
+    expect(screen.getByText('Pesquisas recentes')).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('button', { name: 'Pesquisar Recife' }));
+    expect(onPressHistoryItem).toHaveBeenCalledWith('rec');
+  });
+
   it('only exposes the search action when canSearch is true', () => {
     const onSearch = jest.fn();
     const { rerender } = render(<TravelHome onSearch={onSearch} />);

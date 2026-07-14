@@ -201,6 +201,27 @@
   .tab-bar .slot.focused .icon { color: var(--primary); }
   .tab-bar .slot.focused .label { color: var(--primary); }
 
+
+  /* ===== SearchHistoryList — 'Sua próxima viagem está te esperando' ===== */
+  .history { background: var(--neutral-100); margin-top: 20px; padding: 16px 14px 0; } /* mt spacing500 · padV spacing400 · container padH 14 */
+  .history .h-title { margin: 0 0 16px; padding: 0 24px; font-size: 27px; font-weight: 300; line-height: 34px; color: var(--neutral-700); } /* fontSize500 · weight 300 · padH spacing600 */
+  .history .h-title b { font-weight: 700; }
+  .history .h-sub { display: flex; flex-direction: row; align-items: center; gap: 6px; margin: 0 24px; } /* gap spacing150 */
+  .history .h-sub .icon { width: 24px; height: 24px; color: var(--neutral-500); }
+  .history .h-sub span { font-size: 20px; font-weight: 400; color: var(--neutral-500); margin-bottom: 12px; } /* fontSize250 · mb spacing300 */
+  .history .h-list { padding: 0 24px; }
+  .history .h-item { display: flex; flex-direction: row; align-items: center; padding: 16px 0; margin: 4px 0; } /* padV spacing400 · mV spacing100 */
+  .history .h-item + .h-item { border-top: 1px solid var(--neutral-200); }
+  .history .h-thumb { width: 60px; height: 60px; border-radius: 8px; background: var(--neutral-200); flex-shrink: 0; object-fit: cover; }
+  .history .h-details { flex: 1; margin-left: 16px; }
+  .history .h-dest { display: flex; flex-direction: row; align-items: center; margin-bottom: 2px; } /* mb spacing50 */
+  .history .h-dest .icon { width: 24px; height: 24px; color: var(--neutral-500); margin-right: 12px; } /* mr spacing300 */
+  .history .h-dest b { font-size: 14px; font-weight: 700; line-height: 20px; color: var(--neutral-700); } /* fontSize60 */
+  .history .h-dates { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--neutral-500); } /* fontSize40 */
+  .history .h-action { display: flex; flex-direction: row; align-items: center; padding: 8px 12px; } /* spacing200 spacing300 */
+  .history .h-action span { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--primary); margin-right: 8px; }
+  .history .h-action .icon { width: 14px; height: 14px; color: var(--primary); }
+
   svg { display: block; width: 100%; height: 100%; }
 </style>
 </head>
@@ -221,6 +242,8 @@
     <g id="i-search"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M5.067 10.183a5.068 5.068 0 1 1 10.136 0 5.068 5.068 0 0 1-10.136 0Zm8.95 4.664a6.068 6.068 0 1 1 .713-.7l5.114 5.184a.5.5 0 1 1-.712.702l-5.115-5.186Z"/></g>
     <g id="i-tickets"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.204 3.236c-.764 0-1.383.62-1.383 1.383v12.235c0 .764.62 1.383 1.383 1.383h8.47c.764 0 1.383-.62 1.383-1.383V4.62c0-.764-.62-1.383-1.383-1.383h-8.47Zm8.03 16h.44a2.382 2.382 0 0 0 2.383-2.382V4.62a2.382 2.382 0 0 0-2.383-2.383h-8.47A2.382 2.382 0 0 0 6.82 4.62V6h-.44a2.382 2.382 0 0 0-2.383 2.383v11.294A2.382 2.382 0 0 0 6.38 22.06h8.47a2.382 2.382 0 0 0 2.383-2.382v-.442Zm-1 0h-7.03a2.382 2.382 0 0 1-2.383-2.382V7.001h-.44a1.382 1.382 0 0 0-1.383 1.383v11.294A1.382 1.382 0 0 0 6.38 21.06h8.47a1.382 1.382 0 0 0 1.383-1.382v-.442Zm-2.295-9.913a.5.5 0 0 0-1 .004l.01 2.14-2.651 2.177a.5.5 0 0 0 .635.773l2.02-1.66.01 2.32a.5.5 0 1 0 1-.004l-.01-2.321 1.989 1.662a.5.5 0 0 0 .641-.767l-2.635-2.203-.009-2.121ZM9.047 6.506a.5.5 0 0 1 .5-.5h.01a.5.5 0 0 1 0 1h-.01a.5.5 0 0 1-.5-.5Zm3.088-.5a.5.5 0 0 0 0 1h.01a.5.5 0 1 0 0-1h-.01Zm2.094.5a.5.5 0 0 1 .5-.5h.01a.5.5 0 1 1 0 1h-.011a.5.5 0 0 1-.5-.5Zm3.092-.5a.5.5 0 0 0 0 1h.01a.5.5 0 1 0 0-1h-.01Z"/></g>
     <g id="i-user-01"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M5.957 20.148a8.699 8.699 0 0 1 12.14-.047M4.03 17.183a8.97 8.97 0 0 1 7.998-13.035 8.97 8.97 0 0 1 7.999 13.035m-5.008-5.508a2.99 2.99 0 1 1-5.981 0 2.99 2.99 0 0 1 5.98 0Z"/></g>
+    <g id="i-maps-search"><path fill="currentColor" d="M21.4697 23.0303C21.7626 23.3232 22.2374 23.3232 22.5303 23.0303C22.8232 22.7374 22.8232 22.2626 22.5303 21.9697L22 22.5L21.4697 23.0303ZM20.4 20.9L19.8697 21.4303L21.4697 23.0303L22 22.5L22.5303 21.9697L20.9303 20.3697L20.4 20.9ZM21.2 18.1H21.95C21.95 15.6976 20.0024 13.75 17.6 13.75V14.5V15.25C19.174 15.25 20.45 16.526 20.45 18.1H21.2ZM17.6 14.5V13.75C15.1976 13.75 13.25 15.6976 13.25 18.1H14H14.75C14.75 16.526 16.026 15.25 17.6 15.25V14.5ZM14 18.1H13.25C13.25 20.5024 15.1976 22.45 17.6 22.45V21.7V20.95C16.026 20.95 14.75 19.674 14.75 18.1H14ZM17.6 21.7V22.45C20.0024 22.45 21.95 20.5024 21.95 18.1H21.2H20.45C20.45 19.674 19.174 20.95 17.6 20.95V21.7Z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M22 12.5642V9.71749C22 7.77787 22 6.80807 21.4142 6.2055C20.8284 5.60294 19.8856 5.60294 18 5.60294H15.9214C15.004 5.60294 14.9964 5.60116 14.1715 5.18834L10.8399 3.52114C9.44884 2.82504 8.75332 2.47699 8.01238 2.50118C7.27143 2.52537 6.59877 2.91808 5.25345 3.70351L4.02558 4.42037C3.03739 4.99729 2.54329 5.28576 2.27164 5.76564C2 6.24553 2 6.82993 2 7.99873V16.2157C2 17.7514 2 18.5193 2.34226 18.9467C2.57001 19.231 2.88916 19.4222 3.242 19.4856C3.77226 19.5808 4.42148 19.2018 5.71987 18.4437C6.60156 17.929 7.45011 17.3944 8.50487 17.5394C9.38869 17.6608 10.21 18.2185 11 18.6138M8 2.5L8 17.5M15 5.5V11.5"/></g>
+    <g id="i-chevron-right"><path fill="none" stroke="currentColor" stroke-linecap="round" d="m8.028 4.148 7.999 8-8 8"/></g>
   </defs>
 </svg>
 
@@ -416,6 +439,28 @@
         </div>
       </div>
 
+      <div class="history">
+        <p class="h-title">Sua <b>próxima viagem</b> está te <b>esperando</b></p>
+        <div class="h-sub"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-maps-search"/></svg></span><span>Pesquisas recentes</span></div>
+        <div class="h-list">
+          <div class="h-item">
+            <img class="h-thumb" src="../../_figma/assets/photos/card-destino.jpg" alt="" />
+            <div class="h-details">
+              <div class="h-dest"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span><b>Recife</b></div>
+              <div class="h-dates">10 set - 20 set</div>
+            </div>
+            <div class="h-action"><span>Pesquisar</span><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-chevron-right"/></svg></span></div>
+          </div>
+          <div class="h-item">
+            <span class="h-thumb" style="display:flex;align-items:center;justify-content:center;background:var(--neutral-100)"><span class="icon" style="width:24px;height:24px;color:var(--neutral-500)"><svg viewBox="0 0 25 25"><use href="#i-pinmap"/></svg></span></span>
+            <div class="h-details">
+              <div class="h-dest"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-hotel"/></svg></span><b>Salvador</b></div>
+              <div class="h-dates">02 out - 08 out</div>
+            </div>
+            <div class="h-action"><span>Pesquisar</span><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-chevron-right"/></svg></span></div>
+          </div>
+        </div>
+      </div>
       <div class="home-content">
         <div class="placeholder" style="height:96px">DealItem (ofertas de voo) — interior não extraído</div>
         <div>

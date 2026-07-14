@@ -65,3 +65,5 @@ export { default as TravelCalendar } from './TravelCalendar';
 export { default as TravelViajantes } from './TravelViajantes';
 export { default as TravelSwap } from './TravelSwap';
 export { default as TravelSearch } from './TravelSearch';
+export { default as TravelMapsSearch } from './TravelMapsSearch';
+export { default as TravelChevronRight } from './TravelChevronRight';

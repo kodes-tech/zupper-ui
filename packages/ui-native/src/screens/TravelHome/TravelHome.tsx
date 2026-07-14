@@ -7,6 +7,8 @@ import { Icon } from '../../atoms/Icon';
 import type { IconName } from '../../atoms/Icon';
 import { BottomNav } from '../../organisms/BottomNav';
 import type { BottomNavKey } from '../../organisms/BottomNav';
+import { TravelSearchHistory } from '../../organisms/TravelSearchHistory';
+import type { TravelSearchHistoryItemData } from '../../organisms/TravelSearchHistory';
 
 export type TravelProductTab = 'voos' | 'hospedagens' | 'pacotes';
 export type TravelTripType = 'idaEVolta' | 'soIda';
@@ -33,6 +35,11 @@ export type TravelHomeProps = {
   travelers?: string;
   /** Habilita o CTA Pesquisar (no app: origem + destino + datas escolhidos). */
   canSearch?: boolean;
+  /**
+   * Histórico de buscas ("Sua próxima viagem está te esperando"), logo abaixo
+   * do motor de busca. Omitido/vazio = sem a seção, como no app sem histórico.
+   */
+  searchHistory?: TravelSearchHistoryItemData[];
   active?: BottomNavKey;
   onSelectProductTab?: (tab: TravelProductTab) => void;
   onChangeTripType?: (type: TravelTripType) => void;
@@ -43,6 +50,8 @@ export type TravelHomeProps = {
   onPressDates?: () => void;
   onPressTravelers?: () => void;
   onSearch?: () => void;
+  /** Repetir uma pesquisa do histórico (recebe o id do item). */
+  onPressHistoryItem?: (id: string) => void;
   onNavigate?: (key: BottomNavKey) => void;
 };
 
@@ -169,6 +178,7 @@ export const TravelHome = ({
   dates,
   travelers = '1 Viajante, econômica',
   canSearch = false,
+  searchHistory,
   active,
   onSelectProductTab,
   onChangeTripType,
@@ -178,6 +188,7 @@ export const TravelHome = ({
   onPressDates,
   onPressTravelers,
   onSearch,
+  onPressHistoryItem,
   onNavigate,
 }: TravelHomeProps): React.ReactElement => (
   <View className="flex-1 bg-surface-default">
@@ -311,7 +322,14 @@ export const TravelHome = ({
         </View>
       </View>
 
-      {/* Abaixo da dobra: ofertas/novidades/atendimento ficam para as próximas telas. */}
+      {/* Histórico de buscas — no app aparece logo abaixo do motor, com margem de 20. */}
+      {searchHistory?.length ? (
+        <View className="mt-[20px]">
+          <TravelSearchHistory items={searchHistory} onPressItem={onPressHistoryItem} />
+        </View>
+      ) : null}
+
+      {/* Abaixo: ofertas/novidades/atendimento ficam para as próximas telas. */}
       <View className="min-h-[120px] bg-surface-tag" />
     </ScrollView>
 

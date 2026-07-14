@@ -77,6 +77,8 @@ const registry = {
   'travel-viajantes': Svgs.TravelViajantes,
   'travel-swap': Svgs.TravelSwap,
   'travel-search': Svgs.TravelSearch,
+  'travel-maps-search': Svgs.TravelMapsSearch,
+  'travel-chevron-right': Svgs.TravelChevronRight,
 } as const;
 
 export type IconName = keyof typeof registry;

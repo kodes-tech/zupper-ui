@@ -11,3 +11,4 @@ export * from './PublishedModal';
 export * from './ReportReasonsSheet';
 export * from './ReportSentSheet';
 export * from './ScreenHeader';
+export * from './TravelSearchHistory';

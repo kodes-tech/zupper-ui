@@ -3,6 +3,13 @@ import { View } from 'react-native';
 import { action } from '@storybook/addon-actions';
 import { TravelHome } from './TravelHome';
 
+const cardDestino = require('../../_figma/assets/photos/card-destino.jpg');
+
+const searchHistory = [
+  { id: 'rec', type: 'voo' as const, destination: 'Recife', dates: '10 set - 20 set', image: cardDestino },
+  { id: 'ssa', type: 'hospedagem' as const, destination: 'Salvador', dates: '02 out - 08 out' },
+];
+
 export default {
   title: 'Screens/TravelHome',
   component: TravelHome,
@@ -16,6 +23,7 @@ export default {
     onPressDates: action('onPressDates'),
     onPressTravelers: action('onPressTravelers'),
     onSearch: action('onSearch'),
+    onPressHistoryItem: action('onPressHistoryItem'),
     onNavigate: action('onNavigate'),
   },
   parameters: { layout: 'centered' },
@@ -47,6 +55,14 @@ export const Preenchido = {
     dates: '10 Set 26 - 20 Set 26',
     travelers: '2 Viajantes, econômica',
     canSearch: true,
+    searchHistory,
+  },
+};
+
+/** Estado vazio de busca, mas com histórico de pesquisas anteriores. */
+export const ComHistorico = {
+  args: {
+    searchHistory,
   },
 };
 

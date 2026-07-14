@@ -1,11 +1,17 @@
 // Organisms — componentes compostos e complexos: PostCard, Comment, FeedItem...
+export * from './AddressForm';
 export * from './BottomNav';
 export * from './BottomSheet';
 export * from './CheckoutHeader';
 export * from './CommunityCTA';
+export * from './CreditCardForm';
 export * from './GreetingHeader';
+export * from './InvoiceDocumentForm';
 export * from './NextStepFooter';
 export * from './NotInterestedSheet';
+export * from './PassengerForm';
+export * from './PaymentMethodSelector';
+export * from './PixForm';
 export * from './PostActionsSheet';
 export * from './PostCard';
 export * from './ProfileTabs';
@@ -13,4 +19,5 @@ export * from './PublishedModal';
 export * from './ReportReasonsSheet';
 export * from './ReportSentSheet';
 export * from './ScreenHeader';
+export * from './TermsAcceptance';
 export * from './TripSummaryFooter';

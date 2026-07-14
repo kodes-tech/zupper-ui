@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 
 export type TripSummaryFooterProps = {
@@ -34,7 +35,7 @@ export const TripSummaryFooter = ({
       className="h-[35px] flex-row items-center justify-center gap-xxs border-y border-border-default"
     >
       <Text className="font-sans text-xs font-medium text-brand-zupper">Ver detalhes</Text>
-      <Icon name="chevron-up" size={14} />
+      <Icon name="chevron-up" size={14} color={colors.brand.zupper} />
     </Pressable>
 
     <View className="flex-row items-start justify-between px-xxl py-xl">

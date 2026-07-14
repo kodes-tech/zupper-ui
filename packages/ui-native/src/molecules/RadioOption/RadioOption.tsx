@@ -35,11 +35,7 @@ export const RadioOption = ({
     >
       {selected ? <View className="h-[12px] w-[12px] rounded-pill bg-brand-strong" /> : null}
     </View>
-    <Text
-      className={`font-sans text-md ${
-        selected ? 'font-bold text-fg-secondary' : 'font-normal text-fg-subtle'
-      }`}
-    >
+    <Text className={`font-sans text-md text-fg-subtle ${selected ? 'font-bold' : 'font-normal'}`}>
       {label}
     </Text>
   </Pressable>

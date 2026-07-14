@@ -66,14 +66,20 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
-  // Ícones do Checkout — contato (arte extraída do código do zupper-app,
-  // libs/app-ui/src/lib/atoms/icons). `clock-countdown` usa `currentColor`
-  // porque aparece branco sobre o banner vermelho de contagem regressiva.
+  // Ícones do Checkout (arte extraída do código do zupper-app,
+  // libs/app-ui/src/lib/atoms/icons). `clock-countdown`, `chevron-up`,
+  // `chevron-down`, `card` e `pix` usam `currentColor` — a mesma arte é
+  // reaproveitada em mais de um contexto/cor (ex.: `card` no campo de CPF,
+  // muted, e no botão "Cartão de Crédito", na cor da marca quando ativo).
+  'check-circle': Svgs.CheckCircle,
   'id-card': Svgs.IdCard,
   email: Svgs.Email,
   phone: Svgs.Phone,
   lock: Svgs.Lock,
   'chevron-up': Svgs.ChevronUp,
+  'chevron-down': Svgs.ChevronDown,
+  card: Svgs.Card,
+  pix: Svgs.Pix,
   'checkbox-check': Svgs.CheckboxCheck,
   'checkbox-empty': Svgs.CheckboxEmpty,
   'clock-countdown': Svgs.ClockCountdown,

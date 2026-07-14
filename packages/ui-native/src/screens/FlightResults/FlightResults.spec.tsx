@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react-native';
 import { FlightResults } from './FlightResults';
 import type { FlightResultsProps } from './FlightResults';
 import type { FlightCardProps } from '../../organisms/FlightCard';
+import type { FareFamily } from '../../organisms/FareFamilySelection';
 
 const outboundFlight: FlightCardProps = {
   airline: 'LATAM',
@@ -24,6 +25,23 @@ const returnFlight: FlightCardProps = {
   selected: true,
 };
 
+const fareFamilies: FareFamily[] = [
+  {
+    id: 'light',
+    title: 'LIGHT',
+    price: 'R$ 2.259,98',
+    headerColor: '#769d28',
+    benefits: [{ label: 'Bagagem', included: false }],
+  },
+  {
+    id: 'standard',
+    title: 'STANDARD',
+    price: '+ R$ 200,95',
+    headerColor: '#008d87',
+    benefits: [{ label: 'Bagagem (01 peça)', included: true }],
+  },
+];
+
 const baseProps: FlightResultsProps = {
   originCode: 'SAO',
   destinationCode: 'REC',
@@ -36,6 +54,8 @@ const baseProps: FlightResultsProps = {
   outboundFlight,
   returnDate: 'Ter, 28 De Julho 2026',
   returnFlight,
+  fareFamilies,
+  selectedFareFamilyId: 'light',
   fareTitle: 'Melhor preço',
   showBestPriceBadge: true,
   fareRows: [
@@ -64,6 +84,33 @@ describe('FlightResults', () => {
     expect(screen.getByText('Melhor preço')).toBeOnTheScreen();
     expect(screen.getByText('TOTAL A PAGAR')).toBeOnTheScreen();
     expect(screen.getByText('R$ 2.162,76')).toBeOnTheScreen();
+  });
+
+  it('renders the fare family grid and fires onSelectFareFamily/onPressFareDetails', () => {
+    const onSelectFareFamily = jest.fn();
+    const onPressFareDetails = jest.fn();
+    render(
+      <FlightResults
+        {...baseProps}
+        onSelectFareFamily={onSelectFareFamily}
+        onPressFareDetails={onPressFareDetails}
+      />,
+    );
+    expect(screen.getByText('LIGHT')).toBeOnTheScreen();
+    expect(screen.getByText('STANDARD')).toBeOnTheScreen();
+    expect(screen.getByText('Selecionado')).toBeOnTheScreen();
+
+    fireEvent.press(screen.getByText('Selecionar'));
+    expect(onSelectFareFamily).toHaveBeenCalledWith('standard');
+
+    fireEvent.press(screen.getByLabelText('Ver tarifa'));
+    expect(onPressFareDetails).toHaveBeenCalledTimes(1);
+  });
+
+  it('omits the fare family section when there are no families', () => {
+    render(<FlightResults {...baseProps} fareFamilies={undefined} />);
+    expect(screen.queryByText('Tarifa')).toBeNull();
+    expect(screen.queryByText('LIGHT')).toBeNull();
   });
 
   it('uses the singular label for a single result', () => {

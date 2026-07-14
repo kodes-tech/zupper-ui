@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { action } from '@storybook/addon-actions';
 import { FlightResults } from './FlightResults';
 import type { FlightCardProps } from '../../organisms/FlightCard';
+import type { FareFamily } from '../../organisms/FareFamilySelection';
 
 const outboundFlight: FlightCardProps = {
   airline: 'LATAM',
@@ -27,6 +28,53 @@ const returnFlight: FlightCardProps = {
   selected: true,
 };
 
+const fareFamilies: FareFamily[] = [
+  {
+    id: 'light',
+    title: 'LIGHT',
+    price: 'R$ 2.259,98',
+    headerColor: '#769d28',
+    benefits: [
+      { label: 'Bagagem', included: false },
+      { label: 'Marcação de Assento', included: false },
+      { label: 'Reembolso', included: false },
+    ],
+  },
+  {
+    id: 'standard',
+    title: 'STANDARD',
+    price: '+ R$ 200,95',
+    headerColor: '#008d87',
+    benefits: [
+      { label: 'Bagagem (01 peça)', included: true },
+      { label: 'Marcação de Assento', included: false },
+      { label: 'Reembolso', included: false },
+    ],
+  },
+  {
+    id: 'full',
+    title: 'FULL',
+    price: '+ R$ 309,00',
+    headerColor: '#ba19a1',
+    benefits: [
+      { label: 'Bagagem (01 peça)', included: true },
+      { label: 'Marcação de Assento', included: true },
+      { label: 'Reembolso Integral', included: true },
+    ],
+  },
+  {
+    id: 'premium-economy',
+    title: 'PREMIUM ECONOMY',
+    price: '+ R$ 337,92',
+    headerColor: '#008d87',
+    benefits: [
+      { label: 'Bagagem (01 peça)', included: true },
+      { label: 'Marcação de Assento', included: true },
+      { label: 'Reembolso Integral', included: true },
+    ],
+  },
+];
+
 export default {
   title: 'Screens/FlightResults',
   component: FlightResults,
@@ -43,19 +91,23 @@ export default {
     outboundFlight,
     returnDate: 'Ter, 28 De Julho 2026',
     returnFlight,
-    fareTitle: 'Melhor preço',
-    showBestPriceBadge: true,
+    fareFamilies,
+    selectedFareFamilyId: 'light',
+    fareTitle: 'Sua compra',
+    showBestPriceBadge: false,
     fareRows: [
-      { label: 'Tarifa por adulto', value: 'R$ 1.963,27', bold: true, withDivider: true },
-      { label: '1 adulto', value: 'R$ 1.963,27' },
-      { label: 'Taxas e impostos', value: 'R$ 199,49', withDivider: true },
-      { label: 'TOTAL A PAGAR', value: 'R$ 2.162,76', bold: true },
+      { label: 'Tarifa por adulto', value: 'R$ 2.165,79', bold: true, withDivider: true },
+      { label: '1 adulto', value: 'R$ 2.165,79' },
+      { label: 'Taxas e impostos', value: 'R$ 94,19', withDivider: true },
+      { label: 'TOTAL A PAGAR', value: 'R$ 2.259,98', bold: true },
     ],
     onBack: action('onBack'),
     onEdit: action('onEdit'),
     onShare: action('onShare'),
     onOpenFilters: action('onOpenFilters'),
     onChangeSort: action('onChangeSort'),
+    onSelectFareFamily: action('onSelectFareFamily'),
+    onPressFareDetails: action('onPressFareDetails'),
   },
   parameters: { layout: 'centered' },
   decorators: [
@@ -76,8 +128,30 @@ export default {
   ],
 };
 
-/** Estado do screenshot: ida e volta com o melhor preço do grupo já selecionado. */
+/** Estado do screenshot: ida e volta, LIGHT selecionada na grade de tarifas. */
 export const IdaEVolta = {};
+
+export const FamiliaStandardSelecionada = {
+  args: {
+    selectedFareFamilyId: 'standard',
+    fareTitle: 'Melhor preço',
+    showBestPriceBadge: true,
+    fareRows: [
+      { label: 'Tarifa por adulto', value: 'R$ 2.366,74', bold: true, withDivider: true },
+      { label: '1 adulto', value: 'R$ 2.366,74' },
+      { label: 'Taxas e impostos', value: 'R$ 94,19', withDivider: true },
+      { label: 'TOTAL A PAGAR', value: 'R$ 2.460,93', bold: true },
+    ],
+  },
+};
+
+/** Sem famílias tarifárias (ex.: cia sem tarifas segmentadas) — seção some. */
+export const SemFamiliaTarifaria = {
+  args: {
+    fareFamilies: undefined,
+    selectedFareFamilyId: undefined,
+  },
+};
 
 export const SoIda = {
   args: {

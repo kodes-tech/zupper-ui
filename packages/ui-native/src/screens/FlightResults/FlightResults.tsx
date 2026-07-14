@@ -4,6 +4,8 @@ import { Icon } from '../../atoms/Icon';
 import { FilterChip } from '../../atoms/FilterChip';
 import { FlightCard } from '../../organisms/FlightCard';
 import type { FlightCardProps } from '../../organisms/FlightCard';
+import { FareFamilySelection } from '../../organisms/FareFamilySelection';
+import type { FareFamily } from '../../organisms/FareFamilySelection';
 import { FareSummary } from '../../organisms/FareSummary';
 import type { FareSummaryRow } from '../../organisms/FareSummary';
 
@@ -28,6 +30,12 @@ export type FlightResultsProps = {
   /** Data do voo de volta já formatada. Omitida = viagem só ida. */
   returnDate?: string;
   returnFlight?: FlightCardProps;
+  /** Famílias tarifárias do voo selecionado (LIGHT/STANDARD/FULL/…). Omitida = sem seção de tarifa. */
+  fareFamilies?: FareFamily[];
+  selectedFareFamilyId?: string;
+  onSelectFareFamily?: (id: string) => void;
+  /** "Ver tarifa" — abre o comparador completo de famílias. */
+  onPressFareDetails?: () => void;
   /** Título da composição de preço (ex.: "Melhor preço", "Sua compra"). */
   fareTitle?: string;
   /** Selo de estrela no título (voo com melhor preço do grupo). */
@@ -47,13 +55,14 @@ const resultsLabel = (count: number): string =>
 
 /**
  * FlightResults — resultado de busca de voos: resumo da rota (com editar e
- * compartilhar), chips de ordenação, cards de ida/volta (FlightCard) e a
- * composição de preço do voo selecionado (FareSummary). Extraído do
- * AerialResultScreen do zupper-app (apps/zupper-app + libs/aerial/results).
+ * compartilhar), chips de ordenação, cards de ida/volta (FlightCard), a
+ * grade de famílias tarifárias (FareFamilySelection) e a composição de preço
+ * do voo selecionado (FareSummary). Extraído do AerialResultScreen do
+ * zupper-app (apps/zupper-app + libs/aerial/results, libs/aerial/base-fare).
  *
  * Cobre só o que aparece no resultado com o melhor preço já selecionado —
- * comparador de tarifas, lista completa de opções e o botão "Comprar" ficam
- * para as próximas telas.
+ * o comparador completo de famílias ("Ver tarifa", em modal), a lista
+ * completa de opções de voo e o botão "Comprar" ficam para as próximas telas.
  */
 export const FlightResults = ({
   originCode,
@@ -68,6 +77,10 @@ export const FlightResults = ({
   outboundFlight,
   returnDate,
   returnFlight,
+  fareFamilies,
+  selectedFareFamilyId,
+  onSelectFareFamily,
+  onPressFareDetails,
   fareTitle,
   showBestPriceBadge = false,
   fareRows,
@@ -155,6 +168,17 @@ export const FlightResults = ({
           </>
         ) : null}
       </View>
+
+      {fareFamilies && fareFamilies.length > 0 ? (
+        <View className="bg-surface-default px-xl py-lg">
+          <FareFamilySelection
+            families={fareFamilies}
+            selectedFamilyId={selectedFareFamilyId}
+            onSelectFamily={onSelectFareFamily}
+            onPressDetails={onPressFareDetails}
+          />
+        </View>
+      ) : null}
 
       <View className="gap-lg bg-surface-default px-xl py-lg">
         <FareSummary title={fareTitle} showBadge={showBestPriceBadge} rows={fareRows} />

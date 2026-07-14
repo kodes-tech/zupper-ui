@@ -57,6 +57,8 @@ export { default as TabFotosInactive } from './TabFotosInactive';
 export { default as TabRoteirosActive } from './TabRoteirosActive';
 export { default as TabRoteirosInactive } from './TabRoteirosInactive';
 export { default as Verified } from './Verified';
+export { default as CheckCircle } from './CheckCircle';
+export { default as CloseCircle } from './CloseCircle';
 export { default as Star } from './Star';
 export { default as Card } from './Card';
 export { default as FilterSliders } from './FilterSliders';

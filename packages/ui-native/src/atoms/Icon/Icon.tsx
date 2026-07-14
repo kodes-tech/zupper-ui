@@ -67,8 +67,9 @@ const registry = {
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
   // Ícones de "Resultados de busca de voos" (arte extraída do código do
-  // zupper-app, libs/app-ui/src/lib/atoms/icons). Bagagem usa `currentColor`
-  // — a mesma arte muda de cor por estado (franquia incluída/não incluída).
+  // zupper-app, libs/app-ui/src/lib/atoms/icons). Bagagem e check/close usam
+  // `currentColor` — a mesma arte muda de cor por estado ou por reuso (o
+  // check aparece verde na lista de benefícios e branco no botão selecionado).
   star: Svgs.Star,
   card: Svgs.Card,
   'filter-sliders': Svgs.FilterSliders,
@@ -77,6 +78,8 @@ const registry = {
   'baggage-carryon': Svgs.BaggageCarryon,
   'flight-outbound': Svgs.FlightOutbound,
   'flight-return': Svgs.FlightReturn,
+  'check-circle': Svgs.CheckCircle,
+  'close-circle': Svgs.CloseCircle,
 } as const;
 
 export type IconName = keyof typeof registry;

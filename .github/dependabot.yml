@@ -3,6 +3,10 @@ updates:
   # Atualizações de dependências npm (raiz do monorepo cobre os workspaces).
   - package-ecosystem: npm
     directory: /
+    # PRs vão para `develop` (branch de trabalho), NUNCA direto para `main`.
+    # `main` só recebe releases via PR develop -> main + tag. Sem isto, o bot
+    # cria um caminho paralelo pra `main`, furando o fluxo de release.
+    target-branch: develop
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
@@ -20,9 +24,17 @@ updates:
     ignore:
       # react-native-web@0.19 ainda pede React 18 — bump manual controlado.
       - dependency-name: react-native-web
+      # Majors são upgrades deliberados (quebram API / o ecossistema pode não
+      # acompanhar — ex.: TypeScript 7 quebra o ts-jest). Bump manual, não pelo bot.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
   # Mantém as actions do CI atualizadas.
   - package-ecosystem: github-actions
     directory: /
+    target-branch: develop
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

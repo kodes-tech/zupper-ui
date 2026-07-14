@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react-native';
 import { CommunityProfile } from './CommunityProfile';
 import type { ProfilePostSection } from './CommunityProfile';
+import { PublishedModal } from '../../organisms/PublishedModal';
 
 const dicaSections: ProfilePostSection[] = [
   {
@@ -44,5 +45,17 @@ describe('CommunityProfile', () => {
     render(<CommunityProfile {...base} tab="fotos" photos={[]} />);
     expect(screen.getByText('Você ainda não tem publicações')).toBeOnTheScreen();
     expect(screen.getByText('Compartilhe conteúdo na comunidade Zupper')).toBeOnTheScreen();
+  });
+
+  it('renders the overlay above the screen', () => {
+    render(
+      <CommunityProfile
+        {...base}
+        tab="fotos"
+        photos={[{ uri: 'a' }]}
+        overlay={<PublishedModal type="foto" />}
+      />,
+    );
+    expect(screen.getByText('Foto publicada')).toBeOnTheScreen();
   });
 });

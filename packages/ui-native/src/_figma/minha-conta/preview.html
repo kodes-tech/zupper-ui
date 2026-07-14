@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Minha conta — referência Figma (Viajante / Sem viagem / Parceiro / Deslogado)</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Cores vieram de get_variable_defs (Figma Dev Mode) nos 4 nós desta tela — note que usam
+     uma paleta de cinzas diferente das telas anteriores (Dubai 700/500/300 em vez de
+     text/primary-secondary-muted): reproduzido fielmente, não normalizado. */
+  :root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-border: #d4d4d4;
+    --icon-bg-border: #efefef;
+    --text-heading: #1c1c1a;
+    --text-primary: #404040;
+    --text-secondary: #737373;
+    --text-success: #44ba68;
+    --text-danger: #ef4444;
+    --text-pending: #eab308;
+    --brand: #009daf;
+    --badge-viajante-bg: rgba(0,157,175,0.13);
+    --badge-parceiro-gradient: linear-gradient(168.5deg, #ffce00 5.5%, #ea580c 94.5%);
+    --badge-parceiro-text: #1c1c1a;
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--text-primary);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  img { max-width: none; }
+
+  .page-header { max-width: 1200px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 680px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: nowrap; gap: 28px; align-items: flex-start; justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+  .screens::-webkit-scrollbar { height: 8px; }
+  .screens::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 4px; }
+  @media (prefers-color-scheme: dark) { .screens::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); } }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  .phone {
+    width: 390px;
+    max-width: 92vw;
+    height: 844px;
+    background: var(--color-bg);
+    border-radius: 36px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .screen-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-bottom: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  /* header */
+  .header { background: var(--color-surface); flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 4px 24px; padding-top: 40px; height: 88px; }
+  .header img { width: 24px; height: 24px; }
+  .header .spacer { width: 24px; height: 24px; }
+  .header-title { font-size: 17px; font-weight: 700; color: var(--text-heading); }
+  .header.deslogado { height: 104px; justify-content: center; padding-top: 52px; }
+  .header.deslogado .header-title { font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.32px; }
+
+  /* greeting */
+  .greeting { display: flex; align-items: center; gap: 8px; padding: 0 24px; }
+  .avatar { width: 56px; height: 56px; border-radius: 999px; background: #d4d4d4; flex-shrink: 0; overflow: hidden; position: relative; }
+  .avatar img { position: absolute; left: -53.75%; top: -16.31%; width: 199.08%; height: 199.08%; }
+  .greeting-body { flex: 1; min-width: 0; height: 56px; display: flex; flex-direction: column; justify-content: space-between; }
+  .greeting-title { font-weight: 700; font-size: 22px; letter-spacing: 0.44px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .greeting-sub { font-weight: 500; font-size: 16px; letter-spacing: 0.32px; color: var(--text-secondary); }
+  .badge { align-self: flex-end; padding: 3px 8px; border-radius: 2px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .badge-viajante { background: var(--badge-viajante-bg); color: var(--brand); }
+  .badge-parceiro { background: var(--badge-parceiro-gradient); color: var(--badge-parceiro-text); }
+
+  .divider { height: 1px; background: var(--color-border); width: 100%; flex-shrink: 0; }
+
+  /* deslogado hero */
+  .hero { padding: 0 24px; display: flex; flex-direction: column; gap: 16px; }
+  .hero-title { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.44px; }
+  .hero-desc { font-size: 16px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.32px; line-height: 1.5; margin-top: 4px; }
+  .cta-outline-brand { border: 1px solid var(--brand); border-radius: 40px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 20px; }
+  .cta-outline-brand img { width: 24px; height: 24px; }
+  .cta-outline-brand span { font-size: 16px; font-weight: 700; color: var(--brand); letter-spacing: 0.32px; }
+
+  /* sections (Meu perfil / Comunidade / Ajuda / Privacidade) */
+  .section { padding: 0 24px; display: flex; flex-direction: column; gap: 16px; }
+  .section-title { font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.32px; }
+  .rows { display: flex; flex-direction: column; gap: 12px; }
+  .row { display: flex; align-items: flex-start; gap: 12px; }
+  .row-icon-bg { width: 43px; height: 43px; flex-shrink: 0; background: var(--color-surface); border: 1px solid var(--icon-bg-border); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+  .row-icon-bg img { width: 24px; height: 24px; }
+  .row-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .row-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .row-title { font-size: 14px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.28px; white-space: nowrap; }
+  .row-cta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .row-cta span { font-size: 12px; font-weight: 500; color: var(--text-primary); white-space: nowrap; }
+  .row-cta img { width: 12px; height: 12px; }
+  .row-sub { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+  .row-sub.success { color: var(--text-success); }
+  .row-sub.pending { color: var(--text-pending); }
+
+  /* rows sem tela ainda (Comunidade, exceto Minhas publicações) */
+  .row.pending-screen .row-title { position: relative; }
+
+  /* rows sem ícone com fundo (Ajuda/Privacidade usam o mesmo componente, mas em linha) */
+  .row-inline { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .row-inline-left { display: flex; align-items: center; gap: 12px; }
+
+  /* logout */
+  .logout-wrap { display: flex; justify-content: center; padding: 12px 0; }
+  .logout-btn { width: 330px; max-width: calc(100% - 48px); border-radius: 40px; padding: 12px 20px; display: flex; align-items: center; justify-content: center; }
+  .logout-btn span { font-size: 14px; font-weight: 700; color: var(--text-danger); letter-spacing: 0.28px; }
+
+  /* bottom nav */
+  .bottom-nav { flex-shrink: 0; background: var(--color-surface); display: flex; gap: 8px; padding: 16px 20px; width: 100%; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-secondary); font-weight: 500; }
+  .nav-item img { width: 24px; height: 24px; }
+  .nav-item.active { color: var(--brand); }
+
+  .legend { max-width: 1200px; margin: 40px auto 0; font-size: 12px; color: #6b6b70; line-height: 1.6; }
+  @media (prefers-color-scheme: dark) { .legend { color: #9a9aa0; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Minha conta — referência visual (Figma Dev Mode)</h1>
+  <p>
+    Reprodução em CSS real das 4 variantes de "Minha conta" (Logado viajante / Logado sem
+    viagem / Logado parceiro / Deslogado) — cores, spacing e tipografia extraídos via
+    <code>get_design_context</code> escopado por instância. Ticket <code>KSA-46</code>: a
+    seção "Comunidade" (Minhas publicações / Posts curtidos / Preferências de viagem /
+    Contas bloqueadas) só tem "Minhas publicações" com tela de destino já existente
+    (<code>../comunidade/</code>); as outras 3 ainda não têm tela — discovery/design
+    (<code>KSA-13</code>) segue pendente. Ícones e fotos reais em <code>../assets/</code>.
+    Ver <code>../README.md</code> antes de usar.
+  </p>
+</div>
+
+<div class="screens">
+
+  <!-- ================= LOGADO VIAJANTE ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Logado — viajante</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="header">
+          <img src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <span class="header-title">Minha conta</span>
+          <div class="spacer"></div>
+        </div>
+
+        <div>
+          <div class="greeting">
+            <div class="avatar"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+            <div class="greeting-body">
+              <span class="greeting-title">Olá, Carlos!</span>
+              <span class="greeting-sub">@carlosviaja</span>
+            </div>
+            <div class="badge badge-viajante">Viajante</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="section-title">Meu perfil</div>
+          <div class="rows">
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-personal-data.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Dados pessoais</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">Nome, e-mail, data nasc...</span><span class="row-sub success">Completo</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-address.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Endereço</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">CEP, Rua, Cidade, UF</span><span class="row-sub pending">Pendente</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-password.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Senha</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Redefinir senha</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Comunidade</div>
+          <div class="rows">
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-posts.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Minhas publicações</span><div class="row-cta"><span>Ver</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Suas dicas, fotos e roteiros</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-liked.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Posts curtidos</span><div class="row-cta"><span>Ver</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Conteúdos que você curtiu</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-preferences.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Preferências de viagem</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">Estilos e destinos que você gosta</span><span class="row-sub pending">Pendente</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-blocked.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Contas bloqueadas</span><div class="row-cta"><span>Gerenciar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Perfis que você não quer ver</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Ajuda</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-help.svg" alt="" width="24" height="24" /><span class="row-title">Central de ajuda</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-about-zupper.svg" alt="" width="24" height="24" /><span class="row-title">Sobre o Zupper</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Privacidade</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-privacy.svg" alt="" width="24" height="24" /><span class="row-title">Política de privacidade</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-terms.svg" alt="" width="24" height="24" /><span class="row-title">Termos e condições</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="logout-wrap"><div class="logout-btn"><span>Sair da minha conta zupper</span></div></div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-buscar.svg" alt="" />Buscar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/account-personal-data.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LOGADO SEM VIAGEM ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Logado — sem viagem</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="header">
+          <img src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <span class="header-title">Minha conta</span>
+          <div class="spacer"></div>
+        </div>
+
+        <div>
+          <div class="greeting">
+            <div class="avatar"><img src="../assets/photos/avatar-viajante.jpg" alt="" /></div>
+            <div class="greeting-body">
+              <span class="greeting-title">Olá, Carlos!</span>
+              <span class="greeting-sub">contato@dominio.com.br</span>
+            </div>
+          </div>
+        </div>
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="section-title">Meu perfil</div>
+          <div class="rows">
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-personal-data.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Dados pessoais</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">Nome, e-mail, data nasc...</span><span class="row-sub success">Completo</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-address.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Endereço</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">CEP, Rua, Cidade, UF</span><span class="row-sub pending">Pendente</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-password.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Senha</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Redefinir senha</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Comunidade</div>
+          <div class="rows">
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-posts.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Minhas publicações</span><div class="row-cta"><span>Ver</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Suas dicas, fotos e roteiros</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-liked.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Posts curtidos</span><div class="row-cta"><span>Ver</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Conteúdos que você curtiu</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-preferences.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Preferências de viagem</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">Estilos e destinos que você gosta</span><span class="row-sub pending">Pendente</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-blocked.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Contas bloqueadas</span><div class="row-cta"><span>Gerenciar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Perfis que você não quer ver</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Ajuda</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-help.svg" alt="" width="24" height="24" /><span class="row-title">Central de ajuda</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-about-zupper.svg" alt="" width="24" height="24" /><span class="row-title">Sobre o Zupper</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Privacidade</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-privacy.svg" alt="" width="24" height="24" /><span class="row-title">Política de privacidade</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-terms.svg" alt="" width="24" height="24" /><span class="row-title">Termos e condições</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="logout-wrap"><div class="logout-btn"><span>Sair da minha conta zupper</span></div></div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-buscar.svg" alt="" />Buscar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/account-personal-data.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LOGADO PARCEIRO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Logado — parceiro</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="header">
+          <img src="../../../../../assets/icons/back-arrow.svg" alt="" />
+          <span class="header-title">Minha conta</span>
+          <div class="spacer"></div>
+        </div>
+
+        <div>
+          <div class="greeting">
+            <div class="avatar"><img src="../assets/photos/avatar-parceiro.jpg" alt="" /></div>
+            <div class="greeting-body">
+              <span class="greeting-title">Olá, Ana!</span>
+              <span class="greeting-sub">@anasilvatrip</span>
+            </div>
+            <div class="badge badge-parceiro">Zupper Parceiro</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="section-title">Meu perfil</div>
+          <div class="rows">
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-personal-data.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Dados pessoais</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">Nome, e-mail, data nasc...</span><span class="row-sub success">Completo</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-address.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Endereço</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">CEP, Rua, Cidade, UF</span><span class="row-sub pending">Pendente</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-password.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Senha</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Redefinir senha</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Comunidade</div>
+          <div class="rows">
+            <div class="row" title="Redireciona para o perfil do usuário">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-posts.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Minhas publicações</span><div class="row-cta"><span>Ver</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Suas dicas, fotos e roteiros</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen" title="Anotação do Figma: criar a tela de posts curtidos">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-liked.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Posts curtidos</span><div class="row-cta"><span>Ver</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Conteúdos que você curtiu</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen" title="Anotação do Figma: atualizar o fluxo de onboarding do Jimboo para caber nesse contexto">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-preferences.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Preferências de viagem</span><div class="row-cta"><span>Editar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <div class="row-line"><span class="row-sub">Estilos e destinos que você gosta</span><span class="row-sub pending">Pendente</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row pending-screen" title="Anotação do Figma: criar tela de usuários bloqueados + fluxo bloquear usuário">
+              <div class="row-icon-bg"><img src="../../../../../assets/icons/account-blocked.svg" alt="" /></div>
+              <div class="row-body">
+                <div class="row-line"><span class="row-title">Contas bloqueadas</span><div class="row-cta"><span>Gerenciar</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div></div>
+                <span class="row-sub">Perfis que você não quer ver</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Ajuda</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-help.svg" alt="" width="24" height="24" /><span class="row-title">Central de ajuda</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-about-zupper.svg" alt="" width="24" height="24" /><span class="row-title">Sobre o Zupper</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Privacidade</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-privacy.svg" alt="" width="24" height="24" /><span class="row-title">Política de privacidade</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-terms.svg" alt="" width="24" height="24" /><span class="row-title">Termos e condições</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="logout-wrap"><div class="logout-btn"><span>Sair da minha conta zupper</span></div></div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-inicio-neutral.svg" alt="" />Início</div>
+        <div class="nav-item"><img src="../assets/icon-nav-buscar.svg" alt="" />Buscar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Pedidos</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/account-personal-data.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DESLOGADO ================= -->
+  <div class="screen-wrap">
+    <div class="screen-label">Deslogado</div>
+    <div class="phone">
+      <div class="screen-scroll">
+        <div class="header deslogado">
+          <span class="header-title">Minha conta</span>
+        </div>
+
+        <div class="hero">
+          <div>
+            <div class="hero-title">Minha conta</div>
+            <div class="hero-desc">Faça o login ou crie uma conta para gerenciar suas reservas e aproveitar as vantagens.</div>
+          </div>
+          <div class="cta-outline-brand">
+            <img src="../../../../../assets/icons/account-login.svg" alt="" />
+            <span>Iniciar sessão</span>
+          </div>
+        </div>
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="section-title">Ajuda</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-help.svg" alt="" width="24" height="24" /><span class="row-title">Central de ajuda</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-about-zupper.svg" alt="" width="24" height="24" /><span class="row-title">Sobre o Zupper</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Privacidade</div>
+          <div class="rows">
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-privacy.svg" alt="" width="24" height="24" /><span class="row-title">Política de privacidade</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row-inline">
+              <div class="row-inline-left"><img src="../../../../../assets/icons/account-terms.svg" alt="" width="24" height="24" /><span class="row-title">Termos e condições</span></div>
+              <div class="row-cta"><span>Ir agora</span><img src="../../../../../assets/icons/chevron-right-dark.svg" alt="" /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><img src="../assets/icon-nav-buscar.svg" alt="" />Buscar</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/fire.svg" alt="" />Promoções</div>
+        <div class="nav-item"><img src="../../../../../assets/icons/nav-pedidos.svg" alt="" />Meus Pedidos</div>
+        <div class="nav-item active"><img src="../assets/icon-account-personal-data-active.svg" alt="" />Conta</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  Cores/spacing extraídos via <code>get_variable_defs</code> + <code>get_design_context</code> (Figma Dev Mode),
+  sempre escopado direto na instância. Esta tela usa uma paleta de cinzas diferente das telas
+  documentadas anteriormente (#404040/#737373/#d4d4d4 em vez de #262626/#a3a3a3) — reproduzido
+  fielmente, é uma variação real entre capturas do Figma em datas diferentes, não um erro nosso.
+  Os ícones de "Sobre o Zupper", "Política de privacidade" e "Termos e condições" ficam atrás de
+  instance-swap no Figma — o export vetorial direto vinha vazio (só a "Central de ajuda" resolveu
+  de primeira); usamos <code>download_assets</code> escopado na linha inteira pra obter o SVG já
+  flatten com o ícone real resolvido. Na variante Parceiro, as
+  3 linhas de Comunidade sem tela de destino (Posts curtidos / Preferências de viagem / Contas
+  bloqueadas) têm anotações de pendência escritas pelo próprio time de design no Figma (visíveis
+  no atributo <code>title</code> ao passar o mouse sobre a linha) — confirma que o discovery/design
+  dessas telas (épico KSA-13) ainda não foi feito; só "Minhas publicações" redireciona pra uma tela
+  que já existe (o perfil, ver <code>../comunidade/</code>). No estado Deslogado, o ícone de
+  "Promoções" no bottom nav veio vazio no Figma (instance-swap não resolvido, mesmo padrão de gaps
+  já visto em outras telas) — usamos aqui o ícone de "fire" já existente no design system como
+  substituto visual, só pra manter a leitura da tela; não é o ícone real do Figma.
+</div>
+
+</body>
+</html>

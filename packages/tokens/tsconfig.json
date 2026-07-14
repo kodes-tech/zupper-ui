@@ -1,8 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "commonjs",
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    // CJS: os tokens são valores estáticos consumidos por bundlers (metro/webpack)
+    // e também por Node/CJS puro (tailwind.config.js `require('@zupper/tokens/tailwind')`).
+    "module": "CommonJS",
+    "moduleResolution": "node"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.spec.ts"]
 }

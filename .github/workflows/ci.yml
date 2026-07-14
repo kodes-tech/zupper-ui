@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck · Test · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # npm ci = install estrito pelo lockfile (valida que as dependências estão
+      # em sincronia com o package-lock). --legacy-peer-deps: react-native-web@0.19
+      # ainda pede React 18 e o repo usa React 19 (ver docs/known-issues.md).
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Lint/format começam NÃO bloqueantes: o código existente ainda não passou
+      # por lint. Rodar `npm run lint:fix` + `npm run format`, limpar, e então
+      # remover os `continue-on-error` para tornar obrigatório.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Format check
+        run: npm run format:check
+        continue-on-error: true
+
+      - name: Test (regressões)
+        run: npm test
+
+      - name: Build (saída publicável)
+        run: npm run build
+
+      # Validação do pacote publicado — pega erros de exports/types/files que
+      # quebram consumidores silenciosamente. publint/attw seguem NÃO bloqueantes
+      # (attw reporta falsos positivos em pacote RN); endurecer após revisar.
+      - name: Package lint (publint)
+        run: npm run validate:publint
+        continue-on-error: true
+
+      - name: Types resolution (are-the-types-wrong)
+        run: npm run validate:types
+        continue-on-error: true
+
+      # BLOQUEANTE: determinístico, sem falso-positivo de RN, e é o guard exato do
+      # bug que esta PR corrige (vazamento de .spec/.stories no publish / build ausente).
+      - name: Pack contents (sem spec/story; build presente)
+        run: npm run validate:pack
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      # Não bloqueante por enquanto (tokens ainda são placeholder e o app não
+      # está publicado). Endurecer para bloquear quando estabilizar.
+      - name: npm audit (high/critical)
+        run: npm audit --audit-level=high
+        continue-on-error: true

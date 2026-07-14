@@ -1,25 +1,38 @@
 {
-  "name": "@zupper/tokens",
-  "version": "0.1.0",
+  "name": "@kodes-tech/tokens",
+  "version": "0.1.2",
   "description": "Design tokens do Zupper — valores agnósticos de framework (cores, spacing, tipografia, radius, elevação). Consumido por RN, React web, Angular, etc.",
   "license": "UNLICENSED",
+  "type": "commonjs",
   "main": "dist/index.js",
-  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tailwind": {
+      "types": "./dist/tailwind.d.ts",
+      "default": "./dist/tailwind.js"
+    }
+  },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest",
     "prepare": "tsc -p tsconfig.json"
   },
   "publishConfig": {
-    "access": "restricted"
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
     "typescript": "^5.4.0"
   }
 }

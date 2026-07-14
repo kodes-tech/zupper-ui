@@ -9,6 +9,10 @@ import { BottomNav } from '../../organisms/BottomNav';
 import type { BottomNavKey } from '../../organisms/BottomNav';
 import { TravelSearchHistory } from '../../organisms/TravelSearchHistory';
 import type { TravelSearchHistoryItemData } from '../../organisms/TravelSearchHistory';
+import { NewsBanner } from '../../organisms/NewsBanner';
+import type { NewsBannerItem } from '../../organisms/NewsBanner';
+import { SupportSection } from '../../organisms/SupportSection';
+import type { SupportItem } from '../../organisms/SupportSection';
 
 export type TravelProductTab = 'voos' | 'hospedagens' | 'pacotes';
 export type TravelTripType = 'idaEVolta' | 'soIda';
@@ -40,6 +44,10 @@ export type TravelHomeProps = {
    * do motor de busca. Omitido/vazio = sem a seção, como no app sem histórico.
    */
   searchHistory?: TravelSearchHistoryItemData[];
+  /** Banners da seção "Novidades". Omitido/vazio = sem a seção. */
+  news?: NewsBannerItem[];
+  /** Canais da seção "Atendimento Zupper". Omitido/vazio = sem a seção. */
+  support?: SupportItem[];
   active?: BottomNavKey;
   onSelectProductTab?: (tab: TravelProductTab) => void;
   onChangeTripType?: (type: TravelTripType) => void;
@@ -52,6 +60,8 @@ export type TravelHomeProps = {
   onSearch?: () => void;
   /** Repetir uma pesquisa do histórico (recebe o id do item). */
   onPressHistoryItem?: (id: string) => void;
+  /** Abrir um canal de atendimento (recebe o id do item). */
+  onPressSupport?: (id: string) => void;
   onNavigate?: (key: BottomNavKey) => void;
 };
 
@@ -179,6 +189,8 @@ export const TravelHome = ({
   travelers = '1 Viajante, econômica',
   canSearch = false,
   searchHistory,
+  news,
+  support,
   active,
   onSelectProductTab,
   onChangeTripType,
@@ -189,6 +201,7 @@ export const TravelHome = ({
   onPressTravelers,
   onSearch,
   onPressHistoryItem,
+  onPressSupport,
   onNavigate,
 }: TravelHomeProps): React.ReactElement => (
   <View className="flex-1 bg-surface-default">
@@ -329,8 +342,14 @@ export const TravelHome = ({
         </View>
       ) : null}
 
-      {/* Abaixo: ofertas/novidades/atendimento ficam para as próximas telas. */}
-      <View className="min-h-[120px] bg-surface-tag" />
+      {/*
+       * Abaixo da dobra, na ordem do app: ofertas de voo (DealItem — ainda não
+       * extraído), Novidades e Atendimento Zupper.
+       */}
+      <View className="bg-surface-tag pt-xl">
+        {news?.length ? <NewsBanner banners={news} /> : null}
+        {support?.length ? <SupportSection items={support} onPressItem={onPressSupport} /> : null}
+      </View>
     </ScrollView>
 
     <BottomNav active={active} onNavigate={onNavigate} />

@@ -202,6 +202,31 @@
   .tab-bar .slot.focused .label { color: var(--primary); }
 
 
+  /* ===== Novidades (Banner) ===== */
+  .news { padding: 16px 0 40px; }
+  .news .n-title { margin: 0 0 8px; padding: 0 20px; font-size: 19px; font-weight: 700; color: var(--neutral-800); }
+  .news .n-strip { display: flex; flex-direction: row; gap: 12px; padding: 0 20px; overflow-x: auto; scrollbar-width: none; }
+  .news .n-strip::-webkit-scrollbar { display: none; }
+  .news .n-banner { width: 320px; height: 104px; border-radius: 8px; background: var(--neutral-200); object-fit: cover; flex-shrink: 0; }
+  .news .n-dots { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 4px; margin-top: 12px; }
+  .news .n-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--border); }
+  .news .n-dot.active { background: var(--primary); }
+
+  /* ===== Atendimento Zupper (ActionList) ===== */
+  .support { padding-bottom: 32px; }
+  .support .s-title { margin: 0; padding: 0 20px; font-size: 20px; font-weight: 700; line-height: 28px; color: var(--neutral-700); }
+  .support .s-dividers { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 4px; }
+  .support .s-dividers span { width: 90%; border-bottom: 1px solid var(--neutral-200); }
+  .support .s-list { margin-top: 16px; padding: 0 20px; }
+  .support .s-item { display: flex; flex-direction: row; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--neutral-100); padding-bottom: 16px; }
+  .support .s-left { display: flex; flex-direction: row; align-items: center; gap: 16px; }
+  .support .s-iconbox { width: 53px; height: 53px; border-radius: 12px; border: 2px solid var(--neutral-200); background: var(--neutral-50); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .support .s-iconbox .icon { width: 34px; height: 34px; color: var(--body-color); }
+  .support .s-item-title { font-size: 16px; font-weight: 700; color: var(--neutral-700); }
+  .support .s-action { display: flex; flex-direction: row; align-items: center; gap: 4px; flex-shrink: 0; }
+  .support .s-action span { font-size: 12px; font-weight: 500; color: var(--primary); }
+  .support .s-action .icon { width: 14px; height: 14px; color: var(--primary); }
+
   /* ===== SearchHistoryList — 'Sua próxima viagem está te esperando' ===== */
   .history { background: var(--neutral-100); margin-top: 20px; padding: 16px 14px 0; } /* mt spacing500 · padV spacing400 · container padH 14 */
   .history .h-title { margin: 0 0 16px; padding: 0 24px; font-size: 27px; font-weight: 300; line-height: 34px; color: var(--neutral-700); } /* fontSize500 · weight 300 · padH spacing600 */
@@ -244,6 +269,7 @@
     <g id="i-user-01"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M5.957 20.148a8.699 8.699 0 0 1 12.14-.047M4.03 17.183a8.97 8.97 0 0 1 7.998-13.035 8.97 8.97 0 0 1 7.999 13.035m-5.008-5.508a2.99 2.99 0 1 1-5.981 0 2.99 2.99 0 0 1 5.98 0Z"/></g>
     <g id="i-maps-search"><path fill="currentColor" d="M21.4697 23.0303C21.7626 23.3232 22.2374 23.3232 22.5303 23.0303C22.8232 22.7374 22.8232 22.2626 22.5303 21.9697L22 22.5L21.4697 23.0303ZM20.4 20.9L19.8697 21.4303L21.4697 23.0303L22 22.5L22.5303 21.9697L20.9303 20.3697L20.4 20.9ZM21.2 18.1H21.95C21.95 15.6976 20.0024 13.75 17.6 13.75V14.5V15.25C19.174 15.25 20.45 16.526 20.45 18.1H21.2ZM17.6 14.5V13.75C15.1976 13.75 13.25 15.6976 13.25 18.1H14H14.75C14.75 16.526 16.026 15.25 17.6 15.25V14.5ZM14 18.1H13.25C13.25 20.5024 15.1976 22.45 17.6 22.45V21.7V20.95C16.026 20.95 14.75 19.674 14.75 18.1H14ZM17.6 21.7V22.45C20.0024 22.45 21.95 20.5024 21.95 18.1H21.2H20.45C20.45 19.674 19.174 20.95 17.6 20.95V21.7Z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M22 12.5642V9.71749C22 7.77787 22 6.80807 21.4142 6.2055C20.8284 5.60294 19.8856 5.60294 18 5.60294H15.9214C15.004 5.60294 14.9964 5.60116 14.1715 5.18834L10.8399 3.52114C9.44884 2.82504 8.75332 2.47699 8.01238 2.50118C7.27143 2.52537 6.59877 2.91808 5.25345 3.70351L4.02558 4.42037C3.03739 4.99729 2.54329 5.28576 2.27164 5.76564C2 6.24553 2 6.82993 2 7.99873V16.2157C2 17.7514 2 18.5193 2.34226 18.9467C2.57001 19.231 2.88916 19.4222 3.242 19.4856C3.77226 19.5808 4.42148 19.2018 5.71987 18.4437C6.60156 17.929 7.45011 17.3944 8.50487 17.5394C9.38869 17.6608 10.21 18.2185 11 18.6138M8 2.5L8 17.5M15 5.5V11.5"/></g>
     <g id="i-chevron-right"><path fill="none" stroke="currentColor" stroke-linecap="round" d="m8.028 4.148 7.999 8-8 8"/></g>
+    <g id="i-help"><circle cx="12.027" cy="15.786" r="0.5" fill="none" stroke="currentColor" stroke-width="0.622"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M12.027 13.218v-.213a1.6 1.6 0 0 1 .866-1.37 1.57 1.57 0 0 0 .847-1.341 1.712 1.712 0 0 0-3.425 0m7.272 4.634 1.589.794A7.99 7.99 0 0 0 6.89 6.024m-.423 3.344L4.88 8.573a7.99 7.99 0 0 0 12.285 9.698"/></g>
   </defs>
 </svg>
 
@@ -463,9 +489,26 @@
       </div>
       <div class="home-content">
         <div class="placeholder" style="height:96px">DealItem (ofertas de voo) — interior não extraído</div>
-        <div>
-          <h3>Novidades</h3>
-          <div class="placeholder" style="height:120px">Banner (carrossel) — interior não extraído</div>
+      </div>
+      <div class="news">
+        <p class="n-title">Novidades</p>
+        <div class="n-strip">
+          <img class="n-banner" src="../../_figma/assets/photos/banner-destino.jpg" alt="" />
+          <img class="n-banner" src="../../_figma/assets/photos/card-destino.jpg" alt="" />
+        </div>
+        <div class="n-dots"><span class="n-dot active"></span><span class="n-dot"></span></div>
+      </div>
+      <div class="support">
+        <p class="s-title">Atendimento Zupper</p>
+        <div class="s-dividers"><span></span><span></span></div>
+        <div class="s-list">
+          <div class="s-item">
+            <div class="s-left">
+              <div class="s-iconbox"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-help"/></svg></span></div>
+              <span class="s-item-title">Central de ajuda</span>
+            </div>
+            <div class="s-action"><span>Acessar</span><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-chevron-right"/></svg></span></div>
+          </div>
         </div>
       </div>
 

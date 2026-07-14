@@ -4,17 +4,27 @@ import { action } from '@storybook/addon-actions';
 import { TravelHome } from './TravelHome';
 
 const cardDestino = require('../../_figma/assets/photos/card-destino.jpg');
+const bannerDestino = require('../../_figma/assets/photos/banner-destino.jpg');
 
 const searchHistory = [
   { id: 'rec', type: 'voo' as const, destination: 'Recife', dates: '10 set - 20 set', image: cardDestino },
   { id: 'ssa', type: 'hospedagem' as const, destination: 'Salvador', dates: '02 out - 08 out' },
 ];
 
+const news = [
+  { id: 'a', image: bannerDestino, onPress: action('news-a') },
+  { id: 'b', image: cardDestino, onPress: action('news-b') },
+];
+
+const support = [
+  { id: 'help', icon: 'support-help' as const, title: 'Central de ajuda', actionLabel: 'Acessar' },
+];
+
 export default {
   title: 'Screens/TravelHome',
   component: TravelHome,
   args: {
-    active: 'inicio',
+    active: 'reservar',
     onSelectProductTab: action('onSelectProductTab'),
     onChangeTripType: action('onChangeTripType'),
     onPressOrigin: action('onPressOrigin'),
@@ -24,6 +34,7 @@ export default {
     onPressTravelers: action('onPressTravelers'),
     onSearch: action('onSearch'),
     onPressHistoryItem: action('onPressHistoryItem'),
+    onPressSupport: action('onPressSupport'),
     onNavigate: action('onNavigate'),
   },
   parameters: { layout: 'centered' },
@@ -56,13 +67,17 @@ export const Preenchido = {
     travelers: '2 Viajantes, econômica',
     canSearch: true,
     searchHistory,
+    news,
+    support,
   },
 };
 
-/** Estado vazio de busca, mas com histórico de pesquisas anteriores. */
+/** Estado vazio de busca, mas com as seções de conteúdo (histórico, novidades, atendimento). */
 export const ComHistorico = {
   args: {
     searchHistory,
+    news,
+    support,
   },
 };
 

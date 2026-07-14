@@ -67,3 +67,5 @@ export { default as TravelSwap } from './TravelSwap';
 export { default as TravelSearch } from './TravelSearch';
 export { default as TravelMapsSearch } from './TravelMapsSearch';
 export { default as TravelChevronRight } from './TravelChevronRight';
+export { default as SupportHelp } from './SupportHelp';
+export { default as SupportWhatsapp } from './SupportWhatsapp';

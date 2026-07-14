@@ -26,7 +26,6 @@ const registry = {
   'content-foto-white': Svgs.ContentFotoWhite,
   'content-roteiro-white': Svgs.ContentRoteiroWhite,
   'nav-inicio': Svgs.NavInicio,
-  'nav-inicio-neutral': Svgs.NavInicioNeutral,
   'nav-reservar': Svgs.NavReservar,
   'nav-pedidos': Svgs.NavPedidos,
   'nav-conta': Svgs.NavConta,

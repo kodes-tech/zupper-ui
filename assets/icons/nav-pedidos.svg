@@ -5,7 +5,7 @@
        with <g transform="translate(...)"> — svgr/SVGO bakes the translate into the path coords so
        the generated atom is a single flat <Svg> (NOT nested <svg x= y=>, which react-native-svg /
        react-native-web position incorrectly and which leak width/height via {...props}). -->
-  <g stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round">
+  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
     <!-- Retângulo 528: outer rounded-rect ticket outline -->
     <path transform="translate(6.5 1.5)" d="M11.5 0.5H2.5C1.39543 0.5 0.5 1.39543 0.5 2.5V15.5C0.5 16.6046 1.39543 17.5 2.5 17.5H11.5C12.6046 17.5 13.5 16.6046 13.5 15.5V2.5C13.5 1.39543 12.6046 0.5 11.5 0.5Z"/>
     <!-- Caminho 5728: inner open outline (second, offset ticket) -->

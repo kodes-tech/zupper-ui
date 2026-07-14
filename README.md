@@ -68,24 +68,24 @@ Registry: **GitHub Packages**, escopo `@kodes-tech` (grátis — vinculado à or
    (dispara em tags `v*.*.*`) builda e publica os dois pacotes automaticamente.
 5. Back-merge `main → develop` para a `develop` não ficar atrás do bump de versão.
 
-## Dependabot
+## Dependabot — só segurança
 
-O repo tem [`.github/dependabot.yml`](.github/dependabot.yml) configurado — o
-Dependabot é um bot do GitHub que **abre PRs semanais** atualizando dependências
-(npm + GitHub Actions). Como funciona aqui:
+O Dependabot é um bot do GitHub para dependências. Ele tem **duas partes
+independentes**, e aqui a escolha é deliberada:
 
-- **Mira a `develop`** (`target-branch: develop`) — as PRs dele entram como
-  qualquer trabalho e só chegam na `main` via o release acima. **Nunca** direto na `main`.
-- **Ignora bumps _major_** — majors quebram API e às vezes o ecossistema nem
-  acompanhou (ex.: TypeScript 7 quebra o `ts-jest`). Major é upgrade **manual e
-  deliberado**, não automático. `react-native-web` também é ignorado (preso em React 18).
-- **Agrupa** ferramentas de dev (`@babel/*`, `jest`, `storybook`, `typescript`…)
-  num PR só, pra reduzir ruído.
+- **Version updates** (PRs semanais "modernizando" libs, via `.github/dependabot.yml`):
+  **DESLIGADO** — não existe mais o `dependabot.yml`. Para um time pequeno e em
+  ritmo de entrega, o ganho não paga o ruído (e já nos custou tempo real: um bump
+  automático de TypeScript 7 quebrou o `ts-jest`). **Atualização de versão aqui é
+  manual e deliberada** — quando alguém encosta no repo e decide subir.
+- **Security updates** (PRs **só quando há uma vulnerabilidade real/CVE** numa
+  dependência): **LIGADO** (setting do repo `dependabot_security_updates`). É a
+  parte de valor alto e ruído quase zero — uma rede de proteção que só toca quando
+  há um problema de verdade.
 
-**O que fazer com uma PR do Dependabot:** revisar → conferir o CI verde → mergear
-na `develop`. Se o CI falhar, é sinal de que o update quebra algo (não mergeie sem
-corrigir). Segurança (`dependabot_security_updates`) está **desligado** hoje — só
-atualização de versão está ativa.
+**Se um dia quiser reativar os version-updates**, recrie o `.github/dependabot.yml`
+com `target-branch: develop` (nunca `main` — ver fluxo de release acima) e
+`ignore` para bumps major.
 
 ### Consumindo em outro projeto (fora deste monorepo)
 

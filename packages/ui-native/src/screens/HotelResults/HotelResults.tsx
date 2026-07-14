@@ -60,11 +60,11 @@ export const HotelResults = ({
         <View className="h-[24px] w-[24px]" />
       </View>
 
-      <View className="flex-row items-center gap-md px-xl">
+      <View className="flex-row items-center gap-md border-b-4 border-border-subtle px-xxl pb-lg">
         <Pressable
           accessibilityRole="button"
           onPress={onOpenFilters}
-          className="h-[40px] flex-row items-center gap-xs rounded-sm border border-border-default px-lg"
+          className="flex-row items-center gap-xs rounded-sm border border-border-default px-md py-xs"
         >
           <Icon name="hotel-filter" size={20} color={colors.text.subtle} />
           <Text className="font-sans text-xs font-medium text-fg-subtle">Filtrar</Text>
@@ -77,7 +77,7 @@ export const HotelResults = ({
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
               onPress={() => onChangeSort?.(option.key)}
-              className={`h-[40px] flex-row items-center rounded-sm border px-lg ${
+              className={`flex-row items-center rounded-sm border px-lg py-md ${
                 active ? 'border-brand-strong' : 'border-border-default'
               }`}
             >
@@ -95,12 +95,12 @@ export const HotelResults = ({
     </View>
 
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="px-screenMargin py-xxl">
+      <View className="px-xxl py-lg">
         <Text className="font-sans text-md text-fg-subtle">
           {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
         </Text>
       </View>
-      <View className="px-xl">
+      <View className="px-xxl">
         {hotels.map((hotel, index) => (
           <HotelCard
             key={`${hotel.name}-${index}`}

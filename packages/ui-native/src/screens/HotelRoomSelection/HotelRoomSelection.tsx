@@ -51,7 +51,7 @@ export const HotelRoomSelection = ({
     </View>
 
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="gap-md">
+      <View className="gap-lg">
         {options.map((option) => (
           <HotelRoomCard
             key={option.id}
@@ -72,15 +72,12 @@ export const HotelRoomSelection = ({
           <Text className="font-sans text-lg font-bold text-fg-secondary">{selectedSummary.price}</Text>
         ) : null}
       </View>
-      <View className="w-[180px]">
-        <Button
-          label={selectedSummary ? 'Ir para pagamento' : `Escolher ${kind === 'combo' ? 'Combo' : 'Quarto'}`}
-          variant="secondary"
-          fullWidth
-          disabled={!selectedSummary}
-          onPress={onContinue}
-        />
-      </View>
+      <Button
+        label={selectedSummary ? 'Ir para pagamento' : `Escolher ${kind === 'combo' ? 'Combo' : 'Quarto'}`}
+        variant="secondary"
+        disabled={!selectedSummary}
+        onPress={onContinue}
+      />
     </View>
   </View>
 );

@@ -77,7 +77,7 @@ export const HotelDetails = ({
     </View>
 
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="gap-md">
+      <View className="gap-[20px]">
         <HotelDetailsCard
           name={name}
           image={image}

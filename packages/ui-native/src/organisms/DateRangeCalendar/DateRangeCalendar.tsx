@@ -37,15 +37,35 @@ const WEEK_DAYS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const dayClassesByState: Record<CalendarDayState, string> = {
   default: 'text-fg-subtle',
   disabled: 'text-fg-muted',
-  'in-range': 'text-fg-inverse',
+  'in-range': 'text-fg-subtle',
   start: 'text-fg-inverse',
   end: 'text-fg-inverse',
 };
 
-const DayCell = ({ cell, onPress }: { cell: CalendarDay; onPress?: (day: number) => void }) => {
-  if (!cell) return <View className="h-[34px] w-[38px]" />;
+const CONNECTS_FROM_LEFT: CalendarDayState[] = ['start', 'in-range'];
+const CONNECTS_FROM_RIGHT: CalendarDayState[] = ['end', 'in-range'];
+
+/**
+ * Uma célula do dia. O destaque do intervalo é desenhado como uma barra que
+ * "encosta" nas células vizinhas (sem gap entre colunas) — para o intervalo
+ * selecionado aparecer como uma faixa contínua, não quadrados soltos.
+ */
+const DayCell = ({
+  cell,
+  prevState,
+  nextState,
+  onPress,
+}: {
+  cell: CalendarDay;
+  prevState?: CalendarDayState;
+  nextState?: CalendarDayState;
+  onPress?: (day: number) => void;
+}) => {
+  if (!cell) return <View className="h-[34px] flex-1" />;
   const { day, state = 'default' } = cell;
   const isEdge = state === 'start' || state === 'end';
+  const connectsLeft = CONNECTS_FROM_RIGHT.includes(state) && !!prevState && CONNECTS_FROM_LEFT.includes(prevState);
+  const connectsRight = CONNECTS_FROM_LEFT.includes(state) && !!nextState && CONNECTS_FROM_RIGHT.includes(nextState);
   return (
     <Pressable
       accessibilityRole="button"
@@ -53,11 +73,22 @@ const DayCell = ({ cell, onPress }: { cell: CalendarDay; onPress?: (day: number)
       accessibilityState={{ disabled: state === 'disabled' }}
       disabled={state === 'disabled'}
       onPress={() => onPress?.(day)}
-      className={`h-[34px] w-[38px] items-center justify-center ${
-        isEdge ? 'rounded-pill bg-brand-zupper' : state === 'in-range' ? 'bg-brand-base' : ''
-      }`}
+      className="relative h-[34px] flex-1 items-center justify-center"
     >
-      <Text className={`font-sans text-md font-medium ${dayClassesByState[state]}`}>{day}</Text>
+      {state === 'in-range' || connectsLeft || connectsRight ? (
+        <View
+          className="absolute inset-y-0 bg-brand-connectorLine"
+          style={{
+            left: state === 'in-range' || connectsLeft ? 0 : '50%',
+            right: state === 'in-range' || connectsRight ? 0 : '50%',
+          }}
+        />
+      ) : null}
+      <View
+        className={`h-[34px] w-[34px] items-center justify-center ${isEdge ? 'rounded-full bg-brand-zupper' : ''}`}
+      >
+        <Text className={`font-sans text-md font-medium ${dayClassesByState[state]}`}>{day}</Text>
+      </View>
     </Pressable>
   );
 };
@@ -142,16 +173,22 @@ export const DateRangeCalendar = ({
          * calendário no app (react-native-calendars), um por mês visível. */}
         <Text className="mt-lg font-sans text-md font-bold text-fg-secondary">{monthLabel}</Text>
         {weeks.map((week, weekIndex) => (
-          <View key={weekIndex} className="flex-row justify-between">
+          <View key={weekIndex} className="flex-row">
             {week.map((cell, dayIndex) => (
-              <DayCell key={dayIndex} cell={cell} onPress={onSelectDay} />
+              <DayCell
+                key={dayIndex}
+                cell={cell}
+                prevState={week[dayIndex - 1]?.state}
+                nextState={week[dayIndex + 1]?.state}
+                onPress={onSelectDay}
+              />
             ))}
           </View>
         ))}
       </View>
     </View>
 
-    <View className="gap-md border-t-[3px] border-border-subtle px-xl py-xl">
+    <View className="gap-lg border-t-[3px] border-border-subtle px-xxl py-xxl">
       {!isOneWayOnly && departureValue && returnValue && nightsLabel ? (
         <Text className="font-sans text-lg font-bold text-brand-zupper">{nightsLabel}</Text>
       ) : null}

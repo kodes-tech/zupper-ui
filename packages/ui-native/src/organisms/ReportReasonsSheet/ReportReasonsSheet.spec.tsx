@@ -7,17 +7,17 @@ const reasons = [
 ];
 
 describe('ReportReasonsSheet', () => {
-  it('renders the sheet title and every reason', () => {
-    render(<ReportReasonsSheet reasons={reasons} />);
+  it('renders the sheet title and every reason', async () => {
+    await render(<ReportReasonsSheet reasons={reasons} />);
     expect(screen.getByText('Por que você está denunciando?')).toBeOnTheScreen();
     expect(screen.getByText('Spam ou propaganda enganosa')).toBeOnTheScreen();
     expect(screen.getByText('Golpe ou fraude')).toBeOnTheScreen();
   });
 
-  it('fires onSelectReason with the reason id', () => {
+  it('fires onSelectReason with the reason id', async () => {
     const onSelectReason = jest.fn();
-    render(<ReportReasonsSheet reasons={reasons} onSelectReason={onSelectReason} />);
-    fireEvent.press(screen.getByText('Golpe ou fraude'));
+    await render(<ReportReasonsSheet reasons={reasons} onSelectReason={onSelectReason} />);
+    await fireEvent.press(screen.getByText('Golpe ou fraude'));
     expect(onSelectReason).toHaveBeenCalledWith('golpe');
   });
 });

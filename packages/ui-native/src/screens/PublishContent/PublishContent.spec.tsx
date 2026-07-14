@@ -17,8 +17,8 @@ const days: PublishDay[] = [
 ];
 
 describe('PublishContent', () => {
-  it('renders the photo variant with caption and location fields', () => {
-    render(
+  it('renders the photo variant with caption and location fields', async () => {
+    await render(
       <PublishContent
         type="foto"
         destination="Recife, PE"
@@ -34,41 +34,41 @@ describe('PublishContent', () => {
     expect(screen.getByText('Localização (opcional)')).toBeOnTheScreen();
   });
 
-  it('fires onSelectCategory with the chip id', () => {
+  it('fires onSelectCategory with the chip id', async () => {
     const onSelectCategory = jest.fn();
-    render(
+    await render(
       <PublishContent
         type="dica"
         categories={categories}
         onSelectCategory={onSelectCategory}
       />,
     );
-    fireEvent.press(screen.getByText('Passeios'));
+    await fireEvent.press(screen.getByText('Passeios'));
     expect(onSelectCategory).toHaveBeenCalledWith('passeios');
   });
 
-  it('shows the disabled publish button on the roteiro variant by default', () => {
+  it('shows the disabled publish button on the roteiro variant by default', async () => {
     const onPublish = jest.fn();
-    render(<PublishContent type="roteiro" categories={categories} days={days} onPublish={onPublish} />);
+    await render(<PublishContent type="roteiro" categories={categories} days={days} onPublish={onPublish} />);
     // Não há botão acionável de publicar quando desabilitado.
     expect(screen.getByText('Publicar roteiro')).toBeOnTheScreen();
     expect(screen.getByText('Dia 1.')).toBeOnTheScreen();
     expect(screen.queryByText('Localização (opcional)')).toBeNull();
   });
 
-  it('enables publishing on the roteiro variant when canPublish is set', () => {
+  it('enables publishing on the roteiro variant when canPublish is set', async () => {
     const onPublish = jest.fn();
-    render(
+    await render(
       <PublishContent type="roteiro" categories={categories} days={days} canPublish onPublish={onPublish} />,
     );
-    fireEvent.press(screen.getByText('Publicar roteiro'));
+    await fireEvent.press(screen.getByText('Publicar roteiro'));
     expect(onPublish).toHaveBeenCalledTimes(1);
   });
 
-  it('fires onAddDay from the roteiro variant', () => {
+  it('fires onAddDay from the roteiro variant', async () => {
     const onAddDay = jest.fn();
-    render(<PublishContent type="roteiro" categories={categories} days={days} onAddDay={onAddDay} />);
-    fireEvent.press(screen.getByText('Adicionar novo dia no roteiro'));
+    await render(<PublishContent type="roteiro" categories={categories} days={days} onAddDay={onAddDay} />);
+    await fireEvent.press(screen.getByText('Adicionar novo dia no roteiro'));
     expect(onAddDay).toHaveBeenCalledTimes(1);
   });
 });

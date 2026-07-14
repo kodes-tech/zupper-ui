@@ -8,15 +8,15 @@ const comments: Comment[] = [
 ];
 
 describe('CommentThread', () => {
-  it('renders the heading with the comment count and the replies', () => {
-    render(<CommentThread comments={comments} />);
+  it('renders the heading with the comment count and the replies', async () => {
+    await render(<CommentThread comments={comments} />);
     expect(screen.getByText('Comentários (2)')).toBeOnTheScreen();
     expect(screen.getByText('Marina')).toBeOnTheScreen();
     expect(screen.getByText('Pedro')).toBeOnTheScreen();
   });
 
-  it('renders the author comment when provided', () => {
-    render(
+  it('renders the author comment when provided', async () => {
+    await render(
       <CommentThread
         authorComment={{ name: 'Carlos Souza', text: 'Vale muito a visita!' }}
         comments={[]}

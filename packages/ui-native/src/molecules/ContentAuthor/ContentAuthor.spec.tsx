@@ -9,17 +9,17 @@ const baseProps = {
 };
 
 describe('ContentAuthor', () => {
-  it('renders name, handle and role', () => {
-    render(<ContentAuthor {...baseProps} />);
+  it('renders name, handle and role', async () => {
+    await render(<ContentAuthor {...baseProps} />);
     expect(screen.getByText('Carlos Souza')).toBeOnTheScreen();
     expect(screen.getByText('@carlosviaja')).toBeOnTheScreen();
     expect(screen.getByText('Viajante')).toBeOnTheScreen();
   });
 
-  it('renders location only when provided', () => {
-    const { rerender } = render(<ContentAuthor {...baseProps} />);
+  it('renders location only when provided', async () => {
+    const { rerender } = await render(<ContentAuthor {...baseProps} />);
     expect(screen.queryByText('Fernando de Noronha')).toBeNull();
-    rerender(<ContentAuthor {...baseProps} location="Fernando de Noronha" />);
+    await rerender(<ContentAuthor {...baseProps} location="Fernando de Noronha" />);
     expect(screen.getByText('Fernando de Noronha')).toBeOnTheScreen();
   });
 });

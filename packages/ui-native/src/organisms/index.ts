@@ -5,6 +5,7 @@ export * from './CommunityCTA';
 export * from './GreetingHeader';
 export * from './HotelCard';
 export * from './HotelNearbyCard';
+export * from './HotelRoomCard';
 export * from './HotelAmenitiesCard';
 export * from './HotelLocationCard';
 export * from './HotelDetailsCard';

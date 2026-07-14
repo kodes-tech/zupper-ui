@@ -15,6 +15,7 @@ export * from './Destinations';
 export * from './Feed';
 export * from './HotelDetails';
 export * from './HotelResults';
+export * from './HotelRoomSelection';
 export * from './MyAccount';
 export * from './PublishContent';
 export * from './TravelHome';

@@ -21,3 +21,5 @@ export * from './HotelBenefitItem';
 export * from './NumberStepper';
 export * from './StarRating';
 export * from './HotelSearchSummary';
+export * from './HotelStayDetails';
+export * from './HotelPriceSummary';

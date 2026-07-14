@@ -13,6 +13,7 @@ export * from './ContentDetail';
 export * from './DestinationDetails';
 export * from './Destinations';
 export * from './Feed';
+export * from './HotelDetails';
 export * from './HotelResults';
 export * from './MyAccount';
 export * from './PublishContent';

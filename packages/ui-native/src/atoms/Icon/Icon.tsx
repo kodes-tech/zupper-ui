@@ -66,6 +66,10 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
+  // Filtros e modais secundários do travel.
+  star: Svgs.Star,
+  check: Svgs.Check,
+  'pin-map': Svgs.PinMap,
 } as const;
 
 export type IconName = keyof typeof registry;

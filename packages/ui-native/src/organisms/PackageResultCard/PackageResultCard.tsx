@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Image, Text, View } from 'react-native';
-import type { ImageSourcePropType } from 'react-native';
+import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 import { Button } from '../../atoms/Button';
 import { Divider } from '../../atoms/Divider';
@@ -31,6 +31,17 @@ export type PackageResultCardProps = {
   onPressSecondary?: () => void;
 };
 
+// Sombra suave do card (drop-shadow-[0px_3px_15px_rgba(0,0,0,0.05)] no Figma) —
+// a borda em si é quase invisível (mesma cor do fundo da página); quem
+// desenha o cartão é a sombra, não o traço.
+const cardShadow: ViewStyle = {
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 3 },
+  shadowOpacity: 0.05,
+  shadowRadius: 15,
+  elevation: 3,
+};
+
 /**
  * PackageResultCard — card de resultado de pacote (hotel + voos): thumb e
  * nome do hotel/quarto, os trechos de ida e volta e o preço total do pacote,
@@ -44,69 +55,71 @@ export const PackageResultCard = ({
   onPressPrimary,
   onPressSecondary,
 }: PackageResultCardProps): React.ReactElement => (
-  <View className="w-full gap-lg overflow-hidden rounded-sm border border-border-subtle bg-surface-default pb-lg">
-    {featured ? (
-      <LinearGradient
-        colors={[...colors.gradient.searchCta]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={{ alignItems: 'center', justifyContent: 'center', paddingVertical: 4 }}
-      >
-        <Text className="font-sans text-xs font-medium text-fg-inverse">PACOTE SUGERIDO</Text>
-      </LinearGradient>
-    ) : null}
-
-    <View className="gap-lg px-lg">
-      <View className="flex-row items-center gap-lg">
-        {data.hotelImage ? (
-          <Image source={data.hotelImage} resizeMode="cover" className="h-[48px] w-[48px] rounded-sm" />
-        ) : (
-          <View className="h-[48px] w-[48px] items-center justify-center rounded-sm bg-surface-tag">
-            <Icon name="hotel-placeholder" size={24} color={colors.text.subtle} />
-          </View>
-        )}
-        <View className="flex-1 gap-xxs">
-          <Text numberOfLines={1} className="font-sans text-lg font-bold text-fg-secondary">
-            {data.hotelName}
-          </Text>
-          <Text className="font-sans text-xs font-medium text-fg-subtle">{data.roomInfo}</Text>
-        </View>
-      </View>
-
-      <Divider />
-
-      <View className="gap-lg">
-        {data.segments.map((segment, index) => (
-          <FlightSegmentRow key={index} segment={segment} />
-        ))}
-      </View>
-
-      <Divider />
-
-      <View className="gap-xs">
-        <Text
-          className={`font-sans text-xs font-medium ${featured ? 'text-fg-subtle' : 'text-brand-strong'}`}
-        >
-          {data.priceLabel}
-        </Text>
-        <Text className="font-sans text-xl font-bold text-fg-secondary">{data.price}</Text>
-      </View>
-
+  <View style={cardShadow} className="w-full rounded-sm border border-surface-tag">
+    <View className="w-full gap-lg overflow-hidden rounded-sm bg-surface-default pb-lg">
       {featured ? (
-        <View className="gap-lg">
-          <Button label={data.primaryCtaLabel} fullWidth onPress={onPressPrimary} />
-          {data.secondaryCtaLabel ? (
-            <Button
-              label={data.secondaryCtaLabel}
-              variant="secondary"
-              fullWidth
-              onPress={onPressSecondary}
-            />
-          ) : null}
+        <LinearGradient
+          colors={[...colors.gradient.searchCta]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ alignItems: 'center', justifyContent: 'center', paddingVertical: 4 }}
+        >
+          <Text className="font-sans text-xs font-medium text-fg-inverse">PACOTE SUGERIDO</Text>
+        </LinearGradient>
+      ) : null}
+
+      <View className={`gap-lg px-lg ${featured ? '' : 'pt-lg'}`}>
+        <View className="flex-row items-center gap-lg">
+          {data.hotelImage ? (
+            <Image source={data.hotelImage} resizeMode="cover" className="h-[48px] w-[48px] rounded-sm" />
+          ) : (
+            <View className="h-[48px] w-[48px] items-center justify-center rounded-sm bg-surface-tag">
+              <Icon name="hotel-placeholder" size={24} color={colors.text.subtle} />
+            </View>
+          )}
+          <View className="flex-1 gap-xxs">
+            <Text numberOfLines={1} className="font-sans text-lg font-bold text-fg-secondary">
+              {data.hotelName}
+            </Text>
+            <Text className="font-sans text-xs font-medium text-fg-subtle">{data.roomInfo}</Text>
+          </View>
         </View>
-      ) : (
-        <Button label={data.primaryCtaLabel} variant="secondary" fullWidth onPress={onPressPrimary} />
-      )}
+
+        <Divider />
+
+        <View className="gap-lg">
+          {data.segments.map((segment, index) => (
+            <FlightSegmentRow key={index} segment={segment} />
+          ))}
+        </View>
+
+        <Divider />
+
+        <View className="gap-xs">
+          <Text
+            className={`font-sans text-xs font-medium ${featured ? 'text-fg-subtle' : 'text-brand-strong'}`}
+          >
+            {data.priceLabel}
+          </Text>
+          <Text className="font-sans text-xl font-bold text-fg-secondary">{data.price}</Text>
+        </View>
+
+        {featured ? (
+          <View className="gap-lg">
+            <Button label={data.primaryCtaLabel} fullWidth onPress={onPressPrimary} />
+            {data.secondaryCtaLabel ? (
+              <Button
+                label={data.secondaryCtaLabel}
+                variant="secondary"
+                fullWidth
+                onPress={onPressSecondary}
+              />
+            ) : null}
+          </View>
+        ) : (
+          <Button label={data.primaryCtaLabel} variant="secondary" fullWidth onPress={onPressPrimary} />
+        )}
+      </View>
     </View>
   </View>
 );

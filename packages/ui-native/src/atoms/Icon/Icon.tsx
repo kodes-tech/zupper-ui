@@ -92,6 +92,10 @@ const registry = {
   'hotel-trash': Svgs.HotelTrash,
   close: Svgs.Close,
   'hotel-placeholder': Svgs.HotelPlaceholder,
+  // Fluxo de resultados de pacotes: currentColor, aceitam `color`.
+  pencil: Svgs.Pencil,
+  upload: Svgs.Upload,
+  'travel-navigation': Svgs.TravelNavigation,
 } as const;
 
 export type IconName = keyof typeof registry;

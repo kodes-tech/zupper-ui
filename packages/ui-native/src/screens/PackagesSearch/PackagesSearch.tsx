@@ -26,7 +26,10 @@ export type PackagesSearchProps = {
   onSearch?: () => void;
 };
 
-/** Campo do motor de busca de pacotes: ícone + placeholder ou valor preenchido. */
+/**
+ * Campo em caixa branca (Origem/Destino/Data): ícone + placeholder ou valor.
+ * Vazio usa a cor neutra clara (border-default) no ícone e no texto.
+ */
 const SearchField = ({
   icon,
   placeholder,
@@ -80,45 +83,54 @@ export const PackagesSearch = ({
   onSearch,
 }: PackagesSearchProps): React.ReactElement => (
   <View className="flex-1 bg-surface-tag">
-    <View className="h-[88px] flex-row items-center justify-between bg-surface-default px-xxl pb-xs pt-[40px]">
-      <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={onBack}>
-        <Icon name="back-arrow" size={24} />
-      </Pressable>
-      <Text className="font-sans text-lg font-bold text-fg-secondary">Pacotes</Text>
-      <View className="h-[24px] w-[24px]" />
+    <View className="bg-surface-default pb-md pt-[40px]">
+      <View className="h-[28px] justify-center px-xxl">
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Voltar"
+          onPress={onBack}
+          className="absolute left-[24px] h-[28px] justify-center"
+        >
+          <Icon name="back-arrow" size={24} />
+        </Pressable>
+        <Text className="text-center font-sans text-lg font-bold text-fg-secondary">Pacotes</Text>
+      </View>
     </View>
 
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="gap-lg px-xxl pt-xl">
-        <View className="relative gap-lg">
-          <SearchField icon="travel-pinmap" placeholder="Destino" value={destination} onPress={onPressDestination} />
-          <SearchField icon="travel-voos" placeholder="Origem" value={origin} onPress={onPressOrigin} />
+      <View className="gap-md px-xxl pt-[32px]">
+        {/* Origem (topo) + Destino (abaixo) com o botão de inversão no meio */}
+        <View className="relative gap-md">
+          <SearchField icon="travel-pinmap" placeholder="Origem" value={origin} onPress={onPressOrigin} />
+          <SearchField icon="travel-voos" placeholder="Destino" value={destination} onPress={onPressDestination} />
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Inverter origem e destino"
             onPress={onSwapEndpoints}
-            className="absolute right-0 top-[32%] z-10 mr-md h-[30px] w-[30px] items-center justify-center rounded-[6px] border border-border-default bg-surface-default"
+            className="absolute right-[8px] top-[37px] z-10 h-[30px] w-[30px] items-center justify-center rounded-[6px] border border-border-default bg-surface-default"
           >
             <Icon name="travel-swap" size={18} color={colors.text.subtle} />
           </Pressable>
         </View>
 
+        {/* Linha sem caixa (sobre o fundo cinza) */}
         <Pressable
           accessibilityRole="button"
           onPress={onPressCurrentLocation}
-          className="flex-row items-center gap-xs py-xs"
+          className="h-[48px] flex-row items-center gap-xs"
         >
-          <Icon name="travel-pinmap" size={24} color={colors.text.subtle} />
+          <Icon name="travel-navigation" size={24} color={colors.text.subtle} />
           <Text className="font-sans text-md font-medium text-fg-subtle">Inserir localização atual</Text>
         </Pressable>
 
         <SearchField icon="travel-calendar" placeholder="Data" value={dates} onPress={onPressDates} />
 
+        {/* Viajantes — linha sem caixa, com chevron à direita */}
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={travelers ?? 'Viajantes / classe'}
           onPress={onPressTravelers}
-          className="h-[48px] w-full flex-row items-center justify-between rounded-md border border-border-subtle bg-surface-default px-md"
+          className="h-[48px] flex-row items-center justify-between"
         >
           <View className="flex-row items-center gap-xs">
             <Icon name="travel-viajantes" size={24} color={colors.text.subtle} />
@@ -129,11 +141,14 @@ export const PackagesSearch = ({
               <Text className="font-sans text-md font-medium text-fg-secondary">{travelersSummary}</Text>
             </View>
           </View>
-          <Icon name="dropdown-arrow" size={20} style={{ transform: [{ rotate: '90deg' }] }} />
+          <Icon name="travel-chevron-right" size={20} color={colors.text.subtle} />
         </Pressable>
       </View>
 
-      <View className="gap-lg px-xxl pt-[32px]">
+      {/* Divisória full-width entre os campos e o rodapé de cadastro/busca */}
+      <View className="my-[32px] h-[1px] bg-border-subtle" />
+
+      <View className="gap-lg px-xxl">
         {!isAuthenticated ? (
           <View className="items-center gap-lg">
             <Text className="text-center font-sans text-md font-medium text-fg-secondary">

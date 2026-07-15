@@ -60,7 +60,7 @@ export const PackagesResults = ({
   onSelectPackage,
 }: PackagesResultsProps): React.ReactElement => (
   <View className="flex-1 bg-surface-tag">
-    <View className="bg-surface-default pb-xl pt-[40px]">
+    <View className="bg-surface-default pt-[40px]">
       <View className="h-[76px] flex-row items-start justify-between px-xxl">
         <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={onBack}>
           <Icon name="back-arrow" size={24} />
@@ -73,17 +73,17 @@ export const PackagesResults = ({
             className="flex-row items-center gap-xs"
           >
             <Text className="font-sans text-lg font-bold text-fg-secondary">{routeLabel}</Text>
-            <Icon name="edit" size={24} color={colors.text.subtle} />
+            <Icon name="pencil" size={24} color={colors.text.subtle} />
           </Pressable>
           <Text className="text-center font-sans text-xs font-medium text-fg-subtle">{routeDetails}</Text>
           <Text className="text-center font-sans text-xs font-medium text-fg-subtle">{searchSummary}</Text>
         </View>
         <Pressable accessibilityRole="button" accessibilityLabel="Compartilhar" onPress={onShare}>
-          <Icon name="social-share" size={24} color={colors.text.subtle} />
+          <Icon name="upload" size={24} color={colors.text.subtle} />
         </Pressable>
       </View>
 
-      <View className="flex-row items-center gap-md border-b-4 border-border-subtle px-xxl pb-lg pt-lg">
+      <View className="flex-row items-center gap-md px-xxl pb-lg">
         <Pressable
           accessibilityRole="button"
           onPress={onOpenFilters}
@@ -118,13 +118,13 @@ export const PackagesResults = ({
     </View>
 
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="px-xxl py-lg">
+      <View className="px-xxl py-xxl">
         <Text className="font-sans text-md text-fg-subtle">
           {totalResults} {totalResults === 1 ? 'pacote encontrado' : 'pacotes encontrados'}
         </Text>
       </View>
 
-      <View className="gap-lg px-xxl">
+      <View className="gap-lg px-lg">
         <Text className="font-sans text-lg font-bold text-fg-secondary">Melhor pacote encontrado</Text>
         <PackageResultCard
           featured
@@ -135,7 +135,7 @@ export const PackagesResults = ({
       </View>
 
       {others.length ? (
-        <View className="gap-lg px-xxl pt-[20px]">
+        <View className="gap-lg px-lg pt-[20px]">
           <Text className="font-sans text-lg font-bold text-fg-secondary">
             Confira outros pacotes selecionados
           </Text>

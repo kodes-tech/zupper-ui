@@ -35,8 +35,13 @@ const DIRECTION_LABEL: Record<FlightSegmentDirection, string> = { ida: 'IDA', vo
  */
 export const FlightSegmentRow = ({ segment }: FlightSegmentRowProps): React.ReactElement => (
   <View className="flex-row items-center gap-md">
-    <View className="h-[32px] w-[81px] flex-row items-center justify-center gap-xs rounded-sm bg-brand-chipSurface p-xs">
-      <Icon name="travel-voos" size={24} color={colors.text.secondary} />
+    <View className="h-[32px] w-[81px] flex-row items-center gap-xs rounded-sm bg-brand-chipSurface p-xs">
+      <Icon
+        name="travel-voos"
+        size={24}
+        color={colors.text.secondary}
+        style={segment.direction === 'volta' ? { transform: [{ scaleX: -1 }] } : undefined}
+      />
       <Text className="font-sans text-md font-bold text-fg-secondary">
         {DIRECTION_LABEL[segment.direction]}
       </Text>
@@ -47,11 +52,16 @@ export const FlightSegmentRow = ({ segment }: FlightSegmentRowProps): React.Reac
     </View>
 
     <View className="flex-1 gap-xxs">
-      <View className="flex-row items-center justify-between">
+      <View className="flex-row items-center gap-xs">
         <Text className="font-sans text-md font-medium text-fg-subtle">{segment.originCode}</Text>
-        <Text className="flex-1 text-center font-sans text-xs font-medium text-fg-muted">
-          {segment.stopsLabel}
-        </Text>
+        <View className="relative h-[18px] flex-1 items-center justify-center">
+          <View className="absolute left-[3px] right-[3px] top-[8px] h-[1px] bg-fg-muted" />
+          <View className="absolute left-0 top-[6px] h-[6px] w-[6px] rounded-pill border border-fg-muted bg-surface-default" />
+          <View className="absolute right-0 top-[6px] h-[6px] w-[6px] rounded-pill border border-fg-muted bg-surface-default" />
+          <View className="rounded-sm bg-surface-default px-xs">
+            <Text className="font-sans text-xs font-medium text-fg-muted">{segment.stopsLabel}</Text>
+          </View>
+        </View>
         <Text className="font-sans text-md font-medium text-fg-subtle">{segment.destinationCode}</Text>
       </View>
       <View className="flex-row items-center justify-between">

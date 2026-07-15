@@ -15,8 +15,8 @@ const baseProps: FareFamilyCardProps = {
 };
 
 describe('FareFamilyCard', () => {
-  it('renders the title in uppercase, price and benefits', () => {
-    render(<FareFamilyCard {...baseProps} />);
+  it('renders the title in uppercase, price and benefits', async () => {
+    await render(<FareFamilyCard {...baseProps} />);
     expect(screen.getByText('STANDARD')).toBeOnTheScreen();
     expect(screen.getByText('+ R$ 200,95')).toBeOnTheScreen();
     expect(screen.getByText('Bagagem (01 peça)')).toBeOnTheScreen();
@@ -24,24 +24,24 @@ describe('FareFamilyCard', () => {
     expect(screen.getByText('Reembolso')).toBeOnTheScreen();
   });
 
-  it('colors included benefits green and excluded ones red', () => {
-    render(<FareFamilyCard {...baseProps} />);
+  it('colors included benefits green and excluded ones red', async () => {
+    await render(<FareFamilyCard {...baseProps} />);
     expect(screen.getByTestId('benefit-icon-0').props.color).toBe(colors.feedback.success);
     expect(screen.getByTestId('benefit-icon-1').props.color).toBe(colors.feedback.danger);
   });
 
-  it('shows "Selecionar" when not selected and "Selecionado" when selected', () => {
-    const { rerender } = render(<FareFamilyCard {...baseProps} />);
+  it('shows "Selecionar" when not selected and "Selecionado" when selected', async () => {
+    const { rerender } = await render(<FareFamilyCard {...baseProps} />);
     expect(screen.getByText('Selecionar')).toBeOnTheScreen();
 
-    rerender(<FareFamilyCard {...baseProps} selected />);
+    await rerender(<FareFamilyCard {...baseProps} selected />);
     expect(screen.getByText('Selecionado')).toBeOnTheScreen();
   });
 
-  it('fires onSelect when the select button is pressed', () => {
+  it('fires onSelect when the select button is pressed', async () => {
     const onSelect = jest.fn();
-    render(<FareFamilyCard {...baseProps} onSelect={onSelect} />);
-    fireEvent.press(screen.getByLabelText('Selecionar'));
+    await render(<FareFamilyCard {...baseProps} onSelect={onSelect} />);
+    await fireEvent.press(screen.getByLabelText('Selecionar'));
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 });

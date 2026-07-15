@@ -14,8 +14,8 @@ const baseProps: FareSummaryProps = {
 };
 
 describe('FareSummary', () => {
-  it('renders the title and every row', () => {
-    render(<FareSummary {...baseProps} />);
+  it('renders the title and every row', async () => {
+    await render(<FareSummary {...baseProps} />);
     expect(screen.getByText('Melhor preço')).toBeOnTheScreen();
     expect(screen.getByText('Tarifa por adulto')).toBeOnTheScreen();
     expect(screen.getByText('1 adulto')).toBeOnTheScreen();
@@ -24,8 +24,8 @@ describe('FareSummary', () => {
     expect(screen.getByText('R$ 2.162,76')).toBeOnTheScreen();
   });
 
-  it('omits the header when there is no title', () => {
-    render(<FareSummary rows={baseProps.rows} />);
+  it('omits the header when there is no title', async () => {
+    await render(<FareSummary rows={baseProps.rows} />);
     expect(screen.queryByText('Melhor preço')).toBeNull();
   });
 });

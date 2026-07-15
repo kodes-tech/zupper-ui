@@ -67,8 +67,8 @@ const baseProps: FlightResultsProps = {
 };
 
 describe('FlightResults', () => {
-  it('renders the route summary, results count and both flight sections', () => {
-    render(<FlightResults {...baseProps} />);
+  it('renders the route summary, results count and both flight sections', async () => {
+    await render(<FlightResults {...baseProps} />);
     expect(screen.getByText('SAO - REC')).toBeOnTheScreen();
     expect(screen.getByText('Sao Paulo, SP - Recife, PE')).toBeOnTheScreen();
     expect(screen.getByText('15 de julho - 28 de julho - 1 Viajante')).toBeOnTheScreen();
@@ -79,17 +79,17 @@ describe('FlightResults', () => {
     expect(screen.getByText('Azul')).toBeOnTheScreen();
   });
 
-  it('renders the fare summary with the best price badge', () => {
-    render(<FlightResults {...baseProps} />);
+  it('renders the fare summary with the best price badge', async () => {
+    await render(<FlightResults {...baseProps} />);
     expect(screen.getByText('Melhor preço')).toBeOnTheScreen();
     expect(screen.getByText('TOTAL A PAGAR')).toBeOnTheScreen();
     expect(screen.getByText('R$ 2.162,76')).toBeOnTheScreen();
   });
 
-  it('renders the fare family grid and fires onSelectFareFamily/onPressFareDetails', () => {
+  it('renders the fare family grid and fires onSelectFareFamily/onPressFareDetails', async () => {
     const onSelectFareFamily = jest.fn();
     const onPressFareDetails = jest.fn();
-    render(
+    await render(
       <FlightResults
         {...baseProps}
         onSelectFareFamily={onSelectFareFamily}
@@ -100,46 +100,46 @@ describe('FlightResults', () => {
     expect(screen.getByText('STANDARD')).toBeOnTheScreen();
     expect(screen.getByText('Selecionado')).toBeOnTheScreen();
 
-    fireEvent.press(screen.getByText('Selecionar'));
+    await fireEvent.press(screen.getByText('Selecionar'));
     expect(onSelectFareFamily).toHaveBeenCalledWith('standard');
 
-    fireEvent.press(screen.getByLabelText('Ver tarifa'));
+    await fireEvent.press(screen.getByLabelText('Ver tarifa'));
     expect(onPressFareDetails).toHaveBeenCalledTimes(1);
   });
 
-  it('omits the fare family section when there are no families', () => {
-    render(<FlightResults {...baseProps} fareFamilies={undefined} />);
+  it('omits the fare family section when there are no families', async () => {
+    await render(<FlightResults {...baseProps} fareFamilies={undefined} />);
     expect(screen.queryByText('Tarifa')).toBeNull();
     expect(screen.queryByText('LIGHT')).toBeNull();
   });
 
-  it('uses the singular label for a single result', () => {
-    render(<FlightResults {...baseProps} resultsCount={1} />);
+  it('uses the singular label for a single result', async () => {
+    await render(<FlightResults {...baseProps} resultsCount={1} />);
     expect(screen.getByText('1 voo encontrado')).toBeOnTheScreen();
   });
 
-  it('omits the return section for a one-way trip', () => {
-    render(<FlightResults {...baseProps} returnDate={undefined} returnFlight={undefined} />);
+  it('omits the return section for a one-way trip', async () => {
+    await render(<FlightResults {...baseProps} returnDate={undefined} returnFlight={undefined} />);
     expect(screen.queryByText('Voo de volta')).toBeNull();
   });
 
-  it('fires onBack, onEdit and onShare', () => {
+  it('fires onBack, onEdit and onShare', async () => {
     const onBack = jest.fn();
     const onEdit = jest.fn();
     const onShare = jest.fn();
-    render(<FlightResults {...baseProps} onBack={onBack} onEdit={onEdit} onShare={onShare} />);
-    fireEvent.press(screen.getByLabelText('Voltar'));
-    fireEvent.press(screen.getByLabelText('Editar busca'));
-    fireEvent.press(screen.getByLabelText('Compartilhar'));
+    await render(<FlightResults {...baseProps} onBack={onBack} onEdit={onEdit} onShare={onShare} />);
+    await fireEvent.press(screen.getByLabelText('Voltar'));
+    await fireEvent.press(screen.getByLabelText('Editar busca'));
+    await fireEvent.press(screen.getByLabelText('Compartilhar'));
     expect(onBack).toHaveBeenCalledTimes(1);
     expect(onEdit).toHaveBeenCalledTimes(1);
     expect(onShare).toHaveBeenCalledTimes(1);
   });
 
-  it('fires onChangeSort when a sort chip is pressed', () => {
+  it('fires onChangeSort when a sort chip is pressed', async () => {
     const onChangeSort = jest.fn();
-    render(<FlightResults {...baseProps} onChangeSort={onChangeSort} />);
-    fireEvent.press(screen.getByText('Voos mais rápidos'));
+    await render(<FlightResults {...baseProps} onChangeSort={onChangeSort} />);
+    await fireEvent.press(screen.getByText('Voos mais rápidos'));
     expect(onChangeSort).toHaveBeenCalledWith('fastest');
   });
 });

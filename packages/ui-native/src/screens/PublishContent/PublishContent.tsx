@@ -12,6 +12,7 @@ import type { RoteiroStop } from '../../molecules/RoteiroDayCard';
 import { RoteiroDayForm } from '../../molecules/RoteiroDayForm';
 import type { RoteiroDayFormProps } from '../../molecules/RoteiroDayForm';
 import { SelectField } from '../../molecules/SelectField';
+import type { SelectOption } from '../../molecules/SelectField';
 import { BottomNav } from '../../organisms/BottomNav';
 import type { BottomNavKey } from '../../organisms/BottomNav';
 import { ScreenHeader } from '../../organisms/ScreenHeader';
@@ -24,6 +25,10 @@ export type PublishContentProps = {
   type: PublishType;
   /** Destino selecionado (ex.: "Recife, PE"). */
   destination?: string;
+  /** Destinos oferecidos quando o seletor está aberto. */
+  destinations?: SelectOption[];
+  /** Abre a lista de destinos (variante `open` do dropdown no Figma). */
+  destinationsOpen?: boolean;
   categories?: PublishCategory[];
   selectedCategoryId?: string;
   /** Foto selecionada (variante `foto`). */
@@ -50,6 +55,8 @@ export type PublishContentProps = {
   active?: BottomNavKey;
   onBack?: () => void;
   onSelectDestination?: () => void;
+  /** Escolha de um destino da lista aberta. */
+  onPickDestination?: (id: string) => void;
   /** Trocar a mídia já selecionada (lápis, variante `foto` preenchida). */
   onChangeMedia?: () => void;
   /** Abrir a galeria (variante `foto` vazia). */
@@ -114,6 +121,8 @@ const MediaPickerBox = ({
 export const PublishContent = ({
   type,
   destination,
+  destinations = [],
+  destinationsOpen = false,
   categories = [],
   selectedCategoryId,
   media,
@@ -128,6 +137,7 @@ export const PublishContent = ({
   active,
   onBack,
   onSelectDestination,
+  onPickDestination,
   onChangeMedia,
   onPickGallery,
   onPickCamera,
@@ -156,6 +166,9 @@ export const PublishContent = ({
         <SelectField
           value={destination}
           placeholder="Selecione o destino"
+          open={destinationsOpen}
+          options={destinations}
+          onSelectOption={onPickDestination}
           onPress={onSelectDestination}
         />
 

@@ -103,6 +103,25 @@ export const FotoVazio = {
   },
 };
 
+const destinations = [
+  { id: 'sao-paulo', label: 'São Paulo (Cidade de residência)' },
+  { id: 'florianopolis', label: 'Florianópolis, SC' },
+  { id: 'noronha', label: 'Fernando de Noronha, PE' },
+  { id: 'recife', label: 'Recife, PE' },
+];
+
+/** Foto — seletor de destino aberto, com a lista de cidades (variante `open` do dropdown). */
+export const FotoDestinoAberto = {
+  args: {
+    type: 'foto',
+    destination: undefined,
+    destinations,
+    destinationsOpen: true,
+    canPublish: false,
+    onPickDestination: action('onPickDestination'),
+  },
+};
+
 export const Dica = {
   args: {
     type: 'dica',

@@ -115,6 +115,8 @@ const registry = {
   'baggage-backpack': Svgs.BaggageBackpack,
   'baggage-carry-on': Svgs.BaggageCarryOn,
   'baggage-checked': Svgs.BaggageChecked,
+  // Logo de companhia aérea (wordmark) — usado no selo do voo.
+  'airline-gol': Svgs.AirlineGol,
 } as const;
 
 export type IconName = keyof typeof registry;

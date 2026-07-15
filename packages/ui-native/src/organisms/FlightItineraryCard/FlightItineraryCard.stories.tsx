@@ -7,6 +7,7 @@ const ida = {
   headerDate: 'Qua, 24 de maio 2024',
   airline: 'Gol airlines',
   airlineCode: 'G3',
+  airlineIcon: 'airline-gol',
   operatedBy: 'Latam Airlines',
   flightNumber: 'LA522',
   travelClass: 'Econômica',

@@ -3,6 +3,11 @@ import { Text, View } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 import { Divider } from '../../atoms/Divider';
 import { Icon } from '../../atoms/Icon';
+import type { IconName } from '../../atoms/Icon';
+
+// Laranja da marca GOL (Accents/Albania 500 no Figma) — cor de companhia,
+// não é um token do design system; fica local, como as exceções de gradiente.
+const AIRLINE_LOGO_BG = '#F97316';
 
 export type FlightItineraryDirection = 'ida' | 'volta';
 
@@ -12,8 +17,10 @@ export type FlightItinerary = {
   headerDate: string;
   /** Companhia principal (ex.: "Gol airlines"). */
   airline: string;
-  /** Sigla exibida no selo colorido da companhia (ex.: "G3"). */
+  /** Sigla exibida no selo da companhia quando não há logo (ex.: "G3"). */
   airlineCode: string;
+  /** Logo da companhia (ex.: `airline-gol`); tem prioridade sobre a sigla. */
+  airlineIcon?: IconName;
   /** Companhia operadora, quando diferente (ex.: "Latam Airlines"). */
   operatedBy?: string;
   flightNumber: string;
@@ -97,9 +104,18 @@ export const FlightItineraryCard = ({
     <View className="flex-row items-start justify-between gap-md">
       <View className="flex-1 gap-xs">
         <View className="flex-row items-center gap-xs">
-          <View className="h-[32px] w-[32px] items-center justify-center rounded-sm bg-surface-tag">
-            <Text className="font-sans text-xs font-bold text-fg-subtle">{f.airlineCode}</Text>
-          </View>
+          {f.airlineIcon ? (
+            <View
+              className="h-[32px] w-[32px] items-center justify-center rounded-sm"
+              style={{ backgroundColor: AIRLINE_LOGO_BG }}
+            >
+              <Icon name={f.airlineIcon} size={24} color={colors.text.inverse} />
+            </View>
+          ) : (
+            <View className="h-[32px] w-[32px] items-center justify-center rounded-sm bg-surface-tag">
+              <Text className="font-sans text-xs font-bold text-fg-subtle">{f.airlineCode}</Text>
+            </View>
+          )}
           <Text className="font-sans text-md font-bold text-fg-secondary">{f.airline}</Text>
         </View>
         {f.operatedBy ? (

@@ -98,3 +98,4 @@ export { default as AmenityLaundry } from './AmenityLaundry';
 export { default as BaggageBackpack } from './BaggageBackpack';
 export { default as BaggageCarryOn } from './BaggageCarryOn';
 export { default as BaggageChecked } from './BaggageChecked';
+export { default as AirlineGol } from './AirlineGol';

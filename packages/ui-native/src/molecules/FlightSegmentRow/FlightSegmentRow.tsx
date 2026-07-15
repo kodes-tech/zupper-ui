@@ -2,6 +2,10 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
+import type { IconName } from '../../atoms/Icon';
+
+// Laranja da marca GOL (Accents/Albania 500 no Figma) — cor de companhia.
+const AIRLINE_LOGO_BG = '#F97316';
 
 export type FlightSegmentDirection = 'ida' | 'volta';
 
@@ -11,8 +15,10 @@ export type FlightSegmentData = {
   originCode: string;
   /** Código IATA de destino (ex.: "CGH"). */
   destinationCode: string;
-  /** Sigla/nome da companhia, exibida no selo (ex.: "G3"). */
+  /** Sigla da companhia, exibida no selo quando não há logo (ex.: "G3"). */
   airlineCode: string;
+  /** Logo da companhia (ex.: `airline-gol`); tem prioridade sobre a sigla. */
+  airlineIcon?: IconName;
   /** "Direto" ou "N paradas". */
   stopsLabel: string;
   departureTime: string;
@@ -47,9 +53,18 @@ export const FlightSegmentRow = ({ segment }: FlightSegmentRowProps): React.Reac
       </Text>
     </View>
 
-    <View className="h-[32px] w-[32px] items-center justify-center rounded-sm bg-surface-tag">
-      <Text className="font-sans text-xs font-bold text-fg-subtle">{segment.airlineCode}</Text>
-    </View>
+    {segment.airlineIcon ? (
+      <View
+        className="h-[32px] w-[32px] items-center justify-center rounded-sm"
+        style={{ backgroundColor: AIRLINE_LOGO_BG }}
+      >
+        <Icon name={segment.airlineIcon} size={24} color={colors.text.inverse} />
+      </View>
+    ) : (
+      <View className="h-[32px] w-[32px] items-center justify-center rounded-sm bg-surface-tag">
+        <Text className="font-sans text-xs font-bold text-fg-subtle">{segment.airlineCode}</Text>
+      </View>
+    )}
 
     <View className="flex-1 gap-xxs">
       <View className="flex-row items-center gap-xs">

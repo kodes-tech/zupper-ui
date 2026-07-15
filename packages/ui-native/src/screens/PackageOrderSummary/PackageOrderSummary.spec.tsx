@@ -61,8 +61,8 @@ const baseProps: PackageOrderSummaryProps = {
 };
 
 describe('PackageOrderSummary', () => {
-  it('renders all the order sections', () => {
-    render(<PackageOrderSummary {...baseProps} />);
+  it('renders all the order sections', async () => {
+    await render(<PackageOrderSummary {...baseProps} />);
     expect(screen.getByText('Detalhes do pacote')).toBeOnTheScreen();
     expect(screen.getByText('Sua compra')).toBeOnTheScreen();
     expect(screen.getByText('Viajantes')).toBeOnTheScreen();
@@ -75,11 +75,11 @@ describe('PackageOrderSummary', () => {
     expect(screen.getByText('Próximo')).toBeOnTheScreen();
   });
 
-  it('fires back, policy and continue callbacks', () => {
+  it('fires back, policy and continue callbacks', async () => {
     const onBack = jest.fn();
     const onPressPolicies = jest.fn();
     const onContinue = jest.fn();
-    render(
+    await render(
       <PackageOrderSummary
         {...baseProps}
         onBack={onBack}
@@ -87,11 +87,11 @@ describe('PackageOrderSummary', () => {
         onContinue={onContinue}
       />,
     );
-    fireEvent.press(screen.getByRole('button', { name: 'Voltar' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Voltar' }));
     expect(onBack).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByRole('button', { name: 'Políticas de acomodações' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Políticas de acomodações' }));
     expect(onPressPolicies).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Próximo'));
+    await fireEvent.press(screen.getByText('Próximo'));
     expect(onContinue).toHaveBeenCalledTimes(1);
   });
 });

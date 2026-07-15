@@ -7,8 +7,8 @@ const testimonials = [
 ];
 
 describe('HotelTestimonialsCard', () => {
-  it('renders the title and testimonials', () => {
-    render(<HotelTestimonialsCard testimonials={testimonials} />);
+  it('renders the title and testimonials', async () => {
+    await render(<HotelTestimonialsCard testimonials={testimonials} />);
     expect(screen.getByText('O que os hóspedes dizem')).toBeOnTheScreen();
     expect(screen.getByText('Jéssica M.')).toBeOnTheScreen();
     expect(screen.getByText('JM')).toBeOnTheScreen();
@@ -16,10 +16,10 @@ describe('HotelTestimonialsCard', () => {
     expect(screen.getByText('Carlos S.')).toBeOnTheScreen();
   });
 
-  it('fires onSeeAll', () => {
+  it('fires onSeeAll', async () => {
     const onSeeAll = jest.fn();
-    render(<HotelTestimonialsCard testimonials={testimonials} onSeeAll={onSeeAll} />);
-    fireEvent.press(screen.getByText('Ver todas as avaliações'));
+    await render(<HotelTestimonialsCard testimonials={testimonials} onSeeAll={onSeeAll} />);
+    await fireEvent.press(screen.getByText('Ver todas as avaliações'));
     expect(onSeeAll).toHaveBeenCalledTimes(1);
   });
 });

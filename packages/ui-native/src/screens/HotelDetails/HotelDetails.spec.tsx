@@ -17,8 +17,8 @@ const baseProps = {
 };
 
 describe('HotelDetails', () => {
-  it('renders the hotel summary, address, description and amenities', () => {
-    render(<HotelDetails {...baseProps} />);
+  it('renders the hotel summary, address, description and amenities', async () => {
+    await render(<HotelDetails {...baseProps} />);
     expect(screen.getByText('Recife - PE')).toBeOnTheScreen();
     expect(screen.getByText('Hotel Boa Viagem Praia')).toBeOnTheScreen();
     expect(screen.getByText('Localização')).toBeOnTheScreen();
@@ -27,15 +27,15 @@ describe('HotelDetails', () => {
     expect(screen.getByText('Comodidades do local')).toBeOnTheScreen();
   });
 
-  it('omits the nearby section when there are no points', () => {
-    render(<HotelDetails {...baseProps} nearbyPoints={[]} />);
+  it('omits the nearby section when there are no points', async () => {
+    await render(<HotelDetails {...baseProps} nearbyPoints={[]} />);
     expect(screen.queryByText('Interesses na proximidade')).toBeNull();
   });
 
-  it('fires onSelectRooms from the footer CTA', () => {
+  it('fires onSelectRooms from the footer CTA', async () => {
     const onSelectRooms = jest.fn();
-    render(<HotelDetails {...baseProps} onSelectRooms={onSelectRooms} />);
-    fireEvent.press(screen.getByText('Selecionar quartos'));
+    await render(<HotelDetails {...baseProps} onSelectRooms={onSelectRooms} />);
+    await fireEvent.press(screen.getByText('Selecionar quartos'));
     expect(onSelectRooms).toHaveBeenCalledTimes(1);
   });
 });

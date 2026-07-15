@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { PurchaseSummaryCard } from './PurchaseSummaryCard';
 
 describe('PurchaseSummaryCard', () => {
-  it('renders the items and total', () => {
-    render(
+  it('renders the items and total', async () => {
+    await render(
       <PurchaseSummaryCard
         items={[
           { label: 'Tarifa por adulto', value: 'R$ 654,51' },

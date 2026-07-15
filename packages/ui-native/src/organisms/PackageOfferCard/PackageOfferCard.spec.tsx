@@ -13,8 +13,8 @@ const offer: PackageOfferCardData = {
 };
 
 describe('PackageOfferCard', () => {
-  it('renders the offer details', () => {
-    render(<PackageOfferCard offer={offer} />);
+  it('renders the offer details', async () => {
+    await render(<PackageOfferCard offer={offer} />);
     expect(screen.getByText('Pacote exclusivo para Salvador - Bahia')).toBeOnTheScreen();
     expect(screen.getByText('De Rio de Janeiro (01-05 Set)')).toBeOnTheScreen();
     expect(screen.getByText('Salvador Express Praia Hotel')).toBeOnTheScreen();
@@ -22,10 +22,10 @@ describe('PackageOfferCard', () => {
     expect(screen.getByText('R$ 155')).toBeOnTheScreen();
   });
 
-  it('fires onSeeOffer', () => {
+  it('fires onSeeOffer', async () => {
     const onSeeOffer = jest.fn();
-    render(<PackageOfferCard offer={offer} onSeeOffer={onSeeOffer} />);
-    fireEvent.press(screen.getByText('Ver oferta'));
+    await render(<PackageOfferCard offer={offer} onSeeOffer={onSeeOffer} />);
+    await fireEvent.press(screen.getByText('Ver oferta'));
     expect(onSeeOffer).toHaveBeenCalledTimes(1);
   });
 });

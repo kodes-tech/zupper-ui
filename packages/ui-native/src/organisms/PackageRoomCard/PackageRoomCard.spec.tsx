@@ -8,8 +8,8 @@ const room = {
 };
 
 describe('PackageRoomCard', () => {
-  it('renders title, cancellation and amenities', () => {
-    render(<PackageRoomCard room={room} />);
+  it('renders title, cancellation and amenities', async () => {
+    await render(<PackageRoomCard room={room} />);
     expect(screen.getByText('Quarto 1')).toBeOnTheScreen();
     expect(screen.getByText('Cancelamento grátis até 00/00/0000')).toBeOnTheScreen();
     expect(screen.getByText('O que possui no quarto?')).toBeOnTheScreen();
@@ -17,10 +17,10 @@ describe('PackageRoomCard', () => {
     expect(screen.getByText('Secador de cabelo')).toBeOnTheScreen();
   });
 
-  it('fires onSeeAll', () => {
+  it('fires onSeeAll', async () => {
     const onSeeAll = jest.fn();
-    render(<PackageRoomCard room={room} onSeeAll={onSeeAll} />);
-    fireEvent.press(screen.getByText('Ver todas as comodidades'));
+    await render(<PackageRoomCard room={room} onSeeAll={onSeeAll} />);
+    await fireEvent.press(screen.getByText('Ver todas as comodidades'));
     expect(onSeeAll).toHaveBeenCalledTimes(1);
   });
 });

@@ -34,8 +34,8 @@ const baseProps = {
 };
 
 describe('PackageSummaryFooter', () => {
-  it('shows the price and CTA, collapsed by default', () => {
-    render(<PackageSummaryFooter {...baseProps} />);
+  it('shows the price and CTA, collapsed by default', async () => {
+    await render(<PackageSummaryFooter {...baseProps} />);
     expect(screen.getByText('Pacote - 2 adultos (3 dias)')).toBeOnTheScreen();
     expect(screen.getByText('R$ 255,00')).toBeOnTheScreen();
     expect(screen.getByText('Próximo')).toBeOnTheScreen();
@@ -44,19 +44,19 @@ describe('PackageSummaryFooter', () => {
     expect(screen.queryByText('IDA')).toBeNull();
   });
 
-  it('reveals hotel and flight segments when expanded', () => {
-    render(<PackageSummaryFooter {...baseProps} expanded />);
+  it('reveals hotel and flight segments when expanded', async () => {
+    await render(<PackageSummaryFooter {...baseProps} expanded />);
     expect(screen.getByText('Bourbon São Paulo Ibirapuera')).toBeOnTheScreen();
     expect(screen.getByText('IDA')).toBeOnTheScreen();
     expect(screen.getByText('VOLTA')).toBeOnTheScreen();
     expect(screen.getByText('Ocultar detalhes')).toBeOnTheScreen();
   });
 
-  it('fires toggle, edit and continue callbacks', () => {
+  it('fires toggle, edit and continue callbacks', async () => {
     const onToggle = jest.fn();
     const onEdit = jest.fn();
     const onContinue = jest.fn();
-    render(
+    await render(
       <PackageSummaryFooter
         {...baseProps}
         expanded
@@ -65,11 +65,11 @@ describe('PackageSummaryFooter', () => {
         onContinue={onContinue}
       />,
     );
-    fireEvent.press(screen.getByRole('button', { name: 'Ocultar detalhes' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Ocultar detalhes' }));
     expect(onToggle).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByRole('button', { name: 'Alterar' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Alterar' }));
     expect(onEdit).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Próximo'));
+    await fireEvent.press(screen.getByText('Próximo'));
     expect(onContinue).toHaveBeenCalledTimes(1);
   });
 });

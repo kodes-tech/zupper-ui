@@ -26,8 +26,8 @@ const ida: FlightItinerary = {
 };
 
 describe('FlightItineraryCard', () => {
-  it('renders the itinerary details', () => {
-    render(<FlightItineraryCard itinerary={ida} />);
+  it('renders the itinerary details', async () => {
+    await render(<FlightItineraryCard itinerary={ida} />);
     expect(screen.getByText('Voo de ida')).toBeOnTheScreen();
     expect(screen.getByText('Qua, 24 de maio 2024')).toBeOnTheScreen();
     expect(screen.getByText('Gol airlines')).toBeOnTheScreen();
@@ -39,8 +39,8 @@ describe('FlightItineraryCard', () => {
     expect(screen.getByText('1h50')).toBeOnTheScreen();
   });
 
-  it('shows "Voo de volta" for the return direction and an optional disclaimer', () => {
-    render(<FlightItineraryCard itinerary={{ ...ida, direction: 'volta' }} disclaimer="Aviso ANAC." />);
+  it('shows "Voo de volta" for the return direction and an optional disclaimer', async () => {
+    await render(<FlightItineraryCard itinerary={{ ...ida, direction: 'volta' }} disclaimer="Aviso ANAC." />);
     expect(screen.getByText('Voo de volta')).toBeOnTheScreen();
     expect(screen.getByText('Aviso ANAC.')).toBeOnTheScreen();
   });

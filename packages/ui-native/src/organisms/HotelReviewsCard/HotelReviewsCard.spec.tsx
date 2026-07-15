@@ -8,8 +8,8 @@ const categories = [
 ];
 
 describe('HotelReviewsCard', () => {
-  it('renders the title, rating label and categories', () => {
-    render(<HotelReviewsCard stars={3} ratingLabel="Bom 7,0" categories={categories} />);
+  it('renders the title, rating label and categories', async () => {
+    await render(<HotelReviewsCard stars={3} ratingLabel="Bom 7,0" categories={categories} />);
     expect(screen.getByText('Avaliações')).toBeOnTheScreen();
     expect(screen.getByText('Bom 7,0')).toBeOnTheScreen();
     expect(screen.getByText('Comodidades')).toBeOnTheScreen();
@@ -17,8 +17,8 @@ describe('HotelReviewsCard', () => {
     expect(screen.getByText('Limpeza')).toBeOnTheScreen();
   });
 
-  it('formats scores in pt-BR', () => {
-    render(<HotelReviewsCard stars={3} ratingLabel="Bom 7,0" categories={[{ label: 'Wi-Fi', value: 8.5 }]} />);
+  it('formats scores in pt-BR', async () => {
+    await render(<HotelReviewsCard stars={3} ratingLabel="Bom 7,0" categories={[{ label: 'Wi-Fi', value: 8.5 }]} />);
     expect(screen.getByText('8,5')).toBeOnTheScreen();
   });
 });

@@ -20,8 +20,8 @@ const baseProps = {
 };
 
 describe('PackageOrderHotelCard', () => {
-  it('renders name, address, benefits and stay details', () => {
-    render(<PackageOrderHotelCard {...baseProps} />);
+  it('renders name, address, benefits and stay details', async () => {
+    await render(<PackageOrderHotelCard {...baseProps} />);
     expect(screen.getByText('Bourbon São Paulo Ibirapuera Convention Hotel')).toBeOnTheScreen();
     expect(screen.getByText(/Av. Ibirapuera, 2927/)).toBeOnTheScreen();
     expect(screen.getByText('Cancelamento grátis')).toBeOnTheScreen();
@@ -29,19 +29,19 @@ describe('PackageOrderHotelCard', () => {
     expect(screen.getByText('1 quarto, 2 adultos')).toBeOnTheScreen();
   });
 
-  it('fires description and amenities callbacks', () => {
+  it('fires description and amenities callbacks', async () => {
     const onSeeDescription = jest.fn();
     const onSeeAllAmenities = jest.fn();
-    render(
+    await render(
       <PackageOrderHotelCard
         {...baseProps}
         onSeeDescription={onSeeDescription}
         onSeeAllAmenities={onSeeAllAmenities}
       />,
     );
-    fireEvent.press(screen.getByText('Ver descrição completa'));
+    await fireEvent.press(screen.getByText('Ver descrição completa'));
     expect(onSeeDescription).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Ver todas as comodidades'));
+    await fireEvent.press(screen.getByText('Ver todas as comodidades'));
     expect(onSeeAllAmenities).toHaveBeenCalledTimes(1);
   });
 });

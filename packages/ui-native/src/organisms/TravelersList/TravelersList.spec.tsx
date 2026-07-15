@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { TravelersList } from './TravelersList';
 
 describe('TravelersList', () => {
-  it('renders the title and travelers', () => {
-    render(
+  it('renders the title and travelers', async () => {
+    await render(
       <TravelersList
         travelers={[
           { role: 'Adulto 1 (Quarto 1)', details: 'Maria Joaquina Silva, 30/11/1991' },

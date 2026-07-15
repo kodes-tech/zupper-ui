@@ -33,8 +33,8 @@ const data: PackageResultCardData = {
 };
 
 describe('PackageResultCard', () => {
-  it('renders hotel, segments and price', () => {
-    render(<PackageResultCard data={data} />);
+  it('renders hotel, segments and price', async () => {
+    await render(<PackageResultCard data={data} />);
     expect(screen.getByText('Hotel Bourbon São Paulo Convention')).toBeOnTheScreen();
     expect(screen.getByText('Quarto Basic (2 Adultos)')).toBeOnTheScreen();
     expect(screen.getByText('IDA')).toBeOnTheScreen();
@@ -42,18 +42,18 @@ describe('PackageResultCard', () => {
     expect(screen.getByText('R$ 255,00')).toBeOnTheScreen();
   });
 
-  it('renders a single outline CTA when not featured', () => {
+  it('renders a single outline CTA when not featured', async () => {
     const onPressPrimary = jest.fn();
-    render(<PackageResultCard data={data} onPressPrimary={onPressPrimary} />);
+    await render(<PackageResultCard data={data} onPressPrimary={onPressPrimary} />);
     expect(screen.queryByText('PACOTE SUGERIDO')).toBeNull();
-    fireEvent.press(screen.getByText('Escolher pacote Zupper'));
+    await fireEvent.press(screen.getByText('Escolher pacote Zupper'));
     expect(onPressPrimary).toHaveBeenCalledTimes(1);
   });
 
-  it('renders the badge and both CTAs when featured', () => {
+  it('renders the badge and both CTAs when featured', async () => {
     const onPressPrimary = jest.fn();
     const onPressSecondary = jest.fn();
-    render(
+    await render(
       <PackageResultCard
         featured
         data={{ ...data, primaryCtaLabel: 'Gostei! Quero este pacote', secondaryCtaLabel: 'Montar meu pacote' }}
@@ -62,9 +62,9 @@ describe('PackageResultCard', () => {
       />,
     );
     expect(screen.getByText('PACOTE SUGERIDO')).toBeOnTheScreen();
-    fireEvent.press(screen.getByText('Gostei! Quero este pacote'));
+    await fireEvent.press(screen.getByText('Gostei! Quero este pacote'));
     expect(onPressPrimary).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Montar meu pacote'));
+    await fireEvent.press(screen.getByText('Montar meu pacote'));
     expect(onPressSecondary).toHaveBeenCalledTimes(1);
   });
 });

@@ -14,8 +14,8 @@ const ida: FlightSegmentData = {
 };
 
 describe('FlightSegmentRow', () => {
-  it('renders the segment details', () => {
-    render(<FlightSegmentRow segment={ida} />);
+  it('renders the segment details', async () => {
+    await render(<FlightSegmentRow segment={ida} />);
     expect(screen.getByText('IDA')).toBeOnTheScreen();
     expect(screen.getByText('G3')).toBeOnTheScreen();
     expect(screen.getByText('FLN')).toBeOnTheScreen();
@@ -26,8 +26,8 @@ describe('FlightSegmentRow', () => {
     expect(screen.getByText('20 Ago 2024')).toBeOnTheScreen();
   });
 
-  it('shows VOLTA for the return direction', () => {
-    render(<FlightSegmentRow segment={{ ...ida, direction: 'volta' }} />);
+  it('shows VOLTA for the return direction', async () => {
+    await render(<FlightSegmentRow segment={{ ...ida, direction: 'volta' }} />);
     expect(screen.getByText('VOLTA')).toBeOnTheScreen();
   });
 });

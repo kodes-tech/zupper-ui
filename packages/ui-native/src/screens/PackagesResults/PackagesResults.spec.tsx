@@ -40,8 +40,8 @@ const others: PackageResultCardData[] = [
 ];
 
 describe('PackagesResults', () => {
-  it('renders the header and results count', () => {
-    render(
+  it('renders the header and results count', async () => {
+    await render(
       <PackagesResults
         routeLabel="FLN - CGH"
         routeDetails="Florianópolis, SC - São Paulo, SP"
@@ -58,11 +58,11 @@ describe('PackagesResults', () => {
     expect(screen.getByText('Confira outros pacotes selecionados')).toBeOnTheScreen();
   });
 
-  it('fires sort and selection callbacks', () => {
+  it('fires sort and selection callbacks', async () => {
     const onChangeSort = jest.fn();
     const onSelectFeatured = jest.fn();
     const onSelectPackage = jest.fn();
-    render(
+    await render(
       <PackagesResults
         routeLabel="FLN - CGH"
         routeDetails="Florianópolis, SC - São Paulo, SP"
@@ -75,16 +75,16 @@ describe('PackagesResults', () => {
         onSelectPackage={onSelectPackage}
       />,
     );
-    fireEvent.press(screen.getByText('Recomendados'));
+    await fireEvent.press(screen.getByText('Recomendados'));
     expect(onChangeSort).toHaveBeenCalledWith('recomendados');
-    fireEvent.press(screen.getByText('Gostei! Quero este pacote'));
+    await fireEvent.press(screen.getByText('Gostei! Quero este pacote'));
     expect(onSelectFeatured).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Escolher pacote Zupper'));
+    await fireEvent.press(screen.getByText('Escolher pacote Zupper'));
     expect(onSelectPackage).toHaveBeenCalledWith(0);
   });
 
-  it('hides the others section when empty', () => {
-    render(
+  it('hides the others section when empty', async () => {
+    await render(
       <PackagesResults
         routeLabel="FLN - CGH"
         routeDetails="Florianópolis, SC - São Paulo, SP"

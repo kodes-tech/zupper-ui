@@ -17,8 +17,8 @@ const items = [
 ];
 
 describe('BaggageInfo', () => {
-  it('renders the title and items', () => {
-    render(<BaggageInfo items={items} />);
+  it('renders the title and items', async () => {
+    await render(<BaggageInfo items={items} />);
     expect(screen.getByText('Bagagem')).toBeOnTheScreen();
     expect(screen.getByText('Inclui uma mochila ou bolsa')).toBeOnTheScreen();
     expect(screen.getByText('Não inclui bagagem para despachar')).toBeOnTheScreen();

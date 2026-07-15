@@ -22,3 +22,4 @@ export * from './TravelHome';
 export * from './PackagesSearch';
 export * from './PackagesResults';
 export * from './PackageHotelDetails';
+export * from './PackageOrderSummary';

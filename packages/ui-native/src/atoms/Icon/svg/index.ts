@@ -95,3 +95,6 @@ export { default as AmenityPool } from './AmenityPool';
 export { default as AmenityTv } from './AmenityTv';
 export { default as AmenityHairdryer } from './AmenityHairdryer';
 export { default as AmenityLaundry } from './AmenityLaundry';
+export { default as BaggageBackpack } from './BaggageBackpack';
+export { default as BaggageCarryOn } from './BaggageCarryOn';
+export { default as BaggageChecked } from './BaggageChecked';

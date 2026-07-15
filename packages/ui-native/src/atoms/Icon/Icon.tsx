@@ -111,6 +111,10 @@ const registry = {
   'amenity-tv': Svgs.AmenityTv,
   'amenity-hairdryer': Svgs.AmenityHairdryer,
   'amenity-laundry': Svgs.AmenityLaundry,
+  // Bagagem (resumo do pacote) — currentColor.
+  'baggage-backpack': Svgs.BaggageBackpack,
+  'baggage-carry-on': Svgs.BaggageCarryOn,
+  'baggage-checked': Svgs.BaggageChecked,
 } as const;
 
 export type IconName = keyof typeof registry;

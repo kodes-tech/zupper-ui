@@ -29,3 +29,8 @@ export * from './PackageResultCard';
 export * from './HotelReviewsCard';
 export * from './HotelTestimonialsCard';
 export * from './PackageSummaryFooter';
+export * from './PurchaseSummaryCard';
+export * from './TravelersList';
+export * from './PackageRoomCard';
+export * from './BaggageInfo';
+export * from './PackageOrderHotelCard';

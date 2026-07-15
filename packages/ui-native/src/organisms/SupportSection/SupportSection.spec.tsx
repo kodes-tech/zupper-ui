@@ -13,18 +13,18 @@ const items = [
 ];
 
 describe('SupportSection', () => {
-  it('renders the default title and the items', () => {
-    render(<SupportSection items={items} />);
+  it('renders the default title and the items', async () => {
+    await render(<SupportSection items={items} />);
     expect(screen.getByText('Atendimento Zupper')).toBeOnTheScreen();
     expect(screen.getByText('Central de ajuda')).toBeOnTheScreen();
     expect(screen.getByText('WhatsApp')).toBeOnTheScreen();
     expect(screen.getByText('Seg. a sex.')).toBeOnTheScreen();
   });
 
-  it('fires onPressItem with the item id', () => {
+  it('fires onPressItem with the item id', async () => {
     const onPressItem = jest.fn();
-    render(<SupportSection items={items} onPressItem={onPressItem} />);
-    fireEvent.press(screen.getByRole('button', { name: 'Acessar Central de ajuda' }));
+    await render(<SupportSection items={items} onPressItem={onPressItem} />);
+    await fireEvent.press(screen.getByRole('button', { name: 'Acessar Central de ajuda' }));
     expect(onPressItem).toHaveBeenCalledWith('help');
   });
 });

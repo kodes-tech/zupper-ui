@@ -7,8 +7,8 @@ const items = [
 ];
 
 describe('TravelSearchHistory', () => {
-  it('renders the section title and the items', () => {
-    render(<TravelSearchHistory items={items} />);
+  it('renders the section title and the items', async () => {
+    await render(<TravelSearchHistory items={items} />);
     expect(screen.getByText('próxima viagem')).toBeOnTheScreen();
     expect(screen.getByText('Pesquisas recentes')).toBeOnTheScreen();
     expect(screen.getByText('Recife')).toBeOnTheScreen();
@@ -16,15 +16,15 @@ describe('TravelSearchHistory', () => {
     expect(screen.getByText('10 set - 20 set')).toBeOnTheScreen();
   });
 
-  it('renders one action per item with the default label', () => {
-    render(<TravelSearchHistory items={items} />);
+  it('renders one action per item with the default label', async () => {
+    await render(<TravelSearchHistory items={items} />);
     expect(screen.getAllByText('Pesquisar')).toHaveLength(2);
   });
 
-  it('fires onPressItem with the item id', () => {
+  it('fires onPressItem with the item id', async () => {
     const onPressItem = jest.fn();
-    render(<TravelSearchHistory items={items} onPressItem={onPressItem} />);
-    fireEvent.press(screen.getByRole('button', { name: 'Pesquisar Salvador' }));
+    await render(<TravelSearchHistory items={items} onPressItem={onPressItem} />);
+    await fireEvent.press(screen.getByRole('button', { name: 'Pesquisar Salvador' }));
     expect(onPressItem).toHaveBeenCalledWith('ssa');
   });
 });

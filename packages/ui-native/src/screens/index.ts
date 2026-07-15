@@ -21,3 +21,4 @@ export * from './PublishContent';
 export * from './TravelHome';
 export * from './PackagesSearch';
 export * from './PackagesResults';
+export * from './PackageHotelDetails';

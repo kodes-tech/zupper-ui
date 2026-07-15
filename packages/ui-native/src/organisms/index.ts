@@ -26,3 +26,6 @@ export * from './SupportSection';
 export * from './TravelSearchHistory';
 export * from './PackageOfferCard';
 export * from './PackageResultCard';
+export * from './HotelReviewsCard';
+export * from './HotelTestimonialsCard';
+export * from './PackageSummaryFooter';

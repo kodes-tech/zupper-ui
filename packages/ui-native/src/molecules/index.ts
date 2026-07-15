@@ -24,3 +24,4 @@ export * from './HotelSearchSummary';
 export * from './HotelStayDetails';
 export * from './HotelPriceSummary';
 export * from './FlightSegmentRow';
+export * from './HotelPolicyRow';

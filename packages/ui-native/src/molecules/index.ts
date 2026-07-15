@@ -25,3 +25,4 @@ export * from './HotelStayDetails';
 export * from './HotelPriceSummary';
 export * from './FlightSegmentRow';
 export * from './HotelPolicyRow';
+export * from './AirlineBadge';

@@ -3,9 +3,7 @@ import { Text, View } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 import type { IconName } from '../../atoms/Icon';
-
-// Laranja da marca GOL (Accents/Albania 500 no Figma) — cor de companhia.
-const AIRLINE_LOGO_BG = '#F97316';
+import { AirlineBadge } from '../AirlineBadge';
 
 export type FlightSegmentDirection = 'ida' | 'volta';
 
@@ -19,6 +17,8 @@ export type FlightSegmentData = {
   airlineCode: string;
   /** Logo da companhia (ex.: `airline-gol`); tem prioridade sobre a sigla. */
   airlineIcon?: IconName;
+  /** Cor de marca do selo (ex.: "#F97316" da Gol). Sem cor = selo neutro. */
+  airlineColor?: string;
   /** "Direto" ou "N paradas". */
   stopsLabel: string;
   departureTime: string;
@@ -53,18 +53,8 @@ export const FlightSegmentRow = ({ segment }: FlightSegmentRowProps): React.Reac
       </Text>
     </View>
 
-    {segment.airlineIcon ? (
-      <View
-        className="h-[32px] w-[32px] items-center justify-center rounded-sm"
-        style={{ backgroundColor: AIRLINE_LOGO_BG }}
-      >
-        <Icon name={segment.airlineIcon} size={24} color={colors.text.inverse} />
-      </View>
-    ) : (
-      <View className="h-[32px] w-[32px] items-center justify-center rounded-sm bg-surface-tag">
-        <Text className="font-sans text-xs font-bold text-fg-subtle">{segment.airlineCode}</Text>
-      </View>
-    )}
+    <AirlineBadge code={segment.airlineCode} icon={segment.airlineIcon} color={segment.airlineColor} />
+
 
     <View className="flex-1 gap-xxs">
       <View className="flex-row items-center gap-xs">

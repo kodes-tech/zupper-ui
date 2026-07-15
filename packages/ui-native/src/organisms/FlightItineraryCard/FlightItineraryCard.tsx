@@ -4,10 +4,7 @@ import { colors } from '@kodes-tech/tokens';
 import { Divider } from '../../atoms/Divider';
 import { Icon } from '../../atoms/Icon';
 import type { IconName } from '../../atoms/Icon';
-
-// Laranja da marca GOL (Accents/Albania 500 no Figma) — cor de companhia,
-// não é um token do design system; fica local, como as exceções de gradiente.
-const AIRLINE_LOGO_BG = '#F97316';
+import { AirlineBadge } from '../../molecules/AirlineBadge';
 
 export type FlightItineraryDirection = 'ida' | 'volta';
 
@@ -21,6 +18,8 @@ export type FlightItinerary = {
   airlineCode: string;
   /** Logo da companhia (ex.: `airline-gol`); tem prioridade sobre a sigla. */
   airlineIcon?: IconName;
+  /** Cor de marca do selo (ex.: "#F97316" da Gol). Sem cor = selo neutro. */
+  airlineColor?: string;
   /** Companhia operadora, quando diferente (ex.: "Latam Airlines"). */
   operatedBy?: string;
   flightNumber: string;
@@ -104,18 +103,7 @@ export const FlightItineraryCard = ({
     <View className="flex-row items-start justify-between gap-md">
       <View className="flex-1 gap-xs">
         <View className="flex-row items-center gap-xs">
-          {f.airlineIcon ? (
-            <View
-              className="h-[32px] w-[32px] items-center justify-center rounded-sm"
-              style={{ backgroundColor: AIRLINE_LOGO_BG }}
-            >
-              <Icon name={f.airlineIcon} size={24} color={colors.text.inverse} />
-            </View>
-          ) : (
-            <View className="h-[32px] w-[32px] items-center justify-center rounded-sm bg-surface-tag">
-              <Text className="font-sans text-xs font-bold text-fg-subtle">{f.airlineCode}</Text>
-            </View>
-          )}
+          <AirlineBadge code={f.airlineCode} icon={f.airlineIcon} color={f.airlineColor} />
           <Text className="font-sans text-md font-bold text-fg-secondary">{f.airline}</Text>
         </View>
         {f.operatedBy ? (

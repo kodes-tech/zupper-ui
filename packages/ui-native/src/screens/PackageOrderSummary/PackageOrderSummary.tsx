@@ -85,6 +85,8 @@ export const PackageOrderSummary = ({
     originCode: f.originCode,
     destinationCode: f.destinationCode,
     airlineCode: f.airlineCode,
+    airlineIcon: f.airlineIcon,
+    airlineColor: f.airlineColor,
     stopsLabel: f.stopsLabel,
     departureTime: f.departureTime,
     arrivalTime: f.arrivalTime,

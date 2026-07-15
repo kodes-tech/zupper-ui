@@ -11,6 +11,7 @@ const idaItinerary = {
   airline: 'Gol airlines',
   airlineCode: 'G3',
   airlineIcon: 'airline-gol',
+  airlineColor: '#F97316',
   operatedBy: 'Latam Airlines',
   flightNumber: 'LA522',
   travelClass: 'Econômica',

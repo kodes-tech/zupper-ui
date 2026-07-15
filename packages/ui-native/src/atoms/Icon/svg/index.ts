@@ -57,3 +57,6 @@ export { default as TabFotosInactive } from './TabFotosInactive';
 export { default as TabRoteirosActive } from './TabRoteirosActive';
 export { default as TabRoteirosInactive } from './TabRoteirosInactive';
 export { default as Verified } from './Verified';
+export { default as Star } from './Star';
+export { default as Check } from './Check';
+export { default as PinMap } from './PinMap';

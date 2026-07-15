@@ -17,3 +17,5 @@ export * from './SelectField';
 export * from './SheetOption';
 export * from './SocialBar';
 export * from './StatusBanner';
+export * from './ExpansionPanel';
+export * from './RangeSlider';

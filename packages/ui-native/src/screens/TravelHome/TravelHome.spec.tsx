@@ -96,10 +96,46 @@ describe('TravelHome', () => {
     expect(screen.queryByRole('button', { name: 'Pesquisar hospedagens' })).toBeNull();
   });
 
-  it('renders the webview note on the pacotes tab', () => {
-    render(<TravelHome productTab="pacotes" />);
-    expect(screen.getByText('Os pacotes abrem no site do Zupper.')).toBeOnTheScreen();
+  it('renders the packages search bar on the pacotes tab', () => {
+    const onOpenPackagesSearch = jest.fn();
+    render(<TravelHome productTab="pacotes" onOpenPackagesSearch={onOpenPackagesSearch} />);
     expect(screen.queryByText('Qual sua origem ?')).toBeNull();
+    fireEvent.press(screen.getByRole('button', { name: 'Pesquisar pacotes' }));
+    expect(onOpenPackagesSearch).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders package offer sections only on the pacotes tab', () => {
+    const onSelectPackageOffer = jest.fn();
+    const packageOfferSections = [
+      {
+        title: 'Pacotes irresistíveis',
+        offers: [
+          {
+            id: 'p1',
+            title: 'Pacote exclusivo para Salvador - Bahia',
+            originInfo: 'De Rio de Janeiro (01-05 Set)',
+            hotelName: 'Salvador Express Praia Hotel',
+            priceLabel: 'Preço por pessoa',
+            price: 'R$ 155',
+          },
+        ],
+      },
+    ];
+    const { rerender } = render(
+      <TravelHome packageOfferSections={packageOfferSections} onSelectPackageOffer={onSelectPackageOffer} />,
+    );
+    expect(screen.queryByText('Pacotes irresistíveis')).toBeNull();
+
+    rerender(
+      <TravelHome
+        productTab="pacotes"
+        packageOfferSections={packageOfferSections}
+        onSelectPackageOffer={onSelectPackageOffer}
+      />,
+    );
+    expect(screen.getByText('Pacotes irresistíveis')).toBeOnTheScreen();
+    fireEvent.press(screen.getByText('Ver oferta'));
+    expect(onSelectPackageOffer).toHaveBeenCalledWith('p1');
   });
 
   it('only exposes the search action when canSearch is true', () => {

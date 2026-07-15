@@ -23,3 +23,4 @@ export * from './StarRating';
 export * from './HotelSearchSummary';
 export * from './HotelStayDetails';
 export * from './HotelPriceSummary';
+export * from './FlightSegmentRow';

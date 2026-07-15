@@ -34,6 +34,8 @@ export default {
     onPressTravelers: action('onPressTravelers'),
     onSearch: action('onSearch'),
     onPressHistoryItem: action('onPressHistoryItem'),
+    onOpenPackagesSearch: action('onOpenPackagesSearch'),
+    onSelectPackageOffer: action('onSelectPackageOffer'),
     onPressSupport: action('onPressSupport'),
     onNavigate: action('onNavigate'),
   },
@@ -114,9 +116,64 @@ export const HospedagensPreenchido = {
   },
 };
 
-/** Aba Pacotes — abre WebView no app; aqui é só a nota. */
+/** Aba Pacotes — só a barra de busca, sem histórico/ofertas. */
 export const Pacotes = {
   args: {
     productTab: 'pacotes',
+  },
+};
+
+/** Aba Pacotes — com histórico e ofertas (Home completa do Figma). */
+export const PacotesComOfertas = {
+  args: {
+    productTab: 'pacotes',
+    searchHistory: [
+      { id: 'cwb', type: 'pacote' as const, destination: 'Curitiba', dates: '23 jun 2024 - 30 jun 2024' },
+      { id: 'sp', type: 'pacote' as const, destination: 'São Paulo', dates: '23 jun 2024 - 30 jun 2024' },
+    ],
+    packageOfferSections: [
+      {
+        title: 'Pacotes irresistíveis',
+        offers: [
+          {
+            id: 'salvador',
+            image: cardDestino,
+            tag: 'Com café da manhã',
+            title: 'Pacote exclusivo para Salvador - Bahia',
+            originInfo: 'De Rio de Janeiro (01-05 Set)',
+            hotelName: 'Salvador Express Praia Hotel',
+            priceLabel: 'Preço por pessoa',
+            price: 'R$ 155',
+          },
+          {
+            id: 'brasilia',
+            image: bannerDestino,
+            tag: 'Com café da manhã',
+            title: 'Pacote exclusivo para Brasília - Feriadão',
+            originInfo: 'De São Paulo (01-05 Set)',
+            hotelName: 'Mercure Brasília Líder Hotel',
+            priceLabel: 'Preço por pessoa',
+            price: 'R$ 155',
+          },
+        ],
+      },
+      {
+        title: 'Pacotes com destinos marítimos',
+        offers: [
+          {
+            id: 'buzios',
+            image: cardDestino,
+            tag: 'Com café da manhã',
+            title: 'Pacote exclusivo para Búzios - Rio de Janeiro',
+            originInfo: 'De Santos (01-05 Set)',
+            hotelName: 'La Bohème Hotel & Apart Hotel',
+            priceLabel: 'Preço por pessoa',
+            price: 'R$ 155',
+          },
+        ],
+      },
+    ],
+    news,
+    support,
   },
 };

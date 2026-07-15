@@ -24,3 +24,5 @@ export * from './ReportSentSheet';
 export * from './ScreenHeader';
 export * from './SupportSection';
 export * from './TravelSearchHistory';
+export * from './PackageOfferCard';
+export * from './PackageResultCard';

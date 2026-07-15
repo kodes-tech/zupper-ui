@@ -13,6 +13,8 @@ import { NewsBanner } from '../../organisms/NewsBanner';
 import type { NewsBannerItem } from '../../organisms/NewsBanner';
 import { SupportSection } from '../../organisms/SupportSection';
 import type { SupportItem } from '../../organisms/SupportSection';
+import { PackageOfferCard } from '../../organisms/PackageOfferCard';
+import type { PackageOfferCardData } from '../../organisms/PackageOfferCard';
 
 export type TravelProductTab = 'voos' | 'hospedagens' | 'pacotes';
 export type TravelTripType = 'idaEVolta' | 'soIda';
@@ -40,6 +42,12 @@ export type TravelStay = {
   onSearch?: () => void;
 };
 
+/** Uma seção de ofertas da aba "Pacotes" (ex.: "Pacotes irresistíveis"). */
+export type PackageOfferSection = {
+  title: string;
+  offers: PackageOfferCardData[];
+};
+
 export type TravelHomeProps = {
   /** Saudação (ex.: "Olá, Carlos"); padrão espelha o app deslogado. */
   welcome?: string;
@@ -57,6 +65,8 @@ export type TravelHomeProps = {
   canSearch?: boolean;
   /** Dados da aba "Hospedagens". Usado quando `productTab === 'hospedagens'`. */
   stay?: TravelStay;
+  /** Seções de ofertas da aba "Pacotes" (ex.: "Pacotes irresistíveis"). */
+  packageOfferSections?: PackageOfferSection[];
   /**
    * Histórico de buscas ("Sua próxima viagem está te esperando"), logo abaixo
    * do motor de busca. Omitido/vazio = sem a seção, como no app sem histórico.
@@ -78,6 +88,10 @@ export type TravelHomeProps = {
   onSearch?: () => void;
   /** Repetir uma pesquisa do histórico (recebe o id do item). */
   onPressHistoryItem?: (id: string) => void;
+  /** Abrir a busca de pacotes em tela cheia (PackagesSearch). */
+  onOpenPackagesSearch?: () => void;
+  /** Ver uma oferta de pacote da Home (recebe o id da oferta). */
+  onSelectPackageOffer?: (id: string) => void;
   /** Abrir um canal de atendimento (recebe o id do item). */
   onPressSupport?: (id: string) => void;
   onNavigate?: (key: BottomNavKey) => void;
@@ -351,27 +365,35 @@ const StayEngine = ({ stay }: { stay: TravelStay }) => (
   </View>
 );
 
-/** Aba "Pacotes": no app abre um WebView externo — sem motor de busca próprio. */
-const PacotesNote = () => (
-  <View className="mx-[10px] items-center gap-md rounded-md border border-border-subtle bg-surface-default px-xl py-xxl">
-    <Icon name="travel-pacotes" size={40} color={colors.brand.zupper} />
-    <Text className="text-center font-sans text-md font-medium text-fg-subtle">
-      Os pacotes abrem no site do Zupper.
-    </Text>
+/**
+ * Motor de busca de pacotes: barra única "Pesquisar pacotes" que abre a
+ * busca em tela cheia (PackagesSearch), com destino/origem/data/viajantes.
+ */
+const PackagesEngine = ({ onPress }: { onPress?: () => void }) => (
+  <View className="mx-[10px]">
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="Pesquisar pacotes"
+      onPress={onPress}
+      className="h-[56px] flex-row items-center gap-xs rounded-md border border-border-default bg-surface-default px-md"
+    >
+      <Icon name="travel-search" size={24} color={colors.text.subtle} />
+      <Text className="font-sans text-md font-medium text-fg-subtle">Pesquisar pacotes</Text>
+    </Pressable>
   </View>
 );
 
 /**
  * TravelHome — Home do app (aba Buscar): saudação, abas de produto
  * (Voos/Hospedagens/Pacotes) e o motor de busca da aba ativa — voos (com tipo
- * de viagem) ou hospedagens; pacotes abre WebView no app, então aqui é só uma
- * nota. Abaixo, as seções de conteúdo (histórico/novidades/atendimento).
- * Apresentacional: estado e formatação vêm por props; a integração fica no app.
+ * de viagem), hospedagens ou pacotes (barra única que abre a busca em tela
+ * cheia). Abaixo, as seções de conteúdo (histórico/ofertas de pacotes/
+ * novidades/atendimento). Apresentacional: estado e formatação vêm por
+ * props; a integração fica no app.
  *
  * Valores extraídos do código do zupper-app (Dashboard/Home +
- * libs/aerial/search-engine + libs/hotel/search-engine + libs/app-ui) — ver
- * preview.html ao lado. Falta só o DealItem (ofertas) entre o motor e o
- * histórico.
+ * libs/aerial/search-engine + libs/hotel/search-engine + libs/app-ui) e do
+ * Figma (Templates do Fluxo Pacotes — Pacotes - Home).
  */
 export const TravelHome = ({
   welcome = 'Olá, viajante',
@@ -384,6 +406,7 @@ export const TravelHome = ({
   travelers = '1 Viajante, econômica',
   canSearch = false,
   stay = {},
+  packageOfferSections,
   searchHistory,
   news,
   support,
@@ -397,6 +420,8 @@ export const TravelHome = ({
   onPressTravelers,
   onSearch,
   onPressHistoryItem,
+  onOpenPackagesSearch,
+  onSelectPackageOffer,
   onPressSupport,
   onNavigate,
 }: TravelHomeProps): React.ReactElement => (
@@ -464,7 +489,7 @@ export const TravelHome = ({
             />
           ) : null}
           {productTab === 'hospedagens' ? <StayEngine stay={stay} /> : null}
-          {productTab === 'pacotes' ? <PacotesNote /> : null}
+          {productTab === 'pacotes' ? <PackagesEngine onPress={onOpenPackagesSearch} /> : null}
         </View>
       </View>
 
@@ -475,9 +500,30 @@ export const TravelHome = ({
         </View>
       ) : null}
 
+      {/* Ofertas de pacotes ("Pacotes irresistíveis" etc.), só na aba Pacotes. */}
+      {productTab === 'pacotes' && packageOfferSections?.length ? (
+        <View className="gap-xl pt-xl">
+          {packageOfferSections.map((section) => (
+            <View key={section.title} className="gap-lg pl-xxl">
+              <Text className="font-sans text-xl font-bold text-fg-secondary">{section.title}</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View className="flex-row gap-lg pr-xxl">
+                  {section.offers.map((offer) => (
+                    <PackageOfferCard
+                      key={offer.id}
+                      offer={offer}
+                      onSeeOffer={() => onSelectPackageOffer?.(offer.id)}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            </View>
+          ))}
+        </View>
+      ) : null}
+
       {/*
-       * Abaixo da dobra, na ordem do app: ofertas de voo (DealItem — ainda não
-       * extraído), Novidades e Atendimento Zupper.
+       * Abaixo da dobra, na ordem do app: Novidades e Atendimento Zupper.
        */}
       <View className="bg-surface-tag pt-xl">
         {news?.length ? <NewsBanner banners={news} /> : null}

@@ -7,24 +7,24 @@ const options = [
 ];
 
 describe('SegmentedControl', () => {
-  it('renders every option', () => {
-    render(<SegmentedControl options={options} selectedKey="CPF" />);
+  it('renders every option', async () => {
+    await render(<SegmentedControl options={options} selectedKey="CPF" />);
     expect(screen.getByText('Pessoa Física')).toBeOnTheScreen();
     expect(screen.getByText('Pessoa Jurídica')).toBeOnTheScreen();
   });
 
-  it('marks the selected option', () => {
-    render(<SegmentedControl options={options} selectedKey="CNPJ" />);
+  it('marks the selected option', async () => {
+    await render(<SegmentedControl options={options} selectedKey="CNPJ" />);
     expect(screen.getByRole('tab', { name: 'Pessoa Jurídica' })).toHaveProperty(
       'props.accessibilityState.selected',
       true,
     );
   });
 
-  it('fires onChange with the pressed option key', () => {
+  it('fires onChange with the pressed option key', async () => {
     const onChange = jest.fn();
-    render(<SegmentedControl options={options} selectedKey="CPF" onChange={onChange} />);
-    fireEvent.press(screen.getByText('Pessoa Jurídica'));
+    await render(<SegmentedControl options={options} selectedKey="CPF" onChange={onChange} />);
+    await fireEvent.press(screen.getByText('Pessoa Jurídica'));
     expect(onChange).toHaveBeenCalledWith('CNPJ');
   });
 });

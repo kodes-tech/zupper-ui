@@ -8,8 +8,8 @@ const baseProps = {
 };
 
 describe('CheckoutPayment', () => {
-  it('renders the header, step title and payment method selector', () => {
-    render(<CheckoutPayment {...baseProps} />);
+  it('renders the header, step title and payment method selector', async () => {
+    await render(<CheckoutPayment {...baseProps} />);
     expect(screen.getByText('Checkout - 3 de 4')).toBeOnTheScreen();
     expect(screen.getByText('Como prefere pagar?')).toBeOnTheScreen();
     expect(screen.getByText('Forma de pagamento')).toBeOnTheScreen();
@@ -17,28 +17,28 @@ describe('CheckoutPayment', () => {
     expect(screen.getByText('PIX')).toBeOnTheScreen();
   });
 
-  it('shows the credit card form only when selected', () => {
-    render(<CheckoutPayment {...baseProps} paymentMethod="creditCard" />);
+  it('shows the credit card form only when selected', async () => {
+    await render(<CheckoutPayment {...baseProps} paymentMethod="creditCard" />);
     expect(screen.getByText('Número do cartão *')).toBeOnTheScreen();
     expect(screen.queryByText('Transferência via PIX')).toBeNull();
   });
 
-  it('shows the pix form only when selected', () => {
-    render(<CheckoutPayment {...baseProps} paymentMethod="pix" />);
+  it('shows the pix form only when selected', async () => {
+    await render(<CheckoutPayment {...baseProps} paymentMethod="pix" />);
     expect(screen.getByText('Transferência via PIX')).toBeOnTheScreen();
     expect(screen.queryByText('Número do cartão *')).toBeNull();
   });
 
-  it('shows neither form until a method is selected', () => {
-    render(<CheckoutPayment {...baseProps} />);
+  it('shows neither form until a method is selected', async () => {
+    await render(<CheckoutPayment {...baseProps} />);
     expect(screen.queryByText('Número do cartão *')).toBeNull();
     expect(screen.queryByText('Transferência via PIX')).toBeNull();
   });
 
-  it('fires onChangePaymentMethod when a method is pressed', () => {
+  it('fires onChangePaymentMethod when a method is pressed', async () => {
     const onChangePaymentMethod = jest.fn();
-    render(<CheckoutPayment {...baseProps} onChangePaymentMethod={onChangePaymentMethod} />);
-    fireEvent.press(screen.getByText('PIX'));
+    await render(<CheckoutPayment {...baseProps} onChangePaymentMethod={onChangePaymentMethod} />);
+    await fireEvent.press(screen.getByText('PIX'));
     expect(onChangePaymentMethod).toHaveBeenCalledWith('pix');
   });
 });

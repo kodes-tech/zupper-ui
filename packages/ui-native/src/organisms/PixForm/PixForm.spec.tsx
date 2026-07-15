@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { PixForm } from './PixForm';
 
 describe('PixForm', () => {
-  it('renders the PF fields by default', () => {
-    render(<PixForm />);
+  it('renders the PF fields by default', async () => {
+    await render(<PixForm />);
     expect(screen.getByText('Transferência via PIX')).toBeOnTheScreen();
     expect(screen.getByText('Nome Completo *')).toBeOnTheScreen();
     expect(screen.getByText('CPF *')).toBeOnTheScreen();
@@ -14,8 +14,8 @@ describe('PixForm', () => {
     ).toBeOnTheScreen();
   });
 
-  it('switches to PJ fields', () => {
-    render(<PixForm personType="CNPJ" />);
+  it('switches to PJ fields', async () => {
+    await render(<PixForm personType="CNPJ" />);
     expect(screen.getByText('Razão Social *')).toBeOnTheScreen();
     expect(screen.getByText('CNPJ *')).toBeOnTheScreen();
     expect(screen.getByText('Inscrição Municipal')).toBeOnTheScreen();

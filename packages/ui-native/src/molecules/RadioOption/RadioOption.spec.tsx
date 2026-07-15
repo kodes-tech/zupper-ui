@@ -2,20 +2,20 @@ import { render, screen, fireEvent } from '@testing-library/react-native';
 import { RadioOption } from './RadioOption';
 
 describe('RadioOption', () => {
-  it('renders the label', () => {
-    render(<RadioOption label="Celular" />);
+  it('renders the label', async () => {
+    await render(<RadioOption label="Celular" />);
     expect(screen.getByText('Celular')).toBeOnTheScreen();
   });
 
-  it('reflects the selected state', () => {
-    render(<RadioOption label="Celular" selected />);
+  it('reflects the selected state', async () => {
+    await render(<RadioOption label="Celular" selected />);
     expect(screen.getByRole('radio')).toHaveProperty('props.accessibilityState.selected', true);
   });
 
-  it('fires onPress when tapped', () => {
+  it('fires onPress when tapped', async () => {
     const onPress = jest.fn();
-    render(<RadioOption label="Celular" onPress={onPress} />);
-    fireEvent.press(screen.getByRole('radio'));
+    await render(<RadioOption label="Celular" onPress={onPress} />);
+    await fireEvent.press(screen.getByRole('radio'));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 });

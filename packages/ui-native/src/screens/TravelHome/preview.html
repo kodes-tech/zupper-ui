@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Home / Busca de voos — referência do código do Zupper App</title>
+<style>
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../../_figma/assets/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../../_figma/assets/fonts/Satoshi-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('../../_figma/assets/fonts/Satoshi-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* Valores resolvidos dos tokens do @zupper/app-ui (libs/app-ui/src/lib/atoms) —
+     extraídos do código do zupper-app, não do Figma. */
+  :root {
+    --primary: #009DAF;        /* colors.primary[*] (brand — todos os steps) */
+    --secondary-950: #008C99;  /* colors.secondary[950] (mexico) */
+    --neutral-50: #FFFFFF;     /* colors.accents.neutral[50] (dubai) */
+    --neutral-100: #F5F5F5;
+    --neutral-200: #EFEFEF;
+    --neutral-300: #D4D4D4;
+    --neutral-400: #A3A3A3;
+    --neutral-500: #737373;
+    --neutral-600: #57534E;
+    --neutral-700: #404040;
+    --neutral-800: #2E2E2E;
+    --neutral-950: #171717;
+    --cta-gradient: linear-gradient(90deg, #FB923C 0%, #FFCE00 100%); /* SearchEngineFooter (hardcoded na Home) */
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e9ec;
+    font-family: var(--font-satoshi);
+    color: var(--neutral-950);
+    padding: 32px 16px 64px;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #16161a; } }
+
+  .page-header { max-width: 1300px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { .page-header h1 { color: #f2f2f2; } }
+  .page-header p { font-size: 13px; line-height: 1.5; color: #6b6b70; margin: 0; max-width: 720px; }
+  @media (prefers-color-scheme: dark) { .page-header p { color: #9a9aa0; } }
+  .page-header code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  @media (prefers-color-scheme: dark) { .page-header code { background: rgba(255,255,255,0.1); } }
+
+  .screens { max-width: 1300px; margin: 0 auto; display: flex; flex-wrap: nowrap; gap: 28px; align-items: flex-start; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+  .screens::-webkit-scrollbar { display: none; }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+  .screen-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
+  @media (prefers-color-scheme: dark) { .screen-label { color: #9a9aa0; } }
+
+  /* ===== Moldura do device ===== */
+  .screen {
+    width: 390px;
+    border-radius: 24px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    background: var(--neutral-100); /* ScrollView contentContainerStyle */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== SearchBoxWrapper (Home/styles.ts) ===== */
+  .search-box {
+    background: var(--neutral-50);
+    border-radius: 8px;                        /* borderRadius[300] */
+    border-bottom: 1px solid var(--neutral-200);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.26); /* offset spacing100, radius spacing400, elevation 8 */
+  }
+
+  /* ===== HomeGreeting ===== */
+  .greeting { display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 12px 12px 4px; } /* spacing300 / spacing100 */
+  .greeting .texts { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .greeting h2 { margin: 0; font-size: 27px; font-weight: 700; color: var(--neutral-700); } /* fontSize500 · bold · neutral[700] */
+  .greeting p  { margin: 0; font-size: 16px; font-weight: 400; color: var(--neutral-500); } /* fontSize80 · regular · neutral[500] */
+  .greeting .spacer { min-width: 24px; }
+
+  /* ===== Tabs de produto (TabNavigation, inline em Home/index.tsx) ===== */
+  .product-tabs { display: flex; flex-direction: row; background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); margin-bottom: 8px; }
+  .product-tab { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px 0; background: none; border: 0; font-family: inherit; cursor: default; } /* padV spacing100, gap spacing100 */
+  .product-tab .icon { width: 25px; height: 25px; color: var(--neutral-500); }
+  .product-tab .label { font-size: 14px; font-weight: 700; color: var(--neutral-500); } /* Typography md bold */
+  .product-tab.active .icon, .product-tab.active .label { color: var(--primary); }
+  .product-tab.active::after { content: ''; position: absolute; bottom: -4px; width: 100px; border-bottom: 2px solid var(--primary); } /* TabActiveBorder: 100px · spacing50 · spacing100 */
+
+  /* ===== Scene + FlightTypeSelector ===== */
+  .scene { background: var(--neutral-50); padding: 12px 0; } /* padV spacing300 */
+  .flight-type { margin-bottom: 20px; padding: 0 10px; } /* wrapper mb spacing500 · container padH 10 */
+  .flight-type .row { display: flex; flex-direction: row; justify-content: space-between; padding: 0 55px; } /* Stack paddingHorizontal 55 */
+  .radio { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+  .radio .ring { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--neutral-300); display: flex; align-items: center; justify-content: center; }
+  .radio.checked .ring { border-color: var(--secondary-950); }
+  .radio.checked .ring::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); } /* miolo r6 #009DAF (hardcoded) */
+  .radio .txt { font-size: 15px; font-weight: 400; color: var(--neutral-500); } /* fontSize75 */
+  .radio.checked .txt { font-weight: 700; color: var(--primary); } /* textColor primary.500 */
+
+  /* ===== AerialSearchEngineWrapper + formulário ===== */
+  .engine-card {
+    background: var(--neutral-50);
+    border-radius: 8px;                        /* borderRadius[300] */
+    padding-top: 14px;                         /* spacing350 */
+    margin: 0 10px;                            /* spacing250 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* elevation 5 */
+  }
+  .engine-fields { display: flex; flex-direction: column; gap: 12px; padding: 0 10px; } /* Stack px=10 gap=12 */
+  .endpoint-block { position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+
+  /* PressableInput (molecules/pressableInput/styles.ts) */
+  .p-input {
+    width: 100%; height: 56px; min-height: 56px;   /* spacing1300 */
+    border: 1px solid var(--neutral-300);           /* borderStyles.default + neutral[300] */
+    border-radius: 8px;                             /* borderRadius[300] */
+    background: var(--neutral-50);
+    display: flex; flex-direction: row; align-items: center;
+    gap: 4px;                                       /* spacing100 */
+    padding: 12px 8px;                              /* spacing300 spacing200 */
+    font-family: inherit; text-align: left; cursor: default;
+  }
+  .p-input .icon { width: 25px; height: 25px; color: var(--neutral-600); flex-shrink: 0; }
+  .p-input .txt { font-size: 14px; font-weight: 500; color: var(--neutral-500); } /* Typography md medium */
+
+  /* Preenchido: coluna com label flutuante ($hasLabel) */
+  .p-input.filled { flex-direction: column; align-items: stretch; padding: 0; }
+  .p-input.filled .label-row { padding: 4px 12px 0; min-height: 20px; display: flex; align-items: center; font-size: 12px; font-weight: 500; color: var(--neutral-500); } /* buttonSm */
+  .p-input.filled .content-row { display: flex; flex-direction: row; align-items: center; gap: 4px; padding: 2px 8px; flex: 1; min-height: 0; } /* $compact: spacing50 spacing200 */
+  .p-input.filled .icon { color: var(--primary); } /* iconColor primary.100 */
+  .p-input.filled .txt { color: var(--neutral-700); }
+
+  /* IconButton de inverter (SearchEngineOneWay/styles.ts) */
+  .swap-btn {
+    position: absolute; right: 0; top: 37%; z-index: 1;
+    width: 30px; height: 30px; margin-right: 8px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--neutral-300); border-radius: 6px; background: var(--neutral-50);
+  }
+  .swap-btn .icon { width: 18px; height: 17px; color: var(--neutral-500); }
+
+  /* FlightConfigButton (coluna com label — estado inicial 1 adulto/econômica) */
+  .config-btn {
+    width: 100%; height: 56px; min-height: 56px;
+    border: 1px solid var(--neutral-300); border-radius: 8px; background: var(--neutral-50);
+    display: flex; flex-direction: column; align-items: stretch;
+    font-family: inherit; text-align: left; cursor: default; padding: 0;
+  }
+  .config-btn .label-row { padding: 4px 12px 0; min-height: 20px; display: flex; align-items: center; font-size: 12px; font-weight: 500; color: var(--neutral-500); }
+  .config-btn .content-row { display: flex; flex-direction: row; align-items: center; gap: 4px; padding: 4px 8px; flex: 1; min-height: 0; } /* Row $compact: spacing100 spacing200 */
+  .config-btn .icon { width: 25px; height: 25px; color: var(--primary); }
+  .config-btn .txt { font-size: 14px; font-weight: 500; line-height: 100%; color: var(--neutral-700); } /* fontSize60 medium */
+
+  /* ===== SearchEngineFooter + Button primary-gradient ===== */
+  .engine-footer { display: flex; flex-direction: column; gap: 16px; padding: 12px; } /* spacing300 · spacingStackSmall=16 */
+  .cta {
+    width: 100%; min-height: 52px; border: 0; padding: 1px;   /* GradientBorder: padding 1px */
+    border-radius: 8px;                                        /* spacing200 */
+    background: var(--cta-gradient);
+    font-family: inherit; cursor: default;
+  }
+  .cta .inner { height: 52px; border-radius: 6px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2px; padding: 12px 20px; } /* spacing150 · gap spacing50 · spacing300 spacing500 */
+  .cta .icon { width: 24px; height: 24px; color: var(--neutral-950); } /* spacing600 */
+  .cta .txt { font-size: 14px; font-weight: 500; line-height: 18px; color: var(--neutral-950); } /* fontSize60 medium */
+  .cta.disabled { background: var(--neutral-200); } /* GradientInnerContainer disabled */
+  .cta.disabled .icon, .cta.disabled .txt { color: var(--neutral-500); }
+
+  /* ===== Abaixo da dobra (HomeContentWrapper) — esqueleto ===== */
+  .home-content { background: var(--neutral-100); padding: 16px 22px 16px 24px; display: flex; flex-direction: column; gap: 12px; } /* padV spacing400 · padL spacing600 · padR spacing550 */
+  .home-content h3 { margin: 0 0 8px; padding: 0 20px; font-size: 19px; font-weight: 700; color: var(--neutral-800); } /* h3 fontSize200 bold + mb spacing200 */
+  .home-content h3.service { color: var(--neutral-700); font-size: 20px; line-height: 28px; margin: 0; } /* override inline da Home */
+  .placeholder {
+    border: 1px dashed var(--neutral-300); border-radius: 8px; background: var(--neutral-50);
+    color: var(--neutral-400); font-size: 12px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px;
+  }
+  .dividers { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 4px; width: 100%; } /* spacing300 · spacing100 */
+  .dividers span { width: 90%; border-bottom: 1px solid var(--neutral-200); }
+
+  /* ===== TabBar inferior ===== */
+  .tab-bar { background: var(--neutral-50); display: flex; flex-direction: row; justify-content: space-evenly; padding-bottom: 13px; z-index: 2; margin-top: auto; }
+  .tab-bar .item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 8px; gap: 5px; }
+  .tab-bar .item .icon { width: 28px; height: 28px; margin-top: 12px; color: var(--neutral-300); } /* renderTabIcon size 28 */
+  .tab-bar .item .label { font-size: 14px; color: var(--neutral-400); } /* Typography md */
+  .tab-bar .slot { flex: 1; position: relative; }
+  .tab-bar .slot.focused { border-top: 2px solid var(--primary); }
+  .tab-bar .slot.focused .icon { color: var(--primary); }
+  .tab-bar .slot.focused .label { color: var(--primary); }
+
+
+  /* ===== Novidades (Banner) ===== */
+  .news { padding: 16px 0 40px; }
+  .news .n-title { margin: 0 0 8px; padding: 0 20px; font-size: 19px; font-weight: 700; color: var(--neutral-800); }
+  .news .n-strip { display: flex; flex-direction: row; gap: 12px; padding: 0 20px; overflow-x: auto; scrollbar-width: none; }
+  .news .n-strip::-webkit-scrollbar { display: none; }
+  .news .n-banner { width: 320px; height: 104px; border-radius: 8px; background: var(--neutral-200); object-fit: cover; flex-shrink: 0; }
+  .news .n-dots { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 4px; margin-top: 12px; }
+  .news .n-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--border); }
+  .news .n-dot.active { background: var(--primary); }
+
+  /* ===== Atendimento Zupper (ActionList) ===== */
+  .support { padding-bottom: 32px; }
+  .support .s-title { margin: 0; padding: 0 20px; font-size: 20px; font-weight: 700; line-height: 28px; color: var(--neutral-700); }
+  .support .s-dividers { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 4px; }
+  .support .s-dividers span { width: 90%; border-bottom: 1px solid var(--neutral-200); }
+  .support .s-list { margin-top: 16px; padding: 0 20px; }
+  .support .s-item { display: flex; flex-direction: row; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--neutral-100); padding-bottom: 16px; }
+  .support .s-left { display: flex; flex-direction: row; align-items: center; gap: 16px; }
+  .support .s-iconbox { width: 53px; height: 53px; border-radius: 12px; border: 2px solid var(--neutral-200); background: var(--neutral-50); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .support .s-iconbox .icon { width: 34px; height: 34px; color: var(--body-color); }
+  .support .s-item-title { font-size: 16px; font-weight: 700; color: var(--neutral-700); }
+  .support .s-action { display: flex; flex-direction: row; align-items: center; gap: 4px; flex-shrink: 0; }
+  .support .s-action span { font-size: 12px; font-weight: 500; color: var(--primary); }
+  .support .s-action .icon { width: 14px; height: 14px; color: var(--primary); }
+
+  /* ===== SearchHistoryList — 'Sua próxima viagem está te esperando' ===== */
+  .history { background: var(--neutral-100); margin-top: 20px; padding: 16px 14px 0; } /* mt spacing500 · padV spacing400 · container padH 14 */
+  .history .h-title { margin: 0 0 16px; padding: 0 24px; font-size: 27px; font-weight: 300; line-height: 34px; color: var(--neutral-700); } /* fontSize500 · weight 300 · padH spacing600 */
+  .history .h-title b { font-weight: 700; }
+  .history .h-sub { display: flex; flex-direction: row; align-items: center; gap: 6px; margin: 0 24px; } /* gap spacing150 */
+  .history .h-sub .icon { width: 24px; height: 24px; color: var(--neutral-500); }
+  .history .h-sub span { font-size: 20px; font-weight: 400; color: var(--neutral-500); margin-bottom: 12px; } /* fontSize250 · mb spacing300 */
+  .history .h-list { padding: 0 24px; }
+  .history .h-item { display: flex; flex-direction: row; align-items: center; padding: 16px 0; margin: 4px 0; } /* padV spacing400 · mV spacing100 */
+  .history .h-item + .h-item { border-top: 1px solid var(--neutral-200); }
+  .history .h-thumb { width: 60px; height: 60px; border-radius: 8px; background: var(--neutral-200); flex-shrink: 0; object-fit: cover; }
+  .history .h-details { flex: 1; margin-left: 16px; }
+  .history .h-dest { display: flex; flex-direction: row; align-items: center; margin-bottom: 2px; } /* mb spacing50 */
+  .history .h-dest .icon { width: 24px; height: 24px; color: var(--neutral-500); margin-right: 12px; } /* mr spacing300 */
+  .history .h-dest b { font-size: 14px; font-weight: 700; line-height: 20px; color: var(--neutral-700); } /* fontSize60 */
+  .history .h-dates { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--neutral-500); } /* fontSize40 */
+  .history .h-action { display: flex; flex-direction: row; align-items: center; padding: 8px 12px; } /* spacing200 spacing300 */
+  .history .h-action span { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--primary); margin-right: 8px; }
+  .history .h-action .icon { width: 14px; height: 14px; color: var(--primary); }
+
+  svg { display: block; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+
+<!-- Ícones do @zupper/app-ui (libs/app-ui/src/lib/atoms/icons/common) — paths copiados
+     do código; cor via currentColor, controlada pelo wrapper. -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="i-voo-ida"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M4.01 18.32h11m-8.317-4.337-2.19-2.19 1.29-.645a.829.829 0 0 1 .743 0l1.291.645 2.653-1.643-3.484-3.324 2.493-.85 4.155 2.493 3.912-2.235a1.662 1.662 0 0 1 1.681 2.87l-6.984 4.19c-.179.106-.377.179-.583.213l-4.253.709a.828.828 0 0 1-.724-.233Z"/></g>
+    <g id="i-hotel"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M16.471 20.148V5.038a.889.889 0 0 0-.888-.89H8.47a.889.889 0 0 0-.888.89v15.11m0-10.666H4.027a.89.89 0 0 0-.889.888v9.778m17.778 0V10.37a.889.889 0 0 0-.889-.888h-3.556m-6.666 7.11h4.444m-.889 0v3.556m-2.666 0v-3.555m-.445-5.778h3.556m-3.556 2.667h3.556m-3.556-5.334h3.556m-8 5.334h1.778m-1.778 3.11h1.778m8.889-3.11h1.777m-1.777 3.11h1.777m3.556 3.556H2.249"/></g>
+    <g id="i-packages" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18.2221 8.03223H5.77766C4.79582 8.03223 3.99988 8.82816 3.99988 9.81V17.3656C3.99988 18.3474 4.79582 19.1433 5.77766 19.1433H18.2221C19.2039 19.1433 19.9999 18.3474 19.9999 17.3656V9.81C19.9999 8.82816 19.2039 8.03223 18.2221 8.03223Z"/><path d="M15.2398 8.03266V6.63422C15.2398 6.16273 15.0525 5.71068 14.7191 5.37728C14.3857 5.04388 13.9335 4.85645 13.4621 4.85645H10.5376C10.0661 4.85645 9.61392 5.04388 9.28052 5.37728C8.94712 5.71068 8.7598 6.16273 8.7598 6.63422V8.03266"/><path d="M7.99985 8.03223V19.1433"/><path d="M15.9998 12.9211V8.03223"/><path d="M17.3333 12.9214H12.8888V15.5881H17.3333V12.9214Z"/><path d="M15.9998 19.1434V15.5879"/></g>
+    <g id="i-pinmap" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15.027 10.148a3 3 0 1 0-6 0 3 3 0 0 0 6 0Z"/><path d="M12.027 21.148s-7-5.75-7-11a7 7 0 0 1 14 0c0 5.25-7 11-7 11Z"/></g>
+    <g id="i-calendar"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M15.583 3.704v3.555M8.472 3.704v3.555M4.027 9.926h16M5.805 6.37h12.444c.982 0 1.778.796 1.778 1.778v10.667c0 .982-.796 1.778-1.778 1.778H5.805a1.778 1.778 0 0 1-1.778-1.778V8.148c0-.982.796-1.778 1.778-1.778Z"/></g>
+    <g id="i-new-user" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5003 11.9999C14.7094 11.9999 16.5003 10.2091 16.5003 7.99996C16.5003 5.79084 14.7094 4 12.5003 4C10.2912 4 8.50037 5.79084 8.50037 7.99996C8.50037 10.2091 10.2912 11.9999 12.5003 11.9999Z"/><path d="M19.3722 20.0001C19.3722 16.9041 16.2922 14.4001 12.5003 14.4001C8.70832 14.4001 5.62836 16.9041 5.62836 20.0001"/></g>
+    <g id="i-repeat-up"><path fill="currentColor" d="M15.35 3.262a.38.38 0 1 0 .538-.539L13.481.315l-.005-.004a.38.38 0 0 0-.534.004l-2.408 2.408a.381.381 0 0 0 .54.539l1.757-1.758v9.626c0 1.054-.85 1.904-1.905 1.904h-2.53a.38.38 0 1 0 0 .762h2.53a2.664 2.664 0 0 0 2.666-2.666V1.505l1.758 1.757ZM7.985.585c0 .21-.17.38-.381.38h-2.53c-1.054 0-1.904.851-1.904 1.906v9.625l1.757-1.758a.381.381 0 0 1 .539.539L3.062 13.68a.38.38 0 0 1-.547 0L.112 11.277a.381.381 0 0 1 .538-.539l1.758 1.758V2.87A2.664 2.664 0 0 1 5.074.204h2.53c.21 0 .38.17.38.38Z"/></g>
+    <g id="i-new-search" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.5002 17.5L22.0002 22"/><path stroke-linejoin="round" d="M20.0002 11C20.0002 6.02944 15.9707 2 11.0002 2C6.02962 2 2.00018 6.02944 2.00018 11C2.00018 15.9706 6.02962 20 11.0002 20C15.9707 20 20.0002 15.9706 20.0002 11Z"/></g>
+    <g id="i-search"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M5.067 10.183a5.068 5.068 0 1 1 10.136 0 5.068 5.068 0 0 1-10.136 0Zm8.95 4.664a6.068 6.068 0 1 1 .713-.7l5.114 5.184a.5.5 0 1 1-.712.702l-5.115-5.186Z"/></g>
+    <g id="i-tickets"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.204 3.236c-.764 0-1.383.62-1.383 1.383v12.235c0 .764.62 1.383 1.383 1.383h8.47c.764 0 1.383-.62 1.383-1.383V4.62c0-.764-.62-1.383-1.383-1.383h-8.47Zm8.03 16h.44a2.382 2.382 0 0 0 2.383-2.382V4.62a2.382 2.382 0 0 0-2.383-2.383h-8.47A2.382 2.382 0 0 0 6.82 4.62V6h-.44a2.382 2.382 0 0 0-2.383 2.383v11.294A2.382 2.382 0 0 0 6.38 22.06h8.47a2.382 2.382 0 0 0 2.383-2.382v-.442Zm-1 0h-7.03a2.382 2.382 0 0 1-2.383-2.382V7.001h-.44a1.382 1.382 0 0 0-1.383 1.383v11.294A1.382 1.382 0 0 0 6.38 21.06h8.47a1.382 1.382 0 0 0 1.383-1.382v-.442Zm-2.295-9.913a.5.5 0 0 0-1 .004l.01 2.14-2.651 2.177a.5.5 0 0 0 .635.773l2.02-1.66.01 2.32a.5.5 0 1 0 1-.004l-.01-2.321 1.989 1.662a.5.5 0 0 0 .641-.767l-2.635-2.203-.009-2.121ZM9.047 6.506a.5.5 0 0 1 .5-.5h.01a.5.5 0 0 1 0 1h-.01a.5.5 0 0 1-.5-.5Zm3.088-.5a.5.5 0 0 0 0 1h.01a.5.5 0 1 0 0-1h-.01Zm2.094.5a.5.5 0 0 1 .5-.5h.01a.5.5 0 1 1 0 1h-.011a.5.5 0 0 1-.5-.5Zm3.092-.5a.5.5 0 0 0 0 1h.01a.5.5 0 1 0 0-1h-.01Z"/></g>
+    <g id="i-user-01"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M5.957 20.148a8.699 8.699 0 0 1 12.14-.047M4.03 17.183a8.97 8.97 0 0 1 7.998-13.035 8.97 8.97 0 0 1 7.999 13.035m-5.008-5.508a2.99 2.99 0 1 1-5.981 0 2.99 2.99 0 0 1 5.98 0Z"/></g>
+    <g id="i-maps-search"><path fill="currentColor" d="M21.4697 23.0303C21.7626 23.3232 22.2374 23.3232 22.5303 23.0303C22.8232 22.7374 22.8232 22.2626 22.5303 21.9697L22 22.5L21.4697 23.0303ZM20.4 20.9L19.8697 21.4303L21.4697 23.0303L22 22.5L22.5303 21.9697L20.9303 20.3697L20.4 20.9ZM21.2 18.1H21.95C21.95 15.6976 20.0024 13.75 17.6 13.75V14.5V15.25C19.174 15.25 20.45 16.526 20.45 18.1H21.2ZM17.6 14.5V13.75C15.1976 13.75 13.25 15.6976 13.25 18.1H14H14.75C14.75 16.526 16.026 15.25 17.6 15.25V14.5ZM14 18.1H13.25C13.25 20.5024 15.1976 22.45 17.6 22.45V21.7V20.95C16.026 20.95 14.75 19.674 14.75 18.1H14ZM17.6 21.7V22.45C20.0024 22.45 21.95 20.5024 21.95 18.1H21.2H20.45C20.45 19.674 19.174 20.95 17.6 20.95V21.7Z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M22 12.5642V9.71749C22 7.77787 22 6.80807 21.4142 6.2055C20.8284 5.60294 19.8856 5.60294 18 5.60294H15.9214C15.004 5.60294 14.9964 5.60116 14.1715 5.18834L10.8399 3.52114C9.44884 2.82504 8.75332 2.47699 8.01238 2.50118C7.27143 2.52537 6.59877 2.91808 5.25345 3.70351L4.02558 4.42037C3.03739 4.99729 2.54329 5.28576 2.27164 5.76564C2 6.24553 2 6.82993 2 7.99873V16.2157C2 17.7514 2 18.5193 2.34226 18.9467C2.57001 19.231 2.88916 19.4222 3.242 19.4856C3.77226 19.5808 4.42148 19.2018 5.71987 18.4437C6.60156 17.929 7.45011 17.3944 8.50487 17.5394C9.38869 17.6608 10.21 18.2185 11 18.6138M8 2.5L8 17.5M15 5.5V11.5"/></g>
+    <g id="i-chevron-right"><path fill="none" stroke="currentColor" stroke-linecap="round" d="m8.028 4.148 7.999 8-8 8"/></g>
+    <g id="i-help"><circle cx="12.027" cy="15.786" r="0.5" fill="none" stroke="currentColor" stroke-width="0.622"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M12.027 13.218v-.213a1.6 1.6 0 0 1 .866-1.37 1.57 1.57 0 0 0 .847-1.341 1.712 1.712 0 0 0-3.425 0m7.272 4.634 1.589.794A7.99 7.99 0 0 0 6.89 6.024m-.423 3.344L4.88 8.573a7.99 7.99 0 0 0 12.285 9.698"/></g>
+  </defs>
+</svg>
+
+<header class="page-header">
+  <h1>Home / Busca de voos — referência do código do Zupper App</h1>
+  <p>
+    Reprodução da tela Home do app (aba <strong>Voos</strong>) com os valores extraídos direto do código
+    (<code>apps/zupper-app/.../Dashboard/Home</code> + <code>libs/aerial/search-engine</code> +
+    <code>libs/app-ui</code>). Os blocos tracejados são seções cujo interior ainda não foi extraído
+    (DealItem, Banner, ActionList) — ficam para as próximas telas. O componente real é o <code>TravelHome.tsx</code> ao lado (Screens/TravelHome no Storybook).
+  </p>
+</header>
+
+<div class="screens">
+
+  <!-- ============ VARIANTE 1: Ida e Volta — estado inicial (vazio) ============ -->
+  <div class="screen-wrap">
+    <span class="screen-label">Voos · Ida e Volta — estado inicial</span>
+    <div class="screen">
+      <div class="search-box">
+        <div class="greeting">
+          <div class="texts">
+            <h2>Olá, viajante</h2>
+            <p>O que você deseja buscar?</p>
+          </div>
+          <div class="spacer"></div>
+        </div>
+        <div class="product-tabs">
+          <button class="product-tab active">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+            <span class="label">Voos</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-hotel"/></svg></span>
+            <span class="label">Hospedagens</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-packages"/></svg></span>
+            <span class="label">Pacotes</span>
+          </button>
+        </div>
+        <div class="scene">
+          <div class="flight-type">
+            <div class="row">
+              <span class="radio checked"><span class="ring"></span><span class="txt">Ida e Volta</span></span>
+              <span class="radio"><span class="ring"></span><span class="txt">Só Ida</span></span>
+            </div>
+          </div>
+          <div class="engine-card">
+            <div class="engine-fields">
+              <div class="endpoint-block">
+                <button class="p-input">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-pinmap"/></svg></span>
+                  <span class="txt">Qual sua origem ?</span>
+                </button>
+                <span class="swap-btn"><span class="icon"><svg viewBox="0 0 16 15"><use href="#i-repeat-up"/></svg></span></span>
+                <button class="p-input">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+                  <span class="txt">Qual seu destino ?</span>
+                </button>
+              </div>
+              <button class="p-input">
+                <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-calendar"/></svg></span>
+                <span class="txt">Data de ida e volta</span>
+              </button>
+              <button class="config-btn">
+                <span class="label-row">Viajantes</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-user"/></svg></span>
+                  <span class="txt">1 Viajante, econômica</span>
+                </span>
+              </button>
+            </div>
+            <div class="engine-footer">
+              <!-- busca desabilitada enquanto origem/destino/datas não preenchidos -->
+              <button class="cta disabled">
+                <span class="inner">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-search"/></svg></span>
+                  <span class="txt">Pesquisar</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-content">
+        <div class="placeholder" style="height:96px">DealItem (ofertas de voo) — interior não extraído</div>
+        <div>
+          <h3>Novidades</h3>
+          <div class="placeholder" style="height:120px">Banner (carrossel) — interior não extraído</div>
+        </div>
+        <div>
+          <h3 class="service">Atendimento Zupper</h3>
+          <div class="dividers"><span></span><span></span></div>
+          <div class="placeholder" style="height:56px;margin-top:12px">ActionList (Central de ajuda · Acessar) — interior não extraído</div>
+        </div>
+      </div>
+
+      <nav class="tab-bar">
+        <div class="slot focused"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-search"/></svg></span>
+          <span class="label">Buscar</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-tickets"/></svg></span>
+          <span class="label">Meus Pedidos</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-user-01"/></svg></span>
+          <span class="label">Minha Conta</span>
+        </div></div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ============ VARIANTE 2: Ida e Volta — preenchido ============ -->
+  <div class="screen-wrap">
+    <span class="screen-label">Voos · Ida e Volta — preenchido</span>
+    <div class="screen">
+      <div class="search-box">
+        <div class="greeting">
+          <div class="texts">
+            <h2>Olá, viajante</h2>
+            <p>O que você deseja buscar?</p>
+          </div>
+          <div class="spacer"></div>
+        </div>
+        <div class="product-tabs">
+          <button class="product-tab active">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+            <span class="label">Voos</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-hotel"/></svg></span>
+            <span class="label">Hospedagens</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-packages"/></svg></span>
+            <span class="label">Pacotes</span>
+          </button>
+        </div>
+        <div class="scene">
+          <div class="flight-type">
+            <div class="row">
+              <span class="radio checked"><span class="ring"></span><span class="txt">Ida e Volta</span></span>
+              <span class="radio"><span class="ring"></span><span class="txt">Só Ida</span></span>
+            </div>
+          </div>
+          <div class="engine-card">
+            <div class="engine-fields">
+              <div class="endpoint-block">
+                <button class="p-input filled">
+                  <span class="label-row">São Paulo, SP</span>
+                  <span class="content-row">
+                    <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-pinmap"/></svg></span>
+                    <span class="txt">GRU - Aeroporto de Guarulhos, SP</span>
+                  </span>
+                </button>
+                <span class="swap-btn"><span class="icon"><svg viewBox="0 0 16 15"><use href="#i-repeat-up"/></svg></span></span>
+                <button class="p-input filled">
+                  <span class="label-row">Recife, PE</span>
+                  <span class="content-row">
+                    <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+                    <span class="txt">REC - Aeroporto Internacional do Recife, PE</span>
+                  </span>
+                </button>
+              </div>
+              <button class="p-input filled">
+                <span class="label-row">Data de ida e volta</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-calendar"/></svg></span>
+                  <span class="txt">10 Set 26 - 20 Set 26</span>
+                </span>
+              </button>
+              <button class="config-btn">
+                <span class="label-row">Viajantes</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-user"/></svg></span>
+                  <span class="txt">2 Viajantes, econômica</span>
+                </span>
+              </button>
+            </div>
+            <div class="engine-footer">
+              <button class="cta">
+                <span class="inner">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-search"/></svg></span>
+                  <span class="txt">Pesquisar</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="history">
+        <p class="h-title">Sua <b>próxima viagem</b> está te <b>esperando</b></p>
+        <div class="h-sub"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-maps-search"/></svg></span><span>Pesquisas recentes</span></div>
+        <div class="h-list">
+          <div class="h-item">
+            <img class="h-thumb" src="../../_figma/assets/photos/card-destino.jpg" alt="" />
+            <div class="h-details">
+              <div class="h-dest"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span><b>Recife</b></div>
+              <div class="h-dates">10 set - 20 set</div>
+            </div>
+            <div class="h-action"><span>Pesquisar</span><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-chevron-right"/></svg></span></div>
+          </div>
+          <div class="h-item">
+            <span class="h-thumb" style="display:flex;align-items:center;justify-content:center;background:var(--neutral-100)"><span class="icon" style="width:24px;height:24px;color:var(--neutral-500)"><svg viewBox="0 0 25 25"><use href="#i-pinmap"/></svg></span></span>
+            <div class="h-details">
+              <div class="h-dest"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-hotel"/></svg></span><b>Salvador</b></div>
+              <div class="h-dates">02 out - 08 out</div>
+            </div>
+            <div class="h-action"><span>Pesquisar</span><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-chevron-right"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="home-content">
+        <div class="placeholder" style="height:96px">DealItem (ofertas de voo) — interior não extraído</div>
+      </div>
+      <div class="news">
+        <p class="n-title">Novidades</p>
+        <div class="n-strip">
+          <img class="n-banner" src="../../_figma/assets/photos/banner-destino.jpg" alt="" />
+          <img class="n-banner" src="../../_figma/assets/photos/card-destino.jpg" alt="" />
+        </div>
+        <div class="n-dots"><span class="n-dot active"></span><span class="n-dot"></span></div>
+      </div>
+      <div class="support">
+        <p class="s-title">Atendimento Zupper</p>
+        <div class="s-dividers"><span></span><span></span></div>
+        <div class="s-list">
+          <div class="s-item">
+            <div class="s-left">
+              <div class="s-iconbox"><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-help"/></svg></span></div>
+              <span class="s-item-title">Central de ajuda</span>
+            </div>
+            <div class="s-action"><span>Acessar</span><span class="icon"><svg viewBox="0 0 25 25"><use href="#i-chevron-right"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="tab-bar">
+        <div class="slot focused"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-search"/></svg></span>
+          <span class="label">Buscar</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-tickets"/></svg></span>
+          <span class="label">Meus Pedidos</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-user-01"/></svg></span>
+          <span class="label">Minha Conta</span>
+        </div></div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ============ VARIANTE 3: Só Ida — vazio ============ -->
+  <div class="screen-wrap">
+    <span class="screen-label">Voos · Só Ida — vazio</span>
+    <div class="screen">
+      <div class="search-box">
+        <div class="greeting">
+          <div class="texts">
+            <h2>Olá, viajante</h2>
+            <p>O que você deseja buscar?</p>
+          </div>
+          <div class="spacer"></div>
+        </div>
+        <div class="product-tabs">
+          <button class="product-tab active">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+            <span class="label">Voos</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-hotel"/></svg></span>
+            <span class="label">Hospedagens</span>
+          </button>
+          <button class="product-tab">
+            <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-packages"/></svg></span>
+            <span class="label">Pacotes</span>
+          </button>
+        </div>
+        <div class="scene">
+          <div class="flight-type">
+            <div class="row">
+              <span class="radio"><span class="ring"></span><span class="txt">Ida e Volta</span></span>
+              <span class="radio checked"><span class="ring"></span><span class="txt">Só Ida</span></span>
+            </div>
+          </div>
+          <div class="engine-card">
+            <div class="engine-fields">
+              <div class="endpoint-block">
+                <button class="p-input">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-pinmap"/></svg></span>
+                  <span class="txt">Qual sua origem ?</span>
+                </button>
+                <span class="swap-btn"><span class="icon"><svg viewBox="0 0 16 15"><use href="#i-repeat-up"/></svg></span></span>
+                <button class="p-input">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-voo-ida"/></svg></span>
+                  <span class="txt">Qual seu destino ?</span>
+                </button>
+              </div>
+              <button class="p-input">
+                <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-calendar"/></svg></span>
+                <span class="txt">Data de ida</span>
+              </button>
+              <button class="config-btn">
+                <span class="label-row">Viajantes</span>
+                <span class="content-row">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-user"/></svg></span>
+                  <span class="txt">1 Viajante, econômica</span>
+                </span>
+              </button>
+            </div>
+            <div class="engine-footer">
+              <button class="cta disabled">
+                <span class="inner">
+                  <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-new-search"/></svg></span>
+                  <span class="txt">Pesquisar</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-content">
+        <div class="placeholder" style="height:96px">DealItem (ofertas de voo) — interior não extraído</div>
+        <div>
+          <h3>Novidades</h3>
+          <div class="placeholder" style="height:120px">Banner (carrossel) — interior não extraído</div>
+        </div>
+      </div>
+
+      <nav class="tab-bar">
+        <div class="slot focused"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-search"/></svg></span>
+          <span class="label">Buscar</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-tickets"/></svg></span>
+          <span class="label">Meus Pedidos</span>
+        </div></div>
+        <div class="slot"><div class="item">
+          <span class="icon"><svg viewBox="0 0 25 25"><use href="#i-user-01"/></svg></span>
+          <span class="label">Minha Conta</span>
+        </div></div>
+      </nav>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

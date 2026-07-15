@@ -25,6 +25,9 @@ export const colors = {
     // Gradients/Button (Figma) — #4CBAC7 → #009DAF. Usado no botão de busca
     // redondo (SearchInput) e no Button/FAB de ação primária (Publicar etc.).
     button: ['#4CBAC7', '#009DAF'],
+    // CTA "Pesquisar" do motor de busca (travel). Extraído do código do
+    // zupper-app (era hardcoded via gradientColors na Home) — virou token aqui.
+    searchCta: ['#FB923C', '#FFCE00'],
   },
   partner: {
     surface: '#FFCE00', // início do gradiente — para consumidores sem gradiente

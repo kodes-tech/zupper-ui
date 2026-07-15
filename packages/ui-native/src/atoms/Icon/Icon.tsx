@@ -26,7 +26,6 @@ const registry = {
   'content-foto-white': Svgs.ContentFotoWhite,
   'content-roteiro-white': Svgs.ContentRoteiroWhite,
   'nav-inicio': Svgs.NavInicio,
-  'nav-inicio-neutral': Svgs.NavInicioNeutral,
   'nav-reservar': Svgs.NavReservar,
   'nav-pedidos': Svgs.NavPedidos,
   'nav-conta': Svgs.NavConta,
@@ -66,6 +65,21 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
+  // Ícones do travel (arte extraída do código do zupper-app, libs/app-ui).
+  // Diferente dos demais, usam `currentColor`: a mesma arte muda de cor por
+  // estado (aba ativa/inativa, campo vazio/preenchido) — passe `color`.
+  'travel-voos': Svgs.TravelVoos,
+  'travel-hospedagens': Svgs.TravelHospedagens,
+  'travel-pacotes': Svgs.TravelPacotes,
+  'travel-pinmap': Svgs.TravelPinmap,
+  'travel-calendar': Svgs.TravelCalendar,
+  'travel-viajantes': Svgs.TravelViajantes,
+  'travel-swap': Svgs.TravelSwap,
+  'travel-search': Svgs.TravelSearch,
+  'travel-maps-search': Svgs.TravelMapsSearch,
+  'travel-chevron-right': Svgs.TravelChevronRight,
+  'support-help': Svgs.SupportHelp,
+  'support-whatsapp': Svgs.SupportWhatsapp,
 } as const;
 
 export type IconName = keyof typeof registry;

@@ -5,26 +5,59 @@ import { PackageOrderSummary } from './PackageOrderSummary';
 
 const cardDestino = require('../../_figma/assets/photos/card-destino.jpg');
 
-const segments = [
+const idaItinerary = {
+  direction: 'ida' as const,
+  headerDate: 'Qua, 24 de maio 2024',
+  airline: 'Gol airlines',
+  airlineCode: 'G3',
+  operatedBy: 'Latam Airlines',
+  flightNumber: 'LA522',
+  travelClass: 'Econômica',
+  aircraft: 'Boeing 747',
+  departureTime: '11:30',
+  departureCity: 'Florianópolis, SC',
+  departureDate: 'Qua, 24 maio',
+  arrivalTime: '12:55',
+  arrivalCity: 'Congonhas, SP',
+  arrivalDate: 'Qua, 24 maio',
+  stopsLabel: 'Direto',
+  duration: '1h50',
+  originCode: 'FLN',
+  originAirport: 'Aeroporto Internacional Hercílio Luz',
+  destinationCode: 'CGH',
+  destinationAirport: 'Aeroporto Internacional de Congonhas',
+};
+
+const voltaItinerary = {
+  ...idaItinerary,
+  direction: 'volta' as const,
+  headerDate: 'Dom, 28 de maio 2024',
+  departureCity: 'Congonhas, SP',
+  arrivalCity: 'Florianópolis, SC',
+  originCode: 'CGH',
+  originAirport: 'Aeroporto Internacional de Congonhas',
+  destinationCode: 'FLN',
+  destinationAirport: 'Aeroporto Internacional Hercílio Luz',
+};
+
+const baggage = [
   {
-    direction: 'ida' as const,
-    originCode: 'FLN',
-    destinationCode: 'CGH',
-    airlineCode: 'G3',
-    stopsLabel: '3 paradas',
-    departureTime: '11:30',
-    arrivalTime: '13:20',
-    date: '20 Ago 2024',
+    icon: 'baggage-backpack',
+    label: 'Inclui uma mochila ou bolsa',
+    description: 'Tamanho limitado a caber abaixo do assento dianteiro.',
+    included: true,
   },
   {
-    direction: 'volta' as const,
-    originCode: 'CGH',
-    destinationCode: 'FLN',
-    airlineCode: 'G3',
-    stopsLabel: 'Direto',
-    departureTime: '11:30',
-    arrivalTime: '13:20',
-    date: '24 Ago 2024',
+    icon: 'baggage-carry-on',
+    label: 'Inclui bagagem de mão',
+    description: 'Tamanho limitado a caber no compartimento superior do avião. Até 10kg.',
+    included: true,
+  },
+  {
+    icon: 'baggage-checked',
+    label: 'Não inclui bagagem para despachar',
+    description: 'É possível incluir bagagem despachada alterando a opção de tarifa.',
+    included: false,
   },
 ];
 
@@ -82,26 +115,14 @@ export default {
         amenities: ['Tamanho 41m²', 'Televisão', 'Wi-Fi Grátis', 'Secador de cabelo'],
       },
     ],
-    segments,
-    baggage: [
+    flights: [
       {
-        icon: 'baggage-backpack',
-        label: 'Inclui uma mochila ou bolsa',
-        description: 'Tamanho limitado a caber abaixo do assento dianteiro.',
-        included: true,
+        itinerary: idaItinerary,
+        baggage,
+        disclaimer:
+          'O Zupper se preocupa com a transparência e, cumprindo a Resolução ANAC 218, disponibiliza os relatórios da ANAC sobre cancelamentos de voos no Brasil.',
       },
-      {
-        icon: 'baggage-carry-on',
-        label: 'Inclui bagagem de mão',
-        description: 'Tamanho limitado a caber no compartimento superior do avião. Até 10kg.',
-        included: true,
-      },
-      {
-        icon: 'baggage-checked',
-        label: 'Não inclui bagagem para despachar',
-        description: 'É possível incluir bagagem despachada alterando a opção de tarifa.',
-        included: false,
-      },
+      { itinerary: voltaItinerary, baggage },
     ],
     footer: {
       roomInfo: 'Quarto Basic (2 Adultos)',

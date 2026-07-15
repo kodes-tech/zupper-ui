@@ -2,26 +2,35 @@ import { render, screen, fireEvent } from '@testing-library/react-native';
 import { PackageOrderSummary } from './PackageOrderSummary';
 import type { PackageOrderSummaryProps } from './PackageOrderSummary';
 
-const segments = [
+const itinerary = {
+  direction: 'ida' as const,
+  headerDate: 'Qua, 24 de maio 2024',
+  airline: 'Gol airlines',
+  airlineCode: 'G3',
+  operatedBy: 'Latam Airlines',
+  flightNumber: 'LA522',
+  travelClass: 'Econômica',
+  aircraft: 'Boeing 747',
+  departureTime: '11:30',
+  departureCity: 'Florianópolis, SC',
+  departureDate: 'Qua, 24 maio',
+  arrivalTime: '12:55',
+  arrivalCity: 'Congonhas, SP',
+  arrivalDate: 'Qua, 24 maio',
+  stopsLabel: 'Direto',
+  duration: '1h50',
+  originCode: 'FLN',
+  originAirport: 'Aeroporto Hercílio Luz',
+  destinationCode: 'CGH',
+  destinationAirport: 'Aeroporto de Congonhas',
+};
+
+const baggage = [
   {
-    direction: 'ida' as const,
-    originCode: 'FLN',
-    destinationCode: 'CGH',
-    airlineCode: 'G3',
-    stopsLabel: '3 paradas',
-    departureTime: '11:30',
-    arrivalTime: '13:20',
-    date: '20 Ago 2024',
-  },
-  {
-    direction: 'volta' as const,
-    originCode: 'CGH',
-    destinationCode: 'FLN',
-    airlineCode: 'G3',
-    stopsLabel: 'Direto',
-    departureTime: '11:30',
-    arrivalTime: '13:20',
-    date: '24 Ago 2024',
+    icon: 'baggage-backpack' as const,
+    label: 'Inclui uma mochila ou bolsa',
+    description: 'Abaixo do assento dianteiro.',
+    included: true,
   },
 ];
 
@@ -44,14 +53,9 @@ const baseProps: PackageOrderSummaryProps = {
     guestsSummary: '1 quarto, 2 adultos',
   },
   rooms: [{ title: 'Quarto 1', cancellation: 'Cancelamento grátis', amenities: ['Tamanho 41m²', 'Televisão'] }],
-  segments,
-  baggage: [
-    {
-      icon: 'baggage-backpack',
-      label: 'Inclui uma mochila ou bolsa',
-      description: 'Abaixo do assento dianteiro.',
-      included: true,
-    },
+  flights: [
+    { itinerary, baggage },
+    { itinerary: { ...itinerary, direction: 'volta' }, baggage },
   ],
   footer: { roomInfo: 'Quarto Basic (2 Adultos)', priceLabel: 'Pacote - 2 adultos (3 dias)', price: 'R$ 2.550' },
 };
@@ -62,8 +66,10 @@ describe('PackageOrderSummary', () => {
     expect(screen.getByText('Detalhes do pacote')).toBeOnTheScreen();
     expect(screen.getByText('Sua compra')).toBeOnTheScreen();
     expect(screen.getByText('Viajantes')).toBeOnTheScreen();
-    expect(screen.getByText('Voos')).toBeOnTheScreen();
-    expect(screen.getByText('Bagagem')).toBeOnTheScreen();
+    expect(screen.getByText('Voo de ida')).toBeOnTheScreen();
+    expect(screen.getByText('Voo de volta')).toBeOnTheScreen();
+    // um card de bagagem por voo
+    expect(screen.getAllByText('Bagagem')).toHaveLength(2);
     expect(screen.getByText('Quarto 1')).toBeOnTheScreen();
     expect(screen.getByText('Informações relevantes')).toBeOnTheScreen();
     expect(screen.getByText('Próximo')).toBeOnTheScreen();

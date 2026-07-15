@@ -3,8 +3,9 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Icon } from '../../atoms/Icon';
 import { HotelPolicyRow } from '../../molecules/HotelPolicyRow';
-import { FlightSegmentRow } from '../../molecules/FlightSegmentRow';
 import type { FlightSegmentData } from '../../molecules/FlightSegmentRow';
+import { FlightItineraryCard } from '../../organisms/FlightItineraryCard';
+import type { FlightItinerary } from '../../organisms/FlightItineraryCard';
 import { PurchaseSummaryCard } from '../../organisms/PurchaseSummaryCard';
 import type { PurchaseSummaryItem } from '../../organisms/PurchaseSummaryCard';
 import { TravelersList } from '../../organisms/TravelersList';
@@ -37,10 +38,8 @@ export type PackageOrderSummaryProps = {
   travelers: TravelerEntry[];
   hotel: PackageOrderHotel;
   rooms: PackageRoomCardData[];
-  /** Trechos de voo (IDA/VOLTA). */
-  segments: FlightSegmentData[];
-  /** Informações de bagagem. */
-  baggage: BaggageItem[];
+  /** Voos do pacote (ida e volta), cada um com o card do trecho + sua bagagem. */
+  flights: { itinerary: FlightItinerary; baggage: BaggageItem[]; disclaimer?: string }[];
   /** Rodapé do pacote (preço + "Próximo"). */
   footer: { roomInfo: string; priceLabel: string; price: string; expanded?: boolean };
   onBack?: () => void;
@@ -67,8 +66,7 @@ export const PackageOrderSummary = ({
   travelers,
   hotel,
   rooms,
-  segments,
-  baggage,
+  flights,
   footer,
   onBack,
   onSeeDescription,
@@ -79,7 +77,21 @@ export const PackageOrderSummary = ({
   onToggleFooter,
   onEditPackage,
   onContinue,
-}: PackageOrderSummaryProps): React.ReactElement => (
+}: PackageOrderSummaryProps): React.ReactElement => {
+  // O rodapé usa a versão compacta dos trechos (FlightSegmentRow), derivada
+  // dos mesmos itinerários exibidos no corpo.
+  const footerSegments: FlightSegmentData[] = flights.map(({ itinerary: f }) => ({
+    direction: f.direction,
+    originCode: f.originCode,
+    destinationCode: f.destinationCode,
+    airlineCode: f.airlineCode,
+    stopsLabel: f.stopsLabel,
+    departureTime: f.departureTime,
+    arrivalTime: f.arrivalTime,
+    date: f.headerDate,
+  }));
+
+  return (
   <View className="flex-1 bg-surface-tag">
     <View className="bg-surface-default pb-xs pt-[40px]">
       <View className="flex-row items-center justify-between px-xxl">
@@ -103,17 +115,18 @@ export const PackageOrderSummary = ({
         {rooms.map((room, index) => (
           <PackageRoomCard key={room.title} room={room} onSeeAll={() => onSeeRoomAmenities?.(index)} />
         ))}
-        <View className="gap-lg bg-surface-default px-xxl py-xl">
-          <Text className="font-sans text-xl font-bold text-fg-secondary">Voos</Text>
-          <View className="gap-lg">
-            {segments.map((segment, index) => (
-              <FlightSegmentRow key={index} segment={segment} />
-            ))}
-          </View>
-        </View>
-        <BaggageInfo items={baggage} />
+
+        {/* Informações/Políticas vêm antes dos voos (ordem do Figma). */}
         <HotelPolicyRow title="Informações relevantes" onPress={onPressRelevantInfo} />
         <HotelPolicyRow title="Políticas de acomodações" onPress={onPressPolicies} />
+
+        {/* Cada voo (ida/volta) = card do trecho + card de bagagem, em sequência. */}
+        {flights.map(({ itinerary, baggage, disclaimer }) => (
+          <React.Fragment key={itinerary.direction}>
+            <FlightItineraryCard itinerary={itinerary} disclaimer={disclaimer} />
+            <BaggageInfo items={baggage} />
+          </React.Fragment>
+        ))}
       </View>
     </ScrollView>
 
@@ -121,7 +134,7 @@ export const PackageOrderSummary = ({
       hotelName={hotel.name}
       roomInfo={footer.roomInfo}
       hotelImage={hotel.image}
-      segments={segments}
+      segments={footerSegments}
       priceLabel={footer.priceLabel}
       price={footer.price}
       expanded={footer.expanded}
@@ -130,4 +143,5 @@ export const PackageOrderSummary = ({
       onContinue={onContinue}
     />
   </View>
-);
+  );
+};

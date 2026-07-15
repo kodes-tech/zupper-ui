@@ -34,3 +34,4 @@ export * from './TravelersList';
 export * from './PackageRoomCard';
 export * from './BaggageInfo';
 export * from './PackageOrderHotelCard';
+export * from './FlightItineraryCard';

@@ -21,28 +21,28 @@ const option: HotelRoomOptionData = {
 };
 
 describe('HotelRoomCard', () => {
-  it('renders the room details', () => {
-    render(<HotelRoomCard option={option} />);
+  it('renders the room details', async () => {
+    await render(<HotelRoomCard option={option} />);
     expect(screen.getByText('Quarto 1')).toBeOnTheScreen();
     expect(screen.getByText('Superior Vista Mar')).toBeOnTheScreen();
     expect(screen.getByText('Cancelamento grátis até 08/09')).toBeOnTheScreen();
     expect(screen.getByText('Total de R$ 3.480 + taxas')).toBeOnTheScreen();
   });
 
-  it('shows "Selecionar quarto" when not selected and fires onSelect', () => {
+  it('shows "Selecionar quarto" when not selected and fires onSelect', async () => {
     const onSelect = jest.fn();
-    render(<HotelRoomCard option={option} onSelect={onSelect} />);
-    fireEvent.press(screen.getByText('Selecionar quarto'));
+    await render(<HotelRoomCard option={option} onSelect={onSelect} />);
+    await fireEvent.press(screen.getByText('Selecionar quarto'));
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
-  it('shows the selected state label', () => {
-    render(<HotelRoomCard option={{ ...option, selected: true }} />);
+  it('shows the selected state label', async () => {
+    await render(<HotelRoomCard option={{ ...option, selected: true }} />);
     expect(screen.getByText('Quarto selecionado')).toBeOnTheScreen();
   });
 
-  it('uses combo wording when kind is combo', () => {
-    render(<HotelRoomCard option={option} kind="combo" />);
+  it('uses combo wording when kind is combo', async () => {
+    await render(<HotelRoomCard option={option} kind="combo" />);
     expect(screen.getByText('Selecionar combo')).toBeOnTheScreen();
   });
 });

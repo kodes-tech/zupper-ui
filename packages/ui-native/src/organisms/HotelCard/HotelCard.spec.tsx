@@ -17,8 +17,8 @@ const hotel: HotelCardData = {
 };
 
 describe('HotelCard', () => {
-  it('renders the hotel summary', () => {
-    render(<HotelCard hotel={hotel} />);
+  it('renders the hotel summary', async () => {
+    await render(<HotelCard hotel={hotel} />);
     expect(screen.getByText('Hotel Boa Viagem Praia')).toBeOnTheScreen();
     expect(screen.getByText('Av. Boa Viagem, 1500 - Recife, PE')).toBeOnTheScreen();
     expect(screen.getByText('Café da manhã incluído')).toBeOnTheScreen();
@@ -27,13 +27,13 @@ describe('HotelCard', () => {
     expect(screen.getByText('em até 10x')).toBeOnTheScreen();
   });
 
-  it('fires onSeeOffer and onSeeMap', () => {
+  it('fires onSeeOffer and onSeeMap', async () => {
     const onSeeOffer = jest.fn();
     const onSeeMap = jest.fn();
-    render(<HotelCard hotel={hotel} onSeeOffer={onSeeOffer} onSeeMap={onSeeMap} />);
-    fireEvent.press(screen.getByText('Ver oferta'));
+    await render(<HotelCard hotel={hotel} onSeeOffer={onSeeOffer} onSeeMap={onSeeMap} />);
+    await fireEvent.press(screen.getByText('Ver oferta'));
     expect(onSeeOffer).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Ver no mapa'));
+    await fireEvent.press(screen.getByText('Ver no mapa'));
     expect(onSeeMap).toHaveBeenCalledTimes(1);
   });
 });

@@ -7,17 +7,17 @@ const cities = [
 ];
 
 describe('HotelCitySearch', () => {
-  it('renders the query and the city list', () => {
-    render(<HotelCitySearch query="Recife" cities={cities} />);
+  it('renders the query and the city list', async () => {
+    await render(<HotelCitySearch query="Recife" cities={cities} />);
     expect(screen.getByDisplayValue('Recife')).toBeOnTheScreen();
     expect(screen.getByText('Recife, PE - Brasil')).toBeOnTheScreen();
     expect(screen.getByText('Recife Antigo, PE - Brasil')).toBeOnTheScreen();
   });
 
-  it('fires onChangeQuery and onSelectCity', () => {
+  it('fires onChangeQuery and onSelectCity', async () => {
     const onChangeQuery = jest.fn();
     const onSelectCity = jest.fn();
-    render(
+    await render(
       <HotelCitySearch
         query=""
         cities={cities}
@@ -25,9 +25,9 @@ describe('HotelCitySearch', () => {
         onSelectCity={onSelectCity}
       />,
     );
-    fireEvent.changeText(screen.getByPlaceholderText('Qual seu destino ?'), 'Rec');
+    await fireEvent.changeText(screen.getByPlaceholderText('Qual seu destino ?'), 'Rec');
     expect(onChangeQuery).toHaveBeenCalledWith('Rec');
-    fireEvent.press(screen.getByText('Recife, PE - Brasil'));
+    await fireEvent.press(screen.getByText('Recife, PE - Brasil'));
     expect(onSelectCity).toHaveBeenCalledWith('1');
   });
 });

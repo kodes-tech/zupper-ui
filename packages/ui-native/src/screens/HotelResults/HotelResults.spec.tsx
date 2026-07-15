@@ -13,8 +13,8 @@ const hotels: HotelCardData[] = [
 ];
 
 describe('HotelResults', () => {
-  it('renders the summary, results count and hotel list', () => {
-    render(
+  it('renders the summary, results count and hotel list', async () => {
+    await render(
       <HotelResults
         destination="Recife - PE"
         searchDetails="10 set - 20 set · 2 hóspedes"
@@ -27,10 +27,10 @@ describe('HotelResults', () => {
     expect(screen.getByText('Hotel Boa Viagem Praia')).toBeOnTheScreen();
   });
 
-  it('fires sort and hotel selection callbacks', () => {
+  it('fires sort and hotel selection callbacks', async () => {
     const onChangeSort = jest.fn();
     const onSelectHotel = jest.fn();
-    render(
+    await render(
       <HotelResults
         destination="Recife - PE"
         searchDetails="10 set - 20 set · 2 hóspedes"
@@ -41,9 +41,9 @@ describe('HotelResults', () => {
       />,
     );
     expect(screen.getByText('1 resultado encontrado')).toBeOnTheScreen();
-    fireEvent.press(screen.getByText('Mais barato'));
+    await fireEvent.press(screen.getByText('Mais barato'));
     expect(onChangeSort).toHaveBeenCalledWith('barato');
-    fireEvent.press(screen.getByText('Ver oferta'));
+    await fireEvent.press(screen.getByText('Ver oferta'));
     expect(onSelectHotel).toHaveBeenCalledWith(0);
   });
 });

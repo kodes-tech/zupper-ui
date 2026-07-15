@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { HotelNearbyCard } from './HotelNearbyCard';
 
 describe('HotelNearbyCard', () => {
-  it('renders the title and the points', () => {
-    render(
+  it('renders the title and the points', async () => {
+    await render(
       <HotelNearbyCard
         points={[
           { name: 'Praia de Boa Viagem', distance: '0.2 km' },
@@ -16,8 +16,8 @@ describe('HotelNearbyCard', () => {
     expect(screen.getByText('(0.2 km)')).toBeOnTheScreen();
   });
 
-  it('renders nothing when there are no points', () => {
-    const { toJSON } = render(<HotelNearbyCard points={[]} />);
+  it('renders nothing when there are no points', async () => {
+    const { toJSON } = await render(<HotelNearbyCard points={[]} />);
     expect(toJSON()).toBeNull();
   });
 });

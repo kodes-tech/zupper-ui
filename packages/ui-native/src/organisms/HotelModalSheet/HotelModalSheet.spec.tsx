@@ -3,8 +3,8 @@ import { Text } from 'react-native';
 import { HotelModalSheet } from './HotelModalSheet';
 
 describe('HotelModalSheet', () => {
-  it('renders the title and children', () => {
-    render(
+  it('renders the title and children', async () => {
+    await render(
       <HotelModalSheet title="Busca de cidades">
         <Text>Conteúdo</Text>
       </HotelModalSheet>,
@@ -13,19 +13,19 @@ describe('HotelModalSheet', () => {
     expect(screen.getByText('Conteúdo')).toBeOnTheScreen();
   });
 
-  it('fires onClose from the close button', () => {
+  it('fires onClose from the close button', async () => {
     const onClose = jest.fn();
-    render(
+    await render(
       <HotelModalSheet title="Busca de cidades" onClose={onClose}>
         <Text>Conteúdo</Text>
       </HotelModalSheet>,
     );
-    fireEvent.press(screen.getAllByRole('button', { name: 'Fechar' })[0]);
+    await fireEvent.press(screen.getAllByRole('button', { name: 'Fechar' })[0]);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('renders the optional footer', () => {
-    render(
+  it('renders the optional footer', async () => {
+    await render(
       <HotelModalSheet title="Título" footer={<Text>Rodapé</Text>}>
         <Text>Conteúdo</Text>
       </HotelModalSheet>,

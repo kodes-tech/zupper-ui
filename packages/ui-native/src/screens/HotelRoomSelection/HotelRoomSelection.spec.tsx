@@ -17,23 +17,23 @@ const options: HotelRoomOptionData[] = [
 ];
 
 describe('HotelRoomSelection', () => {
-  it('renders the hotel name, title and room options', () => {
-    render(<HotelRoomSelection hotelName="Hotel Boa Viagem Praia" options={options} />);
+  it('renders the hotel name, title and room options', async () => {
+    await render(<HotelRoomSelection hotelName="Hotel Boa Viagem Praia" options={options} />);
     expect(screen.getByText('Hotel Boa Viagem Praia')).toBeOnTheScreen();
     expect(screen.getByText('Escolha o Quarto')).toBeOnTheScreen();
     expect(screen.getByText('Quarto 1')).toBeOnTheScreen();
   });
 
-  it('disables the footer CTA until an option is selected', () => {
+  it('disables the footer CTA until an option is selected', async () => {
     const onContinue = jest.fn();
-    render(<HotelRoomSelection hotelName="Hotel" options={options} onContinue={onContinue} />);
-    fireEvent.press(screen.getByText('Escolher Quarto'));
+    await render(<HotelRoomSelection hotelName="Hotel" options={options} onContinue={onContinue} />);
+    await fireEvent.press(screen.getByText('Escolher Quarto'));
     expect(onContinue).not.toHaveBeenCalled();
   });
 
-  it('shows the summary and enables the CTA when selectedSummary is present', () => {
+  it('shows the summary and enables the CTA when selectedSummary is present', async () => {
     const onContinue = jest.fn();
-    render(
+    await render(
       <HotelRoomSelection
         hotelName="Hotel"
         options={options}
@@ -42,14 +42,14 @@ describe('HotelRoomSelection', () => {
       />,
     );
     expect(screen.getByText('10 noites - Quarto 1')).toBeOnTheScreen();
-    fireEvent.press(screen.getByText('Ir para pagamento'));
+    await fireEvent.press(screen.getByText('Ir para pagamento'));
     expect(onContinue).toHaveBeenCalledTimes(1);
   });
 
-  it('fires onSelectOption with the option id', () => {
+  it('fires onSelectOption with the option id', async () => {
     const onSelectOption = jest.fn();
-    render(<HotelRoomSelection hotelName="Hotel" options={options} onSelectOption={onSelectOption} />);
-    fireEvent.press(screen.getByText('Selecionar quarto'));
+    await render(<HotelRoomSelection hotelName="Hotel" options={options} onSelectOption={onSelectOption} />);
+    await fireEvent.press(screen.getByText('Selecionar quarto'));
     expect(onSelectOption).toHaveBeenCalledWith('r1');
   });
 });

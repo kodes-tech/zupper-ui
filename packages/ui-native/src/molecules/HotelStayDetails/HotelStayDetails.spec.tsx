@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { HotelStayDetails } from './HotelStayDetails';
 
 describe('HotelStayDetails', () => {
-  it('renders the three fixed rows', () => {
-    render(
+  it('renders the three fixed rows', async () => {
+    await render(
       <HotelStayDetails
         checkIn="Ter, 10 Set - 14:00"
         checkOut="Sex, 20 Set - 12:00"

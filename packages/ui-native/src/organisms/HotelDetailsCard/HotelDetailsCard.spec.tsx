@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { HotelDetailsCard } from './HotelDetailsCard';
 
 describe('HotelDetailsCard', () => {
-  it('renders name, stay details, benefits and price', () => {
-    render(
+  it('renders name, stay details, benefits and price', async () => {
+    await render(
       <HotelDetailsCard
         name="Hotel Boa Viagem Praia"
         starRating={4}

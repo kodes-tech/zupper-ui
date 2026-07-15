@@ -8,31 +8,31 @@ const weeks: CalendarDay[][] = [
 ];
 
 describe('DateRangeCalendar', () => {
-  it('renders the month, year and week days', () => {
-    render(<DateRangeCalendar yearLabel="2026" monthLabel="Julho, 2026" weeks={weeks} />);
+  it('renders the month, year and week days', async () => {
+    await render(<DateRangeCalendar yearLabel="2026" monthLabel="Julho, 2026" weeks={weeks} />);
     expect(screen.getByText('2026')).toBeOnTheScreen();
     expect(screen.getByText('Julho, 2026')).toBeOnTheScreen();
     expect(screen.getByText('Selecionar data')).toBeOnTheScreen();
   });
 
-  it('fires onSelectDay for an enabled day and not for a disabled one', () => {
+  it('fires onSelectDay for an enabled day and not for a disabled one', async () => {
     const onSelectDay = jest.fn();
-    render(
+    await render(
       <DateRangeCalendar yearLabel="2026" monthLabel="Julho, 2026" weeks={weeks} onSelectDay={onSelectDay} />,
     );
-    fireEvent.press(screen.getByLabelText('Dia 3'));
+    await fireEvent.press(screen.getByLabelText('Dia 3'));
     expect(onSelectDay).toHaveBeenCalledWith(3);
-    fireEvent.press(screen.getByLabelText('Dia 8'));
+    await fireEvent.press(screen.getByLabelText('Dia 8'));
     expect(onSelectDay).not.toHaveBeenCalledWith(8);
   });
 
-  it('shows the nights summary only with both dates on a round trip', () => {
-    const { rerender } = render(
+  it('shows the nights summary only with both dates on a round trip', async () => {
+    const { rerender } = await render(
       <DateRangeCalendar yearLabel="2026" monthLabel="Julho, 2026" weeks={weeks} />,
     );
     expect(screen.queryByText('10 diárias')).toBeNull();
 
-    rerender(
+    await rerender(
       <DateRangeCalendar
         yearLabel="2026"
         monthLabel="Julho, 2026"
@@ -45,17 +45,17 @@ describe('DateRangeCalendar', () => {
     expect(screen.getByText('10 diárias')).toBeOnTheScreen();
   });
 
-  it('hides the return field when isOneWayOnly', () => {
-    render(
+  it('hides the return field when isOneWayOnly', async () => {
+    await render(
       <DateRangeCalendar yearLabel="2026" monthLabel="Julho, 2026" weeks={weeks} isOneWayOnly />,
     );
     expect(screen.queryByText('Volta')).toBeNull();
   });
 
-  it('fires onConfirm and onCancel', () => {
+  it('fires onConfirm and onCancel', async () => {
     const onConfirm = jest.fn();
     const onCancel = jest.fn();
-    render(
+    await render(
       <DateRangeCalendar
         yearLabel="2026"
         monthLabel="Julho, 2026"
@@ -64,9 +64,9 @@ describe('DateRangeCalendar', () => {
         onCancel={onCancel}
       />,
     );
-    fireEvent.press(screen.getByText('Aplicar'));
+    await fireEvent.press(screen.getByText('Aplicar'));
     expect(onConfirm).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Cancelar'));
+    await fireEvent.press(screen.getByText('Cancelar'));
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
 });

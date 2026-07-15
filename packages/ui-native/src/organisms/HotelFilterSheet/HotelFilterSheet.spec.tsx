@@ -12,8 +12,8 @@ const baseProps = {
 };
 
 describe('HotelFilterSheet', () => {
-  it('renders sections and options', () => {
-    render(<HotelFilterSheet {...baseProps} />);
+  it('renders sections and options', async () => {
+    await render(<HotelFilterSheet {...baseProps} />);
     expect(screen.getByText('Filtrar')).toBeOnTheScreen();
     expect(screen.getByText('Comodidades')).toBeOnTheScreen();
     expect(screen.getByText('Região')).toBeOnTheScreen();
@@ -21,18 +21,18 @@ describe('HotelFilterSheet', () => {
     expect(screen.getByText('R$ 300')).toBeOnTheScreen();
   });
 
-  it('fires toggle, apply and clear callbacks', () => {
+  it('fires toggle, apply and clear callbacks', async () => {
     const onToggleAmenity = jest.fn();
     const onApply = jest.fn();
     const onClear = jest.fn();
-    render(
+    await render(
       <HotelFilterSheet {...baseProps} onToggleAmenity={onToggleAmenity} onApply={onApply} onClear={onClear} />,
     );
-    fireEvent.press(screen.getByRole('checkbox', { name: 'Piscina' }));
+    await fireEvent.press(screen.getByRole('checkbox', { name: 'Piscina' }));
     expect(onToggleAmenity).toHaveBeenCalledWith('pool');
-    fireEvent.press(screen.getByText('Aplicar filtro'));
+    await fireEvent.press(screen.getByText('Aplicar filtro'));
     expect(onApply).toHaveBeenCalledTimes(1);
-    fireEvent.press(screen.getByText('Limpar filtros'));
+    await fireEvent.press(screen.getByText('Limpar filtros'));
     expect(onClear).toHaveBeenCalledTimes(1);
   });
 });

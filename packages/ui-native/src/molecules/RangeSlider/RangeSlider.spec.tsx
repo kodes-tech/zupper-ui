@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react-native';
 import { RangeSlider } from './RangeSlider';
 
 describe('RangeSlider', () => {
-  it('renders the formatted min/max labels', () => {
-    render(
+  it('renders the formatted min/max labels', async () => {
+    await render(
       <RangeSlider
         min={0}
         max={1000}

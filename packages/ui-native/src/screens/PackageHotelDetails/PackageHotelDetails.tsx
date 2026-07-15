@@ -8,6 +8,7 @@ import { HotelPolicyRow } from '../../molecules/HotelPolicyRow';
 import { HotelDetailsCard } from '../../organisms/HotelDetailsCard';
 import { HotelLocationCard } from '../../organisms/HotelLocationCard';
 import { HotelAmenitiesCard } from '../../organisms/HotelAmenitiesCard';
+import type { HotelAmenity } from '../../organisms/HotelAmenitiesCard';
 import { HotelNearbyCard } from '../../organisms/HotelNearbyCard';
 import type { HotelNearbyPoint } from '../../organisms/HotelNearbyCard';
 import { HotelReviewsCard } from '../../organisms/HotelReviewsCard';
@@ -32,7 +33,7 @@ export type PackageHotelDetailsProps = {
   price: string;
   address: string;
   description: string;
-  amenities: string[];
+  amenities: (string | HotelAmenity)[];
   nearbyPoints?: HotelNearbyPoint[];
   /** Avaliações — nota-resumo + categorias. Omitido = sem a seção. */
   reviews?: { stars: number; ratingLabel: string; categories: HotelReviewCategory[] };

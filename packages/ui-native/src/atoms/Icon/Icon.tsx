@@ -96,6 +96,21 @@ const registry = {
   pencil: Svgs.Pencil,
   upload: Svgs.Upload,
   'travel-navigation': Svgs.TravelNavigation,
+  // Comodidades do hotel (Comodidades do local) — currentColor, um por tipo.
+  'amenity-bed': Svgs.AmenityBed,
+  'amenity-size': Svgs.AmenitySize,
+  'amenity-guests': Svgs.AmenityGuests,
+  'amenity-wifi': Svgs.AmenityWifi,
+  'amenity-ac': Svgs.AmenityAc,
+  'amenity-bathroom': Svgs.AmenityBathroom,
+  'amenity-parking': Svgs.AmenityParking,
+  'amenity-restaurant': Svgs.AmenityRestaurant,
+  'amenity-pets': Svgs.AmenityPets,
+  'amenity-gym': Svgs.AmenityGym,
+  'amenity-pool': Svgs.AmenityPool,
+  'amenity-tv': Svgs.AmenityTv,
+  'amenity-hairdryer': Svgs.AmenityHairdryer,
+  'amenity-laundry': Svgs.AmenityLaundry,
 } as const;
 
 export type IconName = keyof typeof registry;

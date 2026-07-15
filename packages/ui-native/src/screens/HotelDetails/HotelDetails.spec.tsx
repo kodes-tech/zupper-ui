@@ -29,7 +29,7 @@ describe('HotelDetails', () => {
 
   it('omits the nearby section when there are no points', () => {
     render(<HotelDetails {...baseProps} nearbyPoints={[]} />);
-    expect(screen.queryByText('O que tem por perto')).toBeNull();
+    expect(screen.queryByText('Interesses na proximidade')).toBeNull();
   });
 
   it('fires onSelectRooms from the footer CTA', () => {

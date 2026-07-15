@@ -8,6 +8,7 @@ import type { HotelBenefitTone } from '../../molecules/HotelBenefitItem';
 import { HotelDetailsCard } from '../../organisms/HotelDetailsCard';
 import { HotelLocationCard } from '../../organisms/HotelLocationCard';
 import { HotelAmenitiesCard } from '../../organisms/HotelAmenitiesCard';
+import type { HotelAmenity } from '../../organisms/HotelAmenitiesCard';
 import { HotelNearbyCard } from '../../organisms/HotelNearbyCard';
 import type { HotelNearbyPoint } from '../../organisms/HotelNearbyCard';
 
@@ -26,7 +27,7 @@ export type HotelDetailsProps = {
   price: string;
   address: string;
   description: string;
-  amenities: string[];
+  amenities: (string | HotelAmenity)[];
   nearbyPoints?: HotelNearbyPoint[];
   onBack?: () => void;
   onEditSearch?: () => void;

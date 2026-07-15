@@ -24,10 +24,16 @@ export default {
     address: 'Av. Boa Viagem, 1500 - Recife, PE',
     description:
       'Localizado de frente para a praia de Boa Viagem, o hotel oferece vista para o mar, piscina e fácil acesso aos principais pontos turísticos do Recife.',
-    amenities: ['Wi-Fi', 'Piscina', 'Estacionamento', 'Ar-condicionado', 'Academia'],
+    amenities: [
+      { label: 'Wi-Fi Grátis', icon: 'amenity-wifi' },
+      { label: 'Piscina', icon: 'amenity-pool' },
+      { label: 'Estacionamento', icon: 'amenity-parking' },
+      { label: 'Ar-condicionado', icon: 'amenity-ac' },
+      { label: 'Academia', icon: 'amenity-gym' },
+    ],
     nearbyPoints: [
-      { name: 'Praia de Boa Viagem', distance: '0.2 km' },
-      { name: 'Marco Zero', distance: '5.4 km' },
+      { name: 'Praia de Boa Viagem', address: 'Av. Boa Viagem, s/n', distance: '0.2 km do hotel', hasMap: true },
+      { name: 'Marco Zero', address: 'Praça do Marco Zero, Recife Antigo', distance: '5.4 km do hotel', hasMap: true },
     ],
     onBack: action('onBack'),
     onEditSearch: action('onEditSearch'),
@@ -48,7 +54,7 @@ export default {
 
 export const Padrao = {};
 
-/** Sem imagem, sem pontos de interesse — o bloco "O que tem por perto" some. */
+/** Sem imagem, sem pontos de interesse — o bloco "Interesses na proximidade" some. */
 export const SemImagemNemPerto = {
   args: {
     image: undefined,

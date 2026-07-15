@@ -49,10 +49,21 @@ export default {
     address: 'Av. Ibirapuera, 2927 - Ibirapuera, São Paulo - SP',
     description:
       'Localizado no coração de São Paulo, o hotel oferece quartos confortáveis, café da manhã incluso e fácil acesso aos principais pontos turísticos da cidade.',
-    amenities: ['Wi-Fi gratuito', 'Piscina', 'Estacionamento', 'Academia', 'Restaurante', 'Ar-condicionado'],
+    amenities: [
+      { label: '1 cama de casal grande', icon: 'amenity-bed' },
+      { label: 'Tamanho 41m²', icon: 'amenity-size' },
+      { label: 'Wi-Fi Grátis', icon: 'amenity-wifi' },
+      { label: 'Café da manhã', icon: 'amenity-coffee' },
+      { label: 'Ar-condicionado', icon: 'amenity-ac' },
+      { label: 'Estacionamento', icon: 'amenity-parking' },
+      { label: 'Restaurante', icon: 'amenity-restaurant' },
+      { label: 'Piscina', icon: 'amenity-pool' },
+      { label: 'Academia', icon: 'amenity-gym' },
+      { label: 'Televisão', icon: 'amenity-tv' },
+    ],
     nearbyPoints: [
-      { name: 'Parque Ibirapuera', distance: '1.2 km' },
-      { name: 'Av. Paulista', distance: '4.5 km' },
+      { name: 'Parque Ibirapuera', address: 'Av. Ibirapuera, 2927 - Ibirapuera', distance: '5km do Centro', hasMap: true },
+      { name: 'Av. Paulista', address: 'Av. Paulista, 1000 - Bela Vista', distance: '8km do Centro', hasMap: true },
     ],
     reviews: {
       stars: 3,

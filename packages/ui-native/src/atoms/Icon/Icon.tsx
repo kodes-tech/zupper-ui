@@ -66,6 +66,25 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
+  // Pedidos (customer-order). Tipo-produto e passos usam currentColor; o app
+  // pinta com neutro/status. `order-empty` é ilustração (cor própria).
+  // Nota: order-flight/hotel/package colidem conceitualmente com os ícones de
+  // viagem do #38/#61 — reconciliar no merge.
+  'order-flight': Svgs.OrderFlight,
+  'order-hotel': Svgs.OrderHotel,
+  'order-package': Svgs.OrderPackage,
+  'order-step-done': Svgs.OrderStepDone,
+  'order-step-pending': Svgs.OrderStepPending,
+  'order-step-failed': Svgs.OrderStepFailed,
+  'order-timeline-connector': Svgs.OrderTimelineConnector,
+  'order-fallback-image': Svgs.OrderFallbackImage,
+  'order-empty': Svgs.OrderEmpty,
+  'z-logo': Svgs.ZLogo,
+  // Pedidos — header/busca/filtro do "Meus pedidos - Logado".
+  filter: Svgs.Filter,
+  'checkbox-checked': Svgs.CheckboxChecked,
+  'checkbox-unchecked': Svgs.CheckboxUnchecked,
+  'search-outline': Svgs.SearchOutline,
 } as const;
 
 export type IconName = keyof typeof registry;

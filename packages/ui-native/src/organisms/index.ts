@@ -4,6 +4,7 @@ export * from './BottomSheet';
 export * from './CommunityCTA';
 export * from './GreetingHeader';
 export * from './NotInterestedSheet';
+export * from './OrderCard';
 export * from './PostActionsSheet';
 export * from './PostCard';
 export * from './ProfileTabs';

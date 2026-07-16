@@ -66,6 +66,15 @@ export const colors = {
     warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
+    successSurface: '#D5EDDD', // superfície do badge "Emitido" (Pedidos)
+    successStrong: '#059669', // texto/borda do badge "Emitido" (Pedidos)
+    // "Em andamento" (Pedidos) usa a paleta Madrid do Figma, distinta do warning
+    // de moderação acima (#EAB308 / #FEF9C3): acento da borda do card + dot do filtro.
+    pending: '#FFCE00', // Accents/Madrid 400 — acento da borda "Em andamento" (Pedidos)
+    pendingSurface: '#FEFCE8', // Accents/Madrid 50 — superfície do badge "Em andamento" (Pedidos)
+    // Amsterdam 600 — banner de alerta SÓLIDO do card de pedido (texto branco),
+    // ex.: "Atenção! Taxa de serviço pendente". Mais forte que danger (#EF4444).
+    dangerSolid: '#ED2121',
   },
 } as const;
 

@@ -30,6 +30,16 @@ export const textVariant = {
   badge: { fontFamily, fontSize: fontSize.xs, fontWeight: fontWeight.medium, lineHeight: 16 },
   actionLabel: { fontFamily, fontSize: fontSize.xs, fontWeight: fontWeight.bold, lineHeight: 16 },
   caption: { fontFamily, fontSize: fontSize.xs, fontWeight: fontWeight.medium, lineHeight: 16 },
+  // "Paragrafo MD - App" do Figma (Satoshi Medium 14 / lh20 / 2%). Texto de corpo
+  // dominante nas telas de Pedidos (título do produto, nº do pedido, viajantes,
+  // datas, selo de situação). Para a variante em negrito, some `font-bold`.
+  paragraphMd: {
+    fontFamily,
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.medium,
+    lineHeight: 20,
+    letterSpacing: 0.28,
+  },
   authorName: {
     fontFamily,
     fontSize: fontSize.md,

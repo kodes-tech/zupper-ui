@@ -120,6 +120,14 @@ const barColorByStatus: Record<OrderStatus, string> = {
 
 const Divider = () => <View className="h-px w-full bg-border-subtle" />;
 
+// Cor intrínseca dos ícones de bagagem (Figma): incluído = brand (turquesa),
+// não incluído = neutro apagado. Os demais ícones da tela usam text.subtle.
+const baggageIconColor: Partial<Record<IconName, string>> = {
+  'baggage-personal': colors.brand.zupper,
+  'baggage-carry-on': colors.brand.zupper,
+  'baggage-none': colors.text.muted,
+};
+
 /**
  * OrderDetails — tela "Detalhes do pedido": resumo (tipo, número, data e
  * destino), situação, linha do tempo, avisos e CTA, os trechos do voo
@@ -235,7 +243,7 @@ export const OrderDetails = ({
                   {baggage.map((row, rowIndex) => (
                     <React.Fragment key={row.title}>
                       <View className="flex-row items-start gap-xs">
-                        <Icon name={row.icon} size={24} color={colors.text.subtle} />
+                        <Icon name={row.icon} size={24} color={baggageIconColor[row.icon] ?? colors.text.subtle} />
                         <View className="flex-1 gap-xxs">
                           <Text className="font-sans text-paragraphMd text-fg-body">{row.title}</Text>
                           <Text className="font-sans text-paragraphMd text-fg-subtle">{row.description}</Text>

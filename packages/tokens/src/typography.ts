@@ -114,6 +114,23 @@ export const textVariant = {
     fontWeight: fontWeight.bold,
     lineHeight: 20,
   },
+  // Título do header do Checkout ("Checkout - 1 de 4"). Extraído do zupper-app:
+  // Typography sem variant explícita (default fontSize200 = 19px) sobrescrita
+  // com weight="bold".
+  checkoutHeaderTitle: {
+    fontFamily,
+    fontSize: 19,
+    fontWeight: fontWeight.bold,
+    lineHeight: 24,
+  },
+  // Pergunta de cada etapa do Checkout ("Como falamos com você?"). Extraído do
+  // zupper-app: fontSize300 = 22px, bold, lineHeight = spacing800 (32px).
+  checkoutStepTitle: {
+    fontFamily,
+    fontSize: 22,
+    fontWeight: fontWeight.bold,
+    lineHeight: 32,
+  },
 } as const satisfies Record<string, TextStyle>;
 
 /** Objeto agregado — acesso ergonômico único (`typography.family`, `typography.textVariant.heading`). */

@@ -51,4 +51,14 @@ describe('Input', () => {
     await fireEvent.changeText(screen.getByLabelText('Título do roteiro'), 'Praia do Rosa');
     expect(onChangeText).toHaveBeenCalledWith('Praia do Rosa');
   });
+
+  it('renders a leading icon when icon is set', async () => {
+    await render(<Input label="Nome Completo" placeholder="Insira seu nome" icon="id-card" />);
+    expect(screen.getByPlaceholderText('Insira seu nome')).toBeOnTheScreen();
+  });
+
+  it('still shows the error message alongside the icon', async () => {
+    await render(<Input label="Contato" icon="phone" error="Campo obrigatório" />);
+    expect(screen.getByText('Campo obrigatório')).toBeOnTheScreen();
+  });
 });

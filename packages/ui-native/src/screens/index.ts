@@ -8,6 +8,11 @@
 //   (default / loading / empty / error / success).
 // - NÃO confundir com `src/_figma/` (referência do Figma, não roda).
 //
+export * from './CheckoutContact';
+export * from './CheckoutInvoice';
+export * from './CheckoutPayment';
+export * from './CheckoutThanks';
+export * from './CheckoutTravelers';
 export * from './CommunityProfile';
 export * from './ContentDetail';
 export * from './DestinationDetails';

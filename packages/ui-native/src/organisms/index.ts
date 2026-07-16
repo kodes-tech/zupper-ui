@@ -6,6 +6,7 @@ export * from './FareFamilyCard';
 export * from './FareFamilySelection';
 export * from './FareSummary';
 export * from './FlightCard';
+export * from './FlightSegmentDetail';
 export * from './GreetingHeader';
 export * from './NotInterestedSheet';
 export * from './PostActionsSheet';

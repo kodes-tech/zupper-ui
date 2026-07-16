@@ -7,6 +7,7 @@ export * from './CommentInput';
 export * from './CommentThread';
 export * from './ContentAuthor';
 export * from './DestinationCard';
+export * from './FlightBaggageItem';
 export * from './LikeButton';
 export * from './OfferCard';
 export * from './PhotoGrid';

@@ -80,6 +80,16 @@ const registry = {
   'flight-return': Svgs.FlightReturn,
   'check-circle': Svgs.CheckCircle,
   'close-circle': Svgs.CloseCircle,
+  // Ícones do motor de busca (travel), arte extraída do código do zupper-app
+  // (libs/app-ui). Usam `currentColor`: a mesma arte muda de cor por estado
+  // (campo vazio/preenchido). Reaproveitados de `TravelHome` (branch de
+  // hospedagem/pacotes) para manter esta PR autossuficiente.
+  'travel-voos': Svgs.TravelVoos,
+  'travel-pinmap': Svgs.TravelPinmap,
+  'travel-calendar': Svgs.TravelCalendar,
+  'travel-viajantes': Svgs.TravelViajantes,
+  'travel-swap': Svgs.TravelSwap,
+  'travel-search': Svgs.TravelSearch,
 } as const;
 
 export type IconName = keyof typeof registry;

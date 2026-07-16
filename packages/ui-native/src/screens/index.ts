@@ -8,6 +8,7 @@
 //   (default / loading / empty / error / success).
 // - NÃO confundir com `src/_figma/` (referência do Figma, não roda).
 //
+export * from './AirSearch';
 export * from './CommunityProfile';
 export * from './ContentDetail';
 export * from './DestinationDetails';
@@ -16,3 +17,4 @@ export * from './Feed';
 export * from './FlightResults';
 export * from './MyAccount';
 export * from './PublishContent';
+export * from './SliceDetails';

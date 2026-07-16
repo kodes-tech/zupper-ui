@@ -37,3 +37,11 @@ export const Ghost = { args: { label: 'Sair da minha conta zupper', variant: 'gh
 
 // Botão de largura total, usado no CTA "Publicar" dos formulários.
 export const FullWidth = { args: { label: 'Publicar', fullWidth: true } };
+
+// Estados desabilitados — telas de auth (Login/Cadastro/Senha) antes do
+// formulário ser válido: primary vira pill cinza sólida, secondary vira
+// borda/texto cinza.
+export const DisabledPrimary = { args: { label: 'Fazer login', disabled: true, fullWidth: true } };
+export const DisabledSecondary = {
+  args: { label: 'Solicitar nova senha', variant: 'secondary', disabled: true, fullWidth: true },
+};

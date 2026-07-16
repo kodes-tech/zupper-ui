@@ -24,4 +24,35 @@ describe('BottomSheet', () => {
     await fireEvent.press(screen.getByLabelText('Fechar'));
     expect(onDismiss).toHaveBeenCalled();
   });
+
+  it('renders the close button only when onClose is provided', async () => {
+    const onClose = jest.fn();
+    await render(
+      <BottomSheet title="Título" onClose={onClose}>
+        <Text>Conteúdo</Text>
+      </BottomSheet>,
+    );
+    await fireEvent.press(screen.getByLabelText('Fechar sheet'));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('omits the close button when onClose is not provided', async () => {
+    await render(
+      <BottomSheet title="Título">
+        <Text>Conteúdo</Text>
+      </BottomSheet>,
+    );
+    expect(screen.queryByLabelText('Fechar sheet')).not.toBeOnTheScreen();
+  });
+
+  it('renders the close button even without a title (sheets with only an icon header)', async () => {
+    const onClose = jest.fn();
+    await render(
+      <BottomSheet onClose={onClose}>
+        <Text>Conteúdo</Text>
+      </BottomSheet>,
+    );
+    await fireEvent.press(screen.getByLabelText('Fechar sheet'));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });

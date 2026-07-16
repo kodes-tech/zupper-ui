@@ -8,10 +8,16 @@
 //   (default / loading / empty / error / success).
 // - NÃO confundir com `src/_figma/` (referência do Figma, não roda).
 //
+export * from './AccountCreated';
 export * from './CommunityProfile';
 export * from './ContentDetail';
 export * from './DestinationDetails';
 export * from './Destinations';
 export * from './Feed';
+export * from './ForgotPassword';
+export * from './Login';
 export * from './MyAccount';
+export * from './PasswordResetSuccess';
 export * from './PublishContent';
+export * from './ResetPassword';
+export * from './SignUp';

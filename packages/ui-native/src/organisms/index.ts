@@ -2,8 +2,11 @@
 export * from './BottomNav';
 export * from './BottomSheet';
 export * from './CommunityCTA';
+export * from './EmailConfirmationSheet';
 export * from './GreetingHeader';
 export * from './NotInterestedSheet';
+export * from './PasswordResetEmailSentSheet';
+export * from './PasswordResetErrorSheet';
 export * from './PostActionsSheet';
 export * from './PostCard';
 export * from './ProfileTabs';
@@ -11,3 +14,5 @@ export * from './PublishedModal';
 export * from './ReportReasonsSheet';
 export * from './ReportSentSheet';
 export * from './ScreenHeader';
+export * from './SocialAccountPickerSheet';
+export * from './SocialLoginFeedbackSheet';

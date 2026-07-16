@@ -37,10 +37,16 @@ export const colors = {
     muted: '#A3A3A3', // text/muted — meta desenfatizada (ex.: "+12 paradas")
     inverse: '#FFFFFF', // text/inverse — texto sobre superfícies brand/escuras
     link: '#0C4A6E', // text/link — "Meu perfil ›" / "Fazer login ›"
+    // Secundary/Greece 600 — link de conteúdo em telas de auth (Login/Cadastro):
+    // "Cadastre-se", "Faça o login", "Termos de Aceite", "Política de Privacidade".
+    action: '#0284C7',
+    // Accents/Nicaragua 600 — link de destaque "Esqueceu sua senha?" (Login).
+    linkAccent: '#C026D3',
     heading: '#25314D', // color/brand/kontrip — título do WelcomeBackCard
     body: '#2E2E2E', // color/accent/dubai/800 — descrição do WelcomeBackCard
     label: '#1C1C1A', // título de campo de formulário (Input)
     subtle: '#737373', // Accents/Dubai/Dubai 500 — label do FilterChip não selecionado
+    caption: '#57534E', // Accents/Dubai/Dubai 600 — item do checklist de requisitos de senha (PasswordRequirementsList)
   },
   surface: {
     default: '#FFFFFF', // background/surface — fundo de card
@@ -66,6 +72,7 @@ export const colors = {
     warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
+    successSurface: '#D5EDDD', // Accents/Amazon 100 — círculo do ícone de sucesso (StatusMessage)
   },
 } as const;
 

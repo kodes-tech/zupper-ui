@@ -66,6 +66,22 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
+  // Cadastro / Login / Senha (auth).
+  email: Svgs.Email,
+  lock: Svgs.Lock,
+  eye: Svgs.Eye,
+  'eye-slash': Svgs.EyeSlash,
+  'facebook-logo': Svgs.FacebookLogo,
+  'apple-logo': Svgs.AppleLogo,
+  'z-symbol': Svgs.ZSymbol,
+  close: Svgs.Close,
+  'user-circle': Svgs.UserCircle,
+  'warning-triangle': Svgs.WarningTriangle,
+  'success-check': Svgs.SuccessCheck,
+  'close-circle': Svgs.CloseCircle,
+  'password-reset-success': Svgs.PasswordResetSuccess,
+  user: Svgs.User,
+  'email-sent': Svgs.EmailSent,
 } as const;
 
 export type IconName = keyof typeof registry;

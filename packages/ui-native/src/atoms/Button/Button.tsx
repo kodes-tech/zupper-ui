@@ -58,22 +58,52 @@ export const Button = ({
   iconPosition = 'right',
   variant = 'primary',
   fullWidth = false,
+  disabled,
   ...rest
 }: ButtonProps) => {
   const content = (
     <>
       {icon && iconPosition === 'left' ? icon : null}
-      {label ? <Text className={labelClassByVariant[variant]}>{label}</Text> : null}
+      {label ? (
+        <Text
+          className={
+            variant === 'secondary' && disabled
+              ? 'font-sans text-buttonLabelLg text-border-default'
+              : labelClassByVariant[variant]
+          }
+        >
+          {label}
+        </Text>
+      ) : null}
       {icon && iconPosition === 'right' ? icon : null}
     </>
   );
 
   if (variant === 'secondary' || variant === 'ghost') {
+    // Desabilitado (só faz sentido em secondary — ex.: "Solicitar nova senha"
+    // antes de um email válido): borda e texto caem para o cinza neutro.
+    const containerClass =
+      variant === 'secondary' && disabled
+        ? 'flex-row items-center justify-center gap-md rounded-pill border border-border-default px-screenMargin py-md'
+        : containerClassByVariant[variant];
+
     return (
-      <Pressable testID="button" className={fullWidth ? 'w-full' : undefined} {...rest}>
+      <Pressable testID="button" disabled={disabled} className={fullWidth ? 'w-full' : undefined} {...rest}>
+        <View testID="button-container" className={`${containerClass} ${fullWidth ? 'w-full' : ''}`}>
+          {content}
+        </View>
+      </Pressable>
+    );
+  }
+
+  // Desabilitado (primary): pill sólida cinza (border.default) no lugar do
+  // gradiente — ex.: "Fazer login"/"Criar conta" antes de preencher o formulário.
+  if (disabled) {
+    return (
+      <Pressable testID="button" disabled className={fullWidth ? 'w-full' : undefined} {...rest}>
         <View
           testID="button-container"
-          className={`${containerClassByVariant[variant]} ${fullWidth ? 'w-full' : ''}`}
+          className={`flex-row items-center justify-center gap-md rounded-pill bg-border-default p-lg ${fullWidth ? 'w-full' : ''}`}
         >
           {content}
         </View>

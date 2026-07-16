@@ -1,5 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { colors } from '@kodes-tech/tokens';
+import { Icon } from '../../atoms/Icon';
 
 export type BottomSheetProps = {
   /** Título do cabeçalho (ex.: "Por que você está denunciando?"). */
@@ -10,6 +12,8 @@ export type BottomSheetProps = {
   children: React.ReactNode;
   /** Toque no overlay — fecha o sheet. */
   onDismiss?: () => void;
+  /** Botão de fechar (X) ao lado do título — omitido por padrão (ex.: escolha de conta social). */
+  onClose?: () => void;
 };
 
 /**
@@ -24,6 +28,7 @@ export const BottomSheet = ({
   description,
   children,
   onDismiss,
+  onClose,
 }: BottomSheetProps): React.ReactElement => (
   <View className="absolute inset-0 justify-end">
     <Pressable
@@ -38,14 +43,21 @@ export const BottomSheet = ({
         <View className="h-[4px] w-[40px] rounded-pill bg-border-default" />
       </View>
 
-      {title ? (
+      {title || onClose ? (
         <>
-          <View className="gap-xs px-screenMargin pb-lg pt-md">
-            <Text className="font-sans text-[17px] font-bold text-fg-primary">{title}</Text>
-            {description ? (
-              <Text className="font-sans text-[14px] leading-[18px] text-fg-muted">
-                {description}
-              </Text>
+          <View className="flex-row items-center justify-between gap-md px-screenMargin pb-lg pt-md">
+            <View className="flex-1 gap-xs">
+              {title ? <Text className="font-sans text-[17px] font-bold text-fg-primary">{title}</Text> : null}
+              {description ? (
+                <Text className="font-sans text-[14px] leading-[18px] text-fg-muted">
+                  {description}
+                </Text>
+              ) : null}
+            </View>
+            {onClose ? (
+              <Pressable accessibilityRole="button" accessibilityLabel="Fechar sheet" onPress={onClose}>
+                <Icon name="close" size={24} color={colors.text.secondary} />
+              </Pressable>
             ) : null}
           </View>
           <View className="h-px w-full bg-border-default" />

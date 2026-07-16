@@ -10,6 +10,7 @@ export * from './DestinationCard';
 export * from './LikeButton';
 export * from './OfferCard';
 export * from './PhotoGrid';
+export * from './PreferenceTile';
 export * from './QuickAction';
 export * from './RadioOption';
 export * from './RoteiroDayCard';

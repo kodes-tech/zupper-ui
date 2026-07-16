@@ -31,4 +31,12 @@ describe('Button', () => {
     expect(screen.getByText('Sair da minha conta zupper')).toBeOnTheScreen();
     expect(screen.getByTestId('button-container')).toBeOnTheScreen();
   });
+
+  it('renders the disabled state and blocks presses regardless of variant', async () => {
+    const onPress = jest.fn();
+    await render(<Button label="Avançar" variant="primary" disabled onPress={onPress} />);
+    expect(screen.getByTestId('button-container')).toBeOnTheScreen();
+    await fireEvent.press(screen.getByTestId('button'));
+    expect(onPress).not.toHaveBeenCalled();
+  });
 });

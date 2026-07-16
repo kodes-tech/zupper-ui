@@ -39,9 +39,22 @@ const containerClassByVariant = {
   ghost: 'flex-row items-center justify-center gap-md rounded-pill px-screenMargin py-lg',
 } as const;
 
+// Estado "Disabled" (eixo State do Button no Figma) — mesma aparência neutra
+// independente da variante, por isso sobrepõe borda/texto em vez de compor.
+// Fundo branco explícito (bg-surface-default): sem ele o botão fica
+// transparente e herda o cinza da tela por trás.
+const disabledContainerClass =
+  'flex-row items-center justify-center gap-md rounded-pill border border-border-default bg-surface-default px-screenMargin py-md';
+
+// `buttonLabel`/`buttonLabelLg` (tokens) são Bold, mas o rótulo do botão no
+// Figma é sempre Satoshi:Medium (Avançar, Concluir, Publicar, Continuar
+// respondendo…) — compõe direto em vez do preset pra não herdar o peso errado.
+const LABEL_BASE = 'font-sans text-lg font-medium leading-[24px] tracking-[0.32px]';
+const disabledLabelClass = `${LABEL_BASE} text-fg-muted`;
+
 const labelClassByVariant: Record<ButtonVariant, string> = {
-  primary: 'font-sans text-buttonLabel text-fg-inverse',
-  secondary: 'font-sans text-buttonLabelLg text-brand-zupper',
+  primary: `${LABEL_BASE} text-fg-inverse`,
+  secondary: `${LABEL_BASE} text-brand-zupper`,
   ghost: 'font-sans text-buttonLabel text-feedback-danger',
 };
 
@@ -58,22 +71,32 @@ export const Button = ({
   iconPosition = 'right',
   variant = 'primary',
   fullWidth = false,
+  disabled,
   ...rest
 }: ButtonProps) => {
   const content = (
     <>
       {icon && iconPosition === 'left' ? icon : null}
-      {label ? <Text className={labelClassByVariant[variant]}>{label}</Text> : null}
+      {label ? (
+        <Text className={disabled ? disabledLabelClass : labelClassByVariant[variant]}>
+          {label}
+        </Text>
+      ) : null}
       {icon && iconPosition === 'right' ? icon : null}
     </>
   );
 
-  if (variant === 'secondary' || variant === 'ghost') {
+  if (disabled || variant === 'secondary' || variant === 'ghost') {
     return (
-      <Pressable testID="button" className={fullWidth ? 'w-full' : undefined} {...rest}>
+      <Pressable
+        testID="button"
+        className={fullWidth ? 'w-full' : undefined}
+        disabled={disabled}
+        {...rest}
+      >
         <View
           testID="button-container"
-          className={`${containerClassByVariant[variant]} ${fullWidth ? 'w-full' : ''}`}
+          className={`${disabled ? disabledContainerClass : containerClassByVariant[variant as 'secondary' | 'ghost']} ${fullWidth ? 'w-full' : ''}`}
         >
           {content}
         </View>

@@ -39,7 +39,7 @@ export const CancelOrder = ({
   overlay,
 }: CancelOrderProps): React.ReactElement => (
   <View className="flex-1 bg-surface-tag">
-    <View className="flex-row items-center gap-lg bg-surface-default px-xxl py-xl">
+    <View className="flex-row items-center gap-[44px] bg-surface-default px-xxl pb-xs pt-[52px]">
       <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={onBack}>
         <Icon name="back-arrow" size={24} />
       </Pressable>
@@ -60,7 +60,11 @@ export const CancelOrder = ({
 
         <View className="gap-md">
           <Text className="font-sans text-caption text-fg-subtle">Digite o número do pedido</Text>
-          <View className="flex-row items-center gap-md rounded-md border border-border-default bg-surface-default px-md py-lg">
+          <View
+            className={`flex-row items-center gap-md rounded-md border bg-surface-default px-md py-lg ${
+              orderNumberValue ? 'border-brand-strong' : 'border-border-default'
+            }`}
+          >
             <Icon name="search-outline" size={24} />
             <TextInput
               value={orderNumberValue}
@@ -71,6 +75,7 @@ export const CancelOrder = ({
               selectionColor={colors.surface.selection}
               className="flex-1 font-sans text-paragraphMd text-fg-secondary web:outline-none"
             />
+            <Icon name="info-circle" size={24} color={colors.border.default} />
           </View>
         </View>
 

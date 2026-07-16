@@ -85,3 +85,4 @@ export { default as BaggageNone } from './BaggageNone';
 export { default as Close } from './Close';
 export { default as WarningTriangle } from './WarningTriangle';
 export { default as SuccessCheck } from './SuccessCheck';
+export { default as InfoCircle } from './InfoCircle';

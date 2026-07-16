@@ -14,5 +14,6 @@ export * from './DestinationDetails';
 export * from './Destinations';
 export * from './Feed';
 export * from './MyAccount';
+export * from './OrderDetails';
 export * from './Orders';
 export * from './PublishContent';

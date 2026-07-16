@@ -73,3 +73,8 @@ export { default as Filter } from './Filter';
 export { default as CheckboxChecked } from './CheckboxChecked';
 export { default as CheckboxUnchecked } from './CheckboxUnchecked';
 export { default as SearchOutline } from './SearchOutline';
+// Detalhes do Pedido — voo (trecho, e-ticket/localizador, política flexível).
+export { default as Ticket } from './Ticket';
+export { default as NoCancel } from './NoCancel';
+export { default as FareChange } from './FareChange';
+export { default as FlightPath } from './FlightPath';

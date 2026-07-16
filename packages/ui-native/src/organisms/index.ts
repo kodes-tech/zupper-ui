@@ -2,6 +2,7 @@
 export * from './BottomNav';
 export * from './BottomSheet';
 export * from './CommunityCTA';
+export * from './FlightLegCard';
 export * from './GreetingHeader';
 export * from './NotInterestedSheet';
 export * from './OrderCard';

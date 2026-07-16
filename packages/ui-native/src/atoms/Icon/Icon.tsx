@@ -85,6 +85,10 @@ const registry = {
   'checkbox-checked': Svgs.CheckboxChecked,
   'checkbox-unchecked': Svgs.CheckboxUnchecked,
   'search-outline': Svgs.SearchOutline,
+  ticket: Svgs.Ticket,
+  'no-cancel': Svgs.NoCancel,
+  'fare-change': Svgs.FareChange,
+  'flight-path': Svgs.FlightPath,
 } as const;
 
 export type IconName = keyof typeof registry;

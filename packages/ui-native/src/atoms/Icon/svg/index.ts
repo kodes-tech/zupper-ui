@@ -57,3 +57,32 @@ export { default as TabFotosInactive } from './TabFotosInactive';
 export { default as TabRoteirosActive } from './TabRoteirosActive';
 export { default as TabRoteirosInactive } from './TabRoteirosInactive';
 export { default as Verified } from './Verified';
+// Pedidos (customer-order) — ícones extraídos do zupper-app.
+export { default as OrderFlight } from './OrderFlight';
+export { default as OrderHotel } from './OrderHotel';
+export { default as OrderPackage } from './OrderPackage';
+export { default as OrderStepDone } from './OrderStepDone';
+export { default as OrderStepPending } from './OrderStepPending';
+export { default as OrderStepFailed } from './OrderStepFailed';
+export { default as OrderTimelineConnector } from './OrderTimelineConnector';
+export { default as OrderFallbackImage } from './OrderFallbackImage';
+export { default as OrderEmpty } from './OrderEmpty';
+export { default as ZLogo } from './ZLogo';
+// Pedidos — header/busca/filtro do "Meus pedidos - Logado".
+export { default as Filter } from './Filter';
+export { default as CheckboxChecked } from './CheckboxChecked';
+export { default as CheckboxUnchecked } from './CheckboxUnchecked';
+export { default as SearchOutline } from './SearchOutline';
+// Detalhes do Pedido — voo (trecho, e-ticket/localizador, política flexível).
+export { default as Ticket } from './Ticket';
+export { default as NoCancel } from './NoCancel';
+export { default as FareChange } from './FareChange';
+export { default as FlightPath } from './FlightPath';
+export { default as BaggagePersonal } from './BaggagePersonal';
+export { default as BaggageCarryOn } from './BaggageCarryOn';
+export { default as BaggageNone } from './BaggageNone';
+// Cancelamento de pedido.
+export { default as Close } from './Close';
+export { default as WarningTriangle } from './WarningTriangle';
+export { default as SuccessCheck } from './SuccessCheck';
+export { default as InfoCircle } from './InfoCircle';

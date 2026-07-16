@@ -20,14 +20,23 @@ const items: { key: BottomNavKey; icon: IconName; label: string }[] = [
 
 /**
  * BottomNav — barra inferior (Início/Reservar/Pedidos/Conta). O item ativo fica
- * com o label em destaque; o ícone de Início troca entre ativo (marca) e neutro.
+ * com o label em destaque; os ícones de Início e Conta trocam entre ativo (marca)
+ * e neutro.
  */
 export const BottomNav = ({ active, onNavigate }: BottomNavProps): React.ReactElement => (
   <View className="w-full flex-row gap-md bg-surface-default px-screenMargin py-xl">
     {items.map((item) => {
       const isActive = item.key === active;
       const iconName: IconName =
-        item.key === 'inicio' ? (isActive ? 'nav-inicio' : 'nav-inicio-neutral') : item.icon;
+        item.key === 'inicio'
+          ? isActive
+            ? 'nav-inicio'
+            : 'nav-inicio-neutral'
+          : item.key === 'conta'
+            ? isActive
+              ? 'nav-conta-active'
+              : 'nav-conta'
+            : item.icon;
       return (
         <Pressable
           key={item.key}

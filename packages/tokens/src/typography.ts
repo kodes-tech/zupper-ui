@@ -19,6 +19,7 @@ export const fontSize = {
   lg: 16,
   xl: 20,
   xxl: 24,
+  xxxl: 28,
 } as const;
 
 /**
@@ -30,6 +31,15 @@ export const textVariant = {
   badge: { fontFamily, fontSize: fontSize.xs, fontWeight: fontWeight.medium, lineHeight: 16 },
   actionLabel: { fontFamily, fontSize: fontSize.xs, fontWeight: fontWeight.bold, lineHeight: 16 },
   caption: { fontFamily, fontSize: fontSize.xs, fontWeight: fontWeight.medium, lineHeight: 16 },
+  // "App/Paragrafo MD - App" do Figma (Satoshi Medium 14 / lh20 / 2%). Label e
+  // texto de campo nas telas de auth (Login/Cadastro/Senha) e de Pedidos.
+  paragraphMd: {
+    fontFamily,
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.medium,
+    lineHeight: 20,
+    letterSpacing: 0.28,
+  },
   authorName: {
     fontFamily,
     fontSize: fontSize.md,
@@ -71,6 +81,14 @@ export const textVariant = {
     fontWeight: fontWeight.bold,
     lineHeight: 24,
     letterSpacing: 0.48,
+  },
+  // "App/H1 - App" do Figma — título das telas de auth (Login, Cadastro, Senha).
+  authTitle: {
+    fontFamily,
+    fontSize: fontSize.xxxl,
+    fontWeight: fontWeight.bold,
+    lineHeight: 36,
+    letterSpacing: 0.56,
   },
   bodyMd: {
     fontFamily,

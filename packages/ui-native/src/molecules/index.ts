@@ -2,6 +2,7 @@
 export * from './AccountGreeting';
 export * from './AccountRow';
 export * from './AccountSection';
+export * from './AuthTextField';
 export * from './CommentInput';
 export * from './CommentThread';
 export * from './ContentAuthor';
@@ -16,4 +17,5 @@ export * from './SearchField';
 export * from './SelectField';
 export * from './SheetOption';
 export * from './SocialBar';
+export * from './SocialLoginButton';
 export * from './StatusBanner';

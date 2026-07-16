@@ -57,3 +57,11 @@ export { default as TabFotosInactive } from './TabFotosInactive';
 export { default as TabRoteirosActive } from './TabRoteirosActive';
 export { default as TabRoteirosInactive } from './TabRoteirosInactive';
 export { default as Verified } from './Verified';
+// Cadastro / Login / Senha (auth).
+export { default as Email } from './Email';
+export { default as Lock } from './Lock';
+export { default as Eye } from './Eye';
+export { default as EyeSlash } from './EyeSlash';
+export { default as FacebookLogo } from './FacebookLogo';
+export { default as AppleLogo } from './AppleLogo';
+export { default as ZSymbol } from './ZSymbol';

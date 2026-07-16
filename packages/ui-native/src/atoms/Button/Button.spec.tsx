@@ -31,4 +31,18 @@ describe('Button', () => {
     expect(screen.getByText('Sair da minha conta zupper')).toBeOnTheScreen();
     expect(screen.getByTestId('button-container')).toBeOnTheScreen();
   });
+
+  it('renders the disabled primary variant without the gradient', async () => {
+    const onPress = jest.fn();
+    await render(<Button label="Fazer login" disabled onPress={onPress} />);
+    expect(screen.getByText('Fazer login')).toBeOnTheScreen();
+    expect(screen.queryByTestId('button-gradient')).not.toBeOnTheScreen();
+    await fireEvent.press(screen.getByTestId('button'));
+    expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it('renders the disabled secondary variant', async () => {
+    await render(<Button label="Solicitar nova senha" variant="secondary" disabled />);
+    expect(screen.getByText('Solicitar nova senha')).toBeOnTheScreen();
+  });
 });

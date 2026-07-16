@@ -1,0 +1,12 @@
+import * as React from 'react';
+import Svg, { Path } from 'react-native-svg';
+import type { SvgProps } from 'react-native-svg';
+const SvgFacebookLogo = (props: SvgProps) => (
+  <Svg fill="none" viewBox="0 0 16 15.9414" {...props}>
+    <Path
+      fill="#0866FF"
+      d="M16 8C16 3.58176 12.4182 0 8 0C3.58176 0 0 3.58176 0 8C0 11.7517 2.58304 14.8998 6.06752 15.7645V10.4448H4.4176V8H6.06752V6.94656C6.06752 4.22368 7.29952 2.9616 9.97152 2.9616C10.4784 2.9616 11.353 3.0608 11.7107 3.16032V5.376C11.5219 5.35616 11.1939 5.34624 10.7866 5.34624C9.47456 5.34624 8.968 5.8432 8.968 7.13504V7.99904H11.584L11.136 10.4438H8.96928V15.9414C12.9302 15.463 16 12.0902 16 8Z"
+    />
+  </Svg>
+);
+export default SvgFacebookLogo;

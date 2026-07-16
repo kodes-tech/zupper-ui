@@ -78,6 +78,8 @@ const registry = {
   'user-circle': Svgs.UserCircle,
   'warning-triangle': Svgs.WarningTriangle,
   'success-check': Svgs.SuccessCheck,
+  'close-circle': Svgs.CloseCircle,
+  'password-reset-success': Svgs.PasswordResetSuccess,
 } as const;
 
 export type IconName = keyof typeof registry;

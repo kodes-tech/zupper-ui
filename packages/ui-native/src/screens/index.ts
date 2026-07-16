@@ -17,5 +17,8 @@ export * from './Feed';
 export * from './ForgotPassword';
 export * from './Login';
 export * from './MyAccount';
+export * from './PasswordResetSuccess';
 export * from './PublishContent';
+export * from './ResetPassword';
 export * from './SignUp';
+export * from './SignUpPassword';

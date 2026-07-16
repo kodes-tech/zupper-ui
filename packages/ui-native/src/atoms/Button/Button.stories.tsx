@@ -35,5 +35,15 @@ export const SecondaryWithIcon = {
 
 export const Ghost = { args: { label: 'Sair da minha conta zupper', variant: 'ghost' } };
 
+// tone="highlight" — CTAs de baixa ênfase dos sheets de denúncia.
+export const SecondaryHighlight = {
+  args: { label: 'Entenda as regras da comunidade', variant: 'secondary', tone: 'highlight' },
+};
+export const GhostHighlight = {
+  args: { label: 'Cancelar', variant: 'ghost', tone: 'highlight' },
+};
+
+export const Danger = { args: { label: 'Denunciar publicação', variant: 'danger', fullWidth: true } };
+
 // Botão de largura total, usado no CTA "Publicar" dos formulários.
 export const FullWidth = { args: { label: 'Publicar', fullWidth: true } };

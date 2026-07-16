@@ -9,9 +9,10 @@ const reasons = [
 describe('ReportReasonsSheet', () => {
   it('renders the sheet title and every reason', async () => {
     await render(<ReportReasonsSheet reasons={reasons} />);
-    expect(screen.getByText('Por que você está denunciando?')).toBeOnTheScreen();
+    expect(screen.getByText('Denunciar publicação')).toBeOnTheScreen();
     expect(screen.getByText('Spam ou propaganda enganosa')).toBeOnTheScreen();
     expect(screen.getByText('Golpe ou fraude')).toBeOnTheScreen();
+    expect(screen.getByText('Cancelar denúncia')).toBeOnTheScreen();
   });
 
   it('fires onSelectReason with the reason id', async () => {
@@ -19,5 +20,12 @@ describe('ReportReasonsSheet', () => {
     await render(<ReportReasonsSheet reasons={reasons} onSelectReason={onSelectReason} />);
     await fireEvent.press(screen.getByText('Golpe ou fraude'));
     expect(onSelectReason).toHaveBeenCalledWith('golpe');
+  });
+
+  it('fires onCancelReport', async () => {
+    const onCancelReport = jest.fn();
+    await render(<ReportReasonsSheet reasons={reasons} onCancelReport={onCancelReport} />);
+    await fireEvent.press(screen.getByText('Cancelar denúncia'));
+    expect(onCancelReport).toHaveBeenCalled();
   });
 });

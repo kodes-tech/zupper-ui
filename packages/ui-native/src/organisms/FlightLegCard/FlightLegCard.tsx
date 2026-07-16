@@ -1,6 +1,5 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
-import type { ImageSourcePropType } from 'react-native';
+import { Text, View } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 
@@ -14,10 +13,11 @@ export type FlightLegAirport = {
 
 export type FlightLegAirline = {
   name: string;
-  logo?: ImageSourcePropType;
+  /** Selo/logo da companhia — fornecido pelo app consumidor (ex.: `<Image>`). */
+  logo?: React.ReactNode;
   /** Companhia operadora, quando diferente da vendedora (código-compartilhado). */
   operatedByName?: string;
-  operatedByLogo?: ImageSourcePropType;
+  operatedByLogo?: React.ReactNode;
 };
 
 export type FlightLegFlexiblePolicy = {
@@ -91,15 +91,13 @@ export const FlightLegCard = ({
     <View className="flex-row items-start justify-between">
       <View className="gap-xs">
         <View className="flex-row items-center gap-md">
-          {airline.logo ? <Image source={airline.logo} className="h-[32px] w-[32px] rounded-sm" /> : null}
+          {airline.logo}
           <Text className="font-sans text-paragraphMd font-bold text-fg-secondary">{airline.name}</Text>
         </View>
         {airline.operatedByName ? (
           <View className="flex-row items-center gap-xs">
             <Text className="font-sans text-caption text-fg-subtle">Operado por:</Text>
-            {airline.operatedByLogo ? (
-              <Image source={airline.operatedByLogo} className="h-[16px] w-[16px] rounded-xs" />
-            ) : null}
+            {airline.operatedByLogo}
             <Text className="font-sans text-caption text-fg-subtle">{airline.operatedByName}</Text>
           </View>
         ) : null}
@@ -141,14 +139,14 @@ export const FlightLegCard = ({
       </View>
     </View>
 
-    <View className="flex-row items-start justify-between">
-      <View>
+    <View className="flex-row items-start justify-between gap-lg">
+      <View className="flex-1">
         <Text className="font-sans text-paragraphMd font-bold text-fg-secondary">{departure.code}</Text>
         <Text className="font-sans text-caption text-fg-subtle">{departure.name}</Text>
       </View>
-      <View className="items-end">
+      <View className="flex-1 items-end">
         <Text className="font-sans text-paragraphMd font-bold text-fg-secondary">{arrival.code}</Text>
-        <Text className="font-sans text-caption text-fg-subtle">{arrival.name}</Text>
+        <Text className="text-right font-sans text-caption text-fg-subtle">{arrival.name}</Text>
       </View>
     </View>
 
@@ -156,13 +154,13 @@ export const FlightLegCard = ({
 
     <View className="flex-row items-center justify-between">
       <View className="flex-row items-center gap-xs">
-        <Icon name="ticket" size={24} color={colors.text.subtle} />
         <View>
           <Text className="font-sans text-paragraphMd text-fg-subtle">
             Localizador {directionSuffix[direction]}
           </Text>
           <Text className="font-sans text-[20px] font-bold text-fg-secondary">{locator}</Text>
         </View>
+        <Icon name="ticket" size={24} color={colors.text.subtle} />
       </View>
       <View className="flex-row items-center gap-xs">
         <View className="items-end">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { FlightLegCard } from './FlightLegCard';
 
 export default {
@@ -8,11 +8,22 @@ export default {
   decorators: [(Story: React.ComponentType) => <View style={{ width: 375, padding: 16 }}><Story /></View>],
 };
 
+/** Monograma genérico — placeholder de demonstração (o app consumidor fornece o logo real da companhia). */
+const AirlineLogo = ({ initials, size = 32 }: { initials: string; size?: number }) => (
+  <View
+    style={{ width: size, height: size, borderRadius: 4, backgroundColor: '#737373', alignItems: 'center', justifyContent: 'center' }}
+  >
+    <Text style={{ color: '#fff', fontSize: size * 0.4, fontWeight: 'bold' }}>{initials}</Text>
+  </View>
+);
+
 const base = {
   dateLabel: 'Qua, 24 de maio 2024',
   airline: {
     name: 'Gol airlines',
+    logo: <AirlineLogo initials="G" />,
     operatedByName: 'Latam Airlines',
+    operatedByLogo: <AirlineLogo initials="L" size={16} />,
   },
   flightNumber: 'LA522',
   flightClass: 'Econômica',

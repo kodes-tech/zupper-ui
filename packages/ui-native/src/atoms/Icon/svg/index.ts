@@ -78,3 +78,6 @@ export { default as Ticket } from './Ticket';
 export { default as NoCancel } from './NoCancel';
 export { default as FareChange } from './FareChange';
 export { default as FlightPath } from './FlightPath';
+export { default as BaggagePersonal } from './BaggagePersonal';
+export { default as BaggageCarryOn } from './BaggageCarryOn';
+export { default as BaggageNone } from './BaggageNone';

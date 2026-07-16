@@ -20,11 +20,10 @@ const baseProps: OrderDetailsProps = {
 };
 
 describe('OrderDetails', () => {
-  it('renders the order header, trip summary and timeline', async () => {
+  it('renders the order number in the header and summary', async () => {
     await render(<OrderDetails {...baseProps} />);
-    expect(screen.getByText('Detalhes do pedido')).toBeOnTheScreen();
+    expect(screen.getByText('Pedido #2151215')).toBeOnTheScreen();
     expect(screen.getByText('Voo Ida e Volta')).toBeOnTheScreen();
-    expect(screen.getByText('#2151215')).toBeOnTheScreen();
     expect(screen.getByText('São Paulo - São José dos Campos')).toBeOnTheScreen();
     expect(screen.getByText('Pedido recebido')).toBeOnTheScreen();
     expect(screen.getByText('Emitido parcial')).toBeOnTheScreen();
@@ -60,28 +59,63 @@ describe('OrderDetails', () => {
     expect(onPressChangePayment).toHaveBeenCalledTimes(1);
   });
 
-  it('renders a FlightLegCard per flight', async () => {
+  const flight = {
+    direction: 'ida' as const,
+    dateLabel: 'Qua, 24 de maio 2024',
+    airline: { name: 'Gol airlines' },
+    flightNumber: 'LA522',
+    flightClass: 'Econômica',
+    aircraftModel: 'Boeing 747',
+    departure: { time: '11:30', dateLabel: 'Qua, 24 maio', city: 'Florianópolis, SC', code: 'FLN', name: 'Aeroporto Internacional Hercílio Luz' },
+    arrival: { time: '12:55', dateLabel: 'Qua, 24 maio', city: 'Congonhas, SP', code: 'CGH', name: 'Aeroporto Internacional de Congonhas' },
+    duration: '1h50',
+    locator: 'SWOK2A',
+    eTicket: 'SWOK2A',
+  };
+
+  it('renders the "Detalhes do seu voo" title and a FlightLegCard per flight', async () => {
+    await render(<OrderDetails {...baseProps} flights={[flight]} />);
+    expect(screen.getByText('Detalhes do seu voo')).toBeOnTheScreen();
+    expect(screen.getByText('Voo de ida')).toBeOnTheScreen();
+    expect(screen.getByText('Gol airlines')).toBeOnTheScreen();
+  });
+
+  it('renders the baggage card for a flight that has it', async () => {
     await render(
       <OrderDetails
         {...baseProps}
         flights={[
           {
-            direction: 'ida',
-            dateLabel: 'Qua, 24 de maio 2024',
-            airline: { name: 'Gol airlines' },
-            flightNumber: 'LA522',
-            flightClass: 'Econômica',
-            aircraftModel: 'Boeing 747',
-            departure: { time: '11:30', dateLabel: 'Qua, 24 maio', city: 'Florianópolis, SC', code: 'FLN', name: 'Aeroporto Internacional Hercílio Luz' },
-            arrival: { time: '12:55', dateLabel: 'Qua, 24 maio', city: 'Congonhas, SP', code: 'CGH', name: 'Aeroporto Internacional de Congonhas' },
-            duration: '1h50',
-            locator: 'SWOK2A',
-            eTicket: 'SWOK2A',
+            ...flight,
+            baggage: [{ icon: 'baggage-personal', title: 'Inclui uma mochila ou bolsa', description: 'Tamanho limitado.' }],
           },
         ]}
       />,
     );
-    expect(screen.getByText('Voo de ida')).toBeOnTheScreen();
-    expect(screen.getByText('Gol airlines')).toBeOnTheScreen();
+    expect(screen.getByText('Bagagem')).toBeOnTheScreen();
+    expect(screen.getByText('Inclui uma mochila ou bolsa')).toBeOnTheScreen();
+  });
+
+  it('renders payment details, payment method, travelers and important info', async () => {
+    await render(
+      <OrderDetails
+        {...baseProps}
+        paymentDetails={[
+          { label: 'Tarifa por adulto', value: 'R$ 856,12' },
+          { label: 'TOTAL A PAGAR', value: 'R$ 1.255,12', emphasized: true },
+        ]}
+        paymentMethod={{ methodLabel: 'PIX', rows: [{ label: 'Pagamento via PIX', value: '1x de R$ 1.255,12' }] }}
+        travelers={[{ role: 'Adulto 1', name: 'Maria Joaquina Silva, 30/11/1991' }]}
+        importantInfo={['Alterações de nome não são permitidas.']}
+      />,
+    );
+    expect(screen.getByText('Detalhes do pagamento')).toBeOnTheScreen();
+    expect(screen.getByText('TOTAL A PAGAR')).toBeOnTheScreen();
+    expect(screen.getByText('Forma de pagamento')).toBeOnTheScreen();
+    expect(screen.getByText('PIX')).toBeOnTheScreen();
+    expect(screen.getByText('Viajantes')).toBeOnTheScreen();
+    expect(screen.getByText('Maria Joaquina Silva, 30/11/1991')).toBeOnTheScreen();
+    expect(screen.getByText('Informações importantes')).toBeOnTheScreen();
+    expect(screen.getByText('Alterações de nome não são permitidas.')).toBeOnTheScreen();
   });
 });

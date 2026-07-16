@@ -43,11 +43,11 @@ export const BottomSheet = ({
         <View className="h-[4px] w-[40px] rounded-pill bg-border-default" />
       </View>
 
-      {title ? (
+      {title || onClose ? (
         <>
           <View className="flex-row items-center justify-between gap-md px-screenMargin pb-lg pt-md">
             <View className="flex-1 gap-xs">
-              <Text className="font-sans text-[17px] font-bold text-fg-primary">{title}</Text>
+              {title ? <Text className="font-sans text-[17px] font-bold text-fg-primary">{title}</Text> : null}
               {description ? (
                 <Text className="font-sans text-[14px] leading-[18px] text-fg-muted">
                   {description}

@@ -21,4 +21,3 @@ export * from './PasswordResetSuccess';
 export * from './PublishContent';
 export * from './ResetPassword';
 export * from './SignUp';
-export * from './SignUpPassword';

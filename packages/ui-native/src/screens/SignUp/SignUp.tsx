@@ -2,14 +2,32 @@ import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 import { AuthTextField } from '../../molecules/AuthTextField';
+import { PasswordRequirementsList } from '../../molecules/PasswordRequirementsList';
+import type { PasswordRequirement } from '../../molecules/PasswordRequirementsList';
 import { SocialLoginButton } from '../../molecules/SocialLoginButton';
 import { Button } from '../../atoms/Button';
 import { Icon } from '../../atoms/Icon';
 
 export type SignUpProps = {
+  nameValue?: string;
+  onChangeName?: (value: string) => void;
+  lastNameValue?: string;
+  onChangeLastName?: (value: string) => void;
   emailValue?: string;
   onChangeEmail?: (value: string) => void;
-  /** Habilita "Criar conta" — o app decide com base na validade do email. */
+  passwordValue?: string;
+  onChangePassword?: (value: string) => void;
+  passwordVisible?: boolean;
+  onTogglePasswordVisibility?: () => void;
+  confirmPasswordValue?: string;
+  onChangeConfirmPassword?: (value: string) => void;
+  confirmPasswordVisible?: boolean;
+  onToggleConfirmPasswordVisibility?: () => void;
+  /** Mensagem de erro (ex.: "As senhas não coincidem"). */
+  confirmPasswordError?: string;
+  /** Regras de senha (ex.: "Letra maiúscula", "8 caracteres") com o estado atendido/não atendido. */
+  requirements: PasswordRequirement[];
+  /** Habilita "Criar conta" — o app decide com base na validade do formulário. */
   canSubmit?: boolean;
   onSubmit?: () => void;
   onPressFacebook?: () => void;
@@ -34,14 +52,29 @@ const OrDivider = () => (
 );
 
 /**
- * SignUp — tela "Crie sua conta": email, CTA (desabilitado até o formulário
- * ser válido), login social (Facebook/Google/AppleID), atalho para o login e
- * os termos de aceite. Apresentacional: dados, validação e navegação entram
- * por props. Segue "Cadastro 01 - Default" do Figma.
+ * SignUp — tela "Crie sua conta": nome, sobrenome, email, senha + confirmação
+ * (com checklist de requisitos), CTA (desabilitado até o formulário ser
+ * válido), login social (Facebook/Google/AppleID), atalho para o login e os
+ * termos de aceite. Apresentacional: dados, validação e navegação entram por
+ * props. Segue "Cadastro - Default/Active" do Figma.
  */
 export const SignUp = ({
+  nameValue,
+  onChangeName,
+  lastNameValue,
+  onChangeLastName,
   emailValue,
   onChangeEmail,
+  passwordValue,
+  onChangePassword,
+  passwordVisible = false,
+  onTogglePasswordVisibility,
+  confirmPasswordValue,
+  onChangeConfirmPassword,
+  confirmPasswordVisible = false,
+  onToggleConfirmPasswordVisibility,
+  confirmPasswordError,
+  requirements,
   canSubmit = false,
   onSubmit,
   onPressFacebook,
@@ -58,16 +91,53 @@ export const SignUp = ({
         <Text className="font-sans text-authTitle text-fg-secondary">Crie sua conta</Text>
       </View>
 
-      <View className="px-xxl pt-xl">
+      <View className="gap-md px-xxl pt-xl">
+        <AuthTextField
+          label="Nome"
+          icon="user"
+          placeholder="Insira seu primeiro nome"
+          value={nameValue}
+          onChangeText={onChangeName}
+        />
+        <AuthTextField
+          label="Sobrenome"
+          icon="user"
+          placeholder="Insira seu último nome"
+          value={lastNameValue}
+          onChangeText={onChangeLastName}
+        />
         <AuthTextField
           label="Email"
           icon="email"
-          placeholder="Digite seu email"
+          placeholder="Seu email"
           keyboardType="email-address"
           autoCapitalize="none"
           value={emailValue}
           onChangeText={onChangeEmail}
         />
+        <AuthTextField
+          label="Senha"
+          icon="lock"
+          placeholder="Sua senha"
+          secureTextEntry={!passwordVisible}
+          trailingIcon={passwordVisible ? 'eye' : 'eye-slash'}
+          onPressTrailingIcon={onTogglePasswordVisibility}
+          value={passwordValue}
+          onChangeText={onChangePassword}
+        />
+        <AuthTextField
+          label="Confirmar senha"
+          icon="lock"
+          placeholder="Confirme sua senha"
+          secureTextEntry={!confirmPasswordVisible}
+          trailingIcon={confirmPasswordVisible ? 'eye' : 'eye-slash'}
+          onPressTrailingIcon={onToggleConfirmPasswordVisibility}
+          error={confirmPasswordError}
+          value={confirmPasswordValue}
+          onChangeText={onChangeConfirmPassword}
+        />
+
+        <PasswordRequirementsList requirements={requirements} />
       </View>
 
       <View className="items-center gap-xl px-xxl py-xxl">

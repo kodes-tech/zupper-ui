@@ -4,12 +4,27 @@ import { action } from '@storybook/addon-actions';
 import { SignUp } from './SignUp';
 import { SocialAccountPickerSheet } from '../../organisms/SocialAccountPickerSheet';
 import { SocialLoginFeedbackSheet } from '../../organisms/SocialLoginFeedbackSheet';
+import { EmailConfirmationSheet } from '../../organisms/EmailConfirmationSheet';
+
+const requirementsUnmet = [
+  { label: 'Letra maiúscula', met: false },
+  { label: 'Letra minúscula', met: false },
+  { label: '8 caracteres', met: false },
+  { label: 'Número e símbolo', met: false },
+];
 
 export default {
   title: 'Screens/SignUp',
   component: SignUp,
   args: {
+    requirements: requirementsUnmet,
+    onChangeName: action('onChangeName'),
+    onChangeLastName: action('onChangeLastName'),
     onChangeEmail: action('onChangeEmail'),
+    onChangePassword: action('onChangePassword'),
+    onTogglePasswordVisibility: action('onTogglePasswordVisibility'),
+    onChangeConfirmPassword: action('onChangeConfirmPassword'),
+    onToggleConfirmPasswordVisibility: action('onToggleConfirmPasswordVisibility'),
     onSubmit: action('onSubmit'),
     onPressFacebook: action('onPressFacebook'),
     onPressGoogle: action('onPressGoogle'),
@@ -40,7 +55,15 @@ export default {
 export const Vazio = { args: {} };
 
 export const Preenchido = {
-  args: { emailValue: 'johnmayer@zupper.com.br', canSubmit: true },
+  args: {
+    nameValue: 'John',
+    lastNameValue: 'Mayer',
+    emailValue: 'johnmayer@zupper.com.br',
+    passwordValue: 'Senha123!',
+    confirmPasswordValue: 'Senha123!',
+    canSubmit: true,
+    requirements: requirementsUnmet.map((r) => ({ ...r, met: true })),
+  },
 };
 
 export const EscolherContaGoogle = {
@@ -63,15 +86,45 @@ export const EscolherContaGoogle = {
   },
 };
 
-export const ContaCriadaComSucesso = {
+export const EmailConfirmacaoEnviada = {
+  args: {
+    emailValue: 'henrique@zupper.com.br',
+    canSubmit: true,
+    overlay: (
+      <EmailConfirmationSheet
+        onPressResend={action('onPressResend')}
+        onPressChangeEmail={action('onPressChangeEmail')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+export const ContaCriadaComSucessoGoogle = {
   args: {
     overlay: (
       <SocialLoginFeedbackSheet
         headerTitle="Fazer login com o Google"
         tone="success"
         title="Conta criada com sucesso"
-        description="Seja bem-vindo ao Zupper, para continuar acesse o botão abaixo e aproveite!"
+        description="Seja bem-vindo ao Zupper, agora é só aproveitar e curtir suas próximas viagens."
         ctaLabel="Entrar na minha conta"
+        onPressCta={action('onPressCta')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+export const ContaCriadaComSucessoEmail = {
+  args: {
+    overlay: (
+      <SocialLoginFeedbackSheet
+        headerTitle="Fazer login com o E-mail"
+        tone="success"
+        title="Conta criada com sucesso"
+        description="Seja bem-vindo ao Zupper, agora é só aproveitar e curtir suas próximas viagens."
+        ctaLabel="Fazer login"
         onPressCta={action('onPressCta')}
         onDismiss={action('onDismiss')}
       />

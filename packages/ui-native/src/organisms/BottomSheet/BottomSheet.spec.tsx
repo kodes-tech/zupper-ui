@@ -44,4 +44,15 @@ describe('BottomSheet', () => {
     );
     expect(screen.queryByLabelText('Fechar sheet')).not.toBeOnTheScreen();
   });
+
+  it('renders the close button even without a title (sheets with only an icon header)', async () => {
+    const onClose = jest.fn();
+    await render(
+      <BottomSheet onClose={onClose}>
+        <Text>Conteúdo</Text>
+      </BottomSheet>,
+    );
+    await fireEvent.press(screen.getByLabelText('Fechar sheet'));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });

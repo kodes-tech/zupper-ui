@@ -46,6 +46,7 @@ export const colors = {
     body: '#2E2E2E', // color/accent/dubai/800 — descrição do WelcomeBackCard
     label: '#1C1C1A', // título de campo de formulário (Input)
     subtle: '#737373', // Accents/Dubai/Dubai 500 — label do FilterChip não selecionado
+    caption: '#57534E', // Accents/Dubai/Dubai 600 — item do checklist de requisitos de senha (PasswordRequirementsList)
   },
   surface: {
     default: '#FFFFFF', // background/surface — fundo de card

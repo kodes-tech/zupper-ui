@@ -33,10 +33,22 @@ export default {
   ],
 };
 
-export const Vazio = { args: {} };
+const requirementsUnmet = [
+  { label: 'Letra maiúscula', met: false },
+  { label: 'Letra minúscula', met: false },
+  { label: '8 caracteres', met: false },
+  { label: 'Número e símbolo', met: false },
+];
+
+export const Vazio = { args: { requirements: requirementsUnmet } };
 
 export const Preenchido = {
-  args: { passwordValue: 'NovaSenha123!', confirmPasswordValue: 'NovaSenha123!', canSubmit: true },
+  args: {
+    passwordValue: 'NovaSenha123!',
+    confirmPasswordValue: 'NovaSenha123!',
+    canSubmit: true,
+    requirements: requirementsUnmet.map((r) => ({ ...r, met: true })),
+  },
 };
 
 export const SenhasNaoCoincidem = {
@@ -44,5 +56,6 @@ export const SenhasNaoCoincidem = {
     passwordValue: 'NovaSenha123!',
     confirmPasswordValue: 'OutraSenha456!',
     confirmPasswordError: 'As senhas não coincidem',
+    requirements: requirementsUnmet.map((r) => ({ ...r, met: true })),
   },
 };

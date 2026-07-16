@@ -2,6 +2,8 @@ import React from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { AuthTextField } from '../../molecules/AuthTextField';
+import { PasswordRequirementsList } from '../../molecules/PasswordRequirementsList';
+import type { PasswordRequirement } from '../../molecules/PasswordRequirementsList';
 import { Button } from '../../atoms/Button';
 import { Icon } from '../../atoms/Icon';
 
@@ -17,6 +19,8 @@ export type ResetPasswordProps = {
   onToggleConfirmPasswordVisibility?: () => void;
   /** Mensagem de erro (ex.: "As senhas não coincidem"). */
   confirmPasswordError?: string;
+  /** Regras de senha (ex.: "Letra maiúscula", "8 caracteres") com o estado atendido/não atendido. */
+  requirements: PasswordRequirement[];
   /** Habilita "Redefinir senha" — o app decide com base na validade do formulário. */
   canSubmit?: boolean;
   onSubmit?: () => void;
@@ -40,6 +44,7 @@ export const ResetPassword = ({
   confirmPasswordVisible = false,
   onToggleConfirmPasswordVisibility,
   confirmPasswordError,
+  requirements,
   canSubmit = false,
   onSubmit,
   overlay,
@@ -82,6 +87,10 @@ export const ResetPassword = ({
           value={confirmPasswordValue}
           onChangeText={onChangeConfirmPassword}
         />
+      </View>
+
+      <View className="px-xxl pt-md">
+        <PasswordRequirementsList requirements={requirements} />
       </View>
 
       <View className="px-xxl py-xxl">

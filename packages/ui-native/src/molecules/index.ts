@@ -9,6 +9,7 @@ export * from './ContentAuthor';
 export * from './DestinationCard';
 export * from './LikeButton';
 export * from './OfferCard';
+export * from './PasswordRequirementsList';
 export * from './PhotoGrid';
 export * from './QuickAction';
 export * from './RoteiroDayCard';

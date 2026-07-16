@@ -1,3 +1,4 @@
+import { Text } from 'react-native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { ForgotPassword } from './ForgotPassword';
 
@@ -27,5 +28,10 @@ describe('ForgotPassword', () => {
     await render(<ForgotPassword onPressBackToLogin={onPressBackToLogin} />);
     await fireEvent.press(screen.getByText('Voltar para o login'));
     expect(onPressBackToLogin).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders the overlay when provided', async () => {
+    await render(<ForgotPassword overlay={<Text>Sheet aberto</Text>} />);
+    expect(screen.getByText('Sheet aberto')).toBeOnTheScreen();
   });
 });

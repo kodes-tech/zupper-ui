@@ -13,6 +13,11 @@ export type ForgotPasswordProps = {
   canSubmit?: boolean;
   onSubmit?: () => void;
   onPressBackToLogin?: () => void;
+  /**
+   * Camada sobreposta à tela — o sheet aberto no momento (instruções
+   * enviadas, erro ao enviar). Quem controla qual sheet está aberto é o app.
+   */
+  overlay?: React.ReactNode;
 };
 
 /**
@@ -28,6 +33,7 @@ export const ForgotPassword = ({
   canSubmit = false,
   onSubmit,
   onPressBackToLogin,
+  overlay,
 }: ForgotPasswordProps): React.ReactElement => (
   <View className="flex-1 bg-surface-tag">
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
@@ -62,5 +68,7 @@ export const ForgotPassword = ({
         <Button label="Voltar para o login" fullWidth onPress={onPressBackToLogin} />
       </View>
     </ScrollView>
+
+    {overlay}
   </View>
 );

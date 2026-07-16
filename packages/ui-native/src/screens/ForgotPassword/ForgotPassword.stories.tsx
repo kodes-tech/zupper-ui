@@ -2,6 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { action } from '@storybook/addon-actions';
 import { ForgotPassword } from './ForgotPassword';
+import { PasswordResetEmailSentSheet } from '../../organisms/PasswordResetEmailSentSheet';
+import { PasswordResetErrorSheet } from '../../organisms/PasswordResetErrorSheet';
 
 export default {
   title: 'Screens/ForgotPassword',
@@ -35,4 +37,27 @@ export const Vazio = { args: {} };
 
 export const Preenchido = {
   args: { emailValue: 'johnmayer@gmail.com', canSubmit: true },
+};
+
+export const InstrucoesEnviadas = {
+  args: {
+    emailValue: 'johnmayer@gmail.com',
+    canSubmit: true,
+    overlay: (
+      <PasswordResetEmailSentSheet
+        onPressLogin={action('onPressLogin')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+export const ErroAoEnviar = {
+  args: {
+    emailValue: 'johnmayer@gmail.com',
+    canSubmit: true,
+    overlay: (
+      <PasswordResetErrorSheet onPressRetry={action('onPressRetry')} onDismiss={action('onDismiss')} />
+    ),
+  },
 };

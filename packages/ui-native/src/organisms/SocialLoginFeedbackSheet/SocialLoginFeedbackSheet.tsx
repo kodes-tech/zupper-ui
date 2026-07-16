@@ -36,7 +36,7 @@ export const SocialLoginFeedbackSheet = ({
       <StatusMessage tone={tone} title={title} description={description} />
     </View>
     <View className="w-full px-xxl">
-      <Button variant="secondary" label={ctaLabel} onPress={onPressCta} fullWidth />
+      <Button variant={tone === 'success' ? 'primary' : 'secondary'} label={ctaLabel} onPress={onPressCta} fullWidth />
     </View>
   </BottomSheet>
 );

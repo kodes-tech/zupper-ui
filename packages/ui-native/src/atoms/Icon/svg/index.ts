@@ -71,3 +71,5 @@ export { default as WarningTriangle } from './WarningTriangle';
 export { default as SuccessCheck } from './SuccessCheck';
 export { default as CloseCircle } from './CloseCircle';
 export { default as PasswordResetSuccess } from './PasswordResetSuccess';
+export { default as User } from './User';
+export { default as EmailSent } from './EmailSent';

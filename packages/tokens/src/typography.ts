@@ -114,6 +114,14 @@ export const textVariant = {
     fontWeight: fontWeight.bold,
     lineHeight: 20,
   },
+  // Saudação da Home do travel ("Olá, viajante"). Extraído do código do
+  // zupper-app: fontSize500 = 27px, bold, neutral[700] (cor vai por classe).
+  greetingTitle: {
+    fontFamily,
+    fontSize: 27,
+    fontWeight: fontWeight.bold,
+    lineHeight: 34,
+  },
 } as const satisfies Record<string, TextStyle>;
 
 /** Objeto agregado — acesso ergonômico único (`typography.family`, `typography.textVariant.heading`). */

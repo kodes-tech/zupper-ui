@@ -21,6 +21,7 @@ export default tseslint.config(
       '**/jest.setup.ts',
       '**/nativewind-env.d.ts',
       '**/_figma/**',
+      '**/_zupper-app/**',
     ],
   },
   js.configs.recommended,

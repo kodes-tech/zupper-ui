@@ -1,12 +1,12 @@
 <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="Grupo 8265">
 <g id="Grupo 8264">
-<path id="Ret&#195;&#162;ngulo 529" d="M18.2221 8.03235H5.77766C4.79582 8.03235 3.99988 8.82828 3.99988 9.81012V17.3657C3.99988 18.3475 4.79582 19.1435 5.77766 19.1435H18.2221C19.2039 19.1435 19.9999 18.3475 19.9999 17.3657V9.81012C19.9999 8.82828 19.2039 8.03235 18.2221 8.03235Z" stroke="var(--stroke-0, #2E2E2E)" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Caminho 5731" d="M15.2398 8.03266V6.63422C15.2398 6.16273 15.0525 5.71067 14.7191 5.37728C14.3857 5.04388 13.9336 4.85644 13.4621 4.85644H10.5376C10.0661 4.85644 9.61393 5.04388 9.28053 5.37728C8.94713 5.71067 8.75981 6.16273 8.75981 6.63422V8.03266" stroke="var(--stroke-0, #2E2E2E)" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Linha 113" d="M7.99984 8.03235V19.1435" stroke="var(--stroke-0, #2E2E2E)" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Linha 114" d="M15.9998 12.9212V8.03235" stroke="var(--stroke-0, #2E2E2E)" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Ret&#195;&#162;ngulo 530" d="M17.3333 12.9213H12.8888V15.588H17.3333V12.9213Z" stroke="var(--stroke-0, #2E2E2E)" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Linha 115" d="M15.9998 19.1435V15.588" stroke="var(--stroke-0, #2E2E2E)" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Ret&#195;&#162;ngulo 529" d="M18.2221 8.03235H5.77766C4.79582 8.03235 3.99988 8.82828 3.99988 9.81012V17.3657C3.99988 18.3475 4.79582 19.1435 5.77766 19.1435H18.2221C19.2039 19.1435 19.9999 18.3475 19.9999 17.3657V9.81012C19.9999 8.82828 19.2039 8.03235 18.2221 8.03235Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Caminho 5731" d="M15.2398 8.03266V6.63422C15.2398 6.16273 15.0525 5.71067 14.7191 5.37728C14.3857 5.04388 13.9336 4.85644 13.4621 4.85644H10.5376C10.0661 4.85644 9.61393 5.04388 9.28053 5.37728C8.94713 5.71067 8.75981 6.16273 8.75981 6.63422V8.03266" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Linha 113" d="M7.99984 8.03235V19.1435" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Linha 114" d="M15.9998 12.9212V8.03235" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Ret&#195;&#162;ngulo 530" d="M17.3333 12.9213H12.8888V15.588H17.3333V12.9213Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Linha 115" d="M15.9998 19.1435V15.588" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <g id="Ret&#195;&#162;ngulo 531">
 </g>

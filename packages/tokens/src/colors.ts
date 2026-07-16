@@ -25,6 +25,9 @@ export const colors = {
     // Gradients/Button (Figma) — #4CBAC7 → #009DAF. Usado no botão de busca
     // redondo (SearchInput) e no Button/FAB de ação primária (Publicar etc.).
     button: ['#4CBAC7', '#009DAF'],
+    // CTA "Pesquisar" do motor de busca (travel). Extraído do código do
+    // zupper-app (era hardcoded via gradientColors na Home) — virou token aqui.
+    searchCta: ['#FB923C', '#FFCE00'],
   },
   partner: {
     surface: '#FFCE00', // início do gradiente — para consumidores sem gradiente
@@ -66,6 +69,8 @@ export const colors = {
     warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
+    successSurface: '#D5EDDD', // Accents/Amazon 100 — pill "em até Nx" do card de hotel
+    successStrong: '#059669', // Accents/Amazon 600 — texto/ícone da pill de parcelamento
   },
 } as const;
 

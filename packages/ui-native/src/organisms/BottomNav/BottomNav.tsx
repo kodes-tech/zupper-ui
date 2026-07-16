@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 import type { IconName } from '../../atoms/Icon';
 
@@ -20,14 +21,13 @@ const items: { key: BottomNavKey; icon: IconName; label: string }[] = [
 
 /**
  * BottomNav — barra inferior (Início/Reservar/Pedidos/Conta). O item ativo fica
- * com o label em destaque; o ícone de Início troca entre ativo (marca) e neutro.
+ * com o ícone e o label na cor da marca (turquesa); os inativos ficam escuros.
+ * Os ícones da nav usam `currentColor`, então a cor vem daqui pelo estado.
  */
 export const BottomNav = ({ active, onNavigate }: BottomNavProps): React.ReactElement => (
   <View className="w-full flex-row gap-md bg-surface-default px-screenMargin py-xl">
     {items.map((item) => {
       const isActive = item.key === active;
-      const iconName: IconName =
-        item.key === 'inicio' ? (isActive ? 'nav-inicio' : 'nav-inicio-neutral') : item.icon;
       return (
         <Pressable
           key={item.key}
@@ -36,7 +36,11 @@ export const BottomNav = ({ active, onNavigate }: BottomNavProps): React.ReactEl
           onPress={() => onNavigate?.(item.key)}
           className="flex-1 items-center gap-md"
         >
-          <Icon name={iconName} size={24} />
+          <Icon
+            name={item.icon}
+            size={24}
+            color={isActive ? colors.brand.strong : colors.text.body}
+          />
           <Text
             className={`font-sans text-xs ${
               isActive ? 'font-bold text-brand-strong' : 'font-medium text-fg-primary'

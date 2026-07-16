@@ -106,7 +106,29 @@ describe('OrderDetails', () => {
         ]}
         paymentMethod={{ methodLabel: 'PIX', rows: [{ label: 'Pagamento via PIX', value: '1x de R$ 1.255,12' }] }}
         travelers={[{ role: 'Adulto 1', name: 'Maria Joaquina Silva, 30/11/1991' }]}
-        importantInfo={['Alterações de nome não são permitidas.']}
+        importantInfo={[
+          {
+            title: 'Políticas de alteração e cancelamento',
+            flightPolicies: [
+              {
+                direction: 'ida',
+                route: 'Florianópolis - Congonhas (Voucher 01)',
+                cancelPolicy: 'Não permite cancelamento',
+                farePolicy: 'Alterações a partir de R$ 478,00',
+              },
+              {
+                direction: 'volta',
+                route: 'Congonhas - Florianópolis (Voucher 02)',
+                cancelPolicy: 'Não permite cancelamento',
+                farePolicy: 'Alterações a partir de R$ 478,00',
+              },
+            ],
+          },
+          {
+            title: 'Sobre seu pedido',
+            paragraphs: ['Alterações de nome não são permitidas.'],
+          },
+        ]}
       />,
     );
     expect(screen.getByText('Detalhes do pagamento')).toBeOnTheScreen();
@@ -116,6 +138,11 @@ describe('OrderDetails', () => {
     expect(screen.getByText('Viajantes')).toBeOnTheScreen();
     expect(screen.getByText('Maria Joaquina Silva, 30/11/1991')).toBeOnTheScreen();
     expect(screen.getByText('Informações importantes')).toBeOnTheScreen();
+    expect(screen.getByText('Políticas de alteração e cancelamento')).toBeOnTheScreen();
+    expect(screen.getByText('VOO DE IDA')).toBeOnTheScreen();
+    expect(screen.getByText('VOO DE VOLTA')).toBeOnTheScreen();
+    expect(screen.getByText('Florianópolis - Congonhas (Voucher 01)')).toBeOnTheScreen();
+    expect(screen.getByText('Sobre seu pedido')).toBeOnTheScreen();
     expect(screen.getByText('Alterações de nome não são permitidas.')).toBeOnTheScreen();
   });
 });

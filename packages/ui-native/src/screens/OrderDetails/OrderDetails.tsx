@@ -56,6 +56,30 @@ export type OrderDetailsTraveler = {
   name: string;
 };
 
+export type OrderDetailsFlightPolicy = {
+  direction: 'ida' | 'volta';
+  /** Ex.: "Florianópolis - Congonhas (Voucher 01)". */
+  route: string;
+  cancelPolicy: string;
+  farePolicy: string;
+  /** Nota adicional (ex.: taxa de serviço por solicitação de alteração). */
+  serviceFeeNote?: string;
+};
+
+export type OrderDetailsInfoTopic = {
+  /** Título do tópico (ex.: "Políticas de alteração e cancelamento", "Sobre seu pedido"). */
+  title: string;
+  /** Política de cancelamento/alteração por trecho (VOO DE IDA / VOO DE VOLTA). */
+  flightPolicies?: OrderDetailsFlightPolicy[];
+  /** Parágrafos simples do tópico. */
+  paragraphs?: string[];
+};
+
+const flightPolicyLabel: Record<OrderDetailsFlightPolicy['direction'], string> = {
+  ida: 'VOO DE IDA',
+  volta: 'VOO DE VOLTA',
+};
+
 export type OrderDetailsProps = {
   onBack?: () => void;
   productIcon: IconName;
@@ -81,8 +105,8 @@ export type OrderDetailsProps = {
   paymentDetails?: OrderDetailsPaymentDetailRow[];
   paymentMethod?: OrderDetailsPaymentMethod;
   travelers?: OrderDetailsTraveler[];
-  /** Parágrafos de política/avisos gerais (ex.: taxas de alteração, regras da cia aérea). */
-  importantInfo?: string[];
+  /** Tópicos de política/avisos gerais (ex.: cancelamento por trecho, regras da cia aérea). */
+  importantInfo?: OrderDetailsInfoTopic[];
   active?: BottomNavKey;
   onNavigate?: (key: BottomNavKey) => void;
 };
@@ -278,11 +302,39 @@ export const OrderDetails = ({
 
           {importantInfo ? (
             <OrderInfoCard title="Informações importantes">
-              <View className="gap-md">
-                {importantInfo.map((paragraph, index) => (
-                  <Text key={index} className="font-sans text-paragraphMd text-fg-subtle">
-                    {paragraph}
-                  </Text>
+              <View className="gap-lg">
+                {importantInfo.map((topic, topicIndex) => (
+                  <View key={topicIndex} className="gap-md">
+                    <Text className="font-sans text-paragraphMd font-bold text-fg-body">{topic.title}</Text>
+
+                    {topic.flightPolicies?.map((policy) => (
+                      <View key={policy.direction} className="gap-xs">
+                        <Text className="font-sans text-paragraphMd font-bold text-fg-body">
+                          {flightPolicyLabel[policy.direction]}
+                        </Text>
+                        <Text className="font-sans text-paragraphMd text-fg-subtle">{policy.route}</Text>
+
+                        <View className="flex-row items-center gap-xs">
+                          <Icon name="no-cancel" size={24} color={colors.feedback.danger} />
+                          <Text className="font-sans text-paragraphMd text-fg-body">{policy.cancelPolicy}</Text>
+                        </View>
+                        <View className="flex-row items-center gap-xs">
+                          <Icon name="fare-change" size={24} color={colors.feedback.success} />
+                          <Text className="font-sans text-paragraphMd text-fg-body">{policy.farePolicy}</Text>
+                        </View>
+
+                        {policy.serviceFeeNote ? (
+                          <Text className="font-sans text-paragraphMd text-fg-subtle">{policy.serviceFeeNote}</Text>
+                        ) : null}
+                      </View>
+                    ))}
+
+                    {topic.paragraphs?.map((paragraph, paragraphIndex) => (
+                      <Text key={paragraphIndex} className="font-sans text-paragraphMd text-fg-subtle">
+                        {paragraph}
+                      </Text>
+                    ))}
+                  </View>
                 ))}
               </View>
             </OrderInfoCard>

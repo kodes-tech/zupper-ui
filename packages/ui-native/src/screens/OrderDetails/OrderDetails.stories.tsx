@@ -70,8 +70,52 @@ const travelers = [
 ];
 
 const importantInfo = [
-  'Alterações de nome não são permitidas. É possível que a companhia aérea faça a cobrança de taxas adicionais para bagagem despachada no aeroporto.',
-  'Chegue ao aeroporto com antecedência mínima de 2 horas para voos nacionais.',
+  {
+    title: 'Políticas de alteração e cancelamento',
+    flightPolicies: [
+      {
+        direction: 'ida' as const,
+        route: 'Florianópolis - Congonhas (Voucher 01)',
+        cancelPolicy: 'Não permite cancelamento',
+        farePolicy: 'Alterações a partir de R$ 478,00',
+        serviceFeeNote:
+          'Cobraremos uma taxa de serviço de R$ 50,00 por adulto em caso de solicitação de alteração de voo voluntária pelo cliente.',
+      },
+      {
+        direction: 'volta' as const,
+        route: 'Congonhas - Florianópolis (Voucher 02)',
+        cancelPolicy: 'Não permite cancelamento',
+        farePolicy: 'Alterações a partir de R$ 478,00',
+        serviceFeeNote:
+          'Cobraremos uma taxa de serviço de R$ 50,00 por adulto em caso de solicitação de alteração de voo voluntária pelo cliente.',
+      },
+    ],
+  },
+  {
+    title: 'Não comparecimento no embarque',
+    paragraphs: [
+      'No show não é permitido. Não haverá reembolso.',
+      '*Caso o cancelamento seja solicitado em 24h após a realização da compra e ao menos 7 dias antes da data de embarque o reembolso será integral conforme resoluções da ANAC.',
+    ],
+  },
+  {
+    title: 'Informações de Aéreo',
+    paragraphs: [
+      'Alterações de nome não são permitidos.',
+      'É possível que a companhia aérea faça a cobrança de taxas adicionais para bagagem despachadas, marcação de assento especial ou por outros serviços opcionais.',
+      'As companhias aéreas podem alterar os horários dos voos e terminais a qualquer momento.',
+      'Cobraremos uma taxa de serviço de R$ 50,00 por adulto em caso de solicitação de alteração de voo voluntária pelo cliente.',
+    ],
+  },
+  {
+    title: 'Sobre seu pedido',
+    paragraphs: [
+      'Emissão de Nota Fiscal.',
+      'A sua Nota Fiscal será emitida em nome da Kontik Franstur Viagens e Turismo LTDA, empresa no qual a Zupper Viagens faz parte.',
+      'Os valores de Tarifas e Taxas de Embarque são pertencentes as Companhias Aéreas e não podem ser inclusos na Nota Fiscal gerada pela agência intermediador/prestador de serviços.',
+      'Atenção cliente, após receber a Nota Fiscal, não há valores a serem pagos por esta.',
+    ],
+  },
 ];
 
 export default {

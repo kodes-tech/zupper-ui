@@ -80,7 +80,12 @@ export const FlightLegCard = ({
   <View className="gap-lg rounded-md bg-surface-default px-xl py-xl">
     <View className="flex-row items-center justify-between">
       <View className="flex-row items-center gap-xs">
-        <Icon name="order-flight" size={24} color={colors.text.secondary} />
+        <Icon
+          name="order-flight"
+          size={24}
+          color={colors.brand.zupper}
+          style={direction === 'volta' ? { transform: [{ scaleX: -1 }] } : undefined}
+        />
         <Text className="font-sans text-paragraphMd font-bold text-fg-secondary">
           {directionLabel[direction]}
         </Text>

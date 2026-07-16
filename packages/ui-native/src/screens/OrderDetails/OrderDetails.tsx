@@ -38,8 +38,10 @@ export type OrderDetailsFlight = FlightLegCardProps & {
 export type OrderDetailsPaymentDetailRow = {
   label: string;
   value: string;
-  /** Linha de destaque (ex.: "TOTAL A PAGAR"). */
+  /** Linha de destaque, em negrito (ex.: "Tarifa por adulto", "TOTAL A PAGAR"). */
   emphasized?: boolean;
+  /** Quando false, omite o divisor abaixo desta linha — mescla com a próxima (ex.: "1 Adulto" + "Taxas e impostos"). Default: true. */
+  dividerAfter?: boolean;
 };
 
 export type OrderDetailsPaymentMethod = {
@@ -243,7 +245,7 @@ export const OrderDetails = ({
                       {row.value}
                     </Text>
                   </View>
-                  {index < paymentDetails.length - 1 ? <Divider /> : null}
+                  {index < paymentDetails.length - 1 && row.dividerAfter !== false ? <Divider /> : null}
                 </React.Fragment>
               ))}
             </OrderInfoCard>

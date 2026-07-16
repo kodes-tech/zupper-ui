@@ -49,8 +49,8 @@ const flightBase = {
 };
 
 const paymentDetails = [
-  { label: 'Tarifa por adulto', value: 'R$ 856,12' },
-  { label: '1 Adulto', value: 'R$ 856,12' },
+  { label: 'Tarifa por adulto', value: 'R$ 856,12', emphasized: true },
+  { label: '1 Adulto', value: 'R$ 856,12', dividerAfter: false },
   { label: 'Taxas e impostos', value: 'R$ 399,00' },
   { label: 'TOTAL A PAGAR', value: 'R$ 1.255,12', emphasized: true },
 ];

@@ -114,6 +114,14 @@ export const textVariant = {
     fontWeight: fontWeight.bold,
     lineHeight: 20,
   },
+  // Título de rota da tela de Resultados de busca ("SAO - REC"). Extraído do
+  // zupper-app: variant "sm" (fontSize100 = 17px) sobrescrita com weight="bold".
+  routeTitle: {
+    fontFamily,
+    fontSize: 17,
+    fontWeight: fontWeight.bold,
+    lineHeight: 20,
+  },
 } as const satisfies Record<string, TextStyle>;
 
 /** Objeto agregado — acesso ergonômico único (`typography.family`, `typography.textVariant.heading`). */

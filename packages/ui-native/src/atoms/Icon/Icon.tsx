@@ -66,6 +66,30 @@ const registry = {
   'tab-fotos-inactive': Svgs.TabFotosInactive,
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
+  // Ícones de "Resultados de busca de voos" (arte extraída do código do
+  // zupper-app, libs/app-ui/src/lib/atoms/icons). Bagagem e check/close usam
+  // `currentColor` — a mesma arte muda de cor por estado ou por reuso (o
+  // check aparece verde na lista de benefícios e branco no botão selecionado).
+  star: Svgs.Star,
+  card: Svgs.Card,
+  'filter-sliders': Svgs.FilterSliders,
+  'baggage-personal': Svgs.BaggagePersonal,
+  'baggage-checked': Svgs.BaggageChecked,
+  'baggage-carryon': Svgs.BaggageCarryon,
+  'flight-outbound': Svgs.FlightOutbound,
+  'flight-return': Svgs.FlightReturn,
+  'check-circle': Svgs.CheckCircle,
+  'close-circle': Svgs.CloseCircle,
+  // Ícones do motor de busca (travel), arte extraída do código do zupper-app
+  // (libs/app-ui). Usam `currentColor`: a mesma arte muda de cor por estado
+  // (campo vazio/preenchido). Reaproveitados de `TravelHome` (branch de
+  // hospedagem/pacotes) para manter esta PR autossuficiente.
+  'travel-voos': Svgs.TravelVoos,
+  'travel-pinmap': Svgs.TravelPinmap,
+  'travel-calendar': Svgs.TravelCalendar,
+  'travel-viajantes': Svgs.TravelViajantes,
+  'travel-swap': Svgs.TravelSwap,
+  'travel-search': Svgs.TravelSearch,
 } as const;
 
 export type IconName = keyof typeof registry;

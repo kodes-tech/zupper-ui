@@ -5,6 +5,7 @@ export * from './CommunityCTA';
 export * from './GreetingHeader';
 export * from './NotInterestedSheet';
 export * from './PostActionsSheet';
+export * from './PersonalDataForm';
 export * from './PostCard';
 export * from './ProfileTabs';
 export * from './PublishedModal';

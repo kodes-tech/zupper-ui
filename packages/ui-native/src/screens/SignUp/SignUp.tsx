@@ -18,6 +18,11 @@ export type SignUpProps = {
   onPressLogin?: () => void;
   onPressTerms?: () => void;
   onPressPrivacyPolicy?: () => void;
+  /**
+   * Camada sobreposta à tela — o sheet aberto no momento (escolha de conta
+   * social, sucesso/erro). Quem controla qual sheet está aberto é o app.
+   */
+  overlay?: React.ReactNode;
 };
 
 const OrDivider = () => (
@@ -45,6 +50,7 @@ export const SignUp = ({
   onPressLogin,
   onPressTerms,
   onPressPrivacyPolicy,
+  overlay,
 }: SignUpProps): React.ReactElement => (
   <View className="flex-1 bg-surface-tag">
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
@@ -98,5 +104,7 @@ export const SignUp = ({
         <Icon name="z-symbol" width={28} height={30} />
       </View>
     </ScrollView>
+
+    {overlay}
   </View>
 );

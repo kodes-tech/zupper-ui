@@ -1,3 +1,4 @@
+import { Text } from 'react-native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { Login } from './Login';
 
@@ -47,5 +48,10 @@ describe('Login', () => {
     expect(onPressFacebook).toHaveBeenCalledTimes(1);
     expect(onPressGoogle).toHaveBeenCalledTimes(1);
     expect(onPressApple).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders the overlay when provided', async () => {
+    await render(<Login overlay={<Text>Sheet aberto</Text>} />);
+    expect(screen.getByText('Sheet aberto')).toBeOnTheScreen();
   });
 });

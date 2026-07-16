@@ -1,3 +1,4 @@
+import { Text } from 'react-native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { SignUp } from './SignUp';
 
@@ -37,5 +38,10 @@ describe('SignUp', () => {
     await fireEvent.press(screen.getByText('Política de Privacidade'));
     expect(onPressTerms).toHaveBeenCalledTimes(1);
     expect(onPressPrivacyPolicy).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders the overlay when provided', async () => {
+    await render(<SignUp overlay={<Text>Sheet aberto</Text>} />);
+    expect(screen.getByText('Sheet aberto')).toBeOnTheScreen();
   });
 });

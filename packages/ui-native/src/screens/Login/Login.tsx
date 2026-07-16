@@ -23,6 +23,11 @@ export type LoginProps = {
   onPressGoogle?: () => void;
   onPressApple?: () => void;
   onPressSignUp?: () => void;
+  /**
+   * Camada sobreposta à tela — o sheet aberto no momento (escolha de conta
+   * social, sucesso/erro). Quem controla qual sheet está aberto é o app.
+   */
+  overlay?: React.ReactNode;
 };
 
 const OrDivider = () => (
@@ -54,6 +59,7 @@ export const Login = ({
   onPressGoogle,
   onPressApple,
   onPressSignUp,
+  overlay,
 }: LoginProps): React.ReactElement => (
   <View className="flex-1 bg-surface-tag">
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
@@ -102,5 +108,7 @@ export const Login = ({
         </Text>
       </Text>
     </ScrollView>
+
+    {overlay}
   </View>
 );

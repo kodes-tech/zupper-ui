@@ -74,6 +74,10 @@ const registry = {
   'facebook-logo': Svgs.FacebookLogo,
   'apple-logo': Svgs.AppleLogo,
   'z-symbol': Svgs.ZSymbol,
+  close: Svgs.Close,
+  'user-circle': Svgs.UserCircle,
+  'warning-triangle': Svgs.WarningTriangle,
+  'success-check': Svgs.SuccessCheck,
 } as const;
 
 export type IconName = keyof typeof registry;

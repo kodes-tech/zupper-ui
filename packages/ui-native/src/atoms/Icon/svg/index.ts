@@ -65,3 +65,7 @@ export { default as EyeSlash } from './EyeSlash';
 export { default as FacebookLogo } from './FacebookLogo';
 export { default as AppleLogo } from './AppleLogo';
 export { default as ZSymbol } from './ZSymbol';
+export { default as Close } from './Close';
+export { default as UserCircle } from './UserCircle';
+export { default as WarningTriangle } from './WarningTriangle';
+export { default as SuccessCheck } from './SuccessCheck';

@@ -71,6 +71,7 @@ export const colors = {
     warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
+    successSurface: '#D5EDDD', // Accents/Amazon 100 — círculo do ícone de sucesso (StatusMessage)
   },
 } as const;
 

@@ -19,3 +19,4 @@ export * from './SheetOption';
 export * from './SocialBar';
 export * from './SocialLoginButton';
 export * from './StatusBanner';
+export * from './StatusMessage';

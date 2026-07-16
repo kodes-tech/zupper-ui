@@ -146,29 +146,26 @@ describe('OrderDetails', () => {
     expect(screen.getByText('Alterações de nome não são permitidas.')).toBeOnTheScreen();
   });
 
-  it('renders the change-payment-method link only when onPressChange is provided', async () => {
-    const onPressChange = jest.fn();
+  it('renders the view-policy link (loose, below the baggage card) only when onPressViewPolicy is provided', async () => {
+    const onPressViewPolicy = jest.fn();
     await render(
       <OrderDetails
         {...baseProps}
-        paymentMethod={{
-          methodLabel: 'PIX',
-          rows: [{ label: 'Pagamento via PIX', value: '1x de R$ 1.255,12' }],
-          onPressChange,
-        }}
+        flights={[
+          {
+            ...flight,
+            baggage: [{ icon: 'baggage-personal', title: 'Inclui uma mochila ou bolsa', description: 'Tamanho limitado.' }],
+            onPressViewPolicy,
+          },
+        ]}
       />,
     );
-    await fireEvent.press(screen.getByText('Alterar forma de pagamento'));
-    expect(onPressChange).toHaveBeenCalledTimes(1);
+    await fireEvent.press(screen.getByText('Ver política de alterações e cancelamento'));
+    expect(onPressViewPolicy).toHaveBeenCalledTimes(1);
   });
 
-  it('omits the change-payment-method link when onPressChange is not provided', async () => {
-    await render(
-      <OrderDetails
-        {...baseProps}
-        paymentMethod={{ methodLabel: 'PIX', rows: [{ label: 'Pagamento via PIX', value: '1x de R$ 1.255,12' }] }}
-      />,
-    );
-    expect(screen.queryByText('Alterar forma de pagamento')).not.toBeOnTheScreen();
+  it('omits the view-policy link when onPressViewPolicy is not provided', async () => {
+    await render(<OrderDetails {...baseProps} flights={[flight]} />);
+    expect(screen.queryByText('Ver política de alterações e cancelamento')).not.toBeOnTheScreen();
   });
 });

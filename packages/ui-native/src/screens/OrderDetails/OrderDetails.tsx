@@ -33,6 +33,8 @@ export type OrderDetailsBaggageRow = {
 export type OrderDetailsFlight = FlightLegCardProps & {
   /** Franquia de bagagem do trecho — renderizada num card à parte, logo abaixo do `FlightLegCard`. */
   baggage?: OrderDetailsBaggageRow[];
+  /** Link "Ver política de alterações e cancelamento", solto (sem card) logo abaixo da Bagagem. */
+  onPressViewPolicy?: () => void;
 };
 
 export type OrderDetailsPaymentDetailRow = {
@@ -48,8 +50,6 @@ export type OrderDetailsPaymentMethod = {
   /** Rótulo à direita do título (ex.: "PIX"). */
   methodLabel: string;
   rows: { label: string; value: string }[];
-  /** Link "Alterar forma de pagamento" ao final do card — omitido sem `onPressChange`. */
-  onPressChange?: () => void;
 };
 
 export type OrderDetailsTraveler = {
@@ -237,7 +237,7 @@ export const OrderDetails = ({
         <View className="gap-lg p-lg">
           <Text className="px-md font-sans text-cardTitle text-fg-secondary">Detalhes do seu voo</Text>
 
-          {flights.map(({ baggage, ...flight }, index) => (
+          {flights.map(({ baggage, onPressViewPolicy, ...flight }, index) => (
             <React.Fragment key={`${flight.direction}-${index}`}>
               <FlightLegCard {...flight} />
               {baggage ? (
@@ -255,6 +255,13 @@ export const OrderDetails = ({
                     </React.Fragment>
                   ))}
                 </OrderInfoCard>
+              ) : null}
+              {onPressViewPolicy ? (
+                <Pressable accessibilityRole="button" onPress={onPressViewPolicy} className="items-center">
+                  <Text className="font-sans text-caption text-brand-zupper underline">
+                    Ver política de alterações e cancelamento
+                  </Text>
+                </Pressable>
               ) : null}
             </React.Fragment>
           ))}
@@ -293,13 +300,6 @@ export const OrderDetails = ({
                   <Text className="font-sans text-paragraphMd text-fg-body">{row.value}</Text>
                 </View>
               ))}
-              {paymentMethod.onPressChange ? (
-                <Pressable accessibilityRole="button" onPress={paymentMethod.onPressChange}>
-                  <Text className="font-sans text-caption text-brand-zupper underline">
-                    Alterar forma de pagamento
-                  </Text>
-                </Pressable>
-              ) : null}
             </OrderInfoCard>
           ) : null}
 

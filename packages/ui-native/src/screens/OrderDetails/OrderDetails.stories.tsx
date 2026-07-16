@@ -62,7 +62,6 @@ const paymentMethod = {
     { label: 'Pagar com', value: 'PIX' },
     { label: 'Via', value: 'Paymee' },
   ],
-  onPressChange: action('onPressChangePaymentMethod'),
 };
 
 const travelers = [
@@ -165,8 +164,8 @@ const commonProps: Partial<OrderDetailsProps> = {
       flexible: {
         cancelPolicy: 'Não permite cancelamento',
         farePolicy: 'Alterações a partir de R$ 478,00',
-        onPressViewPolicy: action('onPressViewPolicy'),
       },
+      onPressViewPolicy: action('onPressViewPolicy'),
     },
     { ...flightBase, direction: 'volta' },
   ],
@@ -191,6 +190,7 @@ export const PendenteDePagamento = {
     },
     alertNotice: 'Atenção! Altere a forma de pagamento dentro do prazo para garantir o trecho.',
     ctaLabel: 'Pagar trecho pendente',
+    changePaymentLabel: 'Alterar forma de pagamento',
   },
 };
 
@@ -205,6 +205,7 @@ export const AguardandoPagamento = {
       description: 'Assim que o pagamento for confirmado, atualizaremos a situação do seu pedido automaticamente.',
     },
     ctaLabel: 'Pagar agora',
+    changePaymentLabel: 'Alterar forma de pagamento',
   },
 };
 

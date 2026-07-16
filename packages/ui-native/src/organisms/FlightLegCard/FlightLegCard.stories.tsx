@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { action } from '@storybook/addon-actions';
 import { FlightLegCard } from './FlightLegCard';
 
 export default {
@@ -42,6 +43,7 @@ export const Ida = {
     flexible: {
       cancelPolicy: 'Não permite cancelamento',
       farePolicy: 'Alterações a partir de R$ 478,00',
+      onPressViewPolicy: action('onPressViewPolicy'),
     },
   },
 };

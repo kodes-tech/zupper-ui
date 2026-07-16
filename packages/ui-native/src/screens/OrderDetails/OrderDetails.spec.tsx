@@ -145,4 +145,30 @@ describe('OrderDetails', () => {
     expect(screen.getByText('Sobre seu pedido')).toBeOnTheScreen();
     expect(screen.getByText('Alterações de nome não são permitidas.')).toBeOnTheScreen();
   });
+
+  it('renders the change-payment-method link only when onPressChange is provided', async () => {
+    const onPressChange = jest.fn();
+    await render(
+      <OrderDetails
+        {...baseProps}
+        paymentMethod={{
+          methodLabel: 'PIX',
+          rows: [{ label: 'Pagamento via PIX', value: '1x de R$ 1.255,12' }],
+          onPressChange,
+        }}
+      />,
+    );
+    await fireEvent.press(screen.getByText('Alterar forma de pagamento'));
+    expect(onPressChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('omits the change-payment-method link when onPressChange is not provided', async () => {
+    await render(
+      <OrderDetails
+        {...baseProps}
+        paymentMethod={{ methodLabel: 'PIX', rows: [{ label: 'Pagamento via PIX', value: '1x de R$ 1.255,12' }] }}
+      />,
+    );
+    expect(screen.queryByText('Alterar forma de pagamento')).not.toBeOnTheScreen();
+  });
 });

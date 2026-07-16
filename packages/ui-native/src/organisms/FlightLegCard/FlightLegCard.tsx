@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 import { Icon } from '../../atoms/Icon';
 
@@ -23,6 +23,8 @@ export type FlightLegAirline = {
 export type FlightLegFlexiblePolicy = {
   cancelPolicy: string;
   farePolicy: string;
+  /** Link "Ver política de alterações e cancelamento" — omitido sem `onPressViewPolicy`. */
+  onPressViewPolicy?: () => void;
 };
 
 export type FlightLegCardProps = {
@@ -191,6 +193,13 @@ export const FlightLegCard = ({
             <Icon name="fare-change" size={24} color={colors.feedback.success} />
             <Text className="font-sans text-paragraphMd text-fg-subtle">{flexible.farePolicy}</Text>
           </View>
+          {flexible.onPressViewPolicy ? (
+            <Pressable accessibilityRole="button" onPress={flexible.onPressViewPolicy}>
+              <Text className="font-sans text-caption text-brand-zupper underline">
+                Ver política de alterações e cancelamento
+              </Text>
+            </Pressable>
+          ) : null}
         </View>
       </>
     ) : null}

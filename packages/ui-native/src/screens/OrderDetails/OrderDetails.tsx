@@ -48,6 +48,8 @@ export type OrderDetailsPaymentMethod = {
   /** Rótulo à direita do título (ex.: "PIX"). */
   methodLabel: string;
   rows: { label: string; value: string }[];
+  /** Link "Alterar forma de pagamento" ao final do card — omitido sem `onPressChange`. */
+  onPressChange?: () => void;
 };
 
 export type OrderDetailsTraveler = {
@@ -291,6 +293,13 @@ export const OrderDetails = ({
                   <Text className="font-sans text-paragraphMd text-fg-body">{row.value}</Text>
                 </View>
               ))}
+              {paymentMethod.onPressChange ? (
+                <Pressable accessibilityRole="button" onPress={paymentMethod.onPressChange}>
+                  <Text className="font-sans text-caption text-brand-zupper underline">
+                    Alterar forma de pagamento
+                  </Text>
+                </Pressable>
+              ) : null}
             </OrderInfoCard>
           ) : null}
 

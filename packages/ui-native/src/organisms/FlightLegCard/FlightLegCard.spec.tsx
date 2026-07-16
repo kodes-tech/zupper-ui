@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react-native';
+import { render, screen, fireEvent } from '@testing-library/react-native';
 import { FlightLegCard } from './FlightLegCard';
 import type { FlightLegCardProps } from './FlightLegCard';
 
@@ -56,5 +56,31 @@ describe('FlightLegCard', () => {
   it('omits the flexible section when not provided', async () => {
     await render(<FlightLegCard {...baseProps} />);
     expect(screen.queryByText('Voo flexível')).not.toBeOnTheScreen();
+  });
+
+  it('renders the view-policy link only when onPressViewPolicy is provided', async () => {
+    const onPressViewPolicy = jest.fn();
+    await render(
+      <FlightLegCard
+        {...baseProps}
+        flexible={{
+          cancelPolicy: 'Não permite cancelamento',
+          farePolicy: 'Alterações a partir de R$ 478,00',
+          onPressViewPolicy,
+        }}
+      />,
+    );
+    await fireEvent.press(screen.getByText('Ver política de alterações e cancelamento'));
+    expect(onPressViewPolicy).toHaveBeenCalledTimes(1);
+  });
+
+  it('omits the view-policy link when onPressViewPolicy is not provided', async () => {
+    await render(
+      <FlightLegCard
+        {...baseProps}
+        flexible={{ cancelPolicy: 'Não permite cancelamento', farePolicy: 'Alterações a partir de R$ 478,00' }}
+      />,
+    );
+    expect(screen.queryByText('Ver política de alterações e cancelamento')).not.toBeOnTheScreen();
   });
 });

@@ -62,6 +62,7 @@ const paymentMethod = {
     { label: 'Pagar com', value: 'PIX' },
     { label: 'Via', value: 'Paymee' },
   ],
+  onPressChange: action('onPressChangePaymentMethod'),
 };
 
 const travelers = [
@@ -158,7 +159,15 @@ const commonProps: Partial<OrderDetailsProps> = {
     dates: '25 Mar 2023 - 02 Abr 2023',
   },
   flights: [
-    { ...flightBase, direction: 'ida', flexible: { cancelPolicy: 'Não permite cancelamento', farePolicy: 'Alterações a partir de R$ 478,00' } },
+    {
+      ...flightBase,
+      direction: 'ida',
+      flexible: {
+        cancelPolicy: 'Não permite cancelamento',
+        farePolicy: 'Alterações a partir de R$ 478,00',
+        onPressViewPolicy: action('onPressViewPolicy'),
+      },
+    },
     { ...flightBase, direction: 'volta' },
   ],
   paymentDetails,

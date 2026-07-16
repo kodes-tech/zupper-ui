@@ -83,6 +83,15 @@ const registry = {
   'checkbox-check': Svgs.CheckboxCheck,
   'checkbox-empty': Svgs.CheckboxEmpty,
   'clock-countdown': Svgs.ClockCountdown,
+  // Ícone fixo (círculo + relógio) do status "pendente" do pedido no Checkout
+  // Thanks — arte extraída do Figma (status-pedidos + vuesax/linear/clock).
+  'status-pending': Svgs.StatusPending,
+  // Ícone fixo (círculo + X) do status "erro" do pedido no Checkout Thanks.
+  'status-error': Svgs.StatusError,
+  // currentColor — aviso amarelo (prazo de pagamento do PIX) e botão "Copiar
+  // código" das instruções de pagamento PIX no Checkout Thanks.
+  'warning-triangle': Svgs.WarningTriangle,
+  copy: Svgs.Copy,
 } as const;
 
 export type IconName = keyof typeof registry;

@@ -69,3 +69,7 @@ export { default as Pix } from './Pix';
 export { default as CheckboxCheck } from './CheckboxCheck';
 export { default as CheckboxEmpty } from './CheckboxEmpty';
 export { default as ClockCountdown } from './ClockCountdown';
+export { default as StatusPending } from './StatusPending';
+export { default as StatusError } from './StatusError';
+export { default as WarningTriangle } from './WarningTriangle';
+export { default as Copy } from './Copy';

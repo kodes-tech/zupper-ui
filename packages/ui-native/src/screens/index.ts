@@ -11,6 +11,7 @@
 export * from './CheckoutContact';
 export * from './CheckoutInvoice';
 export * from './CheckoutPayment';
+export * from './CheckoutThanks';
 export * from './CheckoutTravelers';
 export * from './CommunityProfile';
 export * from './ContentDetail';

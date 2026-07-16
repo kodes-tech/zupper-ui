@@ -92,6 +92,9 @@ const registry = {
   'baggage-personal': Svgs.BaggagePersonal,
   'baggage-carry-on': Svgs.BaggageCarryOn,
   'baggage-none': Svgs.BaggageNone,
+  close: Svgs.Close,
+  'warning-triangle': Svgs.WarningTriangle,
+  'success-check': Svgs.SuccessCheck,
 } as const;
 
 export type IconName = keyof typeof registry;

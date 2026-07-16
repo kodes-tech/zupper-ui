@@ -81,3 +81,7 @@ export { default as FlightPath } from './FlightPath';
 export { default as BaggagePersonal } from './BaggagePersonal';
 export { default as BaggageCarryOn } from './BaggageCarryOn';
 export { default as BaggageNone } from './BaggageNone';
+// Cancelamento de pedido.
+export { default as Close } from './Close';
+export { default as WarningTriangle } from './WarningTriangle';
+export { default as SuccessCheck } from './SuccessCheck';

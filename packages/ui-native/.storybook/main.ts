@@ -7,7 +7,8 @@ import path from 'path';
  * renderizarem no navegador (preview leve, sem simulador).
  */
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(ts|tsx)'],
+  // Inclui as stories do @kodes-tech/icons — o Storybook é um só, por aqui.
+  stories: ['../src/**/*.stories.@(ts|tsx)', '../../icons/src/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-essentials'],
   framework: {
     name: '@storybook/react-webpack5',
@@ -21,6 +22,10 @@ const config: StorybookConfig = {
       // mesmo alias usado em libs/aerial e libs/app-ui (zupper-app): o pacote
       // nativo não tem shim web, este tem.
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
+      // icons direto do SOURCE do renderer web (<svg> DOM) — sem precisar buildar
+      // o pacote e sem passar pelo react-native-web. No app (Metro), o mesmo
+      // import resolve pro renderer native via condição `react-native` do exports.
+      '@kodes-tech/icons$': path.resolve(__dirname, '../../icons/src/web'),
     };
     cfg.resolve.extensions = [
       '.web.tsx',

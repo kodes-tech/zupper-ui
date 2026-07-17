@@ -57,6 +57,9 @@ Só duas branches de longa vida:
 
 ## Publicação (release)
 
+> 📖 Passo a passo completo (para quem assume o repo): [`docs/release.md`](docs/release.md).
+> O resumo abaixo é a versão curta.
+
 Registry: **GitHub Packages**, escopo `@kodes-tech` (grátis — vinculado à org dona deste repo).
 
 1. Abra um PR **`develop → main`** e mergeie quando o CI passar (isso é o "aprovar").

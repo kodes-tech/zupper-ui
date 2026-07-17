@@ -19,3 +19,5 @@ export default {
 export const ComEmoji = { args: { emoji: '🔖', label: 'Salvar publicação' } };
 export const Destrutiva = { args: { emoji: '⚑', label: 'Denunciar', destructive: true } };
 export const ComSeta = { args: { label: 'Spam ou propaganda enganosa', chevron: true } };
+export const ComIcone = { args: { label: 'Excluir publicação', icon: 'trash' } };
+export const SemPadding = { args: { label: 'Excluir publicação', icon: 'trash', padded: false } };

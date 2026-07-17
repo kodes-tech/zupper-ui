@@ -31,4 +31,15 @@ describe('Button', () => {
     expect(screen.getByText('Sair da minha conta zupper')).toBeOnTheScreen();
     expect(screen.getByTestId('button-container')).toBeOnTheScreen();
   });
+
+  it('renders the danger (solid) variant', async () => {
+    await render(<Button label="Denunciar publicação" variant="danger" />);
+    expect(screen.getByText('Denunciar publicação')).toBeOnTheScreen();
+    expect(screen.getByTestId('button-container')).toBeOnTheScreen();
+  });
+
+  it('renders the highlight tone for secondary/ghost', async () => {
+    await render(<Button label="Cancelar" variant="ghost" tone="highlight" />);
+    expect(screen.getByText('Cancelar')).toBeOnTheScreen();
+  });
 });

@@ -7,9 +7,14 @@ import type { Comment } from '../../molecules/CommentThread';
 import type { RoteiroDayCardProps } from '../../molecules/RoteiroDayCard';
 import { NotInterestedSheet } from '../../organisms/NotInterestedSheet';
 import { PostActionsSheet } from '../../organisms/PostActionsSheet';
+import { ReportConfirmSheet } from '../../organisms/ReportConfirmSheet';
 import { ReportReasonsSheet } from '../../organisms/ReportReasonsSheet';
 import type { ReportReason } from '../../organisms/ReportReasonsSheet';
 import { ReportSentSheet } from '../../organisms/ReportSentSheet';
+import { OwnPostActionsSheet } from '../../organisms/OwnPostActionsSheet';
+import { DeleteOwnPostSheet } from '../../organisms/DeleteOwnPostSheet';
+import { ContentUnderReviewSheet } from '../../organisms/ContentUnderReviewSheet';
+import { ContentRemovedSheet } from '../../organisms/ContentRemovedSheet';
 
 const avatar = require('../../_figma/assets/photos/avatar-viajante.jpg');
 const fullPhoto = require('../../_figma/assets/photos/conteudo-foto-full.jpg');
@@ -171,7 +176,7 @@ const reportReasons: ReportReason[] = [
   { id: 'informacao-falsa', label: 'Informação falsa sobre o destino' },
   { id: 'odio', label: 'Discurso de ódio ou bullying' },
   { id: 'golpe', label: 'Golpe ou fraude' },
-  { id: 'fora-de-contexto', label: 'Não é sobre viagem / fora de contexto' },
+  { id: 'fora-de-contexto', label: 'Não é sobre viagem' },
 ];
 
 /** Menu de ações da publicação, aberto pelo "..." da barra social. */
@@ -190,6 +195,20 @@ export const MenuDeAcoes = {
   },
 };
 
+/** Denúncia, passo 0: confirmação antes de ver os motivos. */
+export const DenunciaConfirmar = {
+  args: {
+    ...foto,
+    overlay: (
+      <ReportConfirmSheet
+        onReport={action('onReport')}
+        onCancel={action('onCancel')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
 /** Denúncia, passo 1: escolha do motivo. */
 export const DenunciaMotivos = {
   args: {
@@ -198,6 +217,7 @@ export const DenunciaMotivos = {
       <ReportReasonsSheet
         reasons={reportReasons}
         onSelectReason={action('onSelectReason')}
+        onCancelReport={action('onCancelReport')}
         onDismiss={action('onDismiss')}
       />
     ),
@@ -262,5 +282,66 @@ export const ConteudoRemovido = {
       actionLabel: 'Contestar decisão',
       onPressAction: action('onPressAction'),
     },
+  },
+};
+
+// ── Publicação própria ──────────────────────────────────────────────────────
+// O autor não denuncia o próprio conteúdo: o menu de ações vira Editar/Excluir.
+
+/** Menu de ações da PRÓPRIA publicação: Editar / Excluir. */
+export const MenuDeAcoesPropria = {
+  args: {
+    ...foto,
+    overlay: (
+      <OwnPostActionsSheet
+        onEdit={action('onEdit')}
+        onDelete={action('onDelete')}
+        onCancel={action('onCancel')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** Confirmação de exclusão da própria publicação. */
+export const ExcluirPublicacao = {
+  args: {
+    ...foto,
+    overlay: (
+      <DeleteOwnPostSheet
+        onDelete={action('onDelete')}
+        onCancel={action('onCancel')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** Diálogo completo (aberto a partir do banner/notificação) — publicação em análise. */
+export const ConteudoEmAnaliseDialogo = {
+  args: {
+    ...foto,
+    overlay: (
+      <ContentUnderReviewSheet
+        onLearnMore={action('onLearnMore')}
+        onClose={action('onClose')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
+  },
+};
+
+/** Diálogo completo (aberto a partir do banner/notificação) — publicação removida. */
+export const ConteudoRemovidoDialogo = {
+  args: {
+    ...foto,
+    overlay: (
+      <ContentRemovedSheet
+        reason="informação incorreta sobre o destino"
+        onContest={action('onContest')}
+        onClose={action('onClose')}
+        onDismiss={action('onDismiss')}
+      />
+    ),
   },
 };

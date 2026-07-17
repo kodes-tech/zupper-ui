@@ -12,6 +12,7 @@ Harness de documentação que a IA/dev segue ao trabalhar neste repo.
   - [`overview.md`](architecture/overview.md) — monorepo, pacotes, como os consumidores usam.
 - **`decisions/`** — ADRs (decisões arquiteturais registradas). Use o [`_adr-template.md`](decisions/_adr-template.md) para novas.
 - [`local-development.md`](local-development.md) — rodar, testar, consumir no app (yalc).
+- [`release.md`](release.md) — **runbook de release**: PR `develop → main`, bump de versão, tag, publicação.
 - [`known-issues.md`](known-issues.md) — pendências e armadilhas conhecidas.
 
 ## Como manter

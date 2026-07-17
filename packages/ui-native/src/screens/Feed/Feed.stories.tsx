@@ -4,9 +4,6 @@ import { action } from '@storybook/addon-actions';
 import { Feed } from './Feed';
 import type { FeedDestination, FeedPost, FeedQuickAction } from './Feed';
 
-const voos = require('../../_figma/assets/icon-quick-voos.png');
-const hospedagens = require('../../_figma/assets/icon-quick-hospedagens.png');
-const pacotes = require('../../_figma/assets/icon-quick-pacotes.png');
 const cardDestino = require('../../_figma/assets/photos/card-destino.jpg');
 const avatarViajante = require('../../_figma/assets/photos/avatar-viajante.jpg');
 const avatarParceiro = require('../../_figma/assets/photos/avatar-parceiro.jpg');
@@ -14,9 +11,9 @@ const postAvatar = require('../../_figma/assets/photos/post-avatar.png');
 const postImage = require('../../_figma/assets/photos/post-image.jpg');
 
 const quickActions: FeedQuickAction[] = [
-  { key: 'voos', icon: voos, label: 'Buscar Voos', onPress: action('quick:voos') },
-  { key: 'hospedagens', icon: hospedagens, label: 'Hospedagens', onPress: action('quick:hospedagens') },
-  { key: 'pacotes', icon: pacotes, label: 'Pacotes', onPress: action('quick:pacotes') },
+  { key: 'voos', icon: 'oferta-passagens', label: 'Buscar Voos', onPress: action('quick:voos') },
+  { key: 'hospedagens', icon: 'oferta-hospedagens', label: 'Hospedagens', onPress: action('quick:hospedagens') },
+  { key: 'pacotes', icon: 'oferta-pacotes', label: 'Pacotes', onPress: action('quick:pacotes') },
 ];
 
 const destinations: FeedDestination[] = [

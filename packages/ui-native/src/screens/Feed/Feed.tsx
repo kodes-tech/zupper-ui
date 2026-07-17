@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Icon } from '../../atoms/Icon';
+import type { IconName } from '../../atoms/Icon';
 import { SearchField } from '../../molecules/SearchField';
 import { QuickAction } from '../../molecules/QuickAction';
 import { DestinationCard } from '../../molecules/DestinationCard';
@@ -14,7 +15,7 @@ import type { PostCardProps } from '../../organisms/PostCard';
 import { BottomNav } from '../../organisms/BottomNav';
 import type { BottomNavKey } from '../../organisms/BottomNav';
 
-export type FeedQuickAction = { key: string; icon: ImageSourcePropType; label: string; onPress?: () => void };
+export type FeedQuickAction = { key: string; icon: IconName; label: string; onPress?: () => void };
 export type FeedDestination = { id: string; name: string; image: ImageSourcePropType; onPress?: () => void };
 export type FeedPost = PostCardProps & { id: string };
 

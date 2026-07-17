@@ -21,10 +21,14 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@kodes-tech'
 
-      - run: npm ci
+      # --legacy-peer-deps: mesmo motivo do ci.yml (react-native-web@0.19 pede React 18)
+      - run: npm ci --legacy-peer-deps
 
       - run: npm run build --workspaces --if-present
 
+      # @kodes-tech/icons NÃO entra neste trem: tem release próprio por tag
+      # icons-vX.Y.Z (ver publish-icons.yml). Só garanta que a versão de icons
+      # que o ui-native pede (dependencies) já esteja publicada.
       - name: Publish @kodes-tech/tokens
         run: npm publish --workspace packages/tokens
         env:

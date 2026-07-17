@@ -4,6 +4,7 @@ import { execSync } from 'node:child_process';
 
 const packages = [
   { dir: 'packages/tokens', mustInclude: 'dist/' },
+  { dir: 'packages/icons', mustInclude: 'lib/' },
   { dir: 'packages/ui-native', mustInclude: 'lib/' },
 ];
 
@@ -46,7 +47,10 @@ function packedFiles(dir) {
     return { error: `JSON inválido do npm pack:\n${raw.slice(-400)}` };
   }
   if (!Array.isArray(parsed) || !parsed[0]?.files) {
-    return { error: parsed?.error?.detail || parsed?.error?.summary || 'formato inesperado do npm pack --json' };
+    return {
+      error:
+        parsed?.error?.detail || parsed?.error?.summary || 'formato inesperado do npm pack --json',
+    };
   }
   return { files: parsed[0].files.map((f) => f.path) };
 }

@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Button } from '../../atoms/Button';
 import { Divider } from '../../atoms/Divider';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 import { AccountGreeting } from '../../molecules/AccountGreeting';
 import { AccountSection } from '../../molecules/AccountSection';
 import type { AccountSectionRow } from '../../molecules/AccountSection';
@@ -95,7 +95,13 @@ const COMMUNITY_ROWS: MenuRow[] = [
 
 const HELP_ROWS: MenuRow[] = [
   { id: 'help', icon: 'account-help', title: 'Central de ajuda', cta: 'Ir agora', boxed: false },
-  { id: 'about', icon: 'account-about-zupper', title: 'Sobre o Zupper', cta: 'Ir agora', boxed: false },
+  {
+    id: 'about',
+    icon: 'account-about-zupper',
+    title: 'Sobre o Zupper',
+    cta: 'Ir agora',
+    boxed: false,
+  },
 ];
 
 const PRIVACY_ROWS: MenuRow[] = [
@@ -106,7 +112,13 @@ const PRIVACY_ROWS: MenuRow[] = [
     cta: 'Ir agora',
     boxed: false,
   },
-  { id: 'terms', icon: 'account-terms', title: 'Termos e condições', cta: 'Ir agora', boxed: false },
+  {
+    id: 'terms',
+    icon: 'account-terms',
+    title: 'Termos e condições',
+    cta: 'Ir agora',
+    boxed: false,
+  },
 ];
 
 /**

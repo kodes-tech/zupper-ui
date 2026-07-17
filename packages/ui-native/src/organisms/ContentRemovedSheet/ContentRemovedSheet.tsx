@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Button } from '../../atoms/Button';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 import { ConfirmDialog } from '../ConfirmDialog';
 
 export type ContentRemovedSheetProps = {

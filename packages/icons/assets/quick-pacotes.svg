@@ -1,0 +1,16 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Figma node 377:24637 "quick-action / Pacotes" (fileKey CRJYlaF0ep3mKL5fwH3e31),
+       grupo "Iconografia Padrão - Zupper > Grupo 10905". Grade 48, stroke-width 1.5
+       (traço fino do design). O translate mapeia o box do ícone dentro do card
+       (x 31.667, y 16) para 0,0; o svgr baka o transform nos coords dos paths. -->
+  <g transform="translate(-31.667 -16)" stroke="#008C99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M63.6664 32H47.6664C45.8991 32 44.4664 33.4327 44.4664 35.2V51.2C44.4664 52.9673 45.8991 54.4 47.6664 54.4H63.6664C65.4337 54.4 66.8664 52.9673 66.8664 51.2V35.2C66.8664 33.4327 65.4337 32 63.6664 32Z"/>
+    <path d="M52.4664 36.8H58.8664"/>
+    <path d="M49.2665 54.4V56"/>
+    <path d="M62.0664 54.4V56"/>
+    <path d="M62.0665 32V27.2C62.0665 26.3513 61.7293 25.5368 61.1292 24.9367C60.5291 24.3366 59.7152 24 58.8665 24H52.4665C51.6178 24 50.8039 24.3366 50.2038 24.9367C49.6037 25.5368 49.2665 26.3513 49.2665 27.2V32"/>
+    <path d="M55.6664 41.6V49.6"/>
+    <path d="M49.2665 41.6V49.6"/>
+    <path d="M62.0664 41.6V49.6"/>
+  </g>
+</svg>

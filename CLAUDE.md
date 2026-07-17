@@ -14,12 +14,15 @@ projetos e componentes reaproveitados entre apps da mesma stack.
 | Pacote | Papel | Consumidores |
 |---|---|---|
 | **`@zupper/tokens`** | valores agnósticos de framework (cores, spacing, tipografia, radius, elevação) | todos: RN, React web, Angular… |
+| **`@zupper/icons`** | ícones — SVG cru (fonte) + **dois renderers gerados** (react-native-svg e `<svg>` DOM); o bundler escolhe via `exports` | RN (Metro) e React web; SVG cru p/ outras stacks |
 | **`@zupper/ui-native`** | componentes **React Native** (Atomic Design) | Zupper App (agora) + apps RN futuros |
 | `@zupper/ui-web` *(futuro)* | componentes **React/Next** | painel admin, web |
 
 **Regra de ouro:** tokens são compartilhados; **componentes são por framework**.
 Não existe "um componente para RN + React + Angular". Ver
-[ADR 0002](docs/decisions/0002-tokens-shared-components-per-framework.md).
+[ADR 0002](docs/decisions/0002-tokens-shared-components-per-framework.md) e, para
+ícones (desenho compartilhado, renderer por plataforma no mesmo pacote),
+[ADR 0008](docs/decisions/0008-icons-package-dual-renderer.md).
 
 ## Stack
 
@@ -29,8 +32,8 @@ Não existe "um componente para RN + React + Angular". Ver
   [ADR 0006](docs/decisions/0006-nativewind-styling.md) e
   [ADR 0007](docs/decisions/0007-drop-styled-components.md)
 - **Storybook** (web via `react-native-web`) — preview sem simulador/backend
-- **jest** + **@testing-library/react-native** (ui-native) · **ts-jest** (tokens)
-- Build: **react-native-builder-bob** (ui-native) · **tsc** (tokens)
+- **jest** + **@testing-library/react-native** (ui-native, icons) · **ts-jest** (tokens)
+- Build: **react-native-builder-bob** (ui-native, icons) · **tsc** (tokens)
 - Package manager: **npm** (workspaces)
 
 ## Estrutura
@@ -42,6 +45,7 @@ zupper-ui/
 ├── tsconfig.base.json
 └── packages/
     ├── tokens/     → @zupper/tokens
+    ├── icons/      → @zupper/icons      (assets/ SVG cru · src/native · src/web)
     └── ui-native/  → @zupper/ui-native  (src/atoms · molecules · organisms)
 ```
 
@@ -67,9 +71,11 @@ zupper-ui/
 
 ```bash
 npm install --legacy-peer-deps           # raiz (react-native-web ainda pede React 18)
-npm run storybook -w @zupper/ui-native   # preview no navegador
+npm run storybook -w @zupper/ui-native   # preview no navegador (inclui stories do icons)
 npm test -w @zupper/ui-native            # testes RN
+npm test -w @zupper/icons                # testes dos ícones (native + web + paridade)
 npm test -w @zupper/tokens               # testes dos tokens
+npm run icons:audit -w @zupper/icons     # integridade 1:1 dos ícones (2 renderers)
 npm run build                            # builda todos os pacotes
 ```
 

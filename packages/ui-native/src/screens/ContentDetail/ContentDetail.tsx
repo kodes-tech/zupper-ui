@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 import { CommentInput } from '../../molecules/CommentInput';
 import { CommentThread } from '../../molecules/CommentThread';
 import type { Comment } from '../../molecules/CommentThread';

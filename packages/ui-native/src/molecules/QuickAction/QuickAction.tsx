@@ -2,11 +2,11 @@ import React from 'react';
 import { Pressable, Text } from 'react-native';
 import type { PressableProps } from 'react-native';
 
-import { Icon } from '../../atoms/Icon';
-import type { IconName } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
+import type { IconName } from '@kodes-tech/icons';
 
 export type QuickActionProps = PressableProps & {
-  /** Nome do ícone do design system (SVG). Ex.: 'oferta-passagens'. */
+  /** Nome do ícone do design system (SVG). Ex.: 'quick-voos'. */
   icon: IconName;
   label: string;
 };

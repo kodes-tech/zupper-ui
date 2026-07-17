@@ -3,8 +3,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 import type { PressableProps } from 'react-native';
 import { colors, radii, spacing } from '@kodes-tech/tokens';
-import { Icon } from '../../atoms/Icon';
-import type { IconName } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
+import type { IconName } from '@kodes-tech/icons';
 
 /** Ícones de selo válidos para o card de oferta. */
 export type OfferIcon = Extract<

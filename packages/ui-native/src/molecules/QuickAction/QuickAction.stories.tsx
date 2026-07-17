@@ -3,8 +3,6 @@ import { View } from 'react-native';
 import { action } from '@storybook/addon-actions';
 import { QuickAction } from './QuickAction';
 
-const voos = require('../../_figma/assets/icon-quick-voos.png');
-
 export default {
   title: 'Molecules/QuickAction',
   component: QuickAction,
@@ -12,4 +10,6 @@ export default {
   decorators: [(Story: React.ComponentType) => <View style={{ width: 120 }}><Story /></View>],
 };
 
-export const Default = { args: { icon: voos, label: 'Buscar Voos' } };
+export const Voos = { args: { icon: 'oferta-passagens', label: 'Buscar Voos' } };
+export const Hospedagens = { args: { icon: 'oferta-hospedagens', label: 'Hospedagens' } };
+export const Pacotes = { args: { icon: 'oferta-pacotes', label: 'Pacotes' } };

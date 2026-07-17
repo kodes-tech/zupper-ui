@@ -1,6 +1,6 @@
 {
   "name": "@kodes-tech/tokens",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Design tokens do Zupper — valores agnósticos de framework (cores, spacing, tipografia, radius, elevação). Consumido por RN, React web, Angular, etc.",
   "license": "UNLICENSED",
   "type": "commonjs",

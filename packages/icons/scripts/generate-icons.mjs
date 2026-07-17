@@ -61,7 +61,8 @@ const generateOne = (name) => {
   const pascal = toPascal(name);
   const svgr = (nativeFlag) =>
     execSync(
-      `npx --yes @svgr/cli@latest ${nativeFlag} --typescript --no-dimensions --icon=false --expand-props=end "${src}"`,
+      // versão PINADA: geração determinística (major novo do svgr pode mudar a saída)
+      `npx --yes @svgr/cli@8.1.0 ${nativeFlag} --typescript --no-dimensions --icon=false --expand-props=end "${src}"`,
       { encoding: 'utf8' },
     );
 

@@ -1,16 +1,19 @@
 import React from 'react';
-import { Image, Pressable, Text } from 'react-native';
-import type { ImageSourcePropType, PressableProps } from 'react-native';
+import { Pressable, Text } from 'react-native';
+import type { PressableProps } from 'react-native';
+
+import { Icon } from '../../atoms/Icon';
+import type { IconName } from '../../atoms/Icon';
 
 export type QuickActionProps = PressableProps & {
-  /** Ícone raster (PNG) do atalho — fornecido pelo consumidor. */
-  icon: ImageSourcePropType;
+  /** Nome do ícone do design system (SVG). Ex.: 'oferta-passagens'. */
+  icon: IconName;
   label: string;
 };
 
 /**
  * QuickAction — card de atalho da Home (Buscar Voos / Hospedagens / Pacotes).
- * O ícone (PNG) entra por prop; layout/tokens no card.
+ * O ícone entra por nome (set do DS, via `Icon`); layout/tokens no card.
  */
 export const QuickAction = ({ icon, label, ...rest }: QuickActionProps): React.ReactElement => (
   <Pressable
@@ -18,7 +21,7 @@ export const QuickAction = ({ icon, label, ...rest }: QuickActionProps): React.R
     className="h-[100px] flex-1 items-center justify-end gap-xs rounded-xxl border border-border-default bg-surface-default p-xl"
     {...rest}
   >
-    <Image source={icon} resizeMode="contain" className="h-[48px] w-[48px]" />
+    <Icon name={icon} size={48} />
     <Text className="font-sans text-xs font-bold text-fg-primary">{label}</Text>
   </Pressable>
 );

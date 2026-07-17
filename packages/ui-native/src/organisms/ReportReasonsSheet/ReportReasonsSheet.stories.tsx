@@ -10,7 +10,7 @@ const reportReasons: ReportReason[] = [
   { id: 'informacao-falsa', label: 'Informação falsa sobre o destino' },
   { id: 'odio', label: 'Discurso de ódio ou bullying' },
   { id: 'golpe', label: 'Golpe ou fraude' },
-  { id: 'fora-de-contexto', label: 'Não é sobre viagem / fora de contexto' },
+  { id: 'fora-de-contexto', label: 'Não é sobre viagem' },
 ];
 
 export default {
@@ -19,6 +19,7 @@ export default {
   args: {
     reasons: reportReasons,
     onSelectReason: action('onSelectReason'),
+    onCancelReport: action('onCancelReport'),
     onDismiss: action('onDismiss'),
   },
   parameters: { layout: 'centered' },

@@ -14,4 +14,9 @@ describe('SheetOption', () => {
     await fireEvent.press(screen.getByText('Denunciar'));
     expect(onPress).toHaveBeenCalled();
   });
+
+  it('renders a trailing icon', async () => {
+    await render(<SheetOption label="Excluir publicação" icon="trash" />);
+    expect(screen.getByText('Excluir publicação')).toBeOnTheScreen();
+  });
 });

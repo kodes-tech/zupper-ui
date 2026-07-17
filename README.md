@@ -42,13 +42,53 @@ npx yalc add @kodes-tech/ui-native && npm install
 ```
 Assim o app usa a versão local; só publique no npm versões estáveis.
 
-## Publicação
+## Fluxo de branches e release
+
+Só duas branches de longa vida:
+
+- **`develop`** — onde todo trabalho entra (features, fixes, PRs do Dependabot).
+  É a branch default de trabalho.
+- **`main`** — só recebe **releases**, via PR `develop → main`. Nunca commite
+  nem abra PR de trabalho direto na `main`.
+
+> ⚠️ **Apps consumidores instalam versões publicadas (tags cortadas da `main`),
+> nunca a `develop`.** Publicar a partir da `develop` entrega trabalho não
+> aprovado. Por isso as tags saem **só da `main`**.
+
+## Publicação (release)
+
+> 📖 Passo a passo completo (para quem assume o repo): [`docs/release.md`](docs/release.md).
+> O resumo abaixo é a versão curta.
 
 Registry: **GitHub Packages**, escopo `@kodes-tech` (grátis — vinculado à org dona deste repo).
 
-1. Bump de `version` (mesmo semver) em `packages/tokens/package.json` e `packages/ui-native/package.json`.
-2. Commit + `git tag vX.Y.Z` + `git push --tags`.
-3. O workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml) builda e publica os dois pacotes automaticamente.
+1. Abra um PR **`develop → main`** e mergeie quando o CI passar (isso é o "aprovar").
+2. Na `main` atualizada: bump de `version` (mesmo semver) em
+   `packages/tokens/package.json` **e** `packages/ui-native/package.json` (via PR,
+   pois `main` é protegida). Garanta que a tag vai bater com esse número.
+3. **Na `main`**: `git tag vX.Y.Z` + `git push origin vX.Y.Z`.
+4. O workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml)
+   (dispara em tags `v*.*.*`) builda e publica os dois pacotes automaticamente.
+5. Back-merge `main → develop` para a `develop` não ficar atrás do bump de versão.
+
+## Dependabot — só segurança
+
+O Dependabot é um bot do GitHub para dependências. Ele tem **duas partes
+independentes**, e aqui a escolha é deliberada:
+
+- **Version updates** (PRs semanais "modernizando" libs, via `.github/dependabot.yml`):
+  **DESLIGADO** — não existe mais o `dependabot.yml`. Para um time pequeno e em
+  ritmo de entrega, o ganho não paga o ruído (e já nos custou tempo real: um bump
+  automático de TypeScript 7 quebrou o `ts-jest`). **Atualização de versão aqui é
+  manual e deliberada** — quando alguém encosta no repo e decide subir.
+- **Security updates** (PRs **só quando há uma vulnerabilidade real/CVE** numa
+  dependência): **LIGADO** (setting do repo `dependabot_security_updates`). É a
+  parte de valor alto e ruído quase zero — uma rede de proteção que só toca quando
+  há um problema de verdade.
+
+**Se um dia quiser reativar os version-updates**, recrie o `.github/dependabot.yml`
+com `target-branch: develop` (nunca `main` — ver fluxo de release acima) e
+`ignore` para bumps major.
 
 ### Consumindo em outro projeto (fora deste monorepo)
 

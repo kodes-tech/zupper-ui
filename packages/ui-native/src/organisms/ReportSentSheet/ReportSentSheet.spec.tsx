@@ -4,7 +4,7 @@ import { ReportSentSheet } from './ReportSentSheet';
 describe('ReportSentSheet', () => {
   it('renders the confirmation and both actions', async () => {
     await render(<ReportSentSheet />);
-    expect(screen.getByText('Denúncia enviada')).toBeOnTheScreen();
+    expect(screen.getByText('Denunciar publicação')).toBeOnTheScreen();
     expect(screen.getByText('Concluir')).toBeOnTheScreen();
     expect(screen.getByText('Bloquear este autor')).toBeOnTheScreen();
   });

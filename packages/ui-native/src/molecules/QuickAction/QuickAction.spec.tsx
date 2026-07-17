@@ -3,7 +3,7 @@ import { QuickAction } from './QuickAction';
 
 describe('QuickAction', () => {
   it('renders the label', async () => {
-    await render(<QuickAction icon={{ uri: 'https://example.com/i.png' }} label="Pacotes" />);
+    await render(<QuickAction icon="oferta-pacotes" label="Pacotes" />);
     expect(screen.getByText('Pacotes')).toBeOnTheScreen();
   });
 });

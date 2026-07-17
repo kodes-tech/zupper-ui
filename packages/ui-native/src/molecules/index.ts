@@ -2,6 +2,7 @@
 export * from './AccountGreeting';
 export * from './AccountRow';
 export * from './AccountSection';
+export * from './BlockedAccountRow';
 export * from './CommentInput';
 export * from './CommentThread';
 export * from './ContentAuthor';
@@ -9,7 +10,9 @@ export * from './DestinationCard';
 export * from './LikeButton';
 export * from './OfferCard';
 export * from './PhotoGrid';
+export * from './PreferenceTile';
 export * from './QuickAction';
+export * from './RadioOption';
 export * from './RoteiroDayCard';
 export * from './RoteiroDayForm';
 export * from './SearchField';

@@ -6,7 +6,7 @@
   "source": "src/native/index.ts",
   "main": "lib/commonjs/web/index.js",
   "module": "lib/module/web/index.js",
-  "types": "lib/typescript/native/index.d.ts",
+  "types": "lib/typescript/web/index.d.ts",
   "react-native": "src/native/index.ts",
   "exports": {
     ".": {

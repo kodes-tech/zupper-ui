@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Icon } from '@kodes-tech/icons';
 
 export type SelectFieldProps = {
@@ -30,6 +30,10 @@ export const SelectField = ({
     <Text className={`font-sans text-authorName ${value ? 'text-fg-secondary' : 'text-fg-muted'}`}>
       {value ?? placeholder}
     </Text>
-    <Icon name="dropdown-arrow" size={24} style={{ transform: [{ rotate: '-90deg' }] }} />
+    {/* rotação no View (não no Icon): estilo de RN não é portável entre os
+        renderers do @kodes-tech/icons — no web o <svg> ignorava o transform */}
+    <View style={{ transform: [{ rotate: '-90deg' }] }}>
+      <Icon name="dropdown-arrow" size={24} />
+    </View>
   </Pressable>
 );

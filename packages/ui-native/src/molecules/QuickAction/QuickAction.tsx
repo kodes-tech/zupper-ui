@@ -6,7 +6,7 @@ import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
 export type QuickActionProps = PressableProps & {
-  /** Nome do ícone do design system (SVG). Ex.: 'oferta-passagens'. */
+  /** Nome do ícone do design system (SVG). Ex.: 'quick-voos'. */
   icon: IconName;
   label: string;
 };

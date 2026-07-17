@@ -7,9 +7,15 @@ export default {
   title: 'Molecules/QuickAction',
   component: QuickAction,
   args: { onPress: action('onPress') },
-  decorators: [(Story: React.ComponentType) => <View style={{ width: 120 }}><Story /></View>],
+  decorators: [
+    (Story: React.ComponentType) => (
+      <View style={{ width: 120 }}>
+        <Story />
+      </View>
+    ),
+  ],
 };
 
-export const Voos = { args: { icon: 'oferta-passagens', label: 'Buscar Voos' } };
-export const Hospedagens = { args: { icon: 'oferta-hospedagens', label: 'Hospedagens' } };
-export const Pacotes = { args: { icon: 'oferta-pacotes', label: 'Pacotes' } };
+export const Voos = { args: { icon: 'quick-voos', label: 'Buscar Voos' } };
+export const Hospedagens = { args: { icon: 'quick-hospedagens', label: 'Hospedagens' } };
+export const Pacotes = { args: { icon: 'quick-pacotes', label: 'Pacotes' } };

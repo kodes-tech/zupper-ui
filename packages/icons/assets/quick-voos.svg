@@ -1,0 +1,12 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Figma node 377:24635 "quick-action / Buscar Voos" (fileKey CRJYlaF0ep3mKL5fwH3e31),
+       grupo "Iconografia Padrão - Zupper > Grupo 10697". Variante 48px do desenho do
+       oferta-passagens (escala x3) com stroke-width 1.5 — é o traço fino do design;
+       usar o oferta-passagens (grade 16) em size 48 triplica o stroke (ficava grosso).
+       O translate mapeia o box do ícone dentro do card (x 31.667, y 16) para 0,0;
+       o svgr baka o transform nos coords dos paths. -->
+  <g transform="translate(-31.667 -16)" stroke="#008C99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M39.6327 52.3438H61.6327"/>
+    <path d="M44.9988 43.6697L40.6167 39.2898L43.1987 37.9998C43.4293 37.8842 43.6837 37.824 43.9417 37.824C44.1996 37.824 44.454 37.8842 44.6846 37.9998L47.2666 39.2898L52.5728 36.0037L45.6047 29.3562L50.5906 27.656L58.9006 32.6414L66.7246 28.1716C67.1704 27.9165 67.6691 27.768 68.1819 27.738C68.6946 27.7081 69.2075 27.7982 69.6799 27.9998C70.1524 28.2013 70.5715 28.5093 70.9048 28.9001C71.2381 29.2909 71.4762 29.7534 71.6006 30.2517C71.7738 30.9432 71.7204 31.6722 71.4478 32.3308C71.1751 32.9895 70.6979 33.5431 70.0867 33.9099L56.1187 42.2898C55.7603 42.5045 55.3647 42.6494 54.9526 42.7175L46.4468 44.1355C46.1857 44.179 45.9179 44.1599 45.666 44.0789C45.4141 43.9978 45.1854 43.8573 44.9988 43.6697Z"/>
+  </g>
+</svg>

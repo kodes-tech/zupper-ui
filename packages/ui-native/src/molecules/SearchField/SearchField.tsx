@@ -3,7 +3,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text } from 'react-native';
 import type { PressableProps } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 
 export type SearchFieldProps = PressableProps & {
   placeholder?: string;
@@ -28,7 +28,13 @@ export const SearchField = ({
       colors={[...colors.gradient.button]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' }}
+      style={{
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
       <Icon name="search" size={20} />
     </LinearGradient>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text } from 'react-native';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 
 export type SelectFieldProps = {
   /** Valor selecionado (ex.: "Recife, PE"). */

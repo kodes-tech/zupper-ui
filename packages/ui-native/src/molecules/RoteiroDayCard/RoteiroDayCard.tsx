@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 
 export type RoteiroStop = {
   id: string;
@@ -40,9 +40,7 @@ export const RoteiroDayCard = ({
       }`}
     >
       <Text className="font-sans text-[18px] font-bold text-brand-strong">{day}</Text>
-      <Text
-        className={`font-sans text-[18px] font-bold text-fg-primary ${onEdit ? 'flex-1' : ''}`}
-      >
+      <Text className={`font-sans text-[18px] font-bold text-fg-primary ${onEdit ? 'flex-1' : ''}`}>
         {title}
       </Text>
       {onEdit ? (
@@ -59,9 +57,7 @@ export const RoteiroDayCard = ({
           <View key={stop.id} className="flex-row items-start gap-[10px]">
             <View className="w-[10px] items-center self-stretch">
               <View className="h-[10px] w-[10px] rounded-pill bg-brand-connectorDot" />
-              {!isLast ? (
-                <View className="mt-xxs w-[2px] flex-1 bg-brand-connectorLine" />
-              ) : null}
+              {!isLast ? <View className="mt-xxs w-[2px] flex-1 bg-brand-connectorLine" /> : null}
             </View>
             <View className="flex-1 gap-xxs">
               <Text className="font-sans text-caption text-fg-muted">{stop.period}</Text>

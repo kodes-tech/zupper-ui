@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Button } from '../../atoms/Button';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 import type { RoleBadgeVariant } from '../../atoms/RoleBadge';
 import { PhotoGrid } from '../../molecules/PhotoGrid';
 import { BottomNav } from '../../organisms/BottomNav';
@@ -67,9 +67,7 @@ export const CommunityProfile = ({
 }: CommunityProfileProps): React.ReactElement => {
   const sections = tab === 'dicas' ? dicaSections : roteiroSections;
   const isEmpty =
-    tab === 'fotos'
-      ? photos.length === 0
-      : sections.every((section) => section.posts.length === 0);
+    tab === 'fotos' ? photos.length === 0 : sections.every((section) => section.posts.length === 0);
   return (
     <View className="flex-1 bg-surface-tag">
       <ScrollView showsVerticalScrollIndicator={false}>

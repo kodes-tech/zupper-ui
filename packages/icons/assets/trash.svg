@@ -1,0 +1,6 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Reconstruído a partir do atom Trash.tsx (o export do Figma nunca foi commitado
+       em assets/ — o audit acusava o elo solto). Lixeira com "x" interno, stroke
+       #EF4444 (vermelho de ação destrutiva, menu de denúncia/exclusão). -->
+  <path stroke="#EF4444" stroke-linecap="round" stroke-linejoin="round" d="M5.102 7.189h13.796M17.913 7.189v10.84c0 .523-.208 1.024-.578 1.394-.369.37-.87.577-1.393.577H8.058c-.523 0-1.024-.208-1.394-.577a1.97 1.97 0 0 1-.577-1.394V7.189M14.956 4H9.043M13.841 15.436 10.16 11.754M10.16 15.436l3.682-3.682"/>
+</svg>

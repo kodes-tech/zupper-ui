@@ -2,8 +2,8 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
-import { Icon } from '../../atoms/Icon';
-import type { IconName } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
+import type { IconName } from '@kodes-tech/icons';
 
 export type CommunityCTAVariant = 'traveler' | 'partner';
 
@@ -27,7 +27,12 @@ const Pill = ({
   gradient: string[];
   onPress?: () => void;
 }) => (
-  <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={{ flex: 1 }}>
+  <Pressable
+    accessibilityRole="button"
+    accessibilityLabel={label}
+    onPress={onPress}
+    style={{ flex: 1 }}
+  >
     <LinearGradient
       colors={gradient}
       start={{ x: 0, y: 0 }}
@@ -70,13 +75,20 @@ export const CommunityCTA = ({
   return (
     <View className={`gap-xxl rounded-sm p-xl ${cardClass}`}>
       <View className="gap-xs">
-        <Text className="font-sans text-[17px] font-bold leading-[22px] text-fg-heading">{title}</Text>
+        <Text className="font-sans text-[17px] font-bold leading-[22px] text-fg-heading">
+          {title}
+        </Text>
         <Text className="font-sans text-bodyText text-fg-body">{description}</Text>
       </View>
       <View className="flex-row gap-md">
         <Pill iconName="content-dica-white" label="Dica" gradient={gradient} onPress={onDica} />
         <Pill iconName="content-foto-white" label="Foto" gradient={gradient} onPress={onFoto} />
-        <Pill iconName="content-roteiro-white" label="Roteiro" gradient={gradient} onPress={onRoteiro} />
+        <Pill
+          iconName="content-roteiro-white"
+          label="Roteiro"
+          gradient={gradient}
+          onPress={onRoteiro}
+        />
       </View>
     </View>
   );

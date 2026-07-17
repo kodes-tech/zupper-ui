@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Button } from '../../atoms/Button';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 import { ConfirmDialog } from '../ConfirmDialog';
 
 export type ContentUnderReviewSheetProps = {
@@ -24,13 +24,11 @@ export const ContentUnderReviewSheet = ({
   <ConfirmDialog onDismiss={onDismiss}>
     <View className="items-center gap-xl">
       <Icon name="status-review" size={72} />
-      <Text className="font-sans text-[18px] font-bold text-fg-primary">
-        Publicação em análise
-      </Text>
+      <Text className="font-sans text-[18px] font-bold text-fg-primary">Publicação em análise</Text>
     </View>
     <Text className="font-sans text-[14px] leading-[18px] text-fg-secondary">
-      Recebemos uma denúncia sobre esta publicação. Nossa equipe está avaliando e ela segue
-      visível por enquanto. Avisaremos o resultado.
+      Recebemos uma denúncia sobre esta publicação. Nossa equipe está avaliando e ela segue visível
+      por enquanto. Avisaremos o resultado.
     </Text>
     <Button
       variant="secondary"

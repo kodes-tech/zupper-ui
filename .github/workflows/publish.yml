@@ -27,8 +27,21 @@ jobs:
       - run: npm run build --workspaces --if-present
 
       # @kodes-tech/icons NÃO entra neste trem: tem release próprio por tag
-      # icons-vX.Y.Z (ver publish-icons.yml). Só garanta que a versão de icons
-      # que o ui-native pede (dependencies) já esteja publicada.
+      # icons-vX.Y.Z (ver publish-icons.yml). O guard abaixo falha o trem ANTES
+      # de publicar qualquer pacote se a faixa de icons pedida pelo ui-native
+      # ainda não tiver versão publicada no registry (ordem: icons-v* primeiro).
+      - name: Guard — @kodes-tech/icons publicado na faixa pedida pelo ui-native
+        run: |
+          RANGE=$(node -p "require('./packages/ui-native/package.json').dependencies['@kodes-tech/icons']")
+          FOUND=$(npm view "@kodes-tech/icons@${RANGE}" version 2>/dev/null | tail -1)
+          if [ -z "$FOUND" ]; then
+            echo "::error::Nenhuma versão publicada de @kodes-tech/icons satisfaz '${RANGE}'. Publique a tag icons-v* antes do trem vX.Y.Z."
+            exit 1
+          fi
+          echo "ok: @kodes-tech/icons ${FOUND} satisfaz '${RANGE}'"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish @kodes-tech/tokens
         run: npm publish --workspace packages/tokens
         env:

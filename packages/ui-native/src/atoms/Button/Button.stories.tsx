@@ -47,3 +47,7 @@ export const Danger = { args: { label: 'Denunciar publicação', variant: 'dange
 
 // Botão de largura total, usado no CTA "Publicar" dos formulários.
 export const FullWidth = { args: { label: 'Publicar', fullWidth: true } };
+
+// Estado "Disabled" — mesma aparência neutra (borda/texto cinza) em qualquer
+// variante, ex.: CTA "Avançar" do quiz de preferências antes de uma seleção.
+export const Disabled = { args: { label: 'Avançar', fullWidth: true, disabled: true } };

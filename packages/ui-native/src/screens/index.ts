@@ -17,3 +17,5 @@ export * from './Feed';
 export * from './MyAccount';
 export * from './PersonalData';
 export * from './PublishContent';
+export * from './TravelPreferencesResult';
+export * from './TravelPreferencesStep';

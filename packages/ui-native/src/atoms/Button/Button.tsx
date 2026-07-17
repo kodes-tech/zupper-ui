@@ -59,6 +59,15 @@ const containerClassByVariant = (variant: 'secondary' | 'ghost' | 'danger', tone
   return `flex-row items-center justify-center gap-md rounded-pill border ${secondaryBorderClassByTone[tone]} px-screenMargin py-md`;
 };
 
+// Estado "Disabled" (eixo State do Button no Figma) — mesma aparência neutra
+// independente da variante, por isso sobrepõe borda/texto em vez de compor.
+// Fundo branco explícito (bg-surface-default): sem ele o botão fica
+// transparente e herda o cinza da tela por trás.
+const disabledContainerClass =
+  'flex-row items-center justify-center gap-md rounded-pill border border-border-default bg-surface-default px-screenMargin py-md';
+
+const disabledLabelClass = 'font-sans text-buttonLabel text-fg-muted';
+
 const secondaryLabelClassByTone: Record<ButtonTone, string> = {
   brand: 'font-sans text-buttonLabelLg text-brand-zupper',
   highlight: 'font-sans text-buttonLabelLg text-brand-strong',
@@ -97,22 +106,32 @@ export const Button = ({
   variant = 'primary',
   tone = 'brand',
   fullWidth = false,
+  disabled,
   ...rest
 }: ButtonProps) => {
   const content = (
     <>
       {icon && iconPosition === 'left' ? icon : null}
-      {label ? <Text className={labelClassByVariant(variant, tone)}>{label}</Text> : null}
+      {label ? (
+        <Text className={disabled ? disabledLabelClass : labelClassByVariant(variant, tone)}>
+          {label}
+        </Text>
+      ) : null}
       {icon && iconPosition === 'right' ? icon : null}
     </>
   );
 
-  if (variant === 'secondary' || variant === 'ghost' || variant === 'danger') {
+  if (disabled || variant === 'secondary' || variant === 'ghost' || variant === 'danger') {
     return (
-      <Pressable testID="button" className={fullWidth ? 'w-full' : undefined} {...rest}>
+      <Pressable
+        testID="button"
+        className={fullWidth ? 'w-full' : undefined}
+        disabled={disabled}
+        {...rest}
+      >
         <View
           testID="button-container"
-          className={`${containerClassByVariant(variant, tone)} ${fullWidth ? 'w-full' : ''}`}
+          className={`${disabled ? disabledContainerClass : containerClassByVariant(variant as 'secondary' | 'ghost' | 'danger', tone)} ${fullWidth ? 'w-full' : ''}`}
         >
           {content}
         </View>

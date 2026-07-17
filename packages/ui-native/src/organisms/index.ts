@@ -18,3 +18,4 @@ export * from './ReportConfirmSheet';
 export * from './ReportReasonsSheet';
 export * from './ReportSentSheet';
 export * from './ScreenHeader';
+export * from './TravelPreferencesResultCard';

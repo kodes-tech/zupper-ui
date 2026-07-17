@@ -11,9 +11,14 @@ const postAvatar = require('../../_figma/assets/photos/post-avatar.png');
 const postImage = require('../../_figma/assets/photos/post-image.jpg');
 
 const quickActions: FeedQuickAction[] = [
-  { key: 'voos', icon: 'oferta-passagens', label: 'Buscar Voos', onPress: action('quick:voos') },
-  { key: 'hospedagens', icon: 'oferta-hospedagens', label: 'Hospedagens', onPress: action('quick:hospedagens') },
-  { key: 'pacotes', icon: 'oferta-pacotes', label: 'Pacotes', onPress: action('quick:pacotes') },
+  { key: 'voos', icon: 'quick-voos', label: 'Buscar Voos', onPress: action('quick:voos') },
+  {
+    key: 'hospedagens',
+    icon: 'quick-hospedagens',
+    label: 'Hospedagens',
+    onPress: action('quick:hospedagens'),
+  },
+  { key: 'pacotes', icon: 'quick-pacotes', label: 'Pacotes', onPress: action('quick:pacotes') },
 ];
 
 const destinations: FeedDestination[] = [

@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Avatar } from '../../atoms/Avatar';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 
 export type BlockedAccountAction = 'block' | 'unblock';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 import { colors, radii } from '@kodes-tech/tokens';
-import { Icon } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
 
 export type CommentInputProps = {
   /** Texto já digitado; quando vazio, mostra o placeholder. */

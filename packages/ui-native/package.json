@@ -28,17 +28,16 @@
   "scripts": {
     "build": "bob build",
     "typecheck": "tsc --noEmit",
-    "prepare": "tsc -p ../tokens/tsconfig.json && bob build",
+    "prepare": "tsc -p ../tokens/tsconfig.json && cd ../icons && bob build && cd ../ui-native && bob build",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "icons:audit": "node scripts/audit-icons.mjs",
-    "icons:generate": "node scripts/generate-icon.mjs"
+    "build-storybook": "storybook build"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
+    "@kodes-tech/icons": "^0.1.0",
     "@kodes-tech/tokens": "^0.3.0"
   },
   "peerDependencies": {

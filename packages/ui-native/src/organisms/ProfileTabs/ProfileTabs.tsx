@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Icon } from '../../atoms/Icon';
-import type { IconName } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
+import type { IconName } from '@kodes-tech/icons';
 
 export type ProfileTab = 'ver-tudo' | 'dicas' | 'fotos' | 'roteiros';
 
@@ -38,9 +38,7 @@ export const ProfileTabs = ({
     {tabs.map((tab) => {
       const isActive = tab === active;
       const iconName =
-        tab === 'ver-tudo'
-          ? null
-          : (`tab-${tab}-${isActive ? 'active' : 'inactive'}` as IconName);
+        tab === 'ver-tudo' ? null : (`tab-${tab}-${isActive ? 'active' : 'inactive'}` as IconName);
       return (
         <Pressable
           key={tab}

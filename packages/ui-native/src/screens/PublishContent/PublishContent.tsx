@@ -3,8 +3,8 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Button } from '../../atoms/Button';
 import { FilterChip } from '../../atoms/FilterChip';
-import { Icon } from '../../atoms/Icon';
-import type { IconName } from '../../atoms/Icon';
+import { Icon } from '@kodes-tech/icons';
+import type { IconName } from '@kodes-tech/icons';
 import { Input } from '../../atoms/Input';
 import { Textarea } from '../../atoms/Textarea';
 import { RoteiroDayCard } from '../../molecules/RoteiroDayCard';
@@ -174,7 +174,11 @@ export const PublishContent = ({
               ) : null}
             </View>
             {media ? (
-              <Image source={media} resizeMode="cover" className="h-[314px] w-full rounded-[10px]" />
+              <Image
+                source={media}
+                resizeMode="cover"
+                className="h-[314px] w-full rounded-[10px]"
+              />
             ) : (
               <View className="w-full flex-row gap-md">
                 <MediaPickerBox icon="media-gallery" label="Galeria" onPress={onPickGallery} />

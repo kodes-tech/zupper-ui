@@ -1,0 +1,22 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Figma node 377:24636 "quick-action / Hospedagens" (fileKey CRJYlaF0ep3mKL5fwH3e31),
+       grupo "Iconografia Padrão - Zupper > Grupo 10758". Grade 48, stroke-width 1.5
+       (traço fino do design). O translate mapeia o box do ícone dentro do card
+       (x 31.667, y 16) para 0,0; o svgr baka o transform nos coords dos paths. -->
+  <g transform="translate(-31.667 -16)" stroke="#008C99" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M64.5554 56V25.7778C64.5554 25.3063 64.368 24.8542 64.0346 24.5208C63.7012 24.1874 63.2491 24 62.7776 24H48.5554C48.0839 24 47.6316 24.1874 47.2982 24.5208C46.9648 24.8542 46.7776 25.3063 46.7776 25.7778V56"/>
+    <path d="M46.7777 34.6667H39.6666C39.1951 34.6667 38.7428 34.8541 38.4094 35.1875C38.076 35.5209 37.8888 35.9729 37.8888 36.4444V56"/>
+    <path d="M73.4443 56V36.4444C73.4443 35.9729 73.2569 35.5209 72.9235 35.1875C72.5901 34.8541 72.138 34.6667 71.6665 34.6667H64.5554"/>
+    <path d="M51.222 48.8889H60.1109"/>
+    <path d="M58.3331 48.8889V56"/>
+    <path d="M52.9999 56V48.8889"/>
+    <path d="M52.111 37.3333H59.2221"/>
+    <path d="M52.111 42.6667H59.2221"/>
+    <path d="M52.111 32H59.2221"/>
+    <path d="M43.222 42.6667H46.7776"/>
+    <path d="M43.222 48.8889H46.7776"/>
+    <path d="M64.5554 42.6667H68.111"/>
+    <path d="M64.5554 48.8889H68.111"/>
+    <path d="M75.2221 56H36.111"/>
+  </g>
+</svg>

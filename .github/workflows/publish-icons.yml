@@ -1,0 +1,37 @@
+name: Publish @kodes-tech/icons
+
+# Release ISOLADO do trem tokens+ui-native (tag vX.Y.Z → publish.yml):
+# o icons versiona e publica sozinho, por tag própria icons-vX.Y.Z.
+on:
+  push:
+    tags:
+      - 'icons-v*.*.*'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@kodes-tech'
+
+      # --legacy-peer-deps: mesmo motivo do ci.yml (react-native-web@0.19 pede React 18)
+      - run: npm ci --legacy-peer-deps
+
+      - name: Audit dos ícones (1:1 assets ↔ renderers)
+        run: npm run icons:audit -w @kodes-tech/icons
+
+      - run: npm run build -w @kodes-tech/icons
+
+      - name: Publish @kodes-tech/icons
+        run: npm publish --workspace packages/icons
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

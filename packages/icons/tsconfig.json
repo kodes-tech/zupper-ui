@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2019", "DOM"],
+    "types": ["react", "react-native"],
+    "noEmit": true
+  },
+  "include": ["src"],
+  "exclude": ["**/*.stories.*", "**/*.spec.*", "lib"]
+}

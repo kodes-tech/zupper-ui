@@ -24,6 +24,11 @@ Não existe "um componente para RN + React + Angular". Ver
 ícones (desenho compartilhado, renderer por plataforma no mesmo pacote),
 [ADR 0008](docs/decisions/0008-icons-package-dual-renderer.md).
 
+**Fronteira global × produto:** o package publica só **primitivos agnósticos** (o
+"MUI do Zupper"); **telas e componentes de produto ficam no app**, não aqui — DS não
+tem `screens/`. Storybook é **ferramenta/vitrine**, não o entregável. Ver
+[ADR 0009](docs/decisions/0009-design-system-boundary-and-storybook.md).
+
 ## Stack
 
 - **React Native** 0.83 + **React** 19 · **TypeScript** 5 (strict)

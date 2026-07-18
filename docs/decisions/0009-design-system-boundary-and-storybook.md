@@ -116,3 +116,16 @@ com o mesmo mecanismo de gate, podendo ter públicos/gates distintos.
   Travel forem reusados por outros apps Zupper. Por ora o dono natural é o **próprio
   app** (mais simples, menos um pacote pra versionar). Revisitar quando surgir um 2º app
   que precise dessas telas. O `CLAUDE.md` já previa a fronteira `ui-native` × `app-ui`.
+- **Telas como package publicado (`ui-superapp`)** — as telas viverem num pacote
+  publicado, com Storybook próprio, e o app importar o pacote. **Rejeitado:** todo
+  fix/hotfix de front passaria a exigir um **ciclo de publish cross-repo** (mudar no
+  `zupper-ui` → publicar versão → bumpar no app → rebuildar → atualizar), matando o
+  loop rápido de correção. Tela é a parte que mais muda e mais precisa de **hotfix via
+  OTA** — então ela mora **no app** (editar → OTA direto), não num pacote. A vitrine
+  pública das telas é resolvida publicando o **Storybook do próprio app** (build web
+  estático via `react-native-web`), sem duplicar as telas nem acoplar ao release do DS.
+- **Telas de referência no `zupper-ui` + reimplementar no app** (design-first) —
+  rejeitado: obriga a construir cada tela **duas vezes** (referência + implementação
+  real) e as duas **divergem** com o tempo (a galeria "aprovada" passa a mentir sobre o
+  que está em produção após hotfixes). O mesmo objetivo (URL pública das telas
+  aprovadas) é atingido publicando o Storybook do app, sem duplicação.

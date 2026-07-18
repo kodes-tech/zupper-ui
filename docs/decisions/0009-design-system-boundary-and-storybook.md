@@ -63,11 +63,30 @@ da empresa (um admin interno, outro app) usaria isso **como está**?"* — **Sim
 
 - **Package** = o **entregável** (o que os apps instalam e importam).
 - **Storybook** = **ferramenta** de desenvolvimento isolado + documentação viva + teste
-  visual. Não é entregável; não "forma" o package.
-- **Storybook do DS** (o publicado — ver `KSA-163`) é a **vitrine da assinatura**: mostra
-  só o layer global (tokens + primitivos). Não mostra telas do Zupper.
-- O **app pode ter o próprio Storybook** (interno) para desenvolver/preview das suas
-  telas de produto.
+  visual. Não é entregável; não "forma" o package (as `*.stories` são inclusive
+  excluídas do build publicado — Storybook é sempre uma camada *em volta* do código,
+  no repo onde o código vive).
+
+### 5. Dois Storybooks, dois públicos
+
+Separar o package do produto **não** tira as telas do Storybook — elas continuam
+visíveis e demonstráveis; muda só **onde** o Storybook mora. Teremos **dois**:
+
+| Storybook | Repo | Mostra | Público / uso |
+|---|---|---|---|
+| **DS (assinatura)** | `zupper-ui` | tokens, ícones, **primitivos** | outras equipes adotarem a "cara" da empresa |
+| **App (demo)** | `zupper-superapp` | **telas + produto** compostos com os primitivos | **demonstração ao cliente** + bancada dos devs do app |
+
+- O Storybook do **app** importa os primitivos do package (`@kodes-tech/ui-native`) e
+  renderiza as telas — é literalmente "componentes usando os primitivos", roda no
+  navegador (`react-native-web`, sem simulador/backend, dados via args). **É o que se
+  mostra ao cliente.**
+- O Storybook do **DS** é a vitrine neutra da assinatura — não mostra telas do Zupper.
+
+**Implicação para publicação (KSA-163):** os dois motivos de "publicar no ar" ficam
+separados — *demo ao cliente* → publicar o Storybook do **app** (telas); *assinatura
+para adoção* → publicar o Storybook do **DS** (primitivos). São dois alvos de publish,
+com o mesmo mecanismo de gate, podendo ter públicos/gates distintos.
 
 ## Consequences
 

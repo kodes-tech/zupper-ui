@@ -9,8 +9,10 @@ app** (`zupper-superapp/src/presentation/components/{community,travel}` +
 **Critério:** *é agnóstico e serve a qualquer produto?* → **primitivo** (fica).
 Codifica conteúdo/fluxo do Zupper? → **produto** (migra).
 
-Status atual: **~22 primitivos** vs **~39 de produto + 10 screens** → o DS está
-majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
+Status: **✅ concluído** — o DS é **100% primitivo** (sem `screens/` nem produto).
+Todo produto Zupper e todas as telas migraram para o `zupper-superapp`. O
+histórico da migração está em "Já migrado" e o inventário final em "Estado final
+do DS", abaixo. Este doc fica como registro do que saiu e por quê.
 
 ## Fica no DS — PRIMITIVOS
 
@@ -69,12 +71,17 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 - ✅ **MyAccount** (screen) → `zupper-superapp/screens/account/my-account` (root da tab Conta). **Impl real + wiring** (substitui o placeholder). Componentes **AccountGreeting · AccountRow · AccountSection** (Community) migrados e **removidos do DS**. 4 stories (LogadoViajante/LogadoSemViagem/LogadoParceiro/Deslogado).
 - ✅ **BlockedAccounts** + **PersonalData** (screens) → `zupper-superapp/screens/account/{blocked-accounts,personal-data}`. **Impl real + wiring** (rotas no AccountStack; abertas pelas linhas do MyAccount). Componentes **BlockedAccountRow** e **PersonalDataForm** (Community) migrados e **removidos do DS**. **RadioOption** vira wrapper primitivo (fica no DS). Isso **zerou o `screens/` do DS** (removido) — o package não tem mais telas (ADR 0009).
 
-## Estado final do DS (só primitivos)
-O `ui-native` não tem mais `screens/`. Restam:
+- ✅ **CommunityCTA** + **GreetingHeader** (Community) → app (`components/community`, impl real; wrappers deixaram de re-exportar o DS). **Removidos do DS.** Eram os 2 últimos produtos no `ui-native`.
+
+## Estado final do DS — 100% primitivos ✅
+O `ui-native` não tem mais `screens/` **nem produto**. Só primitivos genéricos:
 - **atoms**: Avatar · AvatarFallback · Badge · Button · Divider · FilterChip · Icon · Input · RoleBadge · Text · Textarea
 - **molecules**: PhotoGrid · RadioOption · SelectField · SheetOption · StatusBanner
-- **organisms**: BottomNav · BottomSheet · ConfirmDialog · ScreenHeader · **CommunityCTA** · **GreetingHeader**
-> ⚠️ **CommunityCTA** e **GreetingHeader** ainda são **produto (Community)** — hoje só o app os consome (via wrapper re-export). São os **2 últimos** a virar impl real no app para o DS ficar 100% primitivo.
+- **organisms**: BottomNav · BottomSheet · ConfirmDialog · ScreenHeader
+
+Todo o produto Zupper (Travel + Community) e todas as telas vivem no
+`zupper-superapp` (`src/presentation/{components,screens}`), consumindo os
+primitivos via wrappers. Objetivo da ADR 0009 alcançado.
 - ✅ **Sheets de moderação** (`PostActionsSheet` · `OwnPostActionsSheet` · `ReportConfirmSheet` · `ReportReasonsSheet` · `ReportSentSheet` · `NotInterestedSheet` · `DeleteOwnPostSheet` · `ContentUnderReviewSheet` · `ContentRemovedSheet`) → `zupper-superapp/components/community` (impl real). **Removidos do DS** (só o barril os consumia após a ContentDetail sair). Restaura as 9 stories de overlay da `ContentDetail` no app (agora 14, = DS).
 - ✅ **Wrappers primitivos `BottomSheet` · `ConfirmDialog` · `SheetOption`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS** (são a base dos sheets).
 

@@ -23,7 +23,7 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 
 ### Molecules (genéricas)
 `SelectField` · `RadioOption` · `SheetOption` · `StatusBanner` · `PhotoGrid`
-- ⚠️ `SearchField` — barra de busca genérica; só o placeholder ("Qual seu destino?") é produto → fica como primitivo, placeholder por prop.
+- ✅ `SearchField` — era limítrofe; **resolvido como Travel e migrado** pro app.
 - ⚠️ `CommentInput` — input+enviar genérico; **decidir** (primitivo vs community).
 
 ### Organisms (genéricos)
@@ -45,12 +45,14 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 
 | Camada | Componentes |
 |---|---|
-| Molecules | DestinationCard · QuickAction · OfferCard · PreferenceTile · RoteiroDayCard · RoteiroDayForm |
+| Molecules | OfferCard · PreferenceTile · RoteiroDayCard · RoteiroDayForm |
 | Organisms | TravelPreferencesResultCard |
-| Screens | DestinationDetails · Destinations · TravelPreferencesResult · TravelPreferencesStep |
+| Screens | DestinationDetails · TravelPreferencesResult · TravelPreferencesStep |
 
 ## Já migrado
 - ✅ **Feed** → `zupper-superapp/screens/home` (renomeada Home; agrega community+travel).
+- ✅ **Destinations** (screen) → `zupper-superapp/screens/destinations`.
+- ✅ **DestinationCard · QuickAction · SearchField** (Travel) → `zupper-superapp/components/travel` (impl real; removidos do DS). `SearchField` era limítrofe (primitivo?) — resolvido como Travel.
 
 ## Como migrar uma peça (recap do padrão)
 1. O wrapper no app (`components/<domínio>/<Nome>`) hoje **re-exporta** o DS.
@@ -59,6 +61,6 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 3. Remove a peça do DS (source + story) — como fizemos no Feed.
 4. Aplica a **regra de ouro do wrapper** (ADR 0010): API própria, sem passthrough.
 
-> Casos ⚠️ **limítrofes** (RoleBadge, SearchField, CommentInput, PublishedModal):
+> Casos ⚠️ **limítrofes** (RoleBadge, CommentInput, PublishedModal):
 > decidir com o time antes de migrar. Default: se der pra generalizar sem cheiro
 > de Zupper, fica primitivo.

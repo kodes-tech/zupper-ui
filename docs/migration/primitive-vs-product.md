@@ -36,8 +36,8 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 
 | Camada | Componentes |
 |---|---|
-| Molecules | AccountGreeting · AccountRow · AccountSection · BlockedAccountRow · CommentThread · ContentAuthor · LikeButton · SocialBar |
-| Organisms | CommunityCTA · GreetingHeader · PostCard · ProfileTabs · PersonalDataForm · NotInterestedSheet · ContentRemovedSheet · ContentUnderReviewSheet · DeleteOwnPostSheet · OwnPostActionsSheet · PostActionsSheet · ReportConfirmSheet · ReportReasonsSheet · ReportSentSheet |
+| Molecules | AccountGreeting · AccountRow · AccountSection · BlockedAccountRow · CommentThread · ContentAuthor |
+| Organisms | CommunityCTA · GreetingHeader · ProfileTabs · PersonalDataForm · NotInterestedSheet · ContentRemovedSheet · ContentUnderReviewSheet · DeleteOwnPostSheet · OwnPostActionsSheet · PostActionsSheet · ReportConfirmSheet · ReportReasonsSheet · ReportSentSheet |
 | Screens | BlockedAccounts · CommunityProfile · ContentDetail · MyAccount · PersonalData · PublishContent |
 
 ## Migra pro app — PRODUTO · Travel
@@ -53,6 +53,7 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 - ✅ **Feed** → `zupper-superapp/screens/home` (renomeada Home; agrega community+travel).
 - ✅ **Destinations** (screen) → `zupper-superapp/screens/destinations`.
 - ✅ **DestinationCard · QuickAction · SearchField** (Travel) → `zupper-superapp/components/travel` (impl real; removidos do DS). `SearchField` era limítrofe (primitivo?) — resolvido como Travel.
+- ✅ **PostCard · SocialBar · LikeButton** (Community) → `zupper-superapp/components/community` (impl real). ⚠️ **Cópias MANTIDAS no DS** (opção B) porque as telas-referência `ContentDetail`/`CommunityProfile`/`DestinationDetails` (ainda no DS) as usam — remover do DS quando essas telas migrarem (duplicação temporária).
 
 ## Como migrar uma peça (recap do padrão)
 1. O wrapper no app (`components/<domínio>/<Nome>`) hoje **re-exporta** o DS.

@@ -62,6 +62,8 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 - ✅ **CommunityProfile** (screen) → `zupper-superapp/screens/community-profile` (top-level). Impl real no app. ⚠️ **Cópia MANTIDA no DS** (opção B): a tela **`TravelPreferencesResult` (DS, ainda não migrada) a compõe** via slot `overlay`. Por isso **`PostCard` · `ProfileTabs` · `LikeButton` também seguem no DS** (deps da CommunityProfile) — saem quando `TravelPreferencesResult`/`Step` migrarem.
 - ✅ **RoteiroDayCard** (Travel) → `zupper-superapp/components/travel` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `PublishContent` (DS) ainda usa.
 - ✅ **Wrappers primitivos `StatusBanner` · `PhotoGrid`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS**.
+- ✅ **PublishedModal** (Community) → `zupper-superapp/components/community` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `TravelPreferencesResultCard` (DS) ainda o usa. Restaura as stories "…Publicada" da CommunityProfile no app.
+- ⏳ **Sheets de moderação** (`PostActionsSheet`, `OwnPostActionsSheet`, `Report*Sheet`, `NotInterestedSheet`, `DeleteOwnPostSheet`, `ContentUnderReviewSheet`, `ContentRemovedSheet`) — **ainda no DS**. As stories de overlay de `ContentDetail` que dependem deles **não foram portadas** pro app ainda (cluster próprio). Ver "pendências" abaixo.
 
 ## Como migrar uma peça (recap do padrão)
 1. O wrapper no app (`components/<domínio>/<Nome>`) hoje **re-exporta** o DS.

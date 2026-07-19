@@ -5,8 +5,6 @@ export * from './AccountSection';
 export * from './BlockedAccountRow';
 export * from './PhotoGrid';
 export * from './RadioOption';
-export * from './RoteiroDayCard';
-export * from './RoteiroDayForm';
 export * from './SelectField';
 export * from './SheetOption';
 export * from './StatusBanner';

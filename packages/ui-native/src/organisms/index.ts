@@ -5,8 +5,4 @@ export * from './CommunityCTA';
 export * from './ConfirmDialog';
 export * from './GreetingHeader';
 export * from './PersonalDataForm';
-export * from './PostCard';
-export * from './ProfileTabs';
-export * from './PublishedModal';
 export * from './ScreenHeader';
-export * from './TravelPreferencesResultCard';

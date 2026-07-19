@@ -54,15 +54,16 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 - ✅ **Feed** → `zupper-superapp/screens/home` (renomeada Home; agrega community+travel).
 - ✅ **Destinations** (screen) → `zupper-superapp/screens/destinations`.
 - ✅ **DestinationCard · QuickAction · SearchField** (Travel) → `zupper-superapp/components/travel` (impl real; removidos do DS). `SearchField` era limítrofe (primitivo?) — resolvido como Travel.
-- ✅ **PostCard · SocialBar · LikeButton** (Community) → `zupper-superapp/components/community` (impl real). ⚠️ **Cópias MANTIDAS no DS** (opção B) porque `ContentDetail`/`CommunityProfile` (ainda no DS) as usam.
+- ✅ **PostCard · SocialBar · LikeButton** (Community) → `zupper-superapp/components/community` (impl real). **Removidos do DS** (ver TravelPreferencesResult abaixo — fechou a opção B).
 - ✅ **DestinationDetails** (screen) → `zupper-superapp/screens/destination-details` (top-level; agrega Travel+Community). Removida do DS.
-- ✅ **OfferCard** (Travel) + **ProfileTabs** (Community) → app (impl real).
+- ✅ **OfferCard** (Travel) + **ProfileTabs** (Community) → app (impl real). **Removidos do DS.**
 - ✅ **Primitivo `Image`** criado no app (`components/primitives/Image`, embrulha o RN Image) + boundary do ESLint agora restringe `Image` do react-native fora de `components/`.
 - ✅ **ContentDetail** (screen) → `zupper-superapp/screens/content-detail` (top-level; agrega Community + Travel). **Removida do DS.** Componentes exclusivos dela **removidos do DS** (nenhum outro consumidor): **OfferCard · SocialBar · CommentInput · CommentThread · ContentAuthor** (impl real no app: `community/{CommentInput,CommentThread,ContentAuthor,SocialBar}`, `travel/OfferCard`). `ContentAuthor` ganhou `onPress` no app (toca autor → perfil).
-- ✅ **CommunityProfile** (screen) → `zupper-superapp/screens/community-profile` (top-level). Impl real no app. ⚠️ **Cópia MANTIDA no DS** (opção B): a tela **`TravelPreferencesResult` (DS, ainda não migrada) a compõe** via slot `overlay`. Por isso **`PostCard` · `ProfileTabs` · `LikeButton` também seguem no DS** (deps da CommunityProfile) — saem quando `TravelPreferencesResult`/`Step` migrarem.
-- ✅ **RoteiroDayCard** (Travel) → `zupper-superapp/components/travel` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `PublishContent` (DS) ainda usa.
+- ✅ **CommunityProfile** (screen) → `zupper-superapp/screens/community-profile` (top-level). Impl real no app. **Removida do DS.**
+- ✅ **RoteiroDayCard** (Travel) → `zupper-superapp/components/travel` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `PublishContent` (DS) ainda usa — sai quando `PublishContent` migrar.
 - ✅ **Wrappers primitivos `StatusBanner` · `PhotoGrid`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS**.
-- ✅ **PublishedModal** (Community) → `zupper-superapp/components/community` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `TravelPreferencesResultCard` (DS) ainda o usa. Restaura as stories "…Publicada" da CommunityProfile no app.
+- ✅ **PublishedModal** (Community) → `zupper-superapp/components/community` (impl real). **Removido do DS.** Restaura as stories "…Publicada" da CommunityProfile no app.
+- ✅ **TravelPreferencesResult** (screen) + **TravelPreferencesResultCard** (Travel) → app (`screens/travel-preferences-result` + `components/travel`). **Removidos do DS.** Isso **fechou a opção B do cluster Community**: com o Result fora do DS, `CommunityProfile` (e com ela `PostCard` · `ProfileTabs` · `LikeButton` · `PublishedModal`) saíram do DS. ⚠️ Sem rota no app ainda — só apresentacional + story; o wiring chega com o fluxo do quiz (`TravelPreferencesStep`).
 - ✅ **Sheets de moderação** (`PostActionsSheet` · `OwnPostActionsSheet` · `ReportConfirmSheet` · `ReportReasonsSheet` · `ReportSentSheet` · `NotInterestedSheet` · `DeleteOwnPostSheet` · `ContentUnderReviewSheet` · `ContentRemovedSheet`) → `zupper-superapp/components/community` (impl real). **Removidos do DS** (só o barril os consumia após a ContentDetail sair). Restaura as 9 stories de overlay da `ContentDetail` no app (agora 14, = DS).
 - ✅ **Wrappers primitivos `BottomSheet` · `ConfirmDialog` · `SheetOption`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS** (são a base dos sheets).
 

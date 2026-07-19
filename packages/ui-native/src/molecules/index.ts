@@ -3,7 +3,6 @@ export * from './AccountGreeting';
 export * from './AccountRow';
 export * from './AccountSection';
 export * from './BlockedAccountRow';
-export * from './LikeButton';
 export * from './PhotoGrid';
 export * from './PreferenceTile';
 export * from './RadioOption';

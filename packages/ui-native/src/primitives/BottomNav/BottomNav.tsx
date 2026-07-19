@@ -4,40 +4,35 @@ import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
-export type BottomNavKey = 'inicio' | 'reservar' | 'pedidos' | 'conta';
-
-export type BottomNavProps = {
-  /** Item ativo; omitido = nenhum destacado (ex.: telas fora das tabs). */
-  active?: BottomNavKey;
-  onNavigate?: (key: BottomNavKey) => void;
+export type BottomNavItem = {
+  /** Identificador do item, retornado no `onNavigate`. */
+  key: string;
+  label: string;
+  /** Ícone no estado inativo (ou único, se não houver `activeIcon`). */
+  icon: IconName;
+  /** Ícone quando o item está ativo; default = `icon`. */
+  activeIcon?: IconName;
 };
 
-const items: { key: BottomNavKey; icon: IconName; label: string }[] = [
-  { key: 'inicio', icon: 'nav-inicio', label: 'Início' },
-  { key: 'reservar', icon: 'nav-reservar', label: 'Reservar' },
-  { key: 'pedidos', icon: 'nav-pedidos', label: 'Pedidos' },
-  { key: 'conta', icon: 'nav-conta', label: 'Conta' },
-];
+export type BottomNavProps = {
+  /** Itens da barra — **até 5**. Cada item define sua key/label/ícone(s). */
+  items: BottomNavItem[];
+  /** Key do item ativo; omitido = nenhum destacado (ex.: telas fora das tabs). */
+  active?: string;
+  onNavigate?: (key: string) => void;
+};
 
 /**
- * BottomNav — barra inferior (Início/Reservar/Pedidos/Conta). O item ativo fica
- * com o label em destaque; os ícones de Início e Conta trocam entre ativo (marca)
- * e neutro.
+ * BottomNav — barra de navegação inferior **genérica**: recebe os itens por prop
+ * (até 5). O item ativo fica com o label em destaque e usa `activeIcon` (se dado).
+ * Primitivo agnóstico: não conhece as abas de nenhum produto — quem define as abas
+ * é o app consumidor.
  */
-export const BottomNav = ({ active, onNavigate }: BottomNavProps): React.ReactElement => (
+export const BottomNav = ({ items, active, onNavigate }: BottomNavProps): React.ReactElement => (
   <View className="w-full flex-row gap-md bg-surface-default px-screenMargin py-xl">
     {items.map((item) => {
       const isActive = item.key === active;
-      const iconName: IconName =
-        item.key === 'inicio'
-          ? isActive
-            ? 'nav-inicio'
-            : 'nav-inicio-neutral'
-          : item.key === 'conta'
-            ? isActive
-              ? 'nav-conta-active'
-              : 'nav-conta'
-            : item.icon;
+      const iconName: IconName = isActive ? (item.activeIcon ?? item.icon) : item.icon;
       return (
         <Pressable
           key={item.key}

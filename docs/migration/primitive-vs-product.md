@@ -72,6 +72,7 @@ do DS", abaixo. Este doc fica como registro do que saiu e por quê.
 - ✅ **BlockedAccounts** + **PersonalData** (screens) → `zupper-superapp/screens/account/{blocked-accounts,personal-data}`. **Impl real + wiring** (rotas no AccountStack; abertas pelas linhas do MyAccount). Componentes **BlockedAccountRow** e **PersonalDataForm** (Community) migrados e **removidos do DS**. **RadioOption** vira wrapper primitivo (fica no DS). Isso **zerou o `screens/` do DS** (removido) — o package não tem mais telas (ADR 0009).
 
 - ✅ **CommunityCTA** + **GreetingHeader** (Community) → app (`components/community`, impl real; wrappers deixaram de re-exportar o DS). **Removidos do DS.** Eram os 2 últimos produtos no `ui-native`.
+- ✅ **BottomNav generalizado** — antes tinha as 4 abas do Zupper embutidas (produto disfarçado de primitivo). Agora é **genérico no DS** (recebe `items` por prop, até 5). As abas do Zupper viraram um **wrapper de produto no app** (`components/shared/BottomNav`, compõe o primitivo do DS + injeta as abas + expõe a API tipada `BottomNavKey`). `ScreenHeader` já era genérico e segue primitivo.
 
 ## Estado final do DS — 100% primitivos ✅
 O `ui-native` não tem mais `screens/` **nem produto**. Só primitivos genéricos:

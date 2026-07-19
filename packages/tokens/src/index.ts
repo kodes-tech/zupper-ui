@@ -10,7 +10,7 @@ import { spacing } from './spacing';
 import { typography } from './typography';
 import { radii } from './radii';
 import { elevation } from './elevation';
-import { sizes } from './sizes';
+import { sizes, iconSize } from './sizes';
 
 /** Objeto único com todos os tokens (acesso agregado ergonômico). */
 export const tokens = {
@@ -20,6 +20,7 @@ export const tokens = {
   radii,
   elevation,
   sizes,
+  iconSize,
 } as const;
 
 export type Tokens = typeof tokens;

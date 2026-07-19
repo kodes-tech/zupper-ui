@@ -67,6 +67,10 @@ export const colors = {
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
   },
+  // Véu escuro atrás de bottom sheets / diálogos modais (BottomSheet, ConfirmDialog).
+  // TODO(Figma): validar opacidade e reconciliar com o modal de sucesso do app
+  // (PublishedModal usa rgba(23,23,23,0.7)).
+  scrim: 'rgba(0, 0, 0, 0.45)',
 } as const;
 
 export type Colors = typeof colors;

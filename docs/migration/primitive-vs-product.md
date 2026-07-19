@@ -24,7 +24,8 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 ### Molecules (genéricas)
 `SelectField` · `RadioOption` · `SheetOption` · `StatusBanner` · `PhotoGrid`
 - ✅ `SearchField` — era limítrofe; **resolvido como Travel e migrado** pro app.
-- ⚠️ `CommentInput` — input+enviar genérico; **decidir** (primitivo vs community).
+- ✅ `CommentInput` — era limítrofe; **resolvido como Community e migrado** pro app (removido do DS).
+- ✅ `StatusBanner` · `PhotoGrid` — genéricos: **ficam no DS**; o app os consome por wrapper primitivo (`components/primitives/{StatusBanner,PhotoGrid}`).
 
 ### Organisms (genéricos)
 `BottomSheet` · `ConfirmDialog` · `BottomNav`
@@ -55,8 +56,12 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 - ✅ **DestinationCard · QuickAction · SearchField** (Travel) → `zupper-superapp/components/travel` (impl real; removidos do DS). `SearchField` era limítrofe (primitivo?) — resolvido como Travel.
 - ✅ **PostCard · SocialBar · LikeButton** (Community) → `zupper-superapp/components/community` (impl real). ⚠️ **Cópias MANTIDAS no DS** (opção B) porque `ContentDetail`/`CommunityProfile` (ainda no DS) as usam.
 - ✅ **DestinationDetails** (screen) → `zupper-superapp/screens/destination-details` (top-level; agrega Travel+Community). Removida do DS.
-- ✅ **OfferCard** (Travel) + **ProfileTabs** (Community) → app (impl real). ⚠️ **Cópias MANTIDAS no DS** (opção B): `OfferCard`→`ContentDetail`; `ProfileTabs`→`CommunityProfile` (telas ainda no DS).
+- ✅ **OfferCard** (Travel) + **ProfileTabs** (Community) → app (impl real).
 - ✅ **Primitivo `Image`** criado no app (`components/primitives/Image`, embrulha o RN Image) + boundary do ESLint agora restringe `Image` do react-native fora de `components/`.
+- ✅ **ContentDetail** (screen) → `zupper-superapp/screens/content-detail` (top-level; agrega Community + Travel). **Removida do DS.** Componentes exclusivos dela **removidos do DS** (nenhum outro consumidor): **OfferCard · SocialBar · CommentInput · CommentThread · ContentAuthor** (impl real no app: `community/{CommentInput,CommentThread,ContentAuthor,SocialBar}`, `travel/OfferCard`). `ContentAuthor` ganhou `onPress` no app (toca autor → perfil).
+- ✅ **CommunityProfile** (screen) → `zupper-superapp/screens/community-profile` (top-level). Impl real no app. ⚠️ **Cópia MANTIDA no DS** (opção B): a tela **`TravelPreferencesResult` (DS, ainda não migrada) a compõe** via slot `overlay`. Por isso **`PostCard` · `ProfileTabs` · `LikeButton` também seguem no DS** (deps da CommunityProfile) — saem quando `TravelPreferencesResult`/`Step` migrarem.
+- ✅ **RoteiroDayCard** (Travel) → `zupper-superapp/components/travel` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `PublishContent` (DS) ainda usa.
+- ✅ **Wrappers primitivos `StatusBanner` · `PhotoGrid`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS**.
 
 ## Como migrar uma peça (recap do padrão)
 1. O wrapper no app (`components/<domínio>/<Nome>`) hoje **re-exporta** o DS.

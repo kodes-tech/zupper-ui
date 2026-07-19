@@ -60,7 +60,25 @@ Presets: `badge` · `caption` · `actionLabel` · `authorName` · `bodyText` ·
   acompanham. Ainda candidato a molécula `SectionHeader`.
 - ⚠️ smoke do app (`design-system-smoke.stories.tsx`) usa `text-[18px]`.
 
-_(próximas telas a preencher: Destinations, MyAccount, CommunityProfile…)_
+**ContentDetail (KSA-30 — migrada p/ o app)** — a tela agora usa o primitivo
+`<Text variant/color>` (sem `className` de tipografia). Ao migrar, apareceram:
+- ⚠️ **título do conteúdo / título de ofertas** eram `text-[18px] font-bold` →
+  mapeados para **`variant="sectionTitle"`** (16px). **Mudança visual 18 → 16**
+  (mesmo gap do "título de sheet/seção"). `RoteiroDayCard` (componente, migrado p/
+  o app) mantém `text-[18px]` fiel.
+- ❌ **cor `text-brand-strong`** nos metadados do roteiro ("3 dias · 8 paradas ·
+  Família") → **não há `TextColor` de marca** no primitivo `Text` (só
+  primary/secondary/muted/inverse/link/heading/body/label/subtle/danger). Mapeado
+  para `color="link"` (aproximação). **Decisão:** adicionar `TextColor="brand"`
+  (→ `text-brand-strong`) ao primitivo `Text`? (ver Colors abaixo).
+
+**CommunityProfile (KSA-31 — migrada p/ o app)** — idem primitivo `Text`:
+- ⚠️ **estado vazio**, linha 1: `text-[16px] leading-[24px]` (subtle) → mapeado p/
+  `variant="bodyMd"` (16px, mas `leading` 16, não 24). Linha 2: `text-[22px]
+  font-bold leading-[32px]` → `variant="heading"` (24px). **22 → 24** (mesmo gap
+  do `AccountGreeting`).
+
+_(próximas telas a preencher: MyAccount, PersonalData, PublishContent, TravelPreferences…)_
 
 ### Apêndice — hardcodes catalogados (DS `ui-native`)
 `grep -rn "text-\[[0-9]" atoms molecules organisms`:
@@ -86,6 +104,12 @@ definidos "pelo time" (sem Figma) ou espelhados do app antigo:
 | `feedback.danger` | `#EF4444` | `Input` (mensagem/borda de erro) · `Button` ghost ("Sair da minha conta" — Minha conta) | "sem estado de erro no Figma novo" — espelhado do `@zupper/app-ui` |
 
 Ação: validar esses 3 no Figma "Zupper 2.0" (foco de input, seleção, erro).
+
+**Cor de texto de marca ausente no primitivo `Text`:** o `TextColor` do átomo
+`Text` não expõe a cor de marca (`brand-strong`). Os metadados do roteiro em
+`ContentDetail` usam `text-brand-strong`; ao migrar via `<Text>` foi aproximado
+para `color="link"`. Ação: adicionar `TextColor="brand"` (→ `text-brand-strong`)
+ao `Text`, para telas não precisarem de `className` de cor.
 
 ---
 

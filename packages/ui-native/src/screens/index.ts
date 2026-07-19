@@ -10,7 +10,6 @@
 //
 export * from './BlockedAccounts';
 export * from './CommunityProfile';
-export * from './ContentDetail';
 export * from './MyAccount';
 export * from './PersonalData';
 export * from './PublishContent';

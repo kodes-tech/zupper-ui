@@ -4,7 +4,6 @@ export * from './AccountRow';
 export * from './AccountSection';
 export * from './BlockedAccountRow';
 export * from './PhotoGrid';
-export * from './PreferenceTile';
 export * from './RadioOption';
 export * from './RoteiroDayCard';
 export * from './RoteiroDayForm';

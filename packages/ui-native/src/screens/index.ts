@@ -12,4 +12,3 @@ export * from './BlockedAccounts';
 export * from './MyAccount';
 export * from './PersonalData';
 export * from './PublishContent';
-export * from './TravelPreferencesStep';

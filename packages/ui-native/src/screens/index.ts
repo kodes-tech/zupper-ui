@@ -9,5 +9,4 @@
 // - NÃO confundir com `src/_figma/` (referência do Figma, não roda).
 //
 export * from './BlockedAccounts';
-export * from './MyAccount';
 export * from './PersonalData';

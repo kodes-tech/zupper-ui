@@ -1,6 +1,6 @@
 {
   "name": "@kodes-tech/ui-native",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Componentes React Native do design system Zupper (Community). Consome @kodes-tech/tokens.",
   "license": "UNLICENSED",
   "source": "src/index.ts",
@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@kodes-tech/icons": "^0.1.0",
-    "@kodes-tech/tokens": "^0.4.0"
+    "@kodes-tech/tokens": "^0.5.0"
   },
   "peerDependencies": {
     "nativewind": ">=4.1",
@@ -57,6 +57,7 @@
     "@react-native/babel-preset": "0.83.2",
     "@storybook/addon-essentials": "^8.3.0",
     "@storybook/react-webpack5": "^8.3.0",
+    "@storybook/test": "^8.6.18",
     "@testing-library/react-native": "^14.0.1",
     "@types/jest": "^29.5.0",
     "@types/react": "^19.0.0",

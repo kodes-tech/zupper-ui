@@ -15,7 +15,7 @@ projetos e componentes reaproveitados entre apps da mesma stack.
 |---|---|---|
 | **`@zupper/tokens`** | valores agnósticos de framework (cores, spacing, tipografia, radius, elevação) | todos: RN, React web, Angular… |
 | **`@zupper/icons`** | ícones — SVG cru (fonte) + **dois renderers gerados** (react-native-svg e `<svg>` DOM); o bundler escolhe via `exports` | RN (Metro) e React web; SVG cru p/ outras stacks |
-| **`@zupper/ui-native`** | componentes **React Native** (Atomic Design) | Zupper App (agora) + apps RN futuros |
+| **`@zupper/ui-native`** | **primitivos** React Native (camada única `primitives/`) | Zupper App (agora) + apps RN futuros |
 | `@zupper/ui-web` *(futuro)* | componentes **React/Next** | painel admin, web |
 
 **Regra de ouro:** tokens são compartilhados; **componentes são por framework**.
@@ -23,6 +23,11 @@ Não existe "um componente para RN + React + Angular". Ver
 [ADR 0002](docs/decisions/0002-tokens-shared-components-per-framework.md) e, para
 ícones (desenho compartilhado, renderer por plataforma no mesmo pacote),
 [ADR 0008](docs/decisions/0008-icons-package-dual-renderer.md).
+
+**Fronteira global × produto:** o package publica só **primitivos agnósticos** (o
+"MUI do Zupper"); **telas e componentes de produto ficam no app**, não aqui — DS não
+tem `screens/`. Storybook é **ferramenta/vitrine**, não o entregável. Ver
+[ADR 0009](docs/decisions/0009-design-system-boundary-and-storybook.md).
 
 ## Stack
 
@@ -46,7 +51,7 @@ zupper-ui/
 └── packages/
     ├── tokens/     → @zupper/tokens
     ├── icons/      → @zupper/icons      (assets/ SVG cru · src/native · src/web)
-    └── ui-native/  → @zupper/ui-native  (src/atoms · molecules · organisms)
+    └── ui-native/  → @zupper/ui-native  (src/primitives — camada única, sem Atomic)
 ```
 
 ## Regras que a IA/dev DEVE seguir
@@ -56,8 +61,10 @@ zupper-ui/
 2. **Estilo com `className` (NativeWind) + tokens** — classes vindas do preset
    `@zupper/tokens/tailwind` (`bg-primary`, `p-md`, `rounded-pill`…); nunca hardcode
    de cor/spacing; sempre token. Ver `docs/conventions/tokens.md` e ADR 0006.
-3. **Atomic Design** — `atoms/` (básicos) · `molecules/` (combinações) · `organisms/`
-   (compostos). Ver `docs/conventions/components.md`.
+3. **Camada única `primitives/`** — o pacote publica só primitivos genéricos
+   (ADR 0009), então **não há mais Atomic Design** (atoms/molecules/organisms):
+   todo componente mora em `src/primitives/<Nome>/`. Produto e telas ficam no app.
+   Ver `docs/conventions/components.md`.
 4. **Isolamento** — `ui-native` **não importa** do `@zupper/app-ui` (do app), e
    vice-versa. Compartilhar só o neutro.
 5. **Cada componente = 4 arquivos**: `<Nome>.tsx`, `<Nome>.stories.tsx`,

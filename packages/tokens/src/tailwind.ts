@@ -59,6 +59,7 @@ export const tailwindPreset = {
         surface: colors.surface, // bg-surface-default / bg-surface-tag
         border: colors.border, // border-border-default
         feedback: colors.feedback, // border-feedback-danger / text-feedback-danger
+        scrim: colors.scrim, // bg-scrim — véu de bottom sheet / diálogo modal
       },
       spacing: px(spacing),
       height: px(sizes),

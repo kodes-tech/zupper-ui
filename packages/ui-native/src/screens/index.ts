@@ -11,7 +11,6 @@
 export * from './BlockedAccounts';
 export * from './CommunityProfile';
 export * from './ContentDetail';
-export * from './DestinationDetails';
 export * from './MyAccount';
 export * from './PersonalData';
 export * from './PublishContent';

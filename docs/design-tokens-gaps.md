@@ -152,3 +152,26 @@ Ação: designer definir a receita de sombra de cada degrau e **onde** se aplica
 
 Manter observação: se uma tela nova precisar de um passo fora dessas escalas,
 registrar aqui antes de hardcodar.
+
+---
+
+## Auditoria de hardcode nos primitivos (2026-07)
+
+Varredura de `packages/ui-native/src/primitives` por valores arbitrários
+(`text-[..]`, `p-[..]`, `rounded-[..]`, `style={{..}}`, hex/rgba, `size={n}`).
+
+### ✅ Corrigido (usava/vira token existente — sem mudança visual)
+- **Avatar · AvatarFallback**: `rounded-[14/22/32px]` (metade do lado = círculo) → **`rounded-pill`**.
+- **RoleBadge**: `text-[12px] leading-[16px]` → **`text-badge`** (preset já existente).
+- **StatusBanner**: `rounded-[12px]` → **`rounded-lg`** (radii.lg = 12).
+- **BottomSheet · ConfirmDialog**: véu `bg-[rgba(0,0,0,0.45)]` → **token novo `colors.scrim`** (`bg-scrim`). ⚠️ TODO(Figma): validar opacidade e reconciliar com o `PublishedModal` do app (`rgba(23,23,23,0.7)`).
+
+### ⚠️ Resta hardcode — precisa de token novo (decisão do designer)
+- **Tamanho de avatar** — `w/h-[28/44/64px]` (Avatar/AvatarFallback). Virar `sizes.avatar` (sm/md/lg).
+- **Fonte fora da escala** — `text-[17px]` (BottomSheet título), `text-[18px]`/`text-[15px]` (SheetOption), `text-[16px]`/`text-[14px]` (StatusBanner/BottomSheet corpo), `text-[7px]`/`text-[16px]` (AvatarFallback iniciais). Ver seção **Typography** acima (título de sheet 17/18, SheetOption 15, iniciais 7).
+- **Spacing/dimensão fora da escala** — `pb-[34px]` (safe-area BottomSheet), grabber `h-[4px] w-[40px]`, `h-[56px]`/`gap-[14px]` (SheetOption), `py-[14px]`/`px-[14px]` (StatusBanner), `pt-[40px]`/spacer `24×24` (ScreenHeader), `p-[2px]` (PhotoGrid), radio `20/12` (RadioOption). Catalogar como `sizes`/`spacing` novos.
+
+### ✔️ Aceitável (não é violação)
+- `Textarea` `style={{ minHeight }}` — valor **dinâmico** vindo de prop.
+- `SelectField` `style={{ transform: rotate(-90deg) }}` — transform (não é caso de token).
+- `Divider` `h-[1px]` — hairline convencional.

@@ -27,9 +27,9 @@ const containerClassByVariant: Record<'guest' | 'traveler', string> = {
 // por variante — o preset `text-badge` fixa weight medium, o que não serve pro
 // traveler/partner (bold).
 const labelClassByVariant: Record<RoleBadgeVariant, string> = {
-  guest: 'text-[12px] leading-[16px] font-medium text-fg-primary',
-  traveler: 'text-[12px] leading-[16px] font-bold text-brand-strong',
-  partner: 'text-[12px] leading-[16px] font-bold text-fg-inverse',
+  guest: 'text-badge font-medium text-fg-primary',
+  traveler: 'text-badge font-bold text-brand-strong',
+  partner: 'text-badge font-bold text-fg-inverse',
 };
 
 const containerBaseClassName = 'self-start overflow-hidden rounded-xs px-md py-xs';

@@ -13,8 +13,8 @@ export type AvatarFallbackProps = {
 };
 
 const containerClassBySize: Record<AvatarFallbackSize, string> = {
-  sm: 'w-[28px] h-[28px] rounded-[14px]',
-  lg: 'w-[64px] h-[64px] rounded-[32px]',
+  sm: 'w-[28px] h-[28px] rounded-pill',
+  lg: 'w-[64px] h-[64px] rounded-pill',
 };
 
 // Razões do Figma (avatar de 64px -> iniciais 16pt / line-height 24) já calculadas

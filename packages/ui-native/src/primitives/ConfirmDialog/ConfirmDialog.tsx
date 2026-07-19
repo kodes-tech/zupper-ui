@@ -22,7 +22,7 @@ export const ConfirmDialog = ({ children, onDismiss }: ConfirmDialogProps): Reac
       accessibilityRole="button"
       accessibilityLabel="Fechar"
       onPress={onDismiss}
-      className="absolute inset-0 bg-[rgba(0,0,0,0.45)]"
+      className="absolute inset-0 bg-scrim"
     />
 
     <View className="w-full gap-xl rounded-xl bg-surface-default p-xxl">{children}</View>

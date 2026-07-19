@@ -30,7 +30,7 @@ export const BottomSheet = ({
       accessibilityRole="button"
       accessibilityLabel="Fechar"
       onPress={onDismiss}
-      className="absolute inset-0 bg-[rgba(0,0,0,0.45)]"
+      className="absolute inset-0 bg-scrim"
     />
 
     <View className="w-full gap-xs rounded-t-[20px] bg-surface-default pb-[34px] pt-lg">

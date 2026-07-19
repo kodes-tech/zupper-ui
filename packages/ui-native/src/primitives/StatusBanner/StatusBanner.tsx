@@ -47,7 +47,7 @@ export const StatusBanner = ({
   actionLabel,
   onPressAction,
 }: StatusBannerProps): React.ReactElement => (
-  <View className={`w-full gap-md rounded-[12px] px-xl py-[14px] ${surfaceClass[tone]}`}>
+  <View className={`w-full gap-md rounded-lg px-xl py-[14px] ${surfaceClass[tone]}`}>
     <View className="flex-row items-center gap-md">
       <Text className={`font-sans text-[16px] ${contentClass[tone]}`}>{EMOJI[tone]}</Text>
       <Text className={`font-sans text-authorName ${contentClass[tone]}`}>{title}</Text>

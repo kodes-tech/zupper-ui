@@ -1,5 +1,4 @@
 // Molecules — combinações de atoms: LikeButton (icon+count), CommentInput, Avatar+nome...
-export * from './BlockedAccountRow';
 export * from './PhotoGrid';
 export * from './RadioOption';
 export * from './SelectField';

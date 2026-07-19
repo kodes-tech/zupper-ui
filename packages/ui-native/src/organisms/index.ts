@@ -4,5 +4,4 @@ export * from './BottomSheet';
 export * from './CommunityCTA';
 export * from './ConfirmDialog';
 export * from './GreetingHeader';
-export * from './PersonalDataForm';
 export * from './ScreenHeader';

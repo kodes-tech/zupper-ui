@@ -1,41 +1,43 @@
 # Convenção — Componentes
 
-## Atomic Design (igual ao `@zupper/app-ui`)
+## Camada única `primitives/` (sem Atomic Design)
+
+O pacote publica **só primitivos genéricos** (ADR 0009). Não há mais
+`atoms/molecules/organisms` nem `screens/` — a hierarquia Atomic não agrega valor
+quando tudo é primitivo. Produto Zupper e telas vivem no **app consumidor**
+(`zupper-superapp`), não aqui.
 
 ```
 src/
-├── atoms/       # blocos básicos, leaf: Badge, Text, Icon, Button
-├── molecules/   # combinações de atoms: LikeButton (icon+count), CommentInput, Avatar+nome
-├── organisms/   # compostos/complexos: PostCard, Comment, FeedItem
-├── screens/     # telas mockadas (nível template/page): compõem organisms — o "menu" do Storybook
+├── primitives/  # TODOS os componentes, numa camada só: Button, Text, Input, BottomSheet…
+├── foundations/ # specimens de tokens no Storybook (Colors, Spacing, Radii…)
 ├── _figma/      # SÓ referência do Figma Dev Mode (não roda, excluído de build/lint/pacote)
-└── index.ts     # export * from atoms/molecules/organisms/screens
+└── index.ts     # export * from './primitives'
 ```
 
-Decida o nível pela composição: usa só primitivos → **atom**; combina atoms →
-**molecule**; bloco de tela completo → **organism**; tela inteira (compõe organisms) →
-**screen**.
+**Critério pra existir aqui:** *é agnóstico e serve a qualquer produto?* → primitivo
+(entra). Codifica conteúdo/fluxo do Zupper (Travel/Community)? → **é produto, vai pro
+app**, não pro `ui-native`. Ver `docs/migration/primitive-vs-product.md`.
 
-> ⚠️ `src/_figma/` **não é** o nível "template" do Atomic Design — é referência
-> exportada do Figma (consulta), excluída de tudo. A "tela" real é `screens/`.
+> ⚠️ `src/_figma/` é referência exportada do Figma (consulta), excluída de tudo.
 
 ## Cada componente = 4 arquivos
 
 ```
-<nivel>/<Nome>/
+primitives/<Nome>/
 ├── <Nome>.tsx          # o componente
-├── <Nome>.stories.tsx  # Storybook (título "Atoms/…", "Molecules/…", "Organisms/…")
+├── <Nome>.stories.tsx  # Storybook (título "Primitives/<Nome>")
 ├── <Nome>.spec.tsx     # teste (@testing-library/react-native)
 └── index.ts            # export * from './<Nome>'
 ```
-E exportar no `index.ts` do nível.
+E exportar no `primitives/index.ts`.
 
 ## Regras (obrigatórias)
 
 0. **Antes de criar, confirme que não existe** — abra o Storybook (é o inventário) ou
-   dê um `grep` no barrel do nível (`src/atoms/index.ts` etc.). Cheque também se já
-   existe no `@zupper/app-ui` do zupper-app: o design system é **fonte única** — se
-   existe, **reusar/migrar pro `ui-native`**, nunca recriar. Não componentize a partir
+   dê um `grep` no barrel `src/primitives/index.ts`. O design system é **fonte única**:
+   se existe, **reusar**, nunca recriar. E confirme que é **primitivo** (agnóstico) —
+   se for produto Zupper, vai pro app, não pro `ui-native`. Não componentize a partir
    de `src/_figma/` (é só referência).
 1. **Apresentacional puro** — só props. **Nenhuma chamada de API**, nenhum acesso a
    store/navegação. Estado de dados entra por props (`author`, `likes`, `onLike`).
@@ -59,33 +61,23 @@ E exportar no `index.ts` do nível.
    ```tsx
    import { action } from '@storybook/addon-actions';
    export default {
-     title: 'Atoms/Button',
+     title: 'Primitives/Button',
      component: Button,
      args: { onPress: action('onPress') },
    };
    ```
 
-## Screens (telas mockadas)
-
-Telas vivem em `src/screens/<Nome>/` e são o **"menu" navegável do Storybook** — dá
-pra revisar o fluxo inteiro sem app e sem emulador.
-
-- **Compõem organisms**; dados de exemplo entram **por props** (mock no story), nunca
-  hardcoded dentro da tela.
-- **Apresentacional** como qualquer componente: sem API, navegação ou store (isso é do
-  app; Clean Architecture mora no zupper-app, não aqui).
-- Título do story em `Screens/<Nome>`.
-- **Cobrir todos os estados** em stories separadas: `default`, `loading`, `empty`,
-  `error`, `success` (e outros relevantes). É o que valida a UI antes de plugar dados reais.
-- A referência de layout vem de `src/_figma/` (export do Figma) — a tela é a versão
-  componentizada com tokens.
+> **Telas e produto não moram aqui.** O `ui-native` não tem `screens/`. Telas e
+> componentes de produto (Travel/Community) vivem no app consumidor
+> (`zupper-superapp/src/presentation/{screens,components}`). Ver ADR 0009 e
+> `docs/migration/primitive-vs-product.md`.
 
 ## Exemplo de referência
 
-Ver `packages/ui-native/src/atoms/Badge/` — é o molde (component + story + spec + index).
+Ver `packages/ui-native/src/primitives/Badge/` — é o molde (component + story + spec + index).
 
 ## Checklist de PR de um componente novo
-- [ ] Nível correto (atom/molecule/organism) e exportado no barrel.
+- [ ] É primitivo (agnóstico de produto) e exportado em `primitives/index.ts`.
 - [ ] Usa tokens (zero hardcode).
 - [ ] Sem chamada de API / navegação / store.
 - [ ] Tem `.stories.tsx` (todos os estados/variações) e `.spec.tsx` (render + interação).

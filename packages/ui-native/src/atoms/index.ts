@@ -10,4 +10,5 @@ export * from './FilterChip';
 export * from '@kodes-tech/icons';
 export * from './Input';
 export * from './RoleBadge';
+export * from './Text';
 export * from './Textarea';

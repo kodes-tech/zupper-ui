@@ -1,8 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import type { PressableProps } from 'react-native';
-import { colors, radii, spacing } from '@kodes-tech/tokens';
+import { colors, iconSize, radii, spacing } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -12,7 +11,7 @@ export type OfferIcon = Extract<
   'oferta-passagens' | 'oferta-hospedagens' | 'oferta-pacotes'
 >;
 
-export type OfferCardProps = PressableProps & {
+export type OfferCardProps = {
   /** Selo da oferta (ex.: "Passagens aéreas"). */
   title: string;
   /** Ícone do selo. */
@@ -27,6 +26,10 @@ export type OfferCardProps = PressableProps & {
   ctaLabel: string;
   /** Ocupa a largura do container (linha com `flex`). Padrão: largura fixa de 160px (carrossel). */
   fill?: boolean;
+  onPress?: () => void;
+  disabled?: boolean;
+  accessibilityLabel?: string;
+  testID?: string;
 };
 
 // LinearGradient é ortogonal ao NativeWind (mesma exceção do Button/RoleBadge):
@@ -53,18 +56,24 @@ export const OfferCard = ({
   dateRange,
   ctaLabel,
   fill = false,
-  ...rest
+  onPress,
+  disabled = false,
+  accessibilityLabel,
+  testID,
 }: OfferCardProps): React.ReactElement => (
   <Pressable
     accessibilityRole="button"
+    accessibilityLabel={accessibilityLabel ?? title}
+    disabled={disabled}
+    onPress={onPress}
+    testID={testID}
     className={`gap-lg rounded-xxl border border-border-default bg-surface-default p-lg ${
       fill ? 'flex-1' : 'w-[160px]'
     }`}
-    {...rest}
   >
     <View className="w-full flex-row items-center justify-between rounded-pill bg-brand-cardSurface px-md py-xs">
       <Text className="font-sans text-badge text-brand-strong">{title}</Text>
-      <Icon name={icon} size={16} />
+      <Icon name={icon} size={iconSize.sm} />
     </View>
 
     <View className="w-full">
@@ -75,7 +84,7 @@ export const OfferCard = ({
     </View>
 
     <View className="w-full flex-row items-center gap-xs">
-      <Icon name="calendar" size={16} />
+      <Icon name="calendar" size={iconSize.sm} />
       <Text className="font-sans text-caption text-fg-muted">{dateRange}</Text>
     </View>
 

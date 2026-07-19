@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 
 export type RoteiroStop = {
@@ -45,7 +46,7 @@ export const RoteiroDayCard = ({
       </Text>
       {onEdit ? (
         <Pressable accessibilityRole="button" accessibilityLabel="Editar dia" onPress={onEdit}>
-          <Icon name="roteiro-card-edit" size={24} />
+          <Icon name="roteiro-card-edit" size={iconSize.lg} />
         </Pressable>
       ) : null}
     </View>

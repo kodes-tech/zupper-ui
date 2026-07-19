@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Avatar } from '../../atoms/Avatar';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import { RoleBadge } from '../../atoms/RoleBadge';
 import type { RoleBadgeVariant } from '../../atoms/RoleBadge';
@@ -39,7 +40,7 @@ export const ContentAuthor = ({
     </View>
     {location ? (
       <View className="flex-row items-center gap-xs">
-        <Icon name="location" size={16} />
+        <Icon name="location" size={iconSize.sm} />
         <Text className="font-sans text-caption text-fg-secondary">{location}</Text>
       </View>
     ) : null}

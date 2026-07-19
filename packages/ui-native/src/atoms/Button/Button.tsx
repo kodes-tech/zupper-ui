@@ -1,7 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import type { PressableProps } from 'react-native';
 import { colors, radii, spacing } from '@kodes-tech/tokens';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -13,10 +12,14 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
  */
 export type ButtonTone = 'brand' | 'highlight';
 
-export type ButtonProps = PressableProps & {
+/**
+ * Contrato PRÓPRIO — não estende `PressableProps` nem repassa props cruas do RN.
+ * O Pressable/gesto é detalhe interno (regra de ouro do wrapper).
+ */
+export type ButtonProps = {
   /** Texto do botão. Opcional — um botão só de ícone (ex.: fechar o FAB) não tem label. */
   label?: string;
-  /** Ícone opcional, fornecido pelo consumidor (ainda não há um sistema de ícone no design system). */
+  /** Ícone opcional, fornecido pelo consumidor (via `<Icon />`). */
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   /**
@@ -30,6 +33,11 @@ export type ButtonProps = PressableProps & {
   tone?: ButtonTone;
   /** Ocupa a largura do container (ex.: botão "Publicar" do formulário). */
   fullWidth?: boolean;
+  disabled?: boolean;
+  onPress?: () => void;
+  /** Nome acessível — obrigatório na prática p/ botões só-ícone (sem `label`). */
+  accessibilityLabel?: string;
+  testID?: string;
 };
 
 // LinearGradient é ortogonal ao NativeWind (mesma exceção documentada do
@@ -107,7 +115,9 @@ export const Button = ({
   tone = 'brand',
   fullWidth = false,
   disabled,
-  ...rest
+  onPress,
+  accessibilityLabel,
+  testID = 'button',
 }: ButtonProps) => {
   const content = (
     <>
@@ -124,10 +134,13 @@ export const Button = ({
   if (disabled || variant === 'secondary' || variant === 'ghost' || variant === 'danger') {
     return (
       <Pressable
-        testID="button"
+        testID={testID}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel ?? label}
+        accessibilityState={{ disabled: Boolean(disabled) }}
         className={fullWidth ? 'w-full' : undefined}
         disabled={disabled}
-        {...rest}
+        onPress={onPress}
       >
         <View
           testID="button-container"
@@ -140,7 +153,13 @@ export const Button = ({
   }
 
   return (
-    <Pressable testID="button" className={fullWidth ? 'w-full' : undefined} {...rest}>
+    <Pressable
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
+      className={fullWidth ? 'w-full' : undefined}
+      onPress={onPress}
+    >
       <LinearGradient
         testID="button-gradient"
         colors={[...colors.gradient.button]}

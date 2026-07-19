@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -36,12 +37,12 @@ export const ScreenHeader = ({
     }`}
   >
     <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={onBack}>
-      <Icon name="back-arrow" size={24} />
+      <Icon name="back-arrow" size={iconSize.lg} />
     </Pressable>
     <View className="flex-row items-center gap-xs">
-      {titleIcon ? <Icon name={titleIcon} size={24} /> : null}
+      {titleIcon ? <Icon name={titleIcon} size={iconSize.lg} /> : null}
       <Text className="font-sans text-cardTitle text-fg-label">{title}</Text>
-      {trailingIcon ? <Icon name={trailingIcon} size={20} /> : null}
+      {trailingIcon ? <Icon name={trailingIcon} size={iconSize.md} /> : null}
     </View>
     {right ?? <View className="h-[24px] w-[24px]" />}
   </View>

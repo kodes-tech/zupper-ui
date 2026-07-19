@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -29,7 +30,7 @@ const statusClass: Record<AccountRowStatus['tone'], string> = {
 const CtaHint = ({ label }: { label: string }) => (
   <View className="flex-row items-center gap-md">
     <Text className="font-sans text-caption text-fg-secondary">{label}</Text>
-    <Icon name="chevron-right-dark" size={12} />
+    <Icon name="chevron-right-dark" size={iconSize.xs} />
   </View>
 );
 
@@ -56,7 +57,7 @@ export const AccountRow = ({
         className="w-full flex-row items-center justify-between gap-md"
       >
         <View className="flex-row items-center gap-lg">
-          <Icon name={icon} size={24} />
+          <Icon name={icon} size={iconSize.lg} />
           <Text className="font-sans text-authorName text-fg-secondary">{title}</Text>
         </View>
         {cta ? <CtaHint label={cta} /> : null}
@@ -72,7 +73,7 @@ export const AccountRow = ({
       className="flex-row items-start gap-lg"
     >
       <View className="h-[43px] w-[43px] items-center justify-center rounded-[14px] border border-border-subtle bg-surface-default">
-        <Icon name={icon} size={24} />
+        <Icon name={icon} size={iconSize.lg} />
       </View>
       <View className="flex-1 gap-xs">
         <View className="flex-row items-center justify-between gap-md">

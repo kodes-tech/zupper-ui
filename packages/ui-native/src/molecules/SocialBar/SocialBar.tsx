@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 
 export type SocialBarProps = {
@@ -35,7 +36,7 @@ export const SocialBar = ({
         onPress={onLike}
         className="flex-row items-center gap-xs"
       >
-        <Icon name="heart" size={24} />
+        <Icon name="heart" size={iconSize.lg} />
         <Text className="font-sans text-authorName text-fg-secondary">{likes}</Text>
       </Pressable>
       <Pressable
@@ -44,11 +45,11 @@ export const SocialBar = ({
         onPress={onComment}
         className="flex-row items-center gap-xs"
       >
-        <Icon name="social-comment" size={24} />
+        <Icon name="social-comment" size={iconSize.lg} />
         <Text className="font-sans text-authorName text-fg-secondary">{comments}</Text>
       </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel="Compartilhar" onPress={onShare}>
-        <Icon name="social-share" size={24} />
+        <Icon name="social-share" size={iconSize.lg} />
       </Pressable>
     </View>
     <Pressable
@@ -57,7 +58,7 @@ export const SocialBar = ({
       onPress={onMore}
       className="h-[24px] w-[24px] items-center justify-center"
     >
-      <Icon name="social-more" size={20} />
+      <Icon name="social-more" size={iconSize.md} />
     </Pressable>
   </View>
 );

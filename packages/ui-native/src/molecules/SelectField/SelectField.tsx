@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 
 export type SelectFieldProps = {
@@ -33,7 +34,7 @@ export const SelectField = ({
     {/* rotação no View (não no Icon): estilo de RN não é portável entre os
         renderers do @kodes-tech/icons — no web o <svg> ignorava o transform */}
     <View style={{ transform: [{ rotate: '-90deg' }] }}>
-      <Icon name="dropdown-arrow" size={24} />
+      <Icon name="dropdown-arrow" size={iconSize.lg} />
     </View>
   </Pressable>
 );

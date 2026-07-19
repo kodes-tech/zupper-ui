@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Avatar } from '../../atoms/Avatar';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 import { RoleBadge } from '../../atoms/RoleBadge';
@@ -72,7 +73,7 @@ export const PostCard = ({
         <Avatar size="sm" source={authorAvatar} />
         <View className="flex-row items-center gap-xs">
           <Text className="font-sans text-authorName text-fg-primary">{authorName}</Text>
-          {verified ? <Icon name="verified" size={16} /> : null}
+          {verified ? <Icon name="verified" size={iconSize.sm} /> : null}
         </View>
       </View>
       <RoleBadge variant={role} />
@@ -114,7 +115,7 @@ export const PostCard = ({
         </View>
         {location ? (
           <View className="flex-row items-center gap-xs">
-            <Icon name="location" size={16} />
+            <Icon name="location" size={iconSize.sm} />
             <Text className="font-sans text-caption text-fg-secondary">{location}</Text>
           </View>
         ) : null}

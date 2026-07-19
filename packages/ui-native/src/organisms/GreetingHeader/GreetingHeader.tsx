@@ -3,6 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Avatar } from '../../atoms/Avatar';
 import { AvatarFallback } from '../../atoms/AvatarFallback';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import { RoleBadge } from '../../atoms/RoleBadge';
 import type { RoleBadgeVariant } from '../../atoms/RoleBadge';
@@ -54,7 +55,7 @@ export const GreetingHeader = ({
           className="flex-row items-center gap-md"
         >
           <Text className="font-sans text-caption text-fg-link">{ctaLabel}</Text>
-          <Icon name="chevron-right" size={12} />
+          <Icon name="chevron-right" size={iconSize.xs} />
         </Pressable>
       ) : null}
     </View>

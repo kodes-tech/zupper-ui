@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import { colors, radii } from '@kodes-tech/tokens';
+import { colors, iconSize, radii } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 
 export type CommentInputProps = {
@@ -58,7 +58,7 @@ export const CommentInput = ({
         end={{ x: 1, y: 0 }}
         style={sendStyle}
       >
-        <Icon name="comment-send" size={20} />
+        <Icon name="comment-send" size={iconSize.md} />
       </LinearGradient>
     </Pressable>
   </View>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -54,7 +55,7 @@ export const SheetOption = ({
         {label}
       </Text>
     </View>
-    {chevron ? <Icon name="chevron-right-dark" size={12} /> : null}
-    {icon ? <Icon name={icon} size={24} /> : null}
+    {chevron ? <Icon name="chevron-right-dark" size={iconSize.xs} /> : null}
+    {icon ? <Icon name={icon} size={iconSize.lg} /> : null}
   </Pressable>
 );

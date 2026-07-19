@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -48,7 +49,7 @@ export const ProfileTabs = ({
           className="h-[48px] flex-1 items-center justify-end gap-md"
         >
           <View className="flex-row items-center gap-xs">
-            {iconName ? <Icon name={iconName} size={16} /> : null}
+            {iconName ? <Icon name={iconName} size={iconSize.sm} /> : null}
             <Text
               className={`font-sans text-[14px] ${
                 isActive ? 'font-bold text-brand-strong' : 'font-normal text-fg-muted'

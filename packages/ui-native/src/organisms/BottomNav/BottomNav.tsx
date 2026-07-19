@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -45,7 +46,7 @@ export const BottomNav = ({ active, onNavigate }: BottomNavProps): React.ReactEl
           onPress={() => onNavigate?.(item.key)}
           className="flex-1 items-center gap-md"
         >
-          <Icon name={iconName} size={24} />
+          <Icon name={iconName} size={iconSize.lg} />
           <Text
             className={`font-sans text-xs ${
               isActive ? 'font-bold text-brand-strong' : 'font-medium text-fg-primary'

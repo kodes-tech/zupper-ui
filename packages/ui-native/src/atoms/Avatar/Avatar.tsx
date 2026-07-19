@@ -1,13 +1,16 @@
 import React from 'react';
 import { Image, View } from 'react-native';
-import type { ImageSourcePropType, ViewProps } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
 
-export type AvatarProps = ViewProps & {
+/** Contrato próprio — não estende `ViewProps` (regra de ouro do wrapper). */
+export type AvatarProps = {
   /** sm = 28px (autor do post) · md = 44px (header do conteúdo) · lg = 64px (saudação) — tamanhos confirmados no Figma. */
   size?: AvatarSize;
   source: ImageSourcePropType;
+  /** Texto alternativo da imagem (a11y). */
+  accessibilityLabel?: string;
 };
 
 const containerClassBySize: Record<AvatarSize, string> = {
@@ -20,16 +23,24 @@ const containerClassBySize: Record<AvatarSize, string> = {
  * Avatar — foto do usuário. Quando não há foto, usar `AvatarFallback`
  * (iniciais) em vez de ramificar dentro deste componente.
  *
- * `size` é um enum fixo (não um número livre): como só existem 2 tamanhos
- * confirmados no Figma, dá pra expressar tudo como `className` estático —
- * sem `style` computado em runtime.
+ * `size` é um enum fixo (não um número livre): como só existem tamanhos
+ * confirmados no Figma, dá pra expressar tudo como `className` estático.
  */
-export const Avatar = ({ size = 'lg', source, ...rest }: AvatarProps) => (
+export const Avatar = ({
+  size = 'lg',
+  source,
+  accessibilityLabel,
+}: AvatarProps): React.ReactElement => (
   <View
     testID="avatar-container"
     className={`overflow-hidden bg-surface-default ${containerClassBySize[size]}`}
-    {...rest}
   >
-    <Image testID="avatar-image" source={source} className="w-full h-full" resizeMode="cover" />
+    <Image
+      testID="avatar-image"
+      source={source}
+      accessibilityLabel={accessibilityLabel}
+      className="w-full h-full"
+      resizeMode="cover"
+    />
   </View>
 );

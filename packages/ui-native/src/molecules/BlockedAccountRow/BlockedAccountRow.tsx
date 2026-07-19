@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 import { Avatar } from '../../atoms/Avatar';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 
 export type BlockedAccountAction = 'block' | 'unblock';
@@ -46,7 +47,7 @@ export const BlockedAccountRow = ({
         <Text className="font-sans text-bodyMd text-fg-secondary">{handle}</Text>
       </View>
       <Pressable accessibilityRole="button" accessibilityLabel={label(name)} onPress={onPress}>
-        <Icon name={icon} size={24} />
+        <Icon name={icon} size={iconSize.lg} />
       </Pressable>
     </View>
   );

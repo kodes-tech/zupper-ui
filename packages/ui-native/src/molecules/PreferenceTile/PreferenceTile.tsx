@@ -1,16 +1,20 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Image, Pressable, Text } from 'react-native';
-import type { ImageSourcePropType, PressableProps } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 
-export type PreferenceTileProps = PressableProps & {
+export type PreferenceTileProps = {
   label: string;
   image: ImageSourcePropType;
   /** Opção marcada — borda em destaque (`brand-zupper`). */
   selected?: boolean;
   /** Outra opção do grupo está selecionada — esmaece esta (`opacity-40`). */
   muted?: boolean;
+  onPress?: () => void;
+  disabled?: boolean;
+  accessibilityLabel?: string;
+  testID?: string;
 };
 
 /**
@@ -23,16 +27,22 @@ export const PreferenceTile = ({
   image,
   selected = false,
   muted = false,
-  ...rest
+  onPress,
+  disabled = false,
+  accessibilityLabel,
+  testID,
 }: PreferenceTileProps): React.ReactElement => (
   <Pressable
     accessibilityRole="button"
-    accessibilityState={{ selected }}
+    accessibilityState={{ selected, disabled }}
+    accessibilityLabel={accessibilityLabel ?? label}
+    disabled={disabled}
+    onPress={onPress}
+    testID={testID}
     style={{ width: '48%' }}
     className={`aspect-square overflow-hidden rounded-sm ${selected ? 'border-2 border-brand-zupper' : ''} ${
       muted ? 'opacity-40' : ''
     }`}
-    {...rest}
   >
     <Image
       source={image}

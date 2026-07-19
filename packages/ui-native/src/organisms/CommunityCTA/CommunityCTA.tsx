@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import { colors } from '@kodes-tech/tokens';
+import { colors, iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -47,7 +47,7 @@ const Pill = ({
         gap: 8,
       }}
     >
-      <Icon name={iconName} size={20} />
+      <Icon name={iconName} size={iconSize.md} />
       <Text className="font-sans text-buttonLabel text-fg-inverse">{label}</Text>
     </LinearGradient>
   </Pressable>

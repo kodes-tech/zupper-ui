@@ -78,7 +78,7 @@ export const RoteiroDayForm = ({
           key={period.id}
           label={period.label}
           selected={period.id === selectedPeriodId}
-          style={{ flex: 1 }}
+          fill
           onPress={() => onSelectPeriod?.(period.id)}
         />
       ))}

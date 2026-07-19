@@ -31,8 +31,8 @@ describe('Input', () => {
     expect(field.props.selectionColor).toBe(colors.surface.selection);
   });
 
-  it('supports the disabled state via editable={false}', async () => {
-    await render(<Input label="Título do roteiro" editable={false} />);
+  it('supports the disabled state via the disabled prop', async () => {
+    await render(<Input label="Título do roteiro" disabled />);
     const field = screen.getByLabelText('Título do roteiro');
     expect(field.props.editable).toBe(false);
     expect(field.props.accessibilityState).toEqual({ disabled: true });
@@ -50,5 +50,17 @@ describe('Input', () => {
     await render(<Input label="Título do roteiro" onChangeText={onChangeText} />);
     await fireEvent.changeText(screen.getByLabelText('Título do roteiro'), 'Praia do Rosa');
     expect(onChangeText).toHaveBeenCalledWith('Praia do Rosa');
+  });
+
+  it('maps the semantic type to the native keyboard/capitalization', async () => {
+    await render(<Input label="E-mail" type="email" />);
+    const field = screen.getByLabelText('E-mail');
+    expect(field.props.keyboardType).toBe('email-address');
+    expect(field.props.autoCapitalize).toBe('none');
+  });
+
+  it('hides the value via type="password"', async () => {
+    await render(<Input label="Senha" type="password" />);
+    expect(screen.getByLabelText('Senha').props.secureTextEntry).toBe(true);
   });
 });

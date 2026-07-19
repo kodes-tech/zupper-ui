@@ -8,7 +8,7 @@ export default {
   // Instrumenta os callbacks de interação p/ o painel "Actions".
   args: {
     onChangeText: action('onChangeText'),
-    onSubmitEditing: action('onSubmitEditing'),
+    onSubmit: action('onSubmit'),
   },
 };
 
@@ -42,6 +42,22 @@ export const Desabilitado = {
   args: {
     label: 'Título do roteiro',
     defaultValue: 'Fim de semana em Ilhabela',
-    editable: false,
+    disabled: true,
+  },
+};
+
+export const Email = {
+  args: {
+    label: 'E-mail',
+    placeholder: 'seuemail@exemplo.com',
+    type: 'email',
+  },
+};
+
+export const Senha = {
+  args: {
+    label: 'Senha',
+    placeholder: 'Sua senha',
+    type: 'password',
   },
 };

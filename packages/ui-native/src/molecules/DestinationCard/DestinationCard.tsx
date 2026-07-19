@@ -1,14 +1,18 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Image, Pressable, Text, View } from 'react-native';
-import type { ImageSourcePropType, PressableProps } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 import { colors } from '@kodes-tech/tokens';
 
-export type DestinationCardProps = PressableProps & {
+export type DestinationCardProps = {
   name: string;
   image: ImageSourcePropType;
   /** Ocupa a largura do container (grid). Padrão: largura fixa de 130px (carrossel). */
   fill?: boolean;
+  onPress?: () => void;
+  disabled?: boolean;
+  accessibilityLabel?: string;
+  testID?: string;
 };
 
 /**
@@ -18,12 +22,18 @@ export const DestinationCard = ({
   name,
   image,
   fill = false,
-  ...rest
+  onPress,
+  disabled = false,
+  accessibilityLabel,
+  testID,
 }: DestinationCardProps): React.ReactElement => (
   <Pressable
     accessibilityRole="button"
+    accessibilityLabel={accessibilityLabel ?? name}
+    disabled={disabled}
+    onPress={onPress}
+    testID={testID}
     className={`h-[150px] overflow-hidden rounded-sm ${fill ? 'w-full' : 'w-[130px]'}`}
-    {...rest}
   >
     <Image
       source={image}

@@ -74,21 +74,21 @@ export const PersonalDataForm = ({
     <Input
       label="Primeiro nome"
       placeholder="Nome"
-      autoCapitalize="words"
+      type="name"
       value={firstName}
       onChangeText={onChangeFirstName}
     />
     <Input
       label="Último nome"
       placeholder="Sobrenome"
-      autoCapitalize="words"
+      type="name"
       value={lastName}
       onChangeText={onChangeLastName}
     />
     <Input
       label="Apelido da comunidade"
       placeholder="@nomesobrenome"
-      autoCapitalize="none"
+      type="username"
       value={nickname}
       onChangeText={onChangeNickname}
       error={nicknameError}
@@ -96,22 +96,21 @@ export const PersonalDataForm = ({
     <Input
       label="E-mail"
       placeholder="seuemail@exemplo.com"
-      keyboardType="email-address"
-      autoCapitalize="none"
+      type="email"
       value={email}
       onChangeText={onChangeEmail}
     />
     <Input
       label="Data de Nascimento"
       placeholder="00/00/0000"
-      keyboardType="number-pad"
+      type="numeric"
       value={birthDate}
       onChangeText={onChangeBirthDate}
     />
     <Input
       label="CPF"
       placeholder="000.000.000-00"
-      keyboardType="number-pad"
+      type="numeric"
       value={cpf}
       onChangeText={onChangeCpf}
     />
@@ -132,7 +131,7 @@ export const PersonalDataForm = ({
       </View>
       <Input
         placeholder="(00) 00000-0000"
-        keyboardType="phone-pad"
+        type="phone"
         value={phone}
         onChangeText={onChangePhone}
       />

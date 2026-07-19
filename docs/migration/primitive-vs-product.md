@@ -63,7 +63,8 @@ majoritariamente produto. Este doc é o roteiro (marcar `[x]` conforme migrar).
 - ✅ **RoteiroDayCard** (Travel) → `zupper-superapp/components/travel` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `PublishContent` (DS) ainda usa.
 - ✅ **Wrappers primitivos `StatusBanner` · `PhotoGrid`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS**.
 - ✅ **PublishedModal** (Community) → `zupper-superapp/components/community` (impl real). ⚠️ **Cópia MANTIDA no DS** (opção B): `TravelPreferencesResultCard` (DS) ainda o usa. Restaura as stories "…Publicada" da CommunityProfile no app.
-- ⏳ **Sheets de moderação** (`PostActionsSheet`, `OwnPostActionsSheet`, `Report*Sheet`, `NotInterestedSheet`, `DeleteOwnPostSheet`, `ContentUnderReviewSheet`, `ContentRemovedSheet`) — **ainda no DS**. As stories de overlay de `ContentDetail` que dependem deles **não foram portadas** pro app ainda (cluster próprio). Ver "pendências" abaixo.
+- ✅ **Sheets de moderação** (`PostActionsSheet` · `OwnPostActionsSheet` · `ReportConfirmSheet` · `ReportReasonsSheet` · `ReportSentSheet` · `NotInterestedSheet` · `DeleteOwnPostSheet` · `ContentUnderReviewSheet` · `ContentRemovedSheet`) → `zupper-superapp/components/community` (impl real). **Removidos do DS** (só o barril os consumia após a ContentDetail sair). Restaura as 9 stories de overlay da `ContentDetail` no app (agora 14, = DS).
+- ✅ **Wrappers primitivos `BottomSheet` · `ConfirmDialog` · `SheetOption`** criados no app (`components/primitives`, re-exportam o DS) — genéricos, **ficam no DS** (são a base dos sheets).
 
 ## Como migrar uma peça (recap do padrão)
 1. O wrapper no app (`components/<domínio>/<Nome>`) hoje **re-exporta** o DS.

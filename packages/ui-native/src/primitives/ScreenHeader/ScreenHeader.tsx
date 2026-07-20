@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { iconSize } from '@kodes-tech/tokens';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { iconSize, spacing } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
@@ -22,6 +23,11 @@ export type ScreenHeaderProps = {
  * `trailingIcon` acrescenta um ícone após o título (ex.: o tipo em "Publicar uma
  * foto"); `background='transparent'` deixa a barra herdar o fundo da tela
  * (usado no formulário de publicar, cujo topo é o mesmo cinza do corpo).
+ *
+ * O espaço do topo respeita a safe-area do device (`useSafeAreaInsets().top`) em
+ * vez de um valor fixo, para não colidir com notch/Dynamic Island; `spacing.xl` é
+ * o piso quando não há inset (ex.: Android sem status bar translúcida). Requer um
+ * `SafeAreaProvider` na raiz do app consumidor (peerDependency).
  */
 export const ScreenHeader = ({
   title,
@@ -30,9 +36,13 @@ export const ScreenHeader = ({
   background = 'surface',
   onBack,
   right,
-}: ScreenHeaderProps): React.ReactElement => (
+}: ScreenHeaderProps): React.ReactElement => {
+  const insets = useSafeAreaInsets();
+
+  return (
   <View
-    className={`flex-row items-center justify-between px-xxl pb-xxl pt-[40px] ${
+    style={{ paddingTop: Math.max(insets.top, spacing.xl) }}
+    className={`flex-row items-center justify-between px-xxl pb-xxl ${
       background === 'surface' ? 'bg-surface-default' : ''
     }`}
   >
@@ -46,4 +56,5 @@ export const ScreenHeader = ({
     </View>
     {right ?? <View className="h-[24px] w-[24px]" />}
   </View>
-);
+  );
+};

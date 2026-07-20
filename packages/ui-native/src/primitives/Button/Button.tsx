@@ -42,6 +42,10 @@ export type ButtonProps = {
 
 // LinearGradient é ortogonal ao NativeWind (mesma exceção documentada do
 // RoleBadge) — layout via style computado a partir dos tokens, não className.
+// O gradiente é o FUNDO absoluto, não o container de layout: na New Architecture
+// o react-native-linear-gradient mede errado quando é o container flex com
+// borderRadius grande (o conteúdo colapsa pro rodapé e some). `overflow: hidden`
+// recorta o gradiente ao raio do pill.
 const gradientStyle = {
   flexDirection: 'row' as const,
   alignItems: 'center' as const,
@@ -49,6 +53,7 @@ const gradientStyle = {
   gap: spacing.md,
   borderRadius: radii.pill,
   padding: spacing.lg,
+  overflow: 'hidden' as const,
 };
 
 const secondaryBorderClassByTone: Record<ButtonTone, string> = {
@@ -160,15 +165,16 @@ export const Button = ({
       className={fullWidth ? 'w-full' : undefined}
       onPress={onPress}
     >
-      <LinearGradient
-        testID="button-gradient"
-        colors={[...colors.gradient.button]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={fullWidth ? { ...gradientStyle, width: '100%' } : gradientStyle}
-      >
+      <View style={fullWidth ? { ...gradientStyle, width: '100%' } : gradientStyle}>
+        <LinearGradient
+          testID="button-gradient"
+          colors={[...colors.gradient.button]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        />
         {content}
-      </LinearGradient>
+      </View>
     </Pressable>
   );
 };

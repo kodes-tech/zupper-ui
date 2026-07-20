@@ -9,6 +9,7 @@ export default {
   args: {
     onChangeText: action('onChangeText'),
     onSubmit: action('onSubmit'),
+    onPressTrailingIcon: action('onPressTrailingIcon'),
   },
 };
 
@@ -59,5 +60,37 @@ export const Senha = {
     label: 'Senha',
     placeholder: 'Sua senha',
     type: 'password',
+  },
+};
+
+// --- Variante com moldura (ícones dentro do campo) — telas de auth ---
+
+export const ComIconeEsquerda = {
+  args: {
+    label: 'Email',
+    placeholder: 'seuemail@exemplo.com',
+    type: 'email',
+    leadingIcon: 'email',
+  },
+};
+
+export const SenhaComOlho = {
+  args: {
+    label: 'Senha',
+    placeholder: 'Sua senha',
+    type: 'password',
+    leadingIcon: 'lock',
+    trailingIcon: 'eye',
+  },
+};
+
+export const IconeComErro = {
+  args: {
+    label: 'Senha',
+    placeholder: 'Sua senha',
+    type: 'password',
+    leadingIcon: 'lock',
+    trailingIcon: 'eye',
+    error: 'Senha incorreta',
   },
 };

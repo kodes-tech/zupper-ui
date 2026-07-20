@@ -14,12 +14,14 @@ export * from './FilterChip';
 // quebrar quem já importava Icon/IconName de @kodes-tech/ui-native.
 export * from '@kodes-tech/icons';
 export * from './Input';
+export * from './PasswordRequirementsList';
 export * from './PhotoGrid';
 export * from './RadioOption';
 export * from './RoleBadge';
 export * from './ScreenHeader';
 export * from './SelectField';
 export * from './SheetOption';
+export * from './SocialLoginButton';
 export * from './StatusBanner';
 export * from './Text';
 export * from './Textarea';

@@ -23,5 +23,6 @@ export * from './SelectField';
 export * from './SheetOption';
 export * from './SocialLoginButton';
 export * from './StatusBanner';
+export * from './StatusMessage';
 export * from './Text';
 export * from './Textarea';

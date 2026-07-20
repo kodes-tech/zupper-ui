@@ -48,6 +48,14 @@ export type TextProps = {
   color?: TextColor;
   align?: 'left' | 'center' | 'right';
   numberOfLines?: number;
+  /**
+   * Torna o texto tocável (papel de a11y `link`). Serve para o texto inteiro ou,
+   * aninhado dentro de outro `Text`, para um trecho clicável no meio de um
+   * parágrafo que flui/quebra naturalmente (ex.: "Termos de Aceite"). Sem
+   * `onPress` o texto permanece não-interativo.
+   */
+  onPress?: () => void;
+  accessibilityLabel?: string;
   testID?: string;
 };
 
@@ -91,8 +99,9 @@ const ALIGN_CLASS: Record<NonNullable<TextProps['align']>, string> = {
 
 /**
  * Text — texto do design system. Aplica família + preset tipográfico + cor a
- * partir dos tokens (via NativeWind). Apresentacional e não-interativo (para
- * texto clicável use `Button`/`IconButton`).
+ * partir dos tokens (via NativeWind). Apresentacional; com `onPress` vira um
+ * link (inclusive aninhado como trecho clicável de um parágrafo). Para botões
+ * de ação use `Button`/`IconButton`.
  */
 export const Text = ({
   children,
@@ -100,10 +109,15 @@ export const Text = ({
   color = 'primary',
   align,
   numberOfLines,
+  onPress,
+  accessibilityLabel,
   testID,
 }: TextProps): React.ReactElement => (
   <RNText
     numberOfLines={numberOfLines}
+    onPress={onPress}
+    accessibilityRole={onPress ? 'link' : undefined}
+    accessibilityLabel={accessibilityLabel}
     testID={testID}
     className={`font-sans ${VARIANT_CLASS[variant]} ${COLOR_CLASS[color]}${
       align ? ` ${ALIGN_CLASS[align]}` : ''

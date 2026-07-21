@@ -51,6 +51,7 @@ export const registry: Record<IconName, (props: React.SVGProps<SVGSVGElement>) =
   fire: Svgs.Fire,
   'fire-destinos': Svgs.FireDestinos,
   globe: Svgs.Globe,
+  'google-logo': Svgs.GoogleLogo,
   heart: Svgs.Heart,
   location: Svgs.Location,
   lock: Svgs.Lock,

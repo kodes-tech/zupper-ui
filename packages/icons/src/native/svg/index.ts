@@ -42,6 +42,7 @@ export { default as FacebookLogo } from './FacebookLogo';
 export { default as Fire } from './Fire';
 export { default as FireDestinos } from './FireDestinos';
 export { default as Globe } from './Globe';
+export { default as GoogleLogo } from './GoogleLogo';
 export { default as Heart } from './Heart';
 export { default as Location } from './Location';
 export { default as Lock } from './Lock';

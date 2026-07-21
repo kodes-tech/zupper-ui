@@ -44,6 +44,7 @@ export const iconNames = [
   'fire',
   'fire-destinos',
   'globe',
+  'google-logo',
   'heart',
   'location',
   'lock',

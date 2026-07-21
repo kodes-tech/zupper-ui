@@ -143,8 +143,8 @@ export const Input = ({
       // estado visual completo no próprio campo (comportamento original, sem regressão).
       className={
         hasAffix
-          ? `flex-1 font-sans text-bodyText placeholder:text-fg-muted selection:bg-surface-selection web:outline-none ${textStateClass}`
-          : `h-control w-full rounded-md border px-md py-lg font-sans text-bodyText placeholder:text-fg-muted selection:bg-surface-selection web:outline-none ${
+          ? `flex-1 font-sans text-bodyText placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none ${textStateClass}`
+          : `h-control w-full rounded-md border px-md py-lg font-sans text-bodyText placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none ${
               disabled
                 ? 'bg-surface-tag text-fg-muted border-border-subtle'
                 : error

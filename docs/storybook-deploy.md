@@ -85,11 +85,51 @@ e/ou refazer o passo 1 só com `C01krr9f5`.
 - Trade-off: o Cloudflare só compensa se houver **muitos e-mails externos avulsos sem
   conta Google** (ele faz OTP por e-mail nativo, o IAP não).
 
+## CD — Workload Identity Federation (configurado)
+
+Autentica o GitHub Actions no GCP **sem chave versionada** (OIDC). Já provisionado.
+
+**GitHub** (Settings → Secrets and variables → Actions):
+- **Variables:** `GCP_PROJECT_ID=jinboo-497618`, `GCP_REGION=southamerica-east1`,
+  `GCP_AR_REPO=storybook`, `CLOUD_RUN_SERVICE=storybook-ds`
+- **Secrets:** `GCP_WIF_PROVIDER=projects/294469807040/locations/global/workloadIdentityPools/github-actions/providers/github`,
+  `GCP_DEPLOY_SA=deploy-storybook@jinboo-497618.iam.gserviceaccount.com`
+
+**GCP** (reproduzir/auditar):
+```bash
+PROJECT=jinboo-497618; NUM=294469807040; SA=deploy-storybook@$PROJECT.iam.gserviceaccount.com
+gcloud services enable iamcredentials.googleapis.com sts.googleapis.com iam.googleapis.com --project=$PROJECT
+
+# pool + provider OIDC (restrito à org do GitHub)
+gcloud iam workload-identity-pools create github-actions \
+  --project=$PROJECT --location=global --display-name="GitHub Actions"
+gcloud iam workload-identity-pools providers create-oidc github \
+  --project=$PROJECT --location=global --workload-identity-pool=github-actions \
+  --display-name="GitHub" --issuer-uri="https://token.actions.githubusercontent.com" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.repository_owner=assertion.repository_owner" \
+  --attribute-condition="assertion.repository_owner=='kodes-tech'"
+
+# service account de deploy + papéis
+gcloud iam service-accounts create deploy-storybook --project=$PROJECT --display-name="Deploy Storybook (CD)"
+gcloud projects add-iam-policy-binding $PROJECT --member="serviceAccount:$SA" --role=roles/run.admin
+gcloud projects add-iam-policy-binding $PROJECT --member="serviceAccount:$SA" --role=roles/artifactregistry.writer
+gcloud iam service-accounts add-iam-policy-binding $NUM-compute@developer.gserviceaccount.com \
+  --project=$PROJECT --member="serviceAccount:$SA" --role=roles/iam.serviceAccountUser
+
+# binding que autoriza o repo a impersonar o SA — passo que FECHA o WIF
+gcloud iam service-accounts add-iam-policy-binding $SA --project=$PROJECT \
+  --role=roles/iam.workloadIdentityUser \
+  --member="principalSet://iam.googleapis.com/projects/$NUM/locations/global/workloadIdentityPools/github-actions/attribute.repository/kodes-tech/zupper-ui"
+```
+
+> ⚠️ Se o `gcloud` local estiver bloqueado (ex.: antivírus barrando o `python.exe`
+> do SDK), rode pelo **Google Cloud Shell** (console → ícone `>_`) — sem execução local.
+
 ## Deploy
 
 - **Automático:** as tags `vX.Y.Z` (tokens+ui-native) **ou** `icons-vX.Y.Z` (icons)
   disparam [`deploy-storybook.yml`](../.github/workflows/deploy-storybook.yml)
   (build dos pacotes → **build do Storybook** → push no Artifact Registry →
-  `gcloud run deploy`). Requer os `vars`/`secrets` do workflow (Workload Identity
-  Federation) configurados — ver topo do arquivo.
+  `gcloud run deploy`). Usa o WIF acima. **Falta só** o workflow chegar na `main`
+  (as tags saem da `main`) para valer.
 - **Manual/local:** ver o roteiro `gcloud` em [`deploy/storybook/README.md`](../deploy/storybook/README.md).

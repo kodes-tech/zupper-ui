@@ -87,10 +87,9 @@ gcloud beta iap web add-iam-policy-binding --resource-type=cloud-run --service="
 #     --region "$REGION" --project "$PROJECT" \
 #     --member="domain:empresacliente.com" --role="roles/iap.httpsResourceAccessor"
 
-# 4. Workload Identity Federation (GitHub → GCP), sem chave JSON:
-#    pool + provider OIDC do GitHub, service account de deploy com
-#    roles/run.admin + roles/artifactregistry.writer + roles/iam.serviceAccountUser,
-#    vinculada ao repo. Preencher secrets/vars do workflow (ver topo do yml).
+# 4. Workload Identity Federation (GitHub → GCP), sem chave JSON — JÁ CONFIGURADO.
+#    Comandos completos (pool/provider/SA/papéis/binding) + vars/secrets do GitHub em:
+#    ../../docs/storybook-deploy.md → seção "CD — Workload Identity Federation".
 ```
 
 ## Adicionar a org da Zupper (`zupper.com.br`)

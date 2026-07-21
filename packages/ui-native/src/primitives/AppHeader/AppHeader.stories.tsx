@@ -10,17 +10,21 @@ export default {
   decorators: [(Story: React.ComponentType) => <View style={{ width: 390 }}><Story /></View>],
 };
 
-export const Default = { args: { title: 'Meu Perfil - Comunidade' } };
-export const ComIconeTitulo = { args: { title: 'Destinos em alta', titleIcon: 'fire-destinos' } };
+// Stories por CAPACIDADE (o que a API faz), não por tela de produto — o
+// primitivo é genérico; o uso concreto (Perfil, Destinos, Publicar…) mora no app.
 
-// Modo "só voltar": sem título, apenas a seta à esquerda (telas de auth, cujo
-// título fica no corpo). Fundo transparente pra herdar o fundo da tela.
-export const SoVoltar = { args: { background: 'transparent' } };
+// Barra padrão: voltar + título centralizado.
+export const ComTitulo = { args: { title: 'Título da tela' } };
 
-// Variante do formulário "Publicar conteúdo": ícone do tipo após o título e
-// fundo transparente (herda o cinza da tela).
-export const Publicar = {
-  args: { title: 'Publicar uma foto', trailingIcon: 'content-foto', background: 'transparent' },
+// `titleIcon` — um glifo antes do título.
+export const IconeAntesDoTitulo = { args: { title: 'Título da tela', titleIcon: 'fire-destinos' } };
+
+// `trailingIcon` — um glifo depois do título.
+export const IconeDepoisDoTitulo = { args: { title: 'Título da tela', trailingIcon: 'content-foto' } };
+
+// `background='transparent'` — a barra herda o fundo da tela (aqui, cinza).
+export const FundoTransparente = {
+  args: { title: 'Título da tela', background: 'transparent' },
   decorators: [
     (Story: React.ComponentType) => (
       <View style={{ width: 390, backgroundColor: '#f5f5f5' }}>
@@ -29,3 +33,6 @@ export const Publicar = {
     ),
   ],
 };
+
+// Sem título — modo "só voltar" (o título fica no corpo da tela).
+export const SoVoltar = { args: { background: 'transparent' } };

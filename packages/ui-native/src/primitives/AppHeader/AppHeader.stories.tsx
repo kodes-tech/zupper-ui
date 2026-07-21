@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import { action } from '@storybook/addon-actions';
-import { ScreenHeader } from './ScreenHeader';
+import { AppHeader } from './AppHeader';
 
 export default {
-  title: 'Primitives/ScreenHeader',
-  component: ScreenHeader,
+  title: 'Primitives/AppHeader',
+  component: AppHeader,
   args: { onBack: action('onBack') },
   decorators: [(Story: React.ComponentType) => <View style={{ width: 390 }}><Story /></View>],
 };

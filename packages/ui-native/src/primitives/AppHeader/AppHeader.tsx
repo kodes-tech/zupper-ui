@@ -5,7 +5,7 @@ import { iconSize, spacing } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
-export type ScreenHeaderProps = {
+export type AppHeaderProps = {
   /**
    * Título centralizado. Omita para o modo "só voltar" (ex.: telas de auth):
    * renderiza apenas a seta à esquerda, ainda respeitando a safe-area do topo.
@@ -23,7 +23,7 @@ export type ScreenHeaderProps = {
 };
 
 /**
- * ScreenHeader — barra de topo com voltar + título (Meu Perfil, Destinos em alta…).
+ * AppHeader — barra de topo com voltar + título (Meu Perfil, Destinos em alta…).
  * `trailingIcon` acrescenta um ícone após o título (ex.: o tipo em "Publicar uma
  * foto"); `background='transparent'` deixa a barra herdar o fundo da tela
  * (usado no formulário de publicar, cujo topo é o mesmo cinza do corpo).
@@ -33,14 +33,14 @@ export type ScreenHeaderProps = {
  * o piso quando não há inset (ex.: Android sem status bar translúcida). Requer um
  * `SafeAreaProvider` na raiz do app consumidor (peerDependency).
  */
-export const ScreenHeader = ({
+export const AppHeader = ({
   title,
   titleIcon,
   trailingIcon,
   background = 'surface',
   onBack,
   right,
-}: ScreenHeaderProps): React.ReactElement => {
+}: AppHeaderProps): React.ReactElement => {
   const insets = useSafeAreaInsets();
 
   return (

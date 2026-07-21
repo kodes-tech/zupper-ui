@@ -7,7 +7,7 @@ import './preview.css'; // @font-face da Satoshi — o navegador não tem a font
 
 // Métricas de safe-area fixas p/ o preview web. Sem device pra medir, injetamos
 // um frame de phone com insets típicos (notch + home indicator) para que
-// primitivos com `useSafeAreaInsets` (ex.: ScreenHeader) tenham valor imediato —
+// primitivos com `useSafeAreaInsets` (ex.: AppHeader) tenham valor imediato —
 // sem isto o RN safe-area lança "No safe area value available" no navegador.
 const initialMetrics = {
   frame: { x: 0, y: 0, width: 390, height: 844 },

@@ -1,6 +1,7 @@
 // Primitives — os blocos genéricos e agnósticos do design system (o "MUI do
 // Zupper"). Sem hierarquia Atomic: o pacote publica só primitivos (ADR 0009), então
 // tudo mora numa camada só. Produto e telas vivem no app consumidor, não aqui.
+export * from './AppHeader';
 export * from './Avatar';
 export * from './AvatarFallback';
 export * from './Badge';
@@ -18,7 +19,6 @@ export * from './PasswordRequirementsList';
 export * from './PhotoGrid';
 export * from './RadioOption';
 export * from './RoleBadge';
-export * from './ScreenHeader';
 export * from './SelectField';
 export * from './SheetOption';
 export * from './SocialLoginButton';

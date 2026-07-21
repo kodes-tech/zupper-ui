@@ -1,5 +1,17 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
+import fs from 'fs';
 import path from 'path';
+
+// Versões das libs do DS lidas em build-time (contexto Node) e injetadas no
+// preview via `env` — a story "Sobre/Versões" as exibe. Fonte = workspace do
+// monorepo (é aqui que elas vivem/são publicadas em lockstep).
+const readVersion = (rel: string): string =>
+  JSON.parse(fs.readFileSync(path.resolve(__dirname, rel), 'utf8')).version;
+const LIB_VERSIONS = [
+  { name: '@kodes-tech/tokens', version: readVersion('../../tokens/package.json'), source: 'workspace (monorepo)' },
+  { name: '@kodes-tech/icons', version: readVersion('../../icons/package.json'), source: 'workspace (monorepo)' },
+  { name: '@kodes-tech/ui-native', version: readVersion('../package.json'), source: 'workspace (monorepo)' },
+];
 
 /**
  * Storybook web para componentes React Native, via react-native-web.
@@ -14,6 +26,7 @@ const config: StorybookConfig = {
     name: '@storybook/react-webpack5',
     options: {},
   },
+  env: (cfg) => ({ ...cfg, STORYBOOK_LIB_VERSIONS: JSON.stringify(LIB_VERSIONS) }),
   webpackFinal: async (cfg) => {
     cfg.resolve = cfg.resolve ?? {};
     cfg.resolve.alias = {

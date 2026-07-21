@@ -30,6 +30,8 @@ export type TextColor =
   | 'muted'
   | 'inverse'
   | 'link'
+  /** Teal de marca (`brand.base` #4CBAC7) — cor dos links de auth (Fazer login). */
+  | 'brand'
   | 'heading'
   | 'body'
   | 'label'
@@ -47,6 +49,8 @@ export type TextProps = {
   /** Cor do texto (token). Default: `primary`. */
   color?: TextColor;
   align?: 'left' | 'center' | 'right';
+  /** Sublinha o texto (traço embaixo) — ex.: links de auth. */
+  underline?: boolean;
   numberOfLines?: number;
   /**
    * Torna o texto tocável (papel de a11y `link`). Serve para o texto inteiro ou,
@@ -84,6 +88,7 @@ const COLOR_CLASS: Record<TextColor, string> = {
   muted: 'text-fg-muted',
   inverse: 'text-fg-inverse',
   link: 'text-fg-link',
+  brand: 'text-brand-base',
   heading: 'text-fg-heading',
   body: 'text-fg-body',
   label: 'text-fg-label',
@@ -108,6 +113,7 @@ export const Text = ({
   variant = 'bodyText',
   color = 'primary',
   align,
+  underline = false,
   numberOfLines,
   onPress,
   accessibilityLabel,
@@ -121,7 +127,7 @@ export const Text = ({
     testID={testID}
     className={`font-sans ${VARIANT_CLASS[variant]} ${COLOR_CLASS[color]}${
       align ? ` ${ALIGN_CLASS[align]}` : ''
-    }`}
+    }${underline ? ' underline' : ''}`}
   >
     {children}
   </RNText>

@@ -16,10 +16,10 @@ export type SocialLoginButtonProps = {
   testID?: string;
 };
 
-// Cores de MARCA de terceiros (Facebook/Apple) — fixas e imutáveis; NÃO são
-// tokens do design system (não podemos alterar a identidade de terceiros), por
-// isso o hardcode aqui é proposital. Google, por decisão do Figma, não leva
-// ícone — só o texto neutro.
+// Cores de MARCA de terceiros — fixas e imutáveis; NÃO são tokens do design
+// system (não podemos alterar a identidade de terceiros), por isso o hardcode
+// aqui é proposital. O Google usa borda/texto neutros (o colorido fica só no
+// logo multicolor).
 const brandBorderClass: Record<SocialProvider, string> = {
   facebook: 'border-[#0866FF]',
   google: 'border-border-focus',
@@ -30,8 +30,9 @@ const brandTextClass: Record<SocialProvider, string> = {
   google: 'text-fg-secondary',
   apple: 'text-fg-secondary',
 };
-const brandIcon: Partial<Record<SocialProvider, IconName>> = {
+const brandIcon: Record<SocialProvider, IconName> = {
   facebook: 'facebook-logo',
+  google: 'google-logo',
   apple: 'apple-logo',
 };
 

@@ -3,6 +3,8 @@ import { SocialLoginButton } from './SocialLoginButton';
 
 export default {
   title: 'Primitives/SocialLoginButton',
+  // draft — primitivo novo de auth, pendente de avaliação do designer.
+  tags: ['draft'],
   component: SocialLoginButton,
   args: { onPress: action('onPress') },
 };

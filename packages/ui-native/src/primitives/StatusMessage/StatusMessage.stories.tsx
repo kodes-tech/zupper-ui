@@ -2,6 +2,8 @@ import { StatusMessage } from './StatusMessage';
 
 export default {
   title: 'Primitives/StatusMessage',
+  // draft — primitivo novo de auth, pendente de avaliação do designer.
+  tags: ['draft'],
   component: StatusMessage,
 };
 

@@ -2,6 +2,8 @@ import { PasswordRequirementsList } from './PasswordRequirementsList';
 
 export default {
   title: 'Primitives/PasswordRequirementsList',
+  // draft — primitivo novo de auth, pendente de avaliação do designer.
+  tags: ['draft'],
   component: PasswordRequirementsList,
 };
 

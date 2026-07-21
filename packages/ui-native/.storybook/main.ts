@@ -3,15 +3,16 @@ import fs from 'fs';
 import path from 'path';
 
 // Versões das libs do DS lidas em build-time (contexto Node) e injetadas no
-// preview via `env` — a story "Sobre/Versões" as exibe. Fonte = workspace do
-// monorepo (é aqui que elas vivem/são publicadas em lockstep).
+// MANAGER via managerHead (window global) — o manager.ts as usa no renderLabel
+// para carimbar a versão no rótulo de cada grupo da sidebar (Tokens/Primitives/
+// Icons). Mapa por NOME do grupo, pois é assim que o renderLabel casa.
 const readVersion = (rel: string): string =>
   JSON.parse(fs.readFileSync(path.resolve(__dirname, rel), 'utf8')).version;
-const LIB_VERSIONS = [
-  { name: '@kodes-tech/tokens', version: readVersion('../../tokens/package.json'), source: 'workspace (monorepo)' },
-  { name: '@kodes-tech/icons', version: readVersion('../../icons/package.json'), source: 'workspace (monorepo)' },
-  { name: '@kodes-tech/ui-native', version: readVersion('../package.json'), source: 'workspace (monorepo)' },
-];
+const GROUP_VERSIONS: Record<string, string> = {
+  Tokens: readVersion('../../tokens/package.json'),
+  Icons: readVersion('../../icons/package.json'),
+  Primitives: readVersion('../package.json'),
+};
 
 /**
  * Storybook web para componentes React Native, via react-native-web.
@@ -26,7 +27,9 @@ const config: StorybookConfig = {
     name: '@storybook/react-webpack5',
     options: {},
   },
-  env: (cfg) => ({ ...cfg, STORYBOOK_LIB_VERSIONS: JSON.stringify(LIB_VERSIONS) }),
+  // Disponibiliza o mapa de versões no MANAGER (usado pelo renderLabel no manager.ts).
+  managerHead: (head) =>
+    `${head}\n<script>window.__DS_GROUP_VERSIONS__ = ${JSON.stringify(GROUP_VERSIONS)};</script>`,
   webpackFinal: async (cfg) => {
     cfg.resolve = cfg.resolve ?? {};
     cfg.resolve.alias = {

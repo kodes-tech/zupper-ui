@@ -1,8 +1,14 @@
 name: Deploy Storybook (DS) — GCP
 
 # Publica o Storybook do design system (assinatura: tokens/ícones/primitivos) no
-# Cloud Run, com IAP direto (sem Load Balancer) como gate (KSA-164). Roda a cada
-# release do DS (mesmas tags do publish.yml) e também sob demanda (workflow_dispatch).
+# Cloud Run, com IAP direto (sem Load Balancer) como gate (KSA-164). Dispara a cada
+# release de QUALQUER pacote do DS — o trem tokens+ui-native (tag `vX.Y.Z`, ver
+# publish.yml) e o icons isolado (tag `icons-vX.Y.Z`, ver publish-icons.yml) — porque
+# a vitrine mostra os três. Também roda sob demanda (workflow_dispatch).
+#
+# O Storybook é sempre buildado do SOURCE do monorepo (workspaces) na tag, então NÃO
+# depende do publish no registry — só precisa buildar antes de deployar (feito abaixo:
+# Build packages → Build Storybook → deploy).
 #
 # ─────────────────────────────────────────────────────────────────────────────
 # PRÉ-REQUISITOS (provisionar no GCP antes deste workflow rodar):
@@ -27,7 +33,8 @@ name: Deploy Storybook (DS) — GCP
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*.*.*'        # trem tokens + ui-native (publish.yml)
+      - 'icons-v*.*.*'  # icons isolado (publish-icons.yml)
   workflow_dispatch:
 
 concurrency:

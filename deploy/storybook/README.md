@@ -93,11 +93,36 @@ gcloud beta iap web add-iam-policy-binding --resource-type=cloud-run --service="
 #    vinculada ao repo. Preencher secrets/vars do workflow (ver topo do yml).
 ```
 
+## Adicionar a org da Zupper (`zupper.com.br`)
+
+Passos verificados para liberar o domínio inteiro `zupper.com.br` (custo zero, sem
+per-seat; reversível). O `zupper.com.br` é **outra organização Google**, então:
+
+0. **Pré-req:** obter o **customer ID** do `zupper.com.br` (`C0xxxxxxxx`) — admin do
+   Workspace da Zupper em `admin.google.com` → Conta → Configurações da conta.
+1. **Org Policy Admin** (org `247826990084`) allowlista o customer ID **só no projeto**
+   (o override substitui a herança, então listar os dois):
+   ```bash
+   gcloud resource-manager org-policies allow iam.allowedPolicyMemberDomains \
+     C01krr9f5 <CUSTOMER_ID_ZUPPER> --project=jinboo-497618
+   # validar: gcloud resource-manager org-policies describe \
+   #   iam.allowedPolicyMemberDomains --project=jinboo-497618 --effective
+   ```
+2. Liberar o domínio no IAP:
+   ```bash
+   gcloud beta iap web add-iam-policy-binding --resource-type=cloud-run \
+     --service=storybook-ds --region=southamerica-east1 --project=jinboo-497618 \
+     --member="domain:zupper.com.br" --role="roles/iap.httpsResourceAccessor"
+   ```
+3. Validar com um login `@zupper.com.br`. O consent screen ("Jinboo") aparenta ser
+   **External** (sem `orgInternalOnly`) → cross-org deve passar; se barrar no consent,
+   ajustar o consent screen para *External* no console (APIs & Services → OAuth consent).
+
 ## Critérios de aceite
 
 - [ ] Não-autenticado → barrado pelo **IAP**.
 - [ ] `@kodestech.com.br` via Google → vê o DS.
-- [ ] Cliente externo → vê o DS (depende da exceção da org policy).
+- [ ] `@zupper.com.br` via Google → vê o DS (após os passos acima).
 - [ ] Fora do domínio/allowlist → negado.
 
 ## GCP × Cloudflare (decisão pendente)

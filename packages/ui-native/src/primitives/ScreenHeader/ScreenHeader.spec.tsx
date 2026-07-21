@@ -13,4 +13,12 @@ describe('ScreenHeader', () => {
     await fireEvent.press(screen.getByLabelText('Voltar'));
     expect(onBack).toHaveBeenCalledTimes(1);
   });
+
+  it('renders the back-only mode without a title', async () => {
+    const onBack = jest.fn();
+    await render(<ScreenHeader onBack={onBack} />);
+    // sem título, mas a seta de voltar continua acessível e funcional.
+    await fireEvent.press(screen.getByLabelText('Voltar'));
+    expect(onBack).toHaveBeenCalledTimes(1);
+  });
 });

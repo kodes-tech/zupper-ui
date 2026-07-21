@@ -6,7 +6,11 @@ import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 
 export type ScreenHeaderProps = {
-  title: string;
+  /**
+   * Título centralizado. Omita para o modo "só voltar" (ex.: telas de auth):
+   * renderiza apenas a seta à esquerda, ainda respeitando a safe-area do topo.
+   */
+  title?: string;
   /** Ícone opcional antes do título (ex.: fogo em "Destinos em alta"). */
   titleIcon?: IconName;
   /** Ícone opcional depois do título (ex.: tipo do conteúdo em "Publicar uma foto"). */
@@ -42,19 +46,24 @@ export const ScreenHeader = ({
   return (
   <View
     style={{ paddingTop: Math.max(insets.top, spacing.xl) }}
-    className={`flex-row items-center justify-between px-xxl pb-xxl ${
+    className={`flex-row items-center px-xxl pb-xxl ${title ? 'justify-between' : ''} ${
       background === 'surface' ? 'bg-surface-default' : ''
     }`}
   >
     <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={onBack}>
       <Icon name="back-arrow" size={iconSize.lg} />
     </Pressable>
-    <View className="flex-row items-center gap-xs">
-      {titleIcon ? <Icon name={titleIcon} size={iconSize.lg} /> : null}
-      <Text className="font-sans text-cardTitle text-fg-label">{title}</Text>
-      {trailingIcon ? <Icon name={trailingIcon} size={iconSize.md} /> : null}
-    </View>
-    {right ?? <View className="h-[24px] w-[24px]" />}
+    {/* Sem título = modo "só voltar" (auth): apenas a seta, alinhada à esquerda. */}
+    {title ? (
+      <>
+        <View className="flex-row items-center gap-xs">
+          {titleIcon ? <Icon name={titleIcon} size={iconSize.lg} /> : null}
+          <Text className="font-sans text-cardTitle text-fg-label">{title}</Text>
+          {trailingIcon ? <Icon name={trailingIcon} size={iconSize.md} /> : null}
+        </View>
+        {right ?? <View className="h-[24px] w-[24px]" />}
+      </>
+    ) : null}
   </View>
   );
 };

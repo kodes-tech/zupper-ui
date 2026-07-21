@@ -13,6 +13,10 @@ export default {
 export const Default = { args: { title: 'Meu Perfil - Comunidade' } };
 export const ComIconeTitulo = { args: { title: 'Destinos em alta', titleIcon: 'fire-destinos' } };
 
+// Modo "só voltar": sem título, apenas a seta à esquerda (telas de auth, cujo
+// título fica no corpo). Fundo transparente pra herdar o fundo da tela.
+export const SoVoltar = { args: { background: 'transparent' } };
+
 // Variante do formulário "Publicar conteúdo": ícone do tipo após o título e
 // fundo transparente (herda o cinza da tela).
 export const Publicar = {

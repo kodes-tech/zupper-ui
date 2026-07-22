@@ -1,6 +1,6 @@
 {
   "name": "@kodes-tech/icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ícones do design system Zupper — SVGs crus (fonte da verdade) + componentes gerados por renderer: react-native-svg (native) e <svg> DOM (web). O bundler escolhe o renderer via exports.",
   "license": "UNLICENSED",
   "source": "src/native/index.ts",

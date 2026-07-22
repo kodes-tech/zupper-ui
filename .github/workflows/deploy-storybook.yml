@@ -1,0 +1,115 @@
+name: Deploy Storybook (DS) — GCP
+
+# Publica o Storybook do design system (assinatura: tokens/ícones/primitivos) no
+# Cloud Run, com IAP direto (sem Load Balancer) como gate (KSA-164). Dispara a cada
+# release de QUALQUER pacote do DS — o trem tokens+ui-native (tag `vX.Y.Z`, ver
+# publish.yml) e o icons isolado (tag `icons-vX.Y.Z`, ver publish-icons.yml) — porque
+# a vitrine mostra os três. Também roda sob demanda (workflow_dispatch).
+#
+# O Storybook é sempre buildado do SOURCE do monorepo (workspaces) na tag, então NÃO
+# depende do publish no registry — só precisa buildar antes de deployar (feito abaixo:
+# Build packages → Build Storybook → deploy).
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# PRÉ-REQUISITOS (provisionar no GCP antes deste workflow rodar):
+#   • Artifact Registry (Docker) criado na região.
+#   • Cloud Run service criado com IAP direto habilitado (ingress: all).
+#   • IAP: acesso concedido ao domínio @kodestech.com.br (iap.httpsResourceAccessor);
+#     clientes externos exigem exceção da org policy iam.allowedPolicyMemberDomains
+#     (Org Policy Admin) por customer ID — ver deploy/storybook/README.md.
+#   • Workload Identity Federation GitHub↔GCP (SEM chave JSON no repo).
+#
+# Configurar no repositório (Settings → Secrets and variables → Actions):
+#   Variables:
+#     GCP_PROJECT_ID       ex: jinboo-497618
+#     GCP_REGION           ex: southamerica-east1
+#     GCP_AR_REPO          ex: storybook
+#     CLOUD_RUN_SERVICE    ex: storybook-ds
+#   Secrets:
+#     GCP_WIF_PROVIDER     projects/N/locations/global/workloadIdentityPools/POOL/providers/PROVIDER
+#     GCP_DEPLOY_SA        deploy-storybook@PROJECT.iam.gserviceaccount.com
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'        # trem tokens + ui-native (publish.yml)
+      - 'icons-v*.*.*'  # icons isolado (publish-icons.yml)
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-storybook-gcp
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  id-token: write # necessário para o OIDC do Workload Identity Federation
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_AR_REPO }}/storybook-ds
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # --legacy-peer-deps: mesmo motivo do ci.yml (react-native-web@0.19 pede React 18)
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      # Builda os pacotes primeiro: o preset Tailwind do Storybook vem de
+      # @kodes-tech/tokens/tailwind, então tokens precisa estar buildado.
+      - name: Build packages
+        run: npm run build
+
+      - name: Build Storybook estático
+        run: npm run build-storybook -w @kodes-tech/ui-native
+
+      - name: Auth no GCP (Workload Identity Federation)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOY_SA }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configura Docker p/ Artifact Registry
+        run: gcloud auth configure-docker ${{ vars.GCP_REGION }}-docker.pkg.dev --quiet
+
+      # Tag da imagem: SHA curto (imutável) + a git tag quando o disparo for por release.
+      - name: Define tags da imagem
+        id: tags
+        run: |
+          SHA_TAG=$(echo "${GITHUB_SHA}" | cut -c1-12)
+          echo "sha_tag=${SHA_TAG}" >> "$GITHUB_OUTPUT"
+          REF_TAG="${GITHUB_REF_NAME}"
+          echo "ref_tag=${REF_TAG//\//-}" >> "$GITHUB_OUTPUT"
+
+      - name: Build & push da imagem
+        run: |
+          docker build -f deploy/storybook/Dockerfile \
+            -t "${IMAGE}:${{ steps.tags.outputs.sha_tag }}" \
+            -t "${IMAGE}:${{ steps.tags.outputs.ref_tag }}" \
+            -t "${IMAGE}:latest" .
+          docker push --all-tags "${IMAGE}"
+
+      # IAP é ligado no nível do serviço (direto no Cloud Run, sem Load Balancer)
+      # e é PRESERVADO entre deploys. Mantemos --ingress=all (o IAP exige que a
+      # frente do Google alcance o serviço) e --no-allow-unauthenticated (só o
+      # service agent do IAP é invoker; usuários passam pelo gate do IAP).
+      - name: Deploy no Cloud Run
+        run: |
+          gcloud run deploy "${{ vars.CLOUD_RUN_SERVICE }}" \
+            --image "${IMAGE}:${{ steps.tags.outputs.sha_tag }}" \
+            --region "${{ vars.GCP_REGION }}" \
+            --project "${{ vars.GCP_PROJECT_ID }}" \
+            --ingress all \
+            --no-allow-unauthenticated \
+            --port 8080 \
+            --quiet

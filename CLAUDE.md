@@ -106,3 +106,5 @@ pago vs GitHub Packages vs Verdaccio). Ver `docs/decisions/0001-separate-repo-np
 - **Tokens são placeholder** — preencher do Figma do Community (`TODO(Figma)` em `packages/tokens/src`).
 - **NativeWind exige setup no app consumidor** — ver `docs/nativewind-zupper-app.md` (ainda não aplicado no zupper-app).
 - Storybook/jest/build **validados** neste repo; gotchas em `docs/known-issues.md`.
+- **Storybook do DS publicado com gate** (GCP Cloud Run + IAP direto; CD por tag via
+  Workload Identity Federation) — runbook em `docs/storybook-deploy.md` (KSA-164).

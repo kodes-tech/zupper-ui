@@ -1,13 +1,14 @@
 ---
 name: release
 description: >-
-  Corta uma versão do zupper-ui e dispara a publicação dos pacotes @kodes-tech
-  (trem tokens+ui-native e o trem isolado de icons) e, por tabela, o deploy do
-  Storybook do design system. Use quando o usuário pedir para "cortar/publicar
-  uma release", "subir versão", "publicar o design system", "gerar a tag",
-  "fazer o deploy do storybook" ou "mergear develop na main para release".
-  Orquestra develop→main, bump de versão, tag e o monitoramento dos workflows,
-  seguindo docs/release.md. Só para o zupper-ui (monorepo do design system).
+  Corta uma versão do zupper-ui e dispara a publicação dos pacotes @kodes-tech e,
+  por tabela, o deploy do Storybook. São DOIS trens de release independentes: o
+  Fluxo A (tokens+ui-native, tag vX.Y.Z) e o Fluxo B (icons, tag icons-vX.Y.Z) —
+  cada um cortável sozinho. Use quando o usuário pedir para "cortar/publicar uma
+  release", "subir versão", "publicar o design system", "publicar os ícones",
+  "gerar a tag", "fazer o deploy do storybook" ou "mergear develop na main para
+  release". Orquestra develop→main, bump, tag e o monitoramento, seguindo
+  docs/release.md. Só para o zupper-ui (monorepo do design system).
 ---
 
 # Cortar uma release do zupper-ui
@@ -18,33 +19,46 @@ runbook, o runbook vence; avise o usuário da divergência.
 
 ## O que este skill faz — e o que NÃO faz
 
-O trabalho manual de um release é: levar código para a `main`, bumpar a versão,
-e **cortar a tag**. A publicação dos pacotes e o **deploy do Storybook são efeito
-colateral da tag** — os workflows disparam sozinhos no `push` dela:
-
-```
-develop ─PR→ main ─bump→ tag vX.Y.Z ─push→ publish.yml ──────────→ GitHub Packages
-                                     └──────→ deploy-storybook.yml → Cloud Run (Storybook)
-```
+O trabalho manual de um release é: levar código para a `main`, bumpar a versão, e
+**cortar a tag**. A publicação dos pacotes e o **deploy do Storybook são efeito
+colateral da tag** — os workflows disparam sozinhos no `push` dela.
 
 - **Faz:** abrir a PR `develop → main`, bumpar versão(ões), ajustar faixas de deps
-  internas, cortar e enviar a(s) tag(s) na ordem certa, e depois monitorar os
-  workflows e fazer o back-merge `main → develop`.
+  internas, cortar e enviar a tag, monitorar os workflows e fazer o back-merge
+  `main → develop`.
 - **NÃO faz:** rodar `gcloud`, mexer em Cloud Run/IAP ou "deployar o Storybook à
   mão" — isso é o `deploy-storybook.yml` reagindo à tag. O skill só **acompanha**.
 
+## Dois trens de release INDEPENDENTES
+
+O DS tem três pacotes em **dois trens que versionam e publicam separadamente**:
+
+| Fluxo | Pacotes | Tag | Workflow |
+|---|---|---|---|
+| **A** | `@kodes-tech/tokens` + `@kodes-tech/ui-native` (lockstep, mesmo `X.Y.Z`) | `vX.Y.Z` | `publish.yml` |
+| **B** | `@kodes-tech/icons` (versiona sozinho) | `icons-vX.Y.Z` | `publish-icons.yml` |
+
+**Cada fluxo é um release completo e autônomo** (develop→main → bump → tag →
+back-merge). Um bump de icons **não** força bump do trem, e vice-versa.
+
+- **Pergunte / detecte qual fluxo** o usuário quer antes de começar. "Publicar os
+  ícones" → Fluxo B. "Soltar uma versão do DS / dos primitivos" → Fluxo A.
+- **Único acoplamento (ordem):** o `ui-native` depende de `@kodes-tech/icons`. Se o
+  release do Fluxo A passou a exigir uma **faixa nova** de icons, o Fluxo B daquela
+  faixa precisa ter sido publicado **antes** — senão o guard do `publish.yml` derruba
+  o trem. O Fluxo A **detecta** isso e **manda rodar o Fluxo B primeiro**; ele
+  **não** corta icons por conta própria.
+
 ## Modo de operação (automático até a tag)
 
-Uma **única confirmação humana** no início, com o plano completo à vista. Depois o
-skill executa sozinho até o fim — **mas aborta imediatamente** se qualquer *guard*
-de preflight falhar (ver abaixo). Automático quando é seguro; freio de mão quando
-um guard dispara.
+Vale para os dois fluxos: uma **única confirmação humana** no início, com o plano à
+vista. Depois executa sozinho até o fim — **mas aborta imediatamente** se qualquer
+*guard* falhar. Automático quando é seguro; freio de mão quando um guard dispara.
 
-> ⚠️ **Confirmar aqui = aprovar o release.** No runbook, o merge da PR em `main` é
-> o gate humano de aprovação; no modo automático esse gate é a confirmação inicial.
-> Deixe isso explícito para o usuário. Publicar é **irreversível**: o registry não
-> deixa republicar o mesmo número (runbook: *"nunca force republish do mesmo
-> número"*).
+> ⚠️ **Confirmar = aprovar o release.** No runbook, o merge da PR em `main` é o gate
+> humano; no modo automático esse gate é a confirmação inicial. Publicar é
+> **irreversível**: o registry não deixa republicar o mesmo número (runbook: *"nunca
+> force republish do mesmo número"*).
 
 ## Pré-requisitos
 
@@ -53,131 +67,146 @@ um guard dispara.
 - **Nunca** forçar branch protection, pular review obrigatório, nem usar
   `--admin`/`--no-verify`. Se um `gh pr merge` bater em proteção, **pare** e avise.
 
-## Guards de preflight (ABORTAR se algum falhar)
+## Guards comuns (ABORTAR se algum falhar — valem para A e B)
 
-Rode **antes** de qualquer ação e re-cheque na hora certa. Se qualquer um falhar,
-pare e reporte — não tente contornar:
+Rode **antes** de qualquer ação e re-cheque na hora certa; se falhar, pare e reporte,
+não contorne:
 
-1. **`git fetch --all --tags`** primeiro; decida sobre o estado remoto fresco, não
-   sobre refs locais.
+1. **`git fetch --all --tags`** primeiro; decida sobre o estado remoto fresco.
 2. **Árvore limpa** (`git status` sem pendências).
-3. **Há o que publicar:** `develop` está à frente da `main`
+3. **Há o que publicar:** `develop` à frente da `main`
    (`git rev-list --count origin/main..origin/develop` > 0).
-4. **A(s) tag(s) alvo NÃO existem** (nem local nem remoto). Reutilizar número =
-   publish falho e irreversível.
-5. **`tag == version`:** o número da tag tem que bater exatamente com o `version`
-   dos `package.json` na `main` — o publish sai com o número do `package.json`, não
-   da tag.
-6. **Ordem dos trens (icons antes):** se o `ui-native` do release passou a depender
-   de uma faixa nova de `@kodes-tech/icons`, a tag `icons-vX.Y.Z` dessa faixa tem
-   que ser publicada **antes** da `vX.Y.Z` — senão o guard do `publish.yml` derruba
-   o trem. Cheque:
-   ```bash
-   RANGE=$(node -p "require('./packages/ui-native/package.json').dependencies['@kodes-tech/icons']")
-   npm view "@kodes-tech/icons@${RANGE}" version   # vazio = precisa publicar icons antes
-   ```
-7. **Caret no `0.x`:** ao bumpar o **minor** de um pacote-fonte (ex.: `tokens
-   0.3.0 → 0.4.0`), atualize **também** a faixa da dep interna que aponta pra ele
-   (`^0.3.0 → ^0.4.0`), senão o consumidor continua puxando a minor antiga.
-   (`^0.3.0` = `>=0.3.0 <0.4.0`; `0.4.0` não satisfaz.)
-8. **CI verde** antes de todo merge em `main`. O skill faz *poll* do status e
-   **recusa** mergear com CI vermelho ou pendente.
+4. **A tag alvo NÃO existe** (local nem remoto). Reutilizar número = publish falho e
+   irreversível.
+5. **`tag == version`:** o número da tag bate exatamente com o `version` do
+   `package.json` (na `main`) do(s) pacote(s) daquele trem — o publish sai com o
+   número do `package.json`, não da tag.
+6. **CI verde** antes de todo merge em `main`. Faça *poll* do status e **recuse**
+   mergear com CI vermelho ou pendente.
+
+Número (semver, pré-1.0 `0.x`): **minor** = feature nova retrocompatível; **patch** =
+correção; **major** = quebra de API. Ver a tabela no runbook.
+
+---
+
+# Fluxo A — trem `tokens` + `ui-native` (tag `vX.Y.Z`)
+
+## Guards específicos do Fluxo A
+
+- **A1 — ordem do icons (checar, NÃO cortar):** se o `ui-native` passou a pedir uma
+  faixa de `@kodes-tech/icons` ainda não publicada, **PARE** e diga ao usuário para
+  rodar o **Fluxo B** (icons) primeiro. Este fluxo não corta icons.
+  ```bash
+  RANGE=$(node -p "require('./packages/ui-native/package.json').dependencies['@kodes-tech/icons']")
+  npm view "@kodes-tech/icons@${RANGE}" version   # vazio = ABORTAR: rode o Fluxo B antes
+  ```
+- **A2 — caret no `0.x`:** ao bumpar o **minor** de um pacote-fonte (ex.: `tokens
+  0.3.0 → 0.4.0`), atualize **também** a faixa da dep interna que aponta pra ele
+  (`^0.3.0 → ^0.4.0`), senão o consumidor puxa a minor antiga.
+  (`^0.3.0` = `>=0.3.0 <0.4.0`; `0.4.0` não satisfaz.)
 
 ## Plano + confirmação (o único gate)
 
-Monte e apresente ao usuário, pedindo um "ok" explícito:
+Apresente e peça "ok" explícito: tipo de bump e **número `vX.Y.Z`**; faixas de dep a
+atualizar (caret 0.x); resultado do guard A1 (icons já satisfeito, ou "precisa do
+Fluxo B antes"); PRs/features incluídas (`git log origin/main..origin/develop`); e o
+aviso de irreversibilidade.
 
-- Tipo de bump (major/minor/patch) e o **número resultante** do trem `vX.Y.Z`.
-- Se haverá release de **icons** (`icons-vX.Y.Z`) e, portanto, a **ordem**: icons
-  primeiro, trem depois.
-- Faixas de deps internas que serão atualizadas (caret 0.x).
-- Lista das PRs/features que entram (do `git log origin/main..origin/develop`).
-- O aviso de irreversibilidade acima.
+## Passos
 
-Escolha do número (pré-1.0, `0.x`): **minor** = feature nova retrocompatível;
-**patch** = correção; **major** = quebra de API. Ver a tabela no runbook.
-
-## Execução
-
-### Passo 0 — (se necessário) release do icons primeiro
-
-Só se o guard 6 indicou faixa de icons não publicada. Icons versiona **sozinho**,
-tag própria, cortada da `main`:
 ```bash
-git checkout main && git pull
-git tag icons-vX.Y.Z          # prefixo "icons-v" (o workflow filtra icons-v*.*.*)
-git push origin icons-vX.Y.Z  # dispara publish-icons.yml
-```
-Aguarde o **Actions "Publish @kodes-tech/icons"** ficar verde antes de seguir — o
-trem depende do icons já estar no registry.
-
-### Passo 1 — PR de release `develop → main`
-
-Este é o início do processo. A PR aponta para `main`:
-```bash
+# 1) PR de release develop → main (início do processo). Espere CI verde e mergeie.
 gh pr create --base main --head develop \
-  --title "release(ui-native): <resumo>" \
-  --body "<features/PRs incluídas + Refs KSA-XX>"
-```
-Espere o **CI verde** (guard 8) e então mergeie. O merge é a materialização do
-release aprovado na confirmação inicial.
+  --title "release(ui-native): <resumo>" --body "<features/PRs + Refs KSA-XX>"
 
-### Passo 2 — bump de versão na `main` (via PR curto)
-
-A `main` é protegida; o bump vai por PR próprio, base `main`:
-```bash
+# 2) Bump na main (via PR curto) — tokens E ui-native no mesmo X.Y.Z (lockstep)
 git checkout main && git pull
 git checkout -b chore/bump-vX.Y.Z
-# editar "version" em AMBOS: packages/tokens/package.json e packages/ui-native/package.json (lockstep)
-# se um pacote-fonte mudou de minor, atualizar a faixa da dep interna (guard 7)
+#   editar "version" em packages/tokens/package.json E packages/ui-native/package.json
+#   se um pacote-fonte mudou de minor, atualizar a faixa da dep interna (guard A2)
 git commit -am "chore(release): vX.Y.Z"
 gh pr create --base main --head chore/bump-vX.Y.Z --title "chore(release): vX.Y.Z"
-# CI verde → merge
-```
-Trem principal = **tokens + ui-native bumpados juntos**, mesmo `X.Y.Z`.
+#   CI verde → merge
 
-### Passo 3 — cortar e enviar a tag do trem
-
-```bash
-git checkout main && git pull   # com o bump já mergeado
+# 3) Cortar e enviar a tag (dispara publish.yml + deploy-storybook.yml)
+git checkout main && git pull
 git tag vX.Y.Z                  # "v" obrigatório (o workflow filtra v*.*.*)
-git push origin vX.Y.Z          # dispara publish.yml + deploy-storybook.yml
+git push origin vX.Y.Z
+
+# 5) Back-merge main → develop
+git checkout develop && git pull && git merge main && git push
 ```
 
-### Passo 4 — monitorar (automático no CI)
+**4) Monitorar:** Actions → **"Publish packages"** e **"Deploy Storybook (DS) — GCP"**
+verdes; `@kodes-tech/tokens` e `@kodes-tech/ui-native` em Packages na versão nova.
+Use `gh run list` / `gh run watch`.
 
-- **Actions → "Publish packages"** deve ficar verde; confira `@kodes-tech/tokens` e
-  `@kodes-tech/ui-native` em Packages na versão nova.
-- **Actions → "Deploy Storybook (DS) — GCP"** deve ficar verde (o Storybook é
-  buildado do source na tag e sobe no Cloud Run).
-- Use `gh run list` / `gh run watch` para acompanhar.
+---
 
-### Passo 5 — back-merge `main → develop`
+# Fluxo B — trem `icons` (tag `icons-vX.Y.Z`)
 
-Para a `develop` não ficar atrás do bump:
+Release **autônomo** do `@kodes-tech/icons`. Não toca em tokens/ui-native e não exige
+release do Fluxo A. Rode-o por conta própria quando for publicar ícones — ou quando o
+guard A1 do Fluxo A pedir que ele venha antes.
+
+## Guards específicos do Fluxo B
+
+- **B1 — `icons:audit`:** o `publish-icons.yml` roda a trava de integridade 1:1 dos
+  dois renderers. Garanta `npm run icons:audit -w @kodes-tech/icons` verde antes.
+- Guards comuns 4 e 5 valem sobre o **icons**: a tag `icons-vX.Y.Z` não pode existir,
+  e `packages/icons/package.json` `version` == `X.Y.Z` da tag.
+
+## Plano + confirmação (o único gate)
+
+Apresente e peça "ok": número `icons-vX.Y.Z`; mudanças de ícones incluídas; e, se este
+release habilita uma faixa nova pro `ui-native`, o lembrete de que **o Fluxo A pode ser
+cortado depois** deste publicar.
+
+## Passos
+
 ```bash
-git checkout develop && git pull
-git merge main
-git push
+# 1) (se houver código de icons na develop) PR de release develop → main. CI verde → merge.
+gh pr create --base main --head develop \
+  --title "release(icons): <resumo>" --body "<mudanças de ícones + Refs KSA-XX>"
+
+# 2) Bump na main (via PR curto) — SÓ packages/icons/package.json
+git checkout main && git pull
+git checkout -b chore/bump-icons-vX.Y.Z
+#   editar "version" em packages/icons/package.json
+git commit -am "chore(release): icons vX.Y.Z"
+gh pr create --base main --head chore/bump-icons-vX.Y.Z --title "chore(release): icons vX.Y.Z"
+#   CI verde → merge
+
+# 3) Cortar e enviar a tag (dispara publish-icons.yml + deploy-storybook.yml)
+git checkout main && git pull
+git tag icons-vX.Y.Z            # prefixo "icons-v" (o workflow filtra icons-v*.*.*)
+git push origin icons-vX.Y.Z
+
+# 5) Back-merge main → develop
+git checkout develop && git pull && git merge main && git push
 ```
 
-## Se algo der errado
+**4) Monitorar:** Actions → **"Publish @kodes-tech/icons"** e **"Deploy Storybook (DS)
+— GCP"** verdes; `@kodes-tech/icons` em Packages na versão nova.
 
-- **Publish falhou (número já existe):** não republique — bumpe para o próximo
-  patch e tagueie de novo.
+---
+
+## Se algo der errado (ambos os fluxos)
+
+- **Publish falhou (número já existe):** não republique — bumpe para o próximo patch e
+  tagueie de novo.
 - **Taguei número errado (ainda não publicou):**
-  `git tag -d vX.Y.Z && git push origin :refs/tags/vX.Y.Z`, corrija o bump, tagueie
-  de novo. Se **já publicou**, siga para o próximo patch.
-- **`gh pr merge` barrou (branch protection / review):** pare e avise o usuário —
-  não force.
+  `git tag -d <tag> && git push origin :refs/tags/<tag>`, corrija o bump, tagueie de
+  novo. Se **já publicou**, siga para o próximo patch.
+- **`gh pr merge` barrou (branch protection / review):** pare e avise — não force.
 
-## Checklist final (do runbook)
+## Checklist final
 
-- [ ] "Publish packages" e (se houve) "Publish @kodes-tech/icons" verdes.
+- [ ] Workflow do trem verde ("Publish packages" [A] ou "Publish @kodes-tech/icons" [B]).
 - [ ] "Deploy Storybook (DS) — GCP" verde.
-- [ ] tokens + ui-native (e icons, se houve) em Packages na versão nova.
-- [ ] `version` nos `package.json` (na `main`) == a respectiva tag.
-- [ ] Faixas de deps internas coerentes (ui-native → `@kodes-tech/tokens@^X.Y.0`).
+- [ ] Pacote(s) do trem em Packages na versão nova.
+- [ ] `version` no(s) `package.json` (na `main`) == a tag.
+- [ ] [A] Faixas de deps internas coerentes (ui-native → `@kodes-tech/tokens@^X.Y.0`).
 - [ ] `develop` back-merged.
 
 ## Workflows que a tag dispara
@@ -186,8 +215,8 @@ O pipeline vive em `.github/workflows/` (na `main` e na `develop`):
 
 - `publish.yml` — tag `v*.*.*` → publica `@kodes-tech/tokens` + `@kodes-tech/ui-native`.
 - `publish-icons.yml` — tag `icons-v*.*.*` → publica `@kodes-tech/icons`.
-- `deploy-storybook.yml` — qualquer uma das tags acima → builda o Storybook do source
-  e sobe no Cloud Run (GCP).
+- `deploy-storybook.yml` — **qualquer** uma das tags acima → builda o Storybook do
+  source e sobe no Cloud Run (GCP); a vitrine mostra os três pacotes.
 
 Como os workflows disparam a partir do arquivo **no commit taggeado**, a tag precisa
 sair de um ponto da `main` que já contenha esses arquivos (é o caso desde o KSA-164).

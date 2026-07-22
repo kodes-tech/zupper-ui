@@ -43,11 +43,16 @@ back-merge). Um bump de icons **não** força bump do trem, e vice-versa.
 
 - **Pergunte / detecte qual fluxo** o usuário quer antes de começar. "Publicar os
   ícones" → Fluxo B. "Soltar uma versão do DS / dos primitivos" → Fluxo A.
-- **Único acoplamento (ordem):** o `ui-native` depende de `@kodes-tech/icons`. Se o
+- **Acoplamento 1 (ordem):** o `ui-native` depende de `@kodes-tech/icons`. Se o
   release do Fluxo A passou a exigir uma **faixa nova** de icons, o Fluxo B daquela
   faixa precisa ter sido publicado **antes** — senão o guard do `publish.yml` derruba
   o trem. O Fluxo A **detecta** isso e **manda rodar o Fluxo B primeiro**; ele
   **não** corta icons por conta própria.
+- **Acoplamento 2 (promoção `develop→main` é compartilhada):** ao cortar B e A em
+  sequência do mesmo `develop`, a promoção `develop→main` acontece **uma vez** — o
+  primeiro fluxo já leva todo o conteúdo da `develop` pra `main`. Se o passo 1 de um
+  fluxo encontrar o guard 3 sem diff (`develop` == `main`), a promoção **já foi
+  feita**: **pule o passo 1** e vá direto ao bump+tag na `main` daquele trem.
 
 ## Modo de operação (automático até a tag)
 
@@ -74,8 +79,10 @@ não contorne:
 
 1. **`git fetch --all --tags`** primeiro; decida sobre o estado remoto fresco.
 2. **Árvore limpa** (`git status` sem pendências).
-3. **Há o que publicar:** `develop` à frente da `main`
-   (`git rev-list --count origin/main..origin/develop` > 0).
+3. **Há o que publicar (por *diff*, não por contagem):** a árvore da `develop`
+   difere da `main` — `git diff --quiet origin/main origin/develop` sai com código
+   ≠ 0. **Não** use `git rev-list --count`: um commit de back-merge infla a contagem
+   e faz parecer que há release quando as árvores são idênticas.
 4. **A tag alvo NÃO existe** (local nem remoto). Reutilizar número = publish falho e
    irreversível.
 5. **`tag == version`:** o número da tag bate exatamente com o `version` do
@@ -86,6 +93,54 @@ não contorne:
 
 Número (semver, pré-1.0 `0.x`): **minor** = feature nova retrocompatível; **patch** =
 correção; **major** = quebra de API. Ver a tabela no runbook.
+
+## Análise do release (release-worthiness + bump) — ANTES de abrir a PR de versão
+
+Não abra a PR de versão no escuro. Primeiro **varra o que entra desde a última tag
+daquele trem** e valide que o bump é legítimo. Isso alimenta o plano da confirmação.
+
+Parametrize por trem:
+- **Fluxo A:** `LAST=$(git tag --list 'v*.*.*' --sort=-v:refname | head -1)`;
+  `PATHS="packages/tokens packages/ui-native"`.
+- **Fluxo B:** `LAST=$(git tag --list 'icons-v*.*.*' --sort=-v:refname | head -1)`;
+  `PATHS="packages/icons"`.
+
+1. **Mudou algo *publicável*?** (o pacote não inclui stories/spec/_figma/docs — mudança
+   só neles **não** justifica release do trem):
+   ```bash
+   git diff --name-only "$LAST"..origin/develop -- $PATHS \
+     | grep -vE '\.(stories|spec)\.tsx?$|/__tests__/|/_figma/|\.md$'
+   ```
+   **Saída vazia → ABORTAR:** nada publicável mudou neste trem desde `$LAST` (o bump
+   seria um release vazio). A exceção legítima é bump **só** de faixa de dep interna
+   (ex.: ui-native apontando pra tokens/icons novos) — nesse caso registre isso como o
+   motivo do release.
+
+2. **Bump que os commits *indicam*** (Conventional Commits no intervalo, escopados ao
+   trem):
+   ```bash
+   git log "$LAST"..origin/develop --format='%s%n%b' -- $PATHS
+   ```
+   `BREAKING CHANGE:` ou `tipo!:` → **major** · algum `feat:` → **minor** · só
+   `fix:`/`perf:`/`refactor:` → **patch**.
+
+3. **Varredura das PRs que compõem o release** (pra conferência humana no plano):
+   ```bash
+   git log "$LAST"..origin/develop --merges --format='%s' | grep -oE '#[0-9]+'
+   # e, por PR, o título/labels/arquivos:
+   gh pr view <n> --json title,labels,files -q '.title'
+   ```
+
+**Regra de decisão (cruza o detectado com o proposto):**
+- Detectado **> proposto** (ex.: há `feat`/breaking mas pediram patch): **PARE** e
+  exija confirmação explícita — publicar minor/major como patch engana o semver dos
+  consumidores. Breaking num `0.x` é minor, mas ainda assim sinalize.
+- Detectado **< proposto** (ex.: só fixes mas querem minor): permitido; **registre no
+  plano** o porquê (ex.: agrupar trabalho).
+- **Nada publicável** (passo 1 vazio) e sem bump de dep: **ABORTAR**.
+
+Leve o resultado (escopo publicável, bump sugerido × proposto, lista de PRs) para a
+confirmação — é o que torna o "ok" uma aprovação informada.
 
 ---
 
@@ -107,10 +162,10 @@ correção; **major** = quebra de API. Ver a tabela no runbook.
 
 ## Plano + confirmação (o único gate)
 
-Apresente e peça "ok" explícito: tipo de bump e **número `vX.Y.Z`**; faixas de dep a
-atualizar (caret 0.x); resultado do guard A1 (icons já satisfeito, ou "precisa do
-Fluxo B antes"); PRs/features incluídas (`git log origin/main..origin/develop`); e o
-aviso de irreversibilidade.
+Apresente e peça "ok" explícito, usando o resultado da **Análise do release** (escopo
+publicável desde a última tag, bump sugerido × proposto, PRs varridas): tipo de bump e
+**número `vX.Y.Z`**; faixas de dep a atualizar (caret 0.x); resultado do guard A1
+(icons já satisfeito, ou "precisa do Fluxo B antes"); e o aviso de irreversibilidade.
 
 ## Passos
 
@@ -158,9 +213,11 @@ guard A1 do Fluxo A pedir que ele venha antes.
 
 ## Plano + confirmação (o único gate)
 
-Apresente e peça "ok": número `icons-vX.Y.Z`; mudanças de ícones incluídas; e, se este
-release habilita uma faixa nova pro `ui-native`, o lembrete de que **o Fluxo A pode ser
-cortado depois** deste publicar.
+Apresente e peça "ok", usando o resultado da **Análise do release** (escopo publicável
+de `packages/icons` desde a última tag `icons-v*`, bump sugerido × proposto, PRs
+varridas): número `icons-vX.Y.Z`; mudanças de ícones incluídas; e, se este release
+habilita uma faixa nova pro `ui-native`, o lembrete de que **o Fluxo A pode ser cortado
+depois** deste publicar.
 
 ## Passos
 

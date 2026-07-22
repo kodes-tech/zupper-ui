@@ -41,6 +41,14 @@ O DS tem três pacotes em **dois trens que versionam e publicam separadamente**:
 **Cada fluxo é um release completo e autônomo** (develop→main → bump → tag →
 back-merge). Um bump de icons **não** força bump do trem, e vice-versa.
 
+> 🔓 **Independência é regra dura.** Precisa subir **só o `icons`** e o
+> `tokens`/`ui-native` não mudaram? **Rode o Fluxo B e pronto** — o Fluxo A
+> simplesmente não é cortado. Nada em A pode bloquear B (e vice-versa): se o Fluxo A
+> for avaliado, ele aborta **sozinho** na Análise (trem A sem mudança), sem impedir o
+> Fluxo B. Nunca condicione o release de um trem à situação do outro — o único elo é
+> a **ordem** do Acoplamento 1, que faz B vir *antes* de A quando necessário, não que
+> um dependa do release do outro.
+
 - **Pergunte / detecte qual fluxo** o usuário quer antes de começar. "Publicar os
   ícones" → Fluxo B. "Soltar uma versão do DS / dos primitivos" → Fluxo A.
 - **Acoplamento 1 (ordem):** o `ui-native` depende de `@kodes-tech/icons`. Se o
@@ -79,10 +87,12 @@ não contorne:
 
 1. **`git fetch --all --tags`** primeiro; decida sobre o estado remoto fresco.
 2. **Árvore limpa** (`git status` sem pendências).
-3. **Há o que publicar (por *diff*, não por contagem):** a árvore da `develop`
-   difere da `main` — `git diff --quiet origin/main origin/develop` sai com código
-   ≠ 0. **Não** use `git rev-list --count`: um commit de back-merge infla a contagem
-   e faz parecer que há release quando as árvores são idênticas.
+3. **Há o que publicar NESTE trem (per-train, por *diff*):** avalie pela *Análise do
+   release* (abaixo) — o diff dos **paths do próprio trem** desde a **última tag dele**,
+   **não** um diff repo-wide `develop vs main`. Cada trem é julgado só pelos seus paths:
+   se o `icons` mudou mas `tokens`/`ui-native` não, o Fluxo A não tem release — e isso
+   **não** bloqueia o Fluxo B (nem o contrário). Nunca use `git rev-list --count` (um
+   commit de back-merge infla a contagem).
 4. **A tag alvo NÃO existe** (local nem remoto). Reutilizar número = publish falho e
    irreversível.
 5. **`tag == version`:** o número da tag bate exatamente com o `version` do
@@ -111,10 +121,11 @@ Parametrize por trem:
    git diff --name-only "$LAST"..origin/develop -- $PATHS \
      | grep -vE '\.(stories|spec)\.tsx?$|/__tests__/|/_figma/|\.md$'
    ```
-   **Saída vazia → ABORTAR:** nada publicável mudou neste trem desde `$LAST` (o bump
-   seria um release vazio). A exceção legítima é bump **só** de faixa de dep interna
-   (ex.: ui-native apontando pra tokens/icons novos) — nesse caso registre isso como o
-   motivo do release.
+   **Saída vazia → ABORTAR *este* fluxo (não a sessão):** nada publicável mudou neste
+   trem desde `$LAST`, então o bump seria um release vazio. Isso **não afeta o outro
+   trem** — o outro fluxo é avaliado à parte e pode seguir normalmente. A exceção
+   legítima é bump **só** de faixa de dep interna (ex.: ui-native apontando pra
+   tokens/icons novos) — nesse caso registre isso como o motivo do release.
 
 2. **Bump que os commits *indicam*** (Conventional Commits no intervalo, escopados ao
    trem):

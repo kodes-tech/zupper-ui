@@ -7,10 +7,7 @@ import * as Svgs from './svg';
  * Registro nome → componente SVG (gerados do Figma via svgr, em `./svg`).
  * Cada ícone carrega a própria cor do Figma; o `Icon` só controla o tamanho.
  */
-export const registry: Record<
-  IconName,
-  (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element
-> = {
+export const registry: Record<IconName, (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element> = {
   'account-about-zupper': Svgs.AccountAboutZupper,
   'account-address': Svgs.AccountAddress,
   'account-block': Svgs.AccountBlock,
@@ -26,12 +23,15 @@ export const registry: Record<
   'account-terms': Svgs.AccountTerms,
   'account-unblock': Svgs.AccountUnblock,
   'add-day': Svgs.AddDay,
+  'apple-logo': Svgs.AppleLogo,
   'back-arrow': Svgs.BackArrow,
   calendar: Svgs.Calendar,
   'calendar-03': Svgs.Calendar03,
   'chevron-right': Svgs.ChevronRight,
   'chevron-right-dark': Svgs.ChevronRightDark,
   clock: Svgs.Clock,
+  close: Svgs.Close,
+  'close-circle': Svgs.CloseCircle,
   'comment-send': Svgs.CommentSend,
   community: Svgs.Community,
   'content-dica': Svgs.ContentDica,
@@ -43,11 +43,18 @@ export const registry: Record<
   'dot-separator': Svgs.DotSeparator,
   'dropdown-arrow': Svgs.DropdownArrow,
   edit: Svgs.Edit,
+  email: Svgs.Email,
+  'email-sent': Svgs.EmailSent,
+  eye: Svgs.Eye,
+  'eye-slash': Svgs.EyeSlash,
+  'facebook-logo': Svgs.FacebookLogo,
   fire: Svgs.Fire,
   'fire-destinos': Svgs.FireDestinos,
   globe: Svgs.Globe,
+  'google-logo': Svgs.GoogleLogo,
   heart: Svgs.Heart,
   location: Svgs.Location,
+  lock: Svgs.Lock,
   'media-camera': Svgs.MediaCamera,
   'media-gallery': Svgs.MediaGallery,
   'nav-conta': Svgs.NavConta,
@@ -59,6 +66,7 @@ export const registry: Record<
   'oferta-hospedagens': Svgs.OfertaHospedagens,
   'oferta-pacotes': Svgs.OfertaPacotes,
   'oferta-passagens': Svgs.OfertaPassagens,
+  'password-reset-success': Svgs.PasswordResetSuccess,
   publish: Svgs.Publish,
   'quick-hospedagens': Svgs.QuickHospedagens,
   'quick-pacotes': Svgs.QuickPacotes,
@@ -71,6 +79,7 @@ export const registry: Record<
   'status-removed': Svgs.StatusRemoved,
   'status-review': Svgs.StatusReview,
   'status-success': Svgs.StatusSuccess,
+  'success-check': Svgs.SuccessCheck,
   'tab-dicas-active': Svgs.TabDicasActive,
   'tab-dicas-inactive': Svgs.TabDicasInactive,
   'tab-fotos-active': Svgs.TabFotosActive,
@@ -78,5 +87,8 @@ export const registry: Record<
   'tab-roteiros-active': Svgs.TabRoteirosActive,
   'tab-roteiros-inactive': Svgs.TabRoteirosInactive,
   trash: Svgs.Trash,
+  user: Svgs.User,
+  'user-circle': Svgs.UserCircle,
   verified: Svgs.Verified,
+  'warning-triangle': Svgs.WarningTriangle,
 };

@@ -63,4 +63,22 @@ describe('Input', () => {
     await render(<Input label="Senha" type="password" />);
     expect(screen.getByLabelText('Senha').props.secureTextEntry).toBe(true);
   });
+
+  it('renders the framed variant and fires the trailing icon action', async () => {
+    const onPressTrailingIcon = jest.fn();
+    await render(
+      <Input
+        label="Senha"
+        type="password"
+        leadingIcon="lock"
+        trailingIcon="eye"
+        onPressTrailingIcon={onPressTrailingIcon}
+      />,
+    );
+    // o campo continua acessível pelo label mesmo na variante com moldura
+    expect(screen.getByLabelText('Senha')).toBeOnTheScreen();
+    // o ícone à direita é um botão que dispara a ação (ex.: alternar a senha)
+    await fireEvent.press(screen.getByLabelText('Alternar visibilidade: Senha'));
+    expect(onPressTrailingIcon).toHaveBeenCalledTimes(1);
+  });
 });

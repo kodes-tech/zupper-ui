@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Text } from './Text';
 
 describe('Text', () => {
@@ -24,5 +24,18 @@ describe('Text', () => {
   it('exposes the testID', async () => {
     await render(<Text testID="greeting">Olá</Text>);
     expect(screen.getByTestId('greeting')).toBeOnTheScreen();
+  });
+
+  it('fires onPress and exposes the link role when tappable', async () => {
+    const onPress = jest.fn();
+    await render(
+      <Text onPress={onPress} accessibilityLabel="Termos de Aceite">
+        Termos de Aceite
+      </Text>,
+    );
+    const link = screen.getByLabelText('Termos de Aceite');
+    expect(link.props.accessibilityRole).toBe('link');
+    await fireEvent.press(link);
+    expect(onPress).toHaveBeenCalledTimes(1);
   });
 });

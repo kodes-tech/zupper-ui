@@ -30,6 +30,8 @@ export type TextColor =
   | 'muted'
   | 'inverse'
   | 'link'
+  /** Teal de marca (`brand.base` #4CBAC7) — cor dos links de auth (Fazer login). */
+  | 'brand'
   | 'heading'
   | 'body'
   | 'label'
@@ -47,7 +49,17 @@ export type TextProps = {
   /** Cor do texto (token). Default: `primary`. */
   color?: TextColor;
   align?: 'left' | 'center' | 'right';
+  /** Sublinha o texto (traço embaixo) — ex.: links de auth. */
+  underline?: boolean;
   numberOfLines?: number;
+  /**
+   * Torna o texto tocável (papel de a11y `link`). Serve para o texto inteiro ou,
+   * aninhado dentro de outro `Text`, para um trecho clicável no meio de um
+   * parágrafo que flui/quebra naturalmente (ex.: "Termos de Aceite"). Sem
+   * `onPress` o texto permanece não-interativo.
+   */
+  onPress?: () => void;
+  accessibilityLabel?: string;
   testID?: string;
 };
 
@@ -76,6 +88,7 @@ const COLOR_CLASS: Record<TextColor, string> = {
   muted: 'text-fg-muted',
   inverse: 'text-fg-inverse',
   link: 'text-fg-link',
+  brand: 'text-brand-base',
   heading: 'text-fg-heading',
   body: 'text-fg-body',
   label: 'text-fg-label',
@@ -91,23 +104,30 @@ const ALIGN_CLASS: Record<NonNullable<TextProps['align']>, string> = {
 
 /**
  * Text — texto do design system. Aplica família + preset tipográfico + cor a
- * partir dos tokens (via NativeWind). Apresentacional e não-interativo (para
- * texto clicável use `Button`/`IconButton`).
+ * partir dos tokens (via NativeWind). Apresentacional; com `onPress` vira um
+ * link (inclusive aninhado como trecho clicável de um parágrafo). Para botões
+ * de ação use `Button`/`IconButton`.
  */
 export const Text = ({
   children,
   variant = 'bodyText',
   color = 'primary',
   align,
+  underline = false,
   numberOfLines,
+  onPress,
+  accessibilityLabel,
   testID,
 }: TextProps): React.ReactElement => (
   <RNText
     numberOfLines={numberOfLines}
+    onPress={onPress}
+    accessibilityRole={onPress ? 'link' : undefined}
+    accessibilityLabel={accessibilityLabel}
     testID={testID}
     className={`font-sans ${VARIANT_CLASS[variant]} ${COLOR_CLASS[color]}${
       align ? ` ${ALIGN_CLASS[align]}` : ''
-    }`}
+    }${underline ? ' underline' : ''}`}
   >
     {children}
   </RNText>

@@ -66,6 +66,8 @@ export const colors = {
     warningStrong: '#A16207', // texto/borda do banner "Publicação em análise"
     dangerSurface: '#FEE2E2', // banner "Publicação removida"
     dangerStrong: '#B91C1C', // texto/borda do banner "Publicação removida"
+    // TODO(Figma): tom exato do círculo de sucesso a validar com design
+    successSurface: '#DCFCE7', // círculo do StatusMessage (conta criada / senha redefinida)
   },
   // Véu escuro atrás de bottom sheets / diálogos modais (BottomSheet, ConfirmDialog).
   // TODO(Figma): validar opacidade e reconciliar com o modal de sucesso do app

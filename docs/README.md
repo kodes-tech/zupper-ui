@@ -13,6 +13,7 @@ Harness de documentação que a IA/dev segue ao trabalhar neste repo.
 - **`decisions/`** — ADRs (decisões arquiteturais registradas). Use o [`_adr-template.md`](decisions/_adr-template.md) para novas.
 - [`local-development.md`](local-development.md) — rodar, testar, consumir no app (yalc).
 - [`release.md`](release.md) — **runbook de release**: PR `develop → main`, bump de versão, tag, publicação.
+- [`storybook-deploy.md`](storybook-deploy.md) — **runbook de deploy do Storybook com gate** (GCP Cloud Run + IAP); inclui como liberar um domínio/org (ex.: `zupper.com.br`).
 - [`known-issues.md`](known-issues.md) — pendências e armadilhas conhecidas.
 
 ## Como manter

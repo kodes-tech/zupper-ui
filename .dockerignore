@@ -1,0 +1,7 @@
+# Contexto de build enxuto — a imagem só precisa do bundle já buildado
+# (packages/ui-native/storybook-static) + deploy/storybook/nginx.conf.
+# Tudo o mais fica de fora para o contexto não arrastar node_modules etc.
+*
+
+!deploy/storybook/nginx.conf
+!packages/ui-native/storybook-static/

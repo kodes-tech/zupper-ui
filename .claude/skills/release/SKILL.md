@@ -58,9 +58,12 @@ back-merge). Um bump de icons **não** força bump do trem, e vice-versa.
   **não** corta icons por conta própria.
 - **Acoplamento 2 (promoção `develop→main` é compartilhada):** ao cortar B e A em
   sequência do mesmo `develop`, a promoção `develop→main` acontece **uma vez** — o
-  primeiro fluxo já leva todo o conteúdo da `develop` pra `main`. Se o passo 1 de um
-  fluxo encontrar o guard 3 sem diff (`develop` == `main`), a promoção **já foi
-  feita**: **pule o passo 1** e vá direto ao bump+tag na `main` daquele trem.
+  primeiro fluxo já leva todo o conteúdo da `develop` pra `main`. Antes do passo 1 de
+  um fluxo, faça o **check de promoção** — um diff repo-wide `develop vs main` (≠ do
+  guard comum 3, que é per-train). Se `develop` == `main`, a promoção **já foi feita**:
+  **pule o passo 1** e vá direto ao bump+tag na `main` daquele trem. Este check decide
+  só se o passo 1 é necessário; ele **nunca** aborta o trem (quem julga release-worthiness
+  é o guard 3, per-train).
 
 ## Modo de operação (automático até a tag)
 
@@ -164,7 +167,7 @@ confirmação — é o que torna o "ok" uma aprovação informada.
   rodar o **Fluxo B** (icons) primeiro. Este fluxo não corta icons.
   ```bash
   RANGE=$(node -p "require('./packages/ui-native/package.json').dependencies['@kodes-tech/icons']")
-  npm view "@kodes-tech/icons@${RANGE}" version   # vazio = ABORTAR: rode o Fluxo B antes
+  npm view "@kodes-tech/icons@${RANGE}" version 2>/dev/null | tail -1   # vazio = ABORTAR: rode o Fluxo B antes (idêntico ao publish.yml)
   ```
 - **A2 — caret no `0.x`:** ao bumpar o **minor** de um pacote-fonte (ex.: `tokens
   0.3.0 → 0.4.0`), atualize **também** a faixa da dep interna que aponta pra ele
@@ -181,9 +184,11 @@ publicável desde a última tag, bump sugerido × proposto, PRs varridas): tipo 
 ## Passos
 
 ```bash
-# 1) PR de release develop → main (início do processo). Espere CI verde e mergeie.
+# 1) PR de release develop → main (início do processo).
 gh pr create --base main --head develop \
   --title "release(ui-native): <resumo>" --body "<features/PRs + Refs KSA-XX>"
+#   Espere CI verde (guard comum 6) e mergeie:
+gh pr merge --merge <n>         # PARE se barrar em branch protection/review — não force
 
 # 2) Bump na main (via PR curto) — tokens E ui-native no mesmo X.Y.Z (lockstep)
 git checkout main && git pull
@@ -192,18 +197,18 @@ git checkout -b chore/bump-vX.Y.Z
 #   se um pacote-fonte mudou de minor, atualizar a faixa da dep interna (guard A2)
 git commit -am "chore(release): vX.Y.Z"
 gh pr create --base main --head chore/bump-vX.Y.Z --title "chore(release): vX.Y.Z"
-#   CI verde → merge
+gh pr merge --merge <n>         # CI verde → merge (mesma ressalva de branch protection)
 
 # 3) Cortar e enviar a tag (dispara publish.yml + deploy-storybook.yml)
 git checkout main && git pull
-git tag vX.Y.Z                  # "v" obrigatório (o workflow filtra v*.*.*)
+git tag -a vX.Y.Z -m "vX.Y.Z"  # "v" obrigatório (o workflow filtra v*.*.*)
 git push origin vX.Y.Z
 
-# 5) Back-merge main → develop
-git checkout develop && git pull && git merge main && git push
+# 4) Back-merge main → develop
+git checkout develop && git pull && git merge main --no-edit && git push
 ```
 
-**4) Monitorar:** Actions → **"Publish packages"** e **"Deploy Storybook (DS) — GCP"**
+**Monitorar:** Actions → **"Publish packages"** e **"Deploy Storybook (DS) — GCP"**
 verdes; `@kodes-tech/tokens` e `@kodes-tech/ui-native` em Packages na versão nova.
 Use `gh run list` / `gh run watch`.
 
@@ -233,9 +238,10 @@ depois** deste publicar.
 ## Passos
 
 ```bash
-# 1) (se houver código de icons na develop) PR de release develop → main. CI verde → merge.
+# 1) (se houver código de icons na develop) PR de release develop → main.
 gh pr create --base main --head develop \
   --title "release(icons): <resumo>" --body "<mudanças de ícones + Refs KSA-XX>"
+gh pr merge --merge <n>         # CI verde → merge; PARE se barrar em branch protection/review
 
 # 2) Bump na main (via PR curto) — SÓ packages/icons/package.json
 git checkout main && git pull
@@ -243,18 +249,18 @@ git checkout -b chore/bump-icons-vX.Y.Z
 #   editar "version" em packages/icons/package.json
 git commit -am "chore(release): icons vX.Y.Z"
 gh pr create --base main --head chore/bump-icons-vX.Y.Z --title "chore(release): icons vX.Y.Z"
-#   CI verde → merge
+gh pr merge --merge <n>         # CI verde → merge (mesma ressalva de branch protection)
 
 # 3) Cortar e enviar a tag (dispara publish-icons.yml + deploy-storybook.yml)
 git checkout main && git pull
-git tag icons-vX.Y.Z            # prefixo "icons-v" (o workflow filtra icons-v*.*.*)
+git tag -a icons-vX.Y.Z -m "icons-vX.Y.Z"   # prefixo "icons-v" (o workflow filtra icons-v*.*.*)
 git push origin icons-vX.Y.Z
 
-# 5) Back-merge main → develop
-git checkout develop && git pull && git merge main && git push
+# 4) Back-merge main → develop
+git checkout develop && git pull && git merge main --no-edit && git push
 ```
 
-**4) Monitorar:** Actions → **"Publish @kodes-tech/icons"** e **"Deploy Storybook (DS)
+**Monitorar:** Actions → **"Publish @kodes-tech/icons"** e **"Deploy Storybook (DS)
 — GCP"** verdes; `@kodes-tech/icons` em Packages na versão nova.
 
 ---

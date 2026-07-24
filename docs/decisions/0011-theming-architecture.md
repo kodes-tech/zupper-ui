@@ -93,10 +93,13 @@ function resolveTheme(input): ThemeName {
 
 ### 4. PoC (validação da abordagem)
 
-- **Toggle no Storybook** troca `default ↔ dark` re-skinnando todos os primitivos ao vivo.
-- **Story `Theming/Remote Flag`** + **BFF local** (`scripts/theme-flag-bff.mjs`)
-  demonstram o fluxo `flag remota → ThemeProvider → reskin`, validando o `vars()` no
-  react-native-web (mesmo caminho do app).
+- **Toggle no Storybook** (versionado) troca `default ↔ dark` re-skinnando todos os
+  primitivos ao vivo — é a PoC do cenário de escolha do usuário.
+- O fluxo `flag remota → ThemeProvider → reskin` (cenário sazonal) foi validado
+  **localmente** com um harness de demonstração (uma story + um BFF de teste), **não
+  versionado** — confirmou que o `vars()` funciona no react-native-web (mesmo caminho do
+  app). Recriável: um endpoint de flag + um componente que faz `setTheme` no polling e
+  passa pro `<ThemeProvider>`.
 
 ## Consequences
 

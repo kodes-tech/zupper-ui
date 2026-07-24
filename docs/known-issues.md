@@ -66,6 +66,12 @@ Gotchas do theming:
 - **`vars()` puxa `react-native-css-interop`, que tem JSX cru em `.js`.** No Storybook
   (webpack) isso exige transpilar esse pacote — há uma regra em `.storybook/main.ts` que faz
   isso (senão o build quebra com "Module parse failed" em `doctor.js`).
+- **Baseline nativo obrigatório.** No web o `:root` do `theme.css` dá o valor padrão das
+  `--color-*`; no native (Metro) NÃO existe `:root`. Se nenhum `ThemeProvider` ancestral
+  injetou as vars, as cores por classe (`bg-surface-default`…) ficam **indefinidas** (preto/
+  transparente), não caem no `default`. Por isso o `global.css` `@importa @kodes-tech/tokens/theme.css`
+  (baseline) e o app deve fazer o mesmo + montar um `ThemeProvider` na raiz — ver
+  `docs/nativewind-zupper-app.md` §3 e §7. (No web o Storybook mascara isso via `:root`.)
 - **`theme.css` sai do build dos tokens.** Mexeu em `colors`/`themes.ts`/`tailwind.ts`?
   `npm run build -w @kodes-tech/tokens` regenera o CSS + o preset; sem isso o Storybook usa
   o build antigo (mesma armadilha de require-cache abaixo). Depois, **reiniciar o Storybook**

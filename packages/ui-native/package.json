@@ -1,6 +1,6 @@
 {
   "name": "@kodes-tech/ui-native",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Componentes React Native do design system Zupper (Community). Consome @kodes-tech/tokens.",
   "license": "UNLICENSED",
   "source": "src/index.ts",
@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@kodes-tech/icons": "^0.2.0",
-    "@kodes-tech/tokens": "^0.5.0"
+    "@kodes-tech/tokens": "^0.6.0"
   },
   "peerDependencies": {
     "nativewind": ">=4.1",

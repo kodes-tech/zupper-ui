@@ -11,6 +11,8 @@ const { tailwindPreset } = require('@kodes-tech/tokens/tailwind');
  * @type {import('tailwindcss').Config}
  */
 module.exports = {
-  content: ['./src/**/*.{ts,tsx}'],
+  // `.storybook` incluído para o decorator poder usar classes que não aparecem em `src`
+  // (ex.: `bg-surface-screen`, o fundo de tela do preview) — senão a classe não é gerada.
+  content: ['./src/**/*.{ts,tsx}', './.storybook/**/*.{ts,tsx}'],
   presets: [require('nativewind/preset'), tailwindPreset],
 };

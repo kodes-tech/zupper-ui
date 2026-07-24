@@ -43,7 +43,37 @@ fonte → `font-sans`, `text-xs`, `font-medium`, presets compostos `text-heading
 4. Mudou valor de token = **versão nova** do pacote (semver) → consumidores dão
    `npm update`. Ver `known-issues` sobre propagação.
 
-## Theming (futuro)
-Evoluir para **temas**: `themes = { default, christmas, … }` + `getTheme(name)`.
-A ativação de um tema (ex.: Natal) vem de **flag remota**, não hardcoded.
-Ver [ADR 0005](../decisions/0005-seasonal-theming-remote-flag.md).
+## Theming
+`@kodes-tech/tokens` expõe **múltiplos temas** — hoje `default` (light) e `dark`
+(provisório, `TODO(Figma)`). Sazonais (ex.: Natal) entram como novos temas no mesmo
+molde. Ver [ADR 0005](../decisions/0005-seasonal-theming-remote-flag.md).
+
+**Como funciona (mecanismo: CSS variables):**
+- `colors.ts` segue sendo o **hex canônico** (= tema `default`). `themes.ts` guarda cada
+  tema em hex (`themes`, `getTheme(name)`) e **deriva** dali as variáveis CSS
+  (`themeVars`, formato `R G B`) — fonte única, sem CSS escrito à mão.
+- O **preset Tailwind** não emite mais hex fixo: cada cor resolve
+  `rgb(var(--color-<grupo>-<chave>) / <alpha-value>)`. Então `bg-surface-default`,
+  `text-fg-primary` etc. seguem a variável do tema ativo.
+- O build dos tokens gera **`@kodes-tech/tokens/theme.css`**: `:root` com o tema
+  `default` (baseline) e um bloco `[data-theme="<nome>"]` por tema.
+
+**Trocar de tema:**
+- **`ThemeProvider` (mecanismo, web + native):** `@kodes-tech/ui-native` exporta
+  `<ThemeProvider theme={name}>` que aplica `vars(themeVars[name])` na subárvore — as
+  classes `rgb(var(--color-…))` resolvem o tema ativo. Também expõe `useTheme()` (nome do
+  tema + cores hex para os consumidores JS). Providers aninhados criam "ilhas" (ex.:
+  ConfirmDialog sempre claro).
+- **Web / Storybook:** o `theme.css` traz `:root` (default) + `[data-theme="<nome>"]`;
+  setar `data-theme` no `<html>` serve de baseline/atalho no web (o toggle da toolbar faz
+  isso), mas o caminho canônico é o `ThemeProvider`.
+- **Ativação:** qual tema ligar é do **app consumidor**, com precedência
+  `sazonal (data/flag) > escolha do usuário (persistida) > Appearance do SO > default`.
+  Ver [ADR 0011](../decisions/0011-theming-architecture.md) (arquitetura + precedência) e
+  [ADR 0005](../decisions/0005-seasonal-theming-remote-flag.md) (flag sazonal).
+
+**Limites atuais:**
+- `scrim` segue literal (`rgba(0,0,0,0.45)`) no preset — não-temável por ora.
+- Cores lidas em **JS** (gradientes `colors.gradient.*`; `selectionColor`) só acompanham o
+  tema quando o componente está sob um `ThemeProvider` (lê `useTheme().colors`); fora dele,
+  caem no `default`.

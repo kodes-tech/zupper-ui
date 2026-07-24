@@ -20,6 +20,7 @@ export { default as Calendar } from './Calendar';
 export { default as Calendar03 } from './Calendar03';
 export { default as ChevronRight } from './ChevronRight';
 export { default as ChevronRightDark } from './ChevronRightDark';
+export { default as ChevronUp } from './ChevronUp';
 export { default as Clock } from './Clock';
 export { default as Close } from './Close';
 export { default as CloseCircle } from './CloseCircle';

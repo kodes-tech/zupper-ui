@@ -22,6 +22,7 @@ export const iconNames = [
   'calendar-03',
   'chevron-right',
   'chevron-right-dark',
+  'chevron-up',
   'clock',
   'close',
   'close-circle',

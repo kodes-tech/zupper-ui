@@ -1,9 +1,9 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { themes } from '@kodes-tech/tokens';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
-import '../global.css'; // NativeWind: registra os utilitários do Tailwind no preview web
-import '@kodes-tech/tokens/theme.css'; // variáveis CSS dos temas (:root default + [data-theme])
+import '../global.css'; // NativeWind + baseline dos temas (global.css já @importa theme.css)
 import './preview.css'; // @font-face da Satoshi — o navegador não tem a fonte nativa do app
 
 // Métricas de safe-area fixas p/ o preview web. Sem device pra medir, injetamos
@@ -15,7 +15,10 @@ const initialMetrics = {
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
 };
 
-// Toggle de tema na toolbar do Storybook.
+// Toggle de tema na toolbar do Storybook. Os itens derivam de `themes` — um tema novo
+// aparece sozinho no toggle (título amigável opcional em THEME_TITLES; senão usa o nome).
+const THEME_TITLES: Record<string, string> = { default: 'Default (light)', dark: 'Dark' };
+
 export const globalTypes = {
   theme: {
     description: 'Tema do design system',
@@ -23,10 +26,7 @@ export const globalTypes = {
     toolbar: {
       title: 'Theme',
       icon: 'paintbrush',
-      items: [
-        { value: 'default', title: 'Default (light)' },
-        { value: 'dark', title: 'Dark' },
-      ],
+      items: Object.keys(themes).map((name) => ({ value: name, title: THEME_TITLES[name] ?? name })),
       dynamicTitle: true,
     },
   },

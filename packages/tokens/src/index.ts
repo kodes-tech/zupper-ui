@@ -4,7 +4,7 @@ export * from './typography';
 export * from './radii';
 export * from './elevation';
 export * from './sizes';
-export { themes, getTheme, themeVars, type ThemeName } from './themes';
+export { themes, getTheme, themeVars, type ThemeName, type ThemeColors } from './themes';
 
 import { colors } from './colors';
 import { spacing } from './spacing';

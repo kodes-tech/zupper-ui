@@ -14,17 +14,20 @@
     "./tailwind": {
       "types": "./dist/tailwind.d.ts",
       "default": "./dist/tailwind.js"
-    }
+    },
+    "./theme.css": "./dist/theme.css"
   },
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/gen-theme-css.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
-    "prepare": "tsc -p tsconfig.json"
+    "prepare": "tsc -p tsconfig.json && node scripts/gen-theme-css.mjs"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

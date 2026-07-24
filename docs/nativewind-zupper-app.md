@@ -57,6 +57,10 @@ module.exports = {
 ## 3. `apps/zupper-app/global.css` (novo)
 
 ```css
+/* Baseline dos temas (variáveis --color-*). ANTES do @tailwind. Sem isto, componentes
+   fora de um <ThemeProvider> ficam sem cor no native (var indefinida). Ver §7. */
+@import '@zupper/tokens/theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -67,6 +71,10 @@ E **importar no entry do app** (ex.: `apps/zupper-app/src/main.tsx` ou `index.js
 ```ts
 import './global.css';
 ```
+
+> Se o Metro não inlinar o `@import` (depende do postcss-import estar no pipeline),
+> a alternativa é colar o conteúdo do `:root { … }` do `@zupper/tokens/theme.css`
+> direto no `global.css`. Validar no primeiro build (var faltando = cor preta/transparente).
 
 ## 4. `apps/zupper-app/.babelrc.js` (editar)
 
@@ -134,6 +142,24 @@ Criar `apps/zupper-app/nativewind-env.d.ts`:
 ```
 
 E garantir que ele entre no `include` do `tsconfig.app.json`.
+
+## 7. `ThemeProvider` na raiz do app (theming)
+
+O DS resolve `className → cor` via variáveis CSS do tema ativo. Envolver a raiz do app no
+`ThemeProvider` do `@zupper/ui-native` para aplicar o tema em runtime (e reskinnar os
+gradientes/`selectionColor` via `useTheme`). O baseline do §3 garante que, mesmo sem
+provider, as cores caiam no `default` — mas o provider é o que permite **trocar** de tema.
+
+```tsx
+import { ThemeProvider } from '@zupper/ui-native';
+
+<ThemeProvider theme={resolveTheme(/* flag sazonal, escolha do usuário, SO */)}>
+  <App />
+</ThemeProvider>
+```
+
+A resolução (precedência `sazonal > escolha do usuário > SO > default`) e a persistência
+(MMKV) são do app — ver [ADR 0011](decisions/0011-theming-architecture.md).
 
 ---
 

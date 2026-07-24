@@ -1,7 +1,8 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Text, View } from 'react-native';
-import { colors, radii, spacing } from '@kodes-tech/tokens';
+import { radii, spacing } from '@kodes-tech/tokens';
+import { useTheme } from '../../theme/ThemeProvider';
 
 export type RoleBadgeVariant = 'guest' | 'traveler' | 'partner';
 
@@ -48,6 +49,8 @@ const gradientStyle = {
  */
 export const RoleBadge = ({ variant, label }: RoleBadgeProps): React.ReactElement => {
   const text = label ?? defaultLabelByVariant[variant];
+  // Gradiente é lido em JS (não acompanha a cascata de classes) — pega do tema ativo.
+  const { colors } = useTheme();
 
   if (variant === 'partner') {
     return (

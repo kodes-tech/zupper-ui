@@ -65,6 +65,27 @@ const config: StorybookConfig = {
         },
       ],
     });
+    // `react-native-css-interop` (dep do NativeWind, de onde vem o `vars()` usado pelo
+    // ThemeProvider) publica `.js` com JSX cru (ex.: `doctor.js`) que o parser do webpack
+    // não engole. Transpila só o JSX desse pacote. `runtime: 'classic'` de propósito: o
+    // 'automatic' injetaria um `import` ESM num arquivo CommonJS (`exports`/`require`),
+    // fazendo o webpack tratá-lo como ESM → erro "exports is not defined" em runtime. O
+    // `React.createElement` do classic só aparece em `verifyJSX`, que nunca é chamada.
+    cfg.module.rules.push({
+      test: /\.js$/,
+      include: /node_modules[\\/]react-native-css-interop/,
+      use: [
+        {
+          loader: require.resolve('babel-loader'),
+          options: {
+            configFile: false,
+            babelrc: false,
+            sourceType: 'unambiguous',
+            presets: [[require.resolve('@babel/preset-react'), { runtime: 'classic' }]],
+          },
+        },
+      ],
+    });
     // NativeWind web: processa o global.css (Tailwind → CSS) via PostCSS.
     // Substitui a regra de CSS implícita do Storybook (senão o arquivo é
     // processado duas vezes e o build quebra).

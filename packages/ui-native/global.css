@@ -1,3 +1,9 @@
+/* Baseline dos temas: :root (default) + [data-theme="…"]. Precisa vir ANTES do
+   @tailwind para o NativeWind compilar as variáveis como valor padrão — assim
+   componentes fora de um <ThemeProvider> ainda resolvem `rgb(var(--color-…))` (cai no
+   default) em vez de cor inválida. No app consumidor, o mesmo import vai no global.css. */
+@import '@kodes-tech/tokens/theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

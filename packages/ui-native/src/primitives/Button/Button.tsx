@@ -1,7 +1,8 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
-import { colors, radii, spacing } from '@kodes-tech/tokens';
+import { radii, spacing } from '@kodes-tech/tokens';
+import { useTheme } from '../../theme/ThemeProvider';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 /**
@@ -124,6 +125,8 @@ export const Button = ({
   accessibilityLabel,
   testID = 'button',
 }: ButtonProps) => {
+  // Gradiente é lido em JS (não acompanha a cascata de classes) — pega do tema ativo.
+  const { colors } = useTheme();
   const content = (
     <>
       {icon && iconPosition === 'left' ? icon : null}

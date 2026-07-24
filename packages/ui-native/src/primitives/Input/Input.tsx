@@ -1,9 +1,10 @@
-import { colors, iconSize } from '@kodes-tech/tokens';
+import { iconSize } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import type { IconName } from '@kodes-tech/icons';
 import React from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
+import { useTheme } from '../../theme/ThemeProvider';
 
 /**
  * Tipo semântico do campo. Esconde as props do RN (`keyboardType`,
@@ -112,6 +113,8 @@ export const Input = ({
   testID,
 }: InputProps): React.ReactElement => {
   const hasAffix = Boolean(leadingIcon || trailingIcon);
+  // selectionColor é lido em JS (não acompanha a cascata de classes) — pega do tema ativo.
+  const { colors } = useTheme();
 
   // cor do texto por estado (usada pelo campo nos dois modos).
   const textStateClass = disabled ? 'text-fg-muted' : 'text-fg-primary';

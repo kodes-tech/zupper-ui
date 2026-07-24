@@ -1,4 +1,5 @@
 import { colors } from './colors';
+import { colorVarRefs } from './themes';
 import { spacing } from './spacing';
 import { radii } from './radii';
 import { typography } from './typography';
@@ -48,18 +49,25 @@ const composedFontSize = Object.fromEntries(
  *   radius   → `rounded-pill`, `rounded-md` …
  *   fonte    → `font-sans`, `text-xs`, `font-medium`, presets compostos `text-heading`, `text-authorName` …
  *   altura   → `h-control` (campos de formulário) …
+ *
+ * THEMING: as cores NÃO são hex fixos — cada uma resolve `rgb(var(--color-…) / <alpha>)`
+ * (ver `colorVarRefs` em `themes.ts`). O valor da variável vem do tema ativo
+ * (`theme.css` gerado dos tokens; troca via `[data-theme]` no web / `vars()` no app).
+ * `scrim` segue literal (não-temável por ora) — evita refatorar as classes `bg-scrim`.
  */
+const themedColors = colorVarRefs();
+
 export const tailwindPreset = {
   theme: {
     extend: {
       colors: {
-        brand: colors.brand,
-        partner: colors.partner,
-        fg: colors.text, // bg-fg-primary / text-fg-muted / text-fg-inverse …
-        surface: colors.surface, // bg-surface-default / bg-surface-tag
-        border: colors.border, // border-border-default
-        feedback: colors.feedback, // border-feedback-danger / text-feedback-danger
-        scrim: colors.scrim, // bg-scrim — véu de bottom sheet / diálogo modal
+        brand: themedColors.brand,
+        partner: themedColors.partner,
+        fg: themedColors.fg, // bg-fg-primary / text-fg-muted / text-fg-inverse …
+        surface: themedColors.surface, // bg-surface-default / bg-surface-tag
+        border: themedColors.border, // border-border-default
+        feedback: themedColors.feedback, // border-feedback-danger / text-feedback-danger
+        scrim: colors.scrim, // bg-scrim — véu de bottom sheet / diálogo modal (literal, não-temável)
       },
       spacing: px(spacing),
       height: px(sizes),

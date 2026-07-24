@@ -77,11 +77,16 @@ describe('themes', () => {
     expect(getTheme('natal' as ThemeName)).toBe(themes.default);
   });
 
-  it('dark difere do default e tem PARIDADE total de chaves de variável', () => {
+  it('TODO tema tem paridade total de chaves de variável com o default', () => {
+    // pega qualquer tema novo que esqueça o spread `...colors` e omita chaves —
+    // uma var faltando quebraria a cor no native (sem baseline pra cair).
     const defaultKeys = Object.keys(themeVars.default).sort();
-    const darkKeys = Object.keys(themeVars.dark).sort();
-    expect(darkKeys).toEqual(defaultKeys); // nenhuma variável faltando/sobrando no dark
-    // o fundo de tela muda entre os temas (dark = teal escuro da marca)
+    for (const [name, vars] of Object.entries(themeVars)) {
+      expect({ [name]: Object.keys(vars).sort() }).toEqual({ [name]: defaultKeys });
+    }
+  });
+
+  it('dark muda o fundo de tela em relação ao default', () => {
     expect(themeVars.dark['--color-surface-screen']).not.toBe(
       themeVars.default['--color-surface-screen'],
     );

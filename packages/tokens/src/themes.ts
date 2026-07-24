@@ -138,11 +138,17 @@ const darkColors: ThemeColors = {
   },
 };
 
-/** Todos os temas por nome. `default` = `colors` (hex canônico). */
-export const themes: Record<'default' | 'dark', ThemeColors> = {
+/**
+ * Todos os temas por nome. `default` = `colors` (hex canônico).
+ *
+ * ADICIONAR UM TEMA = criar a paleta e incluí-la AQUI. `ThemeName`, `themeVars`, o
+ * `theme.css` gerado e o toggle do Storybook **derivam** desta lista — nada mais a editar.
+ * `satisfies` infere as chaves (não precisa mexer numa anotação de union a cada tema).
+ */
+export const themes = {
   default: colors,
   dark: darkColors,
-};
+} satisfies Record<string, ThemeColors>;
 
 export type ThemeName = keyof typeof themes;
 
@@ -151,9 +157,9 @@ export const getTheme = (name: ThemeName = 'default'): ThemeColors => themes[nam
 
 /**
  * Variáveis CSS por tema — `{ '--color-…': 'R G B' }`. Consumido pelo gerador de
- * `theme.css` (`scripts/gen-theme-css.mjs`). Deriva de `themes`, então segue a fonte única.
+ * `theme.css` (`scripts/gen-theme-css.mjs`). DERIVADO de `themes` — um tema novo entra
+ * sozinho, sem enumerar aqui. Fonte única.
  */
-export const themeVars: Record<ThemeName, Record<string, string>> = {
-  default: flattenColors(themes.default),
-  dark: flattenColors(themes.dark),
-};
+export const themeVars = Object.fromEntries(
+  Object.entries(themes).map(([name, palette]) => [name, flattenColors(palette)]),
+) as Record<ThemeName, Record<string, string>>;

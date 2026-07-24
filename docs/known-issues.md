@@ -50,6 +50,30 @@ app (babel + metro + tailwind com `content` incluindo `@zupper/ui-native`), rend
 NativeWind 4.x foi construído sobre reanimated 3 e o zupper-app usa reanimated 4 —
 validado no harness deste repo, **falta validar em device** no app.
 
-## Theming ainda não implementado
-`@zupper/tokens` exporta um objeto único; o modelo de **temas + `getTheme()` + flag remota**
-(ADR 0005) ainda não foi implementado.
+## Theming — valores + preview prontos; ativação remota é do app
+`@kodes-tech/tokens` já expõe **temas** (`themes`, `getTheme()`, `themeVars`) e gera
+`@kodes-tech/tokens/theme.css` (CSS variables). O preset resolve `rgb(var(--color-…))` e o
+Storybook tem toggle de tema (`default`/`dark`). O tema **dark é provisório** (`TODO(Figma)`).
+A **ativação por flag remota** (ADR 0005) e o `ThemeProvider` de runtime seguem sendo do
+**app consumidor** — não implementados aqui.
+
+Gotchas do theming:
+- **`ThemeProvider` é o mecanismo de runtime.** `@kodes-tech/ui-native` exporta
+  `ThemeProvider`/`useTheme`. O provider aplica `vars(themeVars[theme])` na subárvore
+  (web + native) e expõe `useTheme().colors` para os pontos que leem cor em JS (gradientes
+  de Button/RoleBadge; `selectionColor` de Input/Textarea) — que **não** acompanham a
+  cascata das classes. Providers aninhados criam "ilhas" (ex.: ConfirmDialog claro no dark).
+- **`vars()` puxa `react-native-css-interop`, que tem JSX cru em `.js`.** No Storybook
+  (webpack) isso exige transpilar esse pacote — há uma regra em `.storybook/main.ts` que faz
+  isso (senão o build quebra com "Module parse failed" em `doctor.js`).
+- **Baseline nativo obrigatório.** No web o `:root` do `theme.css` dá o valor padrão das
+  `--color-*`; no native (Metro) NÃO existe `:root`. Se nenhum `ThemeProvider` ancestral
+  injetou as vars, as cores por classe (`bg-surface-default`…) ficam **indefinidas** (preto/
+  transparente), não caem no `default`. Por isso o `global.css` `@importa @kodes-tech/tokens/theme.css`
+  (baseline) e o app deve fazer o mesmo + montar um `ThemeProvider` na raiz — ver
+  `docs/nativewind-zupper-app.md` §3 e §7. (No web o Storybook mascara isso via `:root`.)
+- **`theme.css` sai do build dos tokens.** Mexeu em `colors`/`themes.ts`/`tailwind.ts`?
+  `npm run build -w @kodes-tech/tokens` regenera o CSS + o preset; sem isso o Storybook usa
+  o build antigo (mesma armadilha de require-cache abaixo). Depois, **reiniciar o Storybook**
+  e, se preciso, limpar `node_modules/.cache`.
+- `scrim` segue literal no preset (não-temável por ora).

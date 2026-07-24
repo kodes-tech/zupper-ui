@@ -1,3 +1,20 @@
+/* Altura total do preview: garante que o wrapper do decorator (que pinta o fundo de
+   tela via `bg-surface-screen`) preencha a viewport inteira, não só a altura do conteúdo.
+   A COR do fundo vem da classe NativeWind no wrapper (cascade do `data-theme`), não daqui. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+#storybook-root {
+  display: flex;
+  min-height: 100vh;
+}
+/* remove o padding padrão do Storybook para o fundo de tela ir de borda a borda */
+.sb-show-main.sb-main-padded {
+  padding: 0;
+}
+
 /* Satoshi (@zupper/tokens fontFamily) não vem registrada nativamente aqui como
    no app RN — o Storybook roda no navegador, então precisa do arquivo da fonte
    via @font-face. Pesos alinhados com @zupper/tokens (fontWeight.regular/medium/bold). */

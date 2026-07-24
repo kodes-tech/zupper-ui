@@ -1,7 +1,7 @@
-import { colors } from '@kodes-tech/tokens';
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
+import { useTheme } from '../../theme/ThemeProvider';
 
 export type TextareaProps = {
   /** Título exibido acima do campo (ex.: "Sua dica"). */
@@ -25,6 +25,8 @@ export const Textarea = ({
   editable = true,
   ...textInputProps
 }: TextareaProps): React.ReactElement => {
+  // selectionColor é lido em JS (não acompanha a cascata de classes) — pega do tema ativo.
+  const { colors } = useTheme();
   const stateClasses = !editable
     ? 'bg-surface-tag text-fg-muted border-border-subtle'
     : error

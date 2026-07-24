@@ -44,6 +44,10 @@ export const colors = {
   },
   surface: {
     default: '#FFFFFF', // background/surface — fundo de card
+    // TODO(Figma): fundo de tela/app (atrás dos cards). No light = branco; no dark vira
+    // um teal escuro da marca (ver themes.ts). Separado do `default` para o card/diálogo
+    // poder ficar claro enquanto o fundo escurece.
+    screen: '#FFFFFF',
     tag: '#F5F5F5', // color/accent/dubai/100 — fundo do TypeTag
     // TODO(Figma): definido pelo time (sem Figma) — validar com design
     selection: '#737373', // neutral-500 — seleção de texto e cursor em campos (Input)

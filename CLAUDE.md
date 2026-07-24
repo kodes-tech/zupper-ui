@@ -93,12 +93,15 @@ Ver `docs/local-development.md` (inclui **yalc** para consumir no Zupper App dur
 Pacotes privados (scoped `access: restricted`). Registry **a definir** (npm privado
 pago vs GitHub Packages vs Verdaccio). Ver `docs/decisions/0001-separate-repo-npm-package.md`.
 
-## Theming sazonal (objetivo do design system)
+## Theming (objetivo do design system)
 
-`@zupper/tokens` deve evoluir para **múltiplos temas** (`themes` + `getTheme()`), e a
-**ativação** (ex.: ligar o tema de Natal em todos os produtos numa data) vem de uma
-**flag remota**, não hardcoded. Ver
-[ADR 0005](docs/decisions/0005-seasonal-theming-remote-flag.md). *Ainda não implementado.*
+`@kodes-tech/tokens` expõe **múltiplos temas** (`themes` + `getTheme()` + `themeVars` +
+`@kodes-tech/tokens/theme.css`) e `@kodes-tech/ui-native` expõe `ThemeProvider`/`useTheme`
+(troca em runtime via `vars()`, web + native). A **ativação** (qual tema ligar) é do app,
+com precedência `sazonal (data/flag) > escolha do usuário > Appearance do SO > default`.
+Arquitetura em [ADR 0011](docs/decisions/0011-theming-architecture.md); flag sazonal em
+[ADR 0005](docs/decisions/0005-seasonal-theming-remote-flag.md). *Tema `dark` é provisório
+(`TODO(Figma)`); ativação/persistência e paletas finais ficam no app.*
 
 ## Avisos importantes
 

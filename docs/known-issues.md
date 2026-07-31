@@ -77,3 +77,17 @@ Gotchas do theming:
   o build antigo (mesma armadilha de require-cache abaixo). Depois, **reiniciar o Storybook**
   e, se preciso, limpar `node_modules/.cache`.
 - `scrim` segue literal no preset (não-temável por ora).
+
+## Android: `overflow: hidden` + raio de pill apaga o conteúdo da view
+No Android (New Architecture), uma view com `overflow: 'hidden'` e `borderRadius` **muito
+maior que a própria altura** (`radii.pill` = 999 num pill de ~64px) recorta **todo** o
+conteúdo: filhos absolutos e texto não são desenhados, e sobra só a área tocável do
+`Pressable` — um botão invisível mas clicável. O **fundo da própria view** é desenhado
+normal (o Android clampa o raio nesse caso), então a armadilha só aparece quando o visual
+vem de *filhos* (ex.: um `LinearGradient` absoluto + label).
+
+Sintoma real: `Button` `variant="primary"` sumia em todos os CTAs do app no Android
+(iOS não reproduz). Regra: **não use `overflow: hidden` para arredondar um pill** — dê o
+`borderRadius` ao filho que pinta (o gradiente), como em `Button.tsx`. Com raio pequeno
+em relação à altura (ex.: `radii.xs` do RoleBadge, `rounded-pill` num avatar quadrado) o
+clip funciona.

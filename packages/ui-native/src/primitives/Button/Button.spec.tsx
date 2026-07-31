@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
+import { radii } from '@kodes-tech/tokens';
 import { Button } from './Button';
 
 describe('Button', () => {
@@ -41,6 +42,20 @@ describe('Button', () => {
   it('renders the highlight tone for secondary/ghost', async () => {
     await render(<Button label="Cancelar" variant="ghost" tone="highlight" />);
     expect(screen.getByText('Cancelar')).toBeOnTheScreen();
+  });
+
+  // Regressão (Android/New Architecture): com `overflow: 'hidden'` no container e
+  // `borderRadius` muito maior que a altura do pill, o Android recortava todo o
+  // conteúdo — gradiente e label sumiam e sobrava só a área tocável. O raio mora
+  // no gradiente; o container não recorta.
+  it('paints the primary gradient without clipping it in the container', async () => {
+    await render(<Button label="Fazer login" fullWidth />);
+
+    expect(screen.getByTestId('button-container').props.style).not.toHaveProperty('overflow');
+    expect(screen.getByTestId('button-gradient').props.style).toMatchObject({
+      borderRadius: radii.pill,
+    });
+    expect(screen.getByText('Fazer login')).toBeOnTheScreen();
   });
 
   it('renders the disabled state and blocks presses regardless of variant', async () => {

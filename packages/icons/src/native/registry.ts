@@ -73,6 +73,7 @@ export const registry: Record<IconName, (props: SvgProps) => React.JSX.Element> 
   'quick-hospedagens': Svgs.QuickHospedagens,
   'quick-pacotes': Svgs.QuickPacotes,
   'quick-voos': Svgs.QuickVoos,
+  'remove-circle': Svgs.RemoveCircle,
   'roteiro-card-edit': Svgs.RoteiroCardEdit,
   search: Svgs.Search,
   'social-comment': Svgs.SocialComment,

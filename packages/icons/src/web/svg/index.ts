@@ -63,6 +63,7 @@ export { default as Publish } from './Publish';
 export { default as QuickHospedagens } from './QuickHospedagens';
 export { default as QuickPacotes } from './QuickPacotes';
 export { default as QuickVoos } from './QuickVoos';
+export { default as RemoveCircle } from './RemoveCircle';
 export { default as RoteiroCardEdit } from './RoteiroCardEdit';
 export { default as Search } from './Search';
 export { default as SocialComment } from './SocialComment';

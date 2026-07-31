@@ -65,6 +65,7 @@ export const iconNames = [
   'quick-hospedagens',
   'quick-pacotes',
   'quick-voos',
+  'remove-circle',
   'roteiro-card-edit',
   'search',
   'social-comment',

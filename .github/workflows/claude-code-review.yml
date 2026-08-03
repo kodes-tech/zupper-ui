@@ -20,7 +20,9 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    # ready_for_review: draft promovida a ready dispara o review na hora,
+    # sem exigir push novo. KSA-315.
+    types: [opened, synchronize, ready_for_review]
 
 permissions:
   contents: read
@@ -38,7 +40,9 @@ concurrency:
 jobs:
   review:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # Draft nao recebe review (convencao do time: revisar so quando o autor
+    # promove a PR); skipped satisfaz required check quando houver ruleset.
+    if: github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft
     steps:
       - uses: actions/checkout@v4
         with:

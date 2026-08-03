@@ -108,9 +108,15 @@ jobs:
             - BLOCK — se houver pelo menos um achado [CRITICAL] ou [MAJOR];
             - PASS  — caso contrário.
 
+          # allowedTools: sem isso o agente roda em modo nao-interativo com tudo
+          # negado — 2 permission denials, estoura o max-turns e termina "verde"
+          # sem postar nada nem gerar o review-gate.txt. Write e necessario para
+          # o arquivo do gate; o MCP inline_comment e o unico canal de comentario
+          # inline da action. KSA-315.
           claude_args: |
             --model claude-sonnet-5
-            --max-turns 6
+            --max-turns 50
+            --allowedTools "Read,Grep,Glob,Write,mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
 
       - name: Postar veredito como review formal
         if: always() && steps.changes.outputs.code == 'true'

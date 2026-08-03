@@ -93,11 +93,36 @@ jobs:
             --model claude-sonnet-5
             --max-turns 6
 
+      - name: Postar veredito como review formal
+        if: always() && steps.changes.outputs.code == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          # BLOCK -> CHANGES_REQUESTED formal. PASS -> tenta APPROVE; a org hoje
+          # bloqueia Actions de aprovar PR ("create and approve pull requests"
+          # desligado no nível kodes-tech), então cai no fallback COMMENT — no
+          # dia que o toggle da org ligar, vira APPROVED sozinho. KSA-315.
+          [ -f review-gate.txt ] || { echo 'sem veredito — nada a postar'; exit 0; }
+          verdict="$(tr '[:lower:]' '[:upper:]' < review-gate.txt | tr -dc 'A-Z')"
+          if [ "$verdict" = 'BLOCK' ]; then
+            gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+              -f event=REQUEST_CHANGES \
+              -f body='🤖 **Review automatizado — CHANGES_REQUESTED**: achados [CRITICAL]/[MAJOR] nos comentários inline. O check `review` fica vermelho até corrigir.'
+          else
+            gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+              -f event=APPROVE \
+              -f body='🤖 **Review automatizado — sem bloqueios** (nenhum [CRITICAL]/[MAJOR]). Aprovação humana segue obrigatória para o merge.' \
+            || gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+              -f event=COMMENT \
+              -f body='🤖 **Review automatizado — sem bloqueios** (nenhum [CRITICAL]/[MAJOR]). (APPROVE indisponível: org bloqueia Actions de aprovar PR.) Aprovação humana segue obrigatória.'
+          fi
+
       - name: Gate — bloqueia em CRITICAL/MAJOR
         if: always()
         run: |
           if [ "${{ steps.changes.outputs.code }}" != 'true' ]; then
-            echo 'Nenhuma mudança em packages/ para revisar — OK.'; exit 0
+            echo 'Nenhuma mudança de código para revisar — OK.'; exit 0
           fi
           if [ ! -f review-gate.txt ]; then
             echo '::warning::review-gate.txt não gerado — liberando (aprovação humana continua sendo a rede de segurança).'

@@ -1,0 +1,43 @@
+name: PR — Jira link
+
+# Exige que TODA PR referencie uma task do Jira (ex.: KSA-238, BFF-45) no
+# título, na descrição ou no nome da branch. Sem isso não há como saber o que
+# validar — então o check falha (❌).
+#
+# Determinístico e de graça (sem IA/token): é só uma checagem de texto.
+# Roda também em `edited` para revalidar quando alguém adiciona o link depois.
+#
+# Projetos aceitos: KSA (app/community) e BFF (endpoints). Ajuste a lista abaixo
+# se um repo usar outra chave de projeto Jira.
+#
+# NOTA sobre bloqueio: em repo privado no plano Free do GitHub, este ❌ é um
+# AVISO visível, não impede o merge (não há branch protection). Vira trava real
+# quando este check for exigido na branch protection (GitHub Team / repo público).
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  jira-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exigir referência a uma task do Jira
+        # Título/descrição/branch vêm como env (não interpolados no script) para
+        # evitar injeção de shell a partir de texto controlado pelo autor da PR.
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          BODY: ${{ github.event.pull_request.body }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          text="$(printf '%s\n%s\n%s' "$TITLE" "$BODY" "$BRANCH" | tr '[:lower:]' '[:upper:]')"
+          if printf '%s' "$text" | grep -Eq '\b(KSA|BFF)-[0-9]+\b'; then
+            key="$(printf '%s' "$text" | grep -Eo '\b(KSA|BFF)-[0-9]+\b' | head -1)"
+            echo "OK — PR referencia a task do Jira: ${key}"
+          else
+            echo "::error::Esta PR não referencia nenhuma task do Jira (ex.: KSA-123 ou BFF-45). Adicione a chave/link da task no título ou na descrição da PR."
+            exit 1
+          fi

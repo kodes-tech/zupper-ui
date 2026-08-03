@@ -1,0 +1,45 @@
+name: PR — Acceptance Criteria
+
+# Exige que a PR tenha os Critérios de Aceite (AC) colados na descrição.
+# Sem AC, o review (humano e automático) não tem contra o que validar.
+#
+# Determinístico e de graça (sem IA/token): só checa texto. Roda também em
+# `edited` para revalidar quando alguém cola os AC depois.
+#
+# Considera "preenchido" uma linha com [AC-N] seguida de texto real — e NÃO
+# aceita o placeholder do template ("GIVEN ... WHEN ... THEN ...") nem o mero
+# rótulo/checkbox ("- [ ] [AC-1]").
+#
+# NOTA: repo privado no plano Free não tem branch protection — este ❌ é AVISO
+# visível; vira trava real quando exigido na branch protection (Team/público).
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance-criteria:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exigir Critérios de Aceite na descrição
+        # BODY via env (não interpolado no script) para evitar injeção de shell
+        # a partir de texto controlado pelo autor da PR.
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          filled="$(printf '%s\n' "$BODY" \
+            | grep -E '\[AC-[0-9]+\]' \
+            | grep -viE 'GIVEN[[:space:]]*\.\.\.[[:space:]]*WHEN' \
+            | sed -E 's/.*\[AC-[0-9]+\][[:space:]:.-]*//' \
+            | grep -E '[[:alpha:]].{9,}' \
+            || true)"
+          if [ -n "$filled" ]; then
+            echo 'OK — Critérios de Aceite preenchidos na PR:'
+            printf '%s\n' "$filled" | sed 's/^/   • /'
+          else
+            echo "::error::A seção 'Acceptance Criteria' está vazia ou só com o placeholder. Cole os [AC-N] (GIVEN/WHEN/THEN) da story do Jira na descrição da PR."
+            exit 1
+          fi

@@ -74,6 +74,20 @@ jobs:
             Verifique também SOLID, TypeScript strict (nada de `any`),
             acessibilidade e cobertura de testes.
 
+            CRITÉRIOS DE ACEITE (AC) e DoD — foco principal desta review:
+            - A descrição da PR deve ter uma seção "Acceptance Criteria" com os
+              [AC-N] (GIVEN/WHEN/THEN) da story. Ausente/vazia/placeholder →
+              [MAJOR] ("cole os critérios de aceite do card"); sem AC não há o
+              que validar.
+            - Para CADA [AC-N]: diga ATENDIDO ou NÃO ATENDIDO, com evidência no
+              diff (código + o teste correspondente). Todo [AC-N] precisa de ao
+              menos um teste. AC não atendido, ou sem teste, → [MAJOR].
+            - AC visual/manual que o código não permite verificar: marque como
+              "requer verificação manual/QA" (não bloqueie por isso).
+            - Cheque os itens de DoD verificáveis no código (ver CLAUDE.md/docs):
+              sem `any`, sem `console.log`, camadas/boundaries, testes presentes.
+              Violações → [MAJOR]/[MINOR] conforme o impacto.
+
             Classifique cada achado com um label de severidade:
             - [CRITICAL] — quebra produção ou é falha de segurança
             - [MAJOR] — bug ou violação de arquitetura/contrato significativa

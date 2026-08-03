@@ -26,6 +26,10 @@ permissions:
   contents: read
   pull-requests: write
   issues: read
+  # A claude-code-action@v1 troca um token OIDC do GitHub na autenticação
+  # (getOidcToken) — sem isto ela falha silenciosa e o gate faz fail-open
+  # (check verde sem revisar nada). KSA-315.
+  id-token: write
 
 concurrency:
   group: claude-review-${{ github.ref }}

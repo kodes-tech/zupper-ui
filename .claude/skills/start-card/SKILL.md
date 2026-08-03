@@ -31,11 +31,12 @@ enquanto o dev codifica. Duas fontes distintas — **não confunda**:
 ### 1. Chave do Jira
 Pegue a chave que o usuário passou (`KSA-123` / `BFF-45`). Se não veio, pergunte.
 
-### 2. Buscar a story (SEM markdown — importante para não travar)
+### 2. Buscar a story (via JQL — NÃO use `getJiraIssue`)
 - Resolva o `cloudId` (site `kodestech-jinboo`, via `getAccessibleAtlassianResources`).
-- `getJiraIssue` com `fields: ["summary","description"]` e **sem**
-  `responseContentFormat: markdown` (o modo markdown pode dar timeout; o padrão
-  responde rápido).
+- Busque com `searchJiraIssuesUsingJql`: `jql: "key = KSA-123"`,
+  `fields: ["summary","description"]`. Use `issues[0].fields`.
+  **Não use `getJiraIssue`** (leitura por ID): esse endpoint anda dando timeout
+  de 300s; a busca por JQL usa outra rota e responde rápido.
 - **Extraia os AC** da descrição: linhas `[AC-N] GIVEN … WHEN … THEN …` (podem
   vir com colchetes escapados, ex.: `\[AC-1\]` — normalize para `[AC-1]`).
 - **Guarda:** se a descrição **não tiver** nenhum `[AC-N]`, **não crie nada** —
@@ -97,8 +98,8 @@ roda a finalização (abaixo).
 
 ## Notas
 
-- **Fetch do Jira sem `responseContentFormat: markdown`** — o modo markdown pode
-  dar timeout; o padrão é rápido.
+- **Busca via JQL, não `getJiraIssue`** — a leitura de issue por ID tem dado
+  timeout de 300s; `searchJiraIssuesUsingJql` (`key = KSA-N`) responde rápido.
 - PR em **draft** = zero ruído (não parece pronto) e só existe para cards
   realmente em andamento — nada de PRs órfãos de backlog.
 - AC do Jira, DoD do repo. Repo-agnóstica: lê template/DoD do próprio repositório.

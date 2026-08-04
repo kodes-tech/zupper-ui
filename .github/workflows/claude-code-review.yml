@@ -112,6 +112,12 @@ jobs:
             - BLOCK — se houver pelo menos um achado [CRITICAL] ou [MAJOR];
             - PASS  — caso contrário.
 
+            Se esta PR já tiver um review automatizado anterior (deste bot),
+            NÃO conclua que não há nada a fazer: revise o diff ATUAL por
+            inteiro (incluindo o que mudou desde o último review) e escreva o
+            review-gate.txt do mesmo jeito — a ausência do arquivo é tratada
+            como falha do review.
+
           # allowedTools: sem isso o agente roda em modo nao-interativo com tudo
           # negado — 2 permission denials, estoura o max-turns e termina "verde"
           # sem postar nada nem gerar o review-gate.txt. Write e necessario para
@@ -139,6 +145,15 @@ jobs:
               -f event=REQUEST_CHANGES \
               -f body='🤖 **Review automatizado — CHANGES_REQUESTED**: achados [CRITICAL]/[MAJOR] nos comentários inline. O check `review` fica vermelho até corrigir.'
           else
+            # Um PASS novo torna obsoletos os CHANGES_REQUESTED anteriores do
+            # bot — sem isto a PR fica "verde no CI" com pendência formal
+            # pendurada, exigindo dismissal manual (visto na superapp #60).
+            for rid in $(gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+                --jq '.[] | select(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED") | .id'); do
+              gh api -X PUT "repos/${{ github.repository }}/pulls/${PR}/reviews/${rid}/dismissals" \
+                -f message='Review automatizado: achados resolvidos — o veredito atual é PASS.' \
+                -f event=DISMISS || true
+            done
             gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
               -f event=APPROVE \
               -f body='🤖 **Review automatizado — sem bloqueios** (nenhum [CRITICAL]/[MAJOR]). Aprovação humana segue obrigatória para o merge.' \

@@ -103,14 +103,19 @@ O push da tag dispara [`publish.yml`](../.github/workflows/publish.yml): faz
 - Acompanhe em **Actions → Publish packages**.
 - Ao terminar, confira os pacotes em **GitHub → org → Packages** com a versão nova.
 
-### 5. Back-merge `main → develop`
+### 5. Back-merge `main → develop` (via PR — nunca push direto)
 
-Pra `develop` não ficar atrás do bump de versão:
+Pra `develop` não ficar atrás do bump de versão. A `develop` é protegida
+(ruleset: mudança só por PR) e a regra vale inclusive pro release — não usar
+bypass de admin:
 
 ```bash
-git checkout develop && git pull
-git merge main
-git push
+git fetch origin
+git push origin origin/main:refs/heads/chore/backmerge-vX.Y.Z
+gh pr create --base develop --head chore/backmerge-vX.Y.Z \
+  --title "chore(release): back-merge vX.Y.Z para develop" \
+  --body "<versões + Refs KSA-XX>"
+gh pr merge --merge --delete-branch <n>   # CI verde → merge
 ```
 
 ## Release do `@kodes-tech/icons` (trem isolado)

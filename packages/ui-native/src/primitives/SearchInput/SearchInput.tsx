@@ -84,7 +84,11 @@ export const SearchInput = ({
               end={{ x: 1, y: 1 }}
               style={searchButtonGradientStyle}
             />
-            <Icon name="search" size={iconSize.sm} />
+            {/* web: um <svg> `position: static` pinta ANTES de um irmão
+                posicionado (o fundo `absolute` do gradiente), sumindo atrás
+                dele mesmo vindo depois no DOM — precisa virar `relative`
+                pra entrar na mesma camada de pintura e ficar por cima. */}
+            <Icon name="search" size={iconSize.sm} style={{ position: 'relative' }} />
           </View>
         </Pressable>
       </View>

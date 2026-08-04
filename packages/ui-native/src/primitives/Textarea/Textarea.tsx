@@ -44,7 +44,7 @@ export const Textarea = ({
         textAlignVertical="top"
         selectionColor={colors.surface.selection}
         style={{ minHeight }}
-        className={`w-full rounded-md border px-md py-lg font-sans text-bodyText placeholder:text-fg-muted selection:bg-surface-selection web:outline-none ${stateClasses}`}
+        className={`w-full rounded-md border px-md py-lg font-sans text-bodyText placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none ${stateClasses}`}
         {...textInputProps}
       />
       {error ? (

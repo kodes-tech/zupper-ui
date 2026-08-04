@@ -1,0 +1,186 @@
+name: Claude Code Review
+
+# Code review automático em toda PR — sem ninguém precisar acionar.
+# Dispara no EVENTO da PR (opened / synchronize); o dev só abre a PR.
+#
+# MODO GATE (trava real): se o review achar [CRITICAL] ou [MAJOR], o job FALHA
+# (check vermelho). Com branch protection exigindo este check, o merge fica
+# bloqueado até corrigir. [MINOR]/[NIT] NÃO bloqueiam.
+# Obs.: este repo é PÚBLICO — branch protection é de graça aqui, então dá para
+# ligar a trava real quando quiser (nos privados exige GitHub Team).
+#
+# GENÉRICO/REPLICÁVEL: mesmo arquivo dos outros repos; as regras da stack vivem
+# no CLAUDE.md deste repo (design system: tokens compartilhados, componentes
+# por framework, NativeWind, camada única `primitives/`).
+#
+# Sem `paths:` no gatilho (check obrigatório precisa sempre reportar); para não
+# gastar cota, o job só chama o Claude quando muda código em `packages/`.
+#
+# Auth: assinatura Claude via secret CLAUDE_CODE_OAUTH_TOKEN.
+
+on:
+  pull_request:
+    # ready_for_review: draft promovida a ready dispara o review na hora,
+    # sem exigir push novo. KSA-315.
+    types: [opened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+  # A claude-code-action@v1 troca um token OIDC do GitHub na autenticação
+  # (getOidcToken) — sem isto ela falha silenciosa e o gate faz fail-open
+  # (check verde sem revisar nada). KSA-315.
+  id-token: write
+
+concurrency:
+  group: claude-review-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    # Draft nao recebe review (convencao do time: revisar so quando o autor
+    # promove a PR); skipped satisfaz required check quando houver ruleset.
+    if: github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detectar mudança em código
+        id: changes
+        run: |
+          base='${{ github.event.pull_request.base.sha }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          if git diff --name-only "$base" "$head" | grep -qE '^packages/'; then
+            echo 'code=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'code=false' >> "$GITHUB_OUTPUT"
+            echo 'Sem mudanças em packages/ — review pulado, gate liberado.'
+          fi
+
+      - name: Claude Code Review
+        if: steps.changes.outputs.code == 'true'
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # A action troca OIDC por token do GitHub App "Claude", mas o app nao
+          # esta instalado na org kodes-tech (401 "not installed on this
+          # repository"). Passar o token do workflow pula essa troca; os
+          # comentarios saem como github-actions[bot]. KSA-315.
+          github_token: ${{ github.token }}
+          prompt: |
+            Revise as mudanças desta Pull Request e poste os achados como
+            comentários inline nas linhas específicas, mais um resumo curto.
+
+            Siga as convenções deste repositório definidas no CLAUDE.md e em
+            docs/ (design system: componentes apresentacionais só por props,
+            estilo com `className`/tokens NativeWind — nunca hardcode de
+            cor/spacing —, camada única `primitives/`, isolamento entre pacotes,
+            cada componente com os 4 arquivos, peerDependencies permissivas).
+            Verifique também SOLID, TypeScript strict (nada de `any`),
+            acessibilidade e cobertura de testes.
+
+            CRITÉRIOS DE ACEITE (AC) e DoD — foco principal desta review:
+            - A descrição da PR deve ter uma seção "Acceptance Criteria" com os
+              [AC-N] (GIVEN/WHEN/THEN) da story. Ausente/vazia/placeholder →
+              [MAJOR] ("cole os critérios de aceite do card"); sem AC não há o
+              que validar.
+            - Para CADA [AC-N]: diga ATENDIDO ou NÃO ATENDIDO, com evidência no
+              diff (código + o teste correspondente). Todo [AC-N] precisa de ao
+              menos um teste. AC não atendido, ou sem teste, → [MAJOR].
+            - AC visual/manual que o código não permite verificar: marque como
+              "requer verificação manual/QA" (não bloqueie por isso).
+            - Cheque os itens de DoD verificáveis no código (ver CLAUDE.md/docs):
+              sem `any`, sem `console.log`, camadas/boundaries, testes presentes.
+              Violações → [MAJOR]/[MINOR] conforme o impacto.
+
+            Classifique cada achado com um label de severidade:
+            - [CRITICAL] — quebra produção ou é falha de segurança
+            - [MAJOR] — bug ou violação de arquitetura/contrato significativa
+            - [MINOR] — qualidade de código / manutenção
+            - [NIT] — polimento opcional
+            Calibração de severidade: trate como [MAJOR] (no mínimo) toda
+            violação de uma REGRA ESCRITA — ADR, contrato de API já consumido,
+            ou regra arquitetural documentada (direção/isolamento de camadas,
+            fronteira do DS, "sem `any`"). Não rebaixe isso para [MINOR].
+            Reserve [MINOR]/[NIT] para qualidade/estilo sem regra por trás.
+
+            Seja específico e cite arquivo:linha. NÃO reporte o que o CI já cobre
+            (lint, formatação, typecheck). Comentários em PT-BR.
+
+            IMPORTANTE — ao TERMINAR, escreva na raiz do repositório um arquivo
+            chamado `review-gate.txt` contendo EXATAMENTE uma palavra em
+            maiúsculas e nada mais:
+            - BLOCK — se houver pelo menos um achado [CRITICAL] ou [MAJOR];
+            - PASS  — caso contrário.
+
+            Se esta PR já tiver um review automatizado anterior (deste bot),
+            NÃO conclua que não há nada a fazer: revise o diff ATUAL por
+            inteiro (incluindo o que mudou desde o último review) e escreva o
+            review-gate.txt do mesmo jeito — a ausência do arquivo é tratada
+            como falha do review.
+
+          # allowedTools: sem isso o agente roda em modo nao-interativo com tudo
+          # negado — 2 permission denials, estoura o max-turns e termina "verde"
+          # sem postar nada nem gerar o review-gate.txt. Write e necessario para
+          # o arquivo do gate; o MCP inline_comment e o unico canal de comentario
+          # inline da action. KSA-315.
+          claude_args: |
+            --model claude-opus-4-8
+            --max-turns 50
+            --allowedTools "Read,Grep,Glob,Write,mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
+
+      - name: Postar veredito como review formal
+        if: always() && steps.changes.outputs.code == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          # BLOCK -> CHANGES_REQUESTED formal. PASS -> tenta APPROVE; a org hoje
+          # bloqueia Actions de aprovar PR ("create and approve pull requests"
+          # desligado no nível kodes-tech), então cai no fallback COMMENT — no
+          # dia que o toggle da org ligar, vira APPROVED sozinho. KSA-315.
+          [ -f review-gate.txt ] || { echo 'sem veredito — nada a postar'; exit 0; }
+          verdict="$(tr '[:lower:]' '[:upper:]' < review-gate.txt | tr -dc 'A-Z')"
+          if [ "$verdict" = 'BLOCK' ]; then
+            gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+              -f event=REQUEST_CHANGES \
+              -f body='🤖 **Review automatizado — CHANGES_REQUESTED**: achados [CRITICAL]/[MAJOR] nos comentários inline. O check `review` fica vermelho até corrigir.'
+          else
+            # Um PASS novo torna obsoletos os CHANGES_REQUESTED anteriores do
+            # bot — sem isto a PR fica "verde no CI" com pendência formal
+            # pendurada, exigindo dismissal manual (visto na superapp #60).
+            for rid in $(gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+                --jq '.[] | select(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED") | .id'); do
+              gh api -X PUT "repos/${{ github.repository }}/pulls/${PR}/reviews/${rid}/dismissals" \
+                -f message='Review automatizado: achados resolvidos — o veredito atual é PASS.' \
+                -f event=DISMISS || true
+            done
+            gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+              -f event=APPROVE \
+              -f body='🤖 **Review automatizado — sem bloqueios** (nenhum [CRITICAL]/[MAJOR]). Aprovação humana segue obrigatória para o merge.' \
+            || gh api "repos/${{ github.repository }}/pulls/${PR}/reviews" \
+              -f event=COMMENT \
+              -f body='🤖 **Review automatizado — sem bloqueios** (nenhum [CRITICAL]/[MAJOR]). (APPROVE indisponível: org bloqueia Actions de aprovar PR.) Aprovação humana segue obrigatória.'
+          fi
+
+      - name: Gate — bloqueia em CRITICAL/MAJOR
+        if: always()
+        run: |
+          if [ "${{ steps.changes.outputs.code }}" != 'true' ]; then
+            echo 'Nenhuma mudança de código para revisar — OK.'; exit 0
+          fi
+          if [ ! -f review-gate.txt ]; then
+            echo '::warning::review-gate.txt não gerado — liberando (aprovação humana continua sendo a rede de segurança).'
+            exit 0
+          fi
+          verdict="$(tr '[:lower:]' '[:upper:]' < review-gate.txt | tr -dc 'A-Z')"
+          echo "Veredito do review: ${verdict:-<vazio>}"
+          if [ "$verdict" = 'BLOCK' ]; then
+            echo '::error::Review encontrou [CRITICAL]/[MAJOR]. Corrija e faça o review ficar verde.'
+            exit 1
+          fi
+          echo 'Sem CRITICAL/MAJOR — gate liberado.'

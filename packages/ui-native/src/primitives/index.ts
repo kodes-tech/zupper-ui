@@ -19,6 +19,7 @@ export * from './PasswordRequirementsList';
 export * from './PhotoGrid';
 export * from './RadioOption';
 export * from './RoleBadge';
+export * from './SearchInput';
 export * from './SelectField';
 export * from './SheetOption';
 export * from './SocialLoginButton';

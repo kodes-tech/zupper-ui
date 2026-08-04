@@ -17,6 +17,7 @@ export const iconNames = [
   'account-unblock',
   'add-day',
   'apple-logo',
+  'avatar-default',
   'back-arrow',
   'calendar',
   'calendar-03',

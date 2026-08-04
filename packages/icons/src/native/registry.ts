@@ -25,6 +25,7 @@ export const registry: Record<IconName, (props: SvgProps) => React.JSX.Element> 
   'account-unblock': Svgs.AccountUnblock,
   'add-day': Svgs.AddDay,
   'apple-logo': Svgs.AppleLogo,
+  'avatar-default': Svgs.AvatarDefault,
   'back-arrow': Svgs.BackArrow,
   calendar: Svgs.Calendar,
   'calendar-03': Svgs.Calendar03,

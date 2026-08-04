@@ -15,6 +15,7 @@ export { default as AccountTerms } from './AccountTerms';
 export { default as AccountUnblock } from './AccountUnblock';
 export { default as AddDay } from './AddDay';
 export { default as AppleLogo } from './AppleLogo';
+export { default as AvatarDefault } from './AvatarDefault';
 export { default as BackArrow } from './BackArrow';
 export { default as Calendar } from './Calendar';
 export { default as Calendar03 } from './Calendar03';

@@ -102,6 +102,11 @@ jobs:
             - [MAJOR] — bug ou violação de arquitetura/contrato significativa
             - [MINOR] — qualidade de código / manutenção
             - [NIT] — polimento opcional
+            Calibração de severidade: trate como [MAJOR] (no mínimo) toda
+            violação de uma REGRA ESCRITA — ADR, contrato de API já consumido,
+            ou regra arquitetural documentada (direção/isolamento de camadas,
+            fronteira do DS, "sem `any`"). Não rebaixe isso para [MINOR].
+            Reserve [MINOR]/[NIT] para qualidade/estilo sem regra por trás.
 
             Seja específico e cite arquivo:linha. NÃO reporte o que o CI já cobre
             (lint, formatação, typecheck). Comentários em PT-BR.

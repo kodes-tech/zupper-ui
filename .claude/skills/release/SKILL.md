@@ -82,6 +82,8 @@ vista. Depois executa sozinho até o fim — **mas aborta imediatamente** se qua
 - `gh` autenticado (`gh auth status`) e `git` com push para o remoto.
 - **Nunca** forçar branch protection, pular review obrigatório, nem usar
   `--admin`/`--no-verify`. Se um `gh pr merge` bater em proteção, **pare** e avise.
+- **Nunca push direto em `develop`/`main`** — nem no back-merge (o ruleset da
+  `develop` exige PR; bypass de admin não é caminho de release).
 
 ## Guards comuns (ABORTAR se algum falhar — valem para A e B)
 
@@ -204,8 +206,12 @@ git checkout main && git pull
 git tag -a vX.Y.Z -m "vX.Y.Z"  # "v" obrigatório (o workflow filtra v*.*.*)
 git push origin vX.Y.Z
 
-# 4) Back-merge main → develop
-git checkout develop && git pull && git merge main --no-edit && git push
+# 4) Back-merge main → develop — via PR (develop é protegida; NUNCA push direto/bypass)
+git fetch origin
+git push origin origin/main:refs/heads/chore/backmerge-vX.Y.Z
+gh pr create --base develop --head chore/backmerge-vX.Y.Z \
+  --title "chore(release): back-merge vX.Y.Z para develop" --body "<versões + Refs KSA-XX>"
+gh pr merge --merge --delete-branch <n>   # CI verde → merge; PARE se barrar em proteção
 ```
 
 **Monitorar:** Actions → **"Publish packages"** e **"Deploy Storybook (DS) — GCP"**
@@ -256,8 +262,12 @@ git checkout main && git pull
 git tag -a icons-vX.Y.Z -m "icons-vX.Y.Z"   # prefixo "icons-v" (o workflow filtra icons-v*.*.*)
 git push origin icons-vX.Y.Z
 
-# 4) Back-merge main → develop
-git checkout develop && git pull && git merge main --no-edit && git push
+# 4) Back-merge main → develop — via PR (develop é protegida; NUNCA push direto/bypass)
+git fetch origin
+git push origin origin/main:refs/heads/chore/backmerge-icons-vX.Y.Z
+gh pr create --base develop --head chore/backmerge-icons-vX.Y.Z \
+  --title "chore(release): back-merge icons vX.Y.Z para develop" --body "<versões + Refs KSA-XX>"
+gh pr merge --merge --delete-branch <n>   # CI verde → merge; PARE se barrar em proteção
 ```
 
 **Monitorar:** Actions → **"Publish @kodes-tech/icons"** e **"Deploy Storybook (DS)

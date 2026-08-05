@@ -3,7 +3,7 @@ import { colorVarRefs } from './themes';
 import { spacing } from './spacing';
 import { radii } from './radii';
 import { typography } from './typography';
-import { sizes } from './sizes';
+import { sizes, avatarSize } from './sizes';
 
 /** Converte uma escala numérica (px) em strings com unidade (`16` → `'16px'`). */
 const px = <T extends Record<string, number>>(obj: T): Record<keyof T, string> =>
@@ -48,7 +48,7 @@ const composedFontSize = Object.fromEntries(
  *   spacing  → `p-md`, `px-sm`, `gap-lg`, `p-screenMargin` …
  *   radius   → `rounded-pill`, `rounded-md` …
  *   fonte    → `font-sans`, `text-xs`, `font-medium`, presets compostos `text-heading`, `text-authorName` …
- *   altura   → `h-control` (campos de formulário) …
+ *   dimensão → `h-control` (campos de formulário) · `w-avatar-md`/`h-avatar-md` (avatares) …
  *
  * THEMING: as cores NÃO são hex fixos — cada uma resolve `rgb(var(--color-…) / <alpha>)`
  * (ver `colorVarRefs` em `themes.ts`). O valor da variável vem do tema ativo
@@ -70,8 +70,10 @@ export const tailwindPreset = {
         scrim: colors.scrim, // bg-scrim — véu de bottom sheet / diálogo modal (literal, não-temável)
       },
       spacing: px(spacing),
-      height: px(sizes),
+      // `avatar` é aninhado de propósito → gera `h-avatar-sm`/`w-avatar-lg` etc.
+      height: { ...px(sizes), avatar: px(avatarSize) },
       minHeight: px(sizes),
+      width: { avatar: px(avatarSize) },
       borderRadius: px(radii),
       fontFamily: { sans: [typography.family] },
       fontSize: { ...px(typography.size), ...composedFontSize },

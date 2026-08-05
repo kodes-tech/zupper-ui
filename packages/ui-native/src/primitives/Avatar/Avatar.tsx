@@ -13,10 +13,12 @@ export type AvatarProps = {
   accessibilityLabel?: string;
 };
 
+// Lados vêm do token `avatarSize` (sm 28 · md 44 · lg 64) — compartilhados com o
+// `AvatarFallback`, que ocupa o mesmo slot quando não há foto.
 const containerClassBySize: Record<AvatarSize, string> = {
-  sm: 'w-[28px] h-[28px] rounded-pill',
-  md: 'w-[44px] h-[44px] rounded-pill',
-  lg: 'w-[64px] h-[64px] rounded-pill',
+  sm: 'w-avatar-sm h-avatar-sm rounded-pill',
+  md: 'w-avatar-md h-avatar-md rounded-pill',
+  lg: 'w-avatar-lg h-avatar-lg rounded-pill',
 };
 
 /**

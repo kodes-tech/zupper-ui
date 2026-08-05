@@ -25,8 +25,13 @@ export type SearchInputProps = {
   testID?: string;
 };
 
-/** Campo + gap até o painel (ver `h-control`) — offset do overlay flutuante. */
-const PANEL_TOP = sizes.control + spacing.sm;
+/** Campo + gap até o painel (ver `h-controlLg`) — offset do overlay flutuante. */
+const PANEL_TOP = sizes.controlLg + spacing.xl;
+/** Recuo esquerdo do painel: alinha o texto das opções com o texto digitado no
+ * campo (depois do ícone) — `pl-xl` + ícone + `gap-lg` da linha do input, menos
+ * o `px-md` que o próprio painel já aplica no conteúdo, menos 4px pra dar mais
+ * largura ao painel (a pedido do design — desalinha levemente o texto). */
+const PANEL_LEFT = spacing.xl + iconSize.lg + spacing.lg - spacing.md - 4;
 /** Altura máx. do painel: mostra ~4–5 sugestões e rola o resto (mesmo critério do `SelectField`). */
 const PANEL_MAX_HEIGHT = 260;
 
@@ -65,19 +70,19 @@ export const SearchInput = ({
 
   return (
     <View className="relative w-full">
-      <View className="h-control w-full flex-row items-center gap-md rounded-pill border border-border-default bg-surface-default pl-md pr-sm">
-        <Icon name="globe" size={iconSize.md} />
+      <View className="h-controlLg w-full flex-row items-center gap-lg rounded-pill border border-border-default bg-surface-default pl-xl pr-md">
+        <Icon name="globe" size={iconSize.lg} />
         <TextInput
           testID={testID}
           accessibilityLabel={placeholder}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          className="flex-1 font-sans text-bodyText text-fg-primary placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none"
+          className="flex-1 font-sans text-bodyMd text-fg-primary placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none"
           selectionColor={colors.surface.selection}
         />
         <Pressable accessibilityRole="button" accessibilityLabel="Buscar" onPress={onPressSearch}>
-          <View className="h-[36px] w-[36px] items-center justify-center rounded-pill">
+          <View className="h-[40px] w-[40px] items-center justify-center rounded-pill">
             <LinearGradient
               colors={[...colors.gradient.button]}
               start={{ x: 0, y: 0 }}
@@ -88,18 +93,18 @@ export const SearchInput = ({
                 posicionado (o fundo `absolute` do gradiente), sumindo atrás
                 dele mesmo vindo depois no DOM — precisa virar `relative`
                 pra entrar na mesma camada de pintura e ficar por cima. */}
-            <Icon name="search" size={iconSize.sm} style={{ position: 'relative' }} />
+            <Icon name="search" size={iconSize.lg} style={{ position: 'relative' }} />
           </View>
         </Pressable>
       </View>
 
       {showPanel ? (
         <View
-          className="absolute inset-x-0 z-10 rounded-md border border-border-default bg-surface-default"
-          style={{ top: PANEL_TOP, maxHeight: PANEL_MAX_HEIGHT }}
+          className="absolute right-0 z-10 rounded-xl border border-border-default bg-surface-default"
+          style={{ top: PANEL_TOP, left: PANEL_LEFT, maxHeight: PANEL_MAX_HEIGHT }}
         >
           {options.length > 0 ? (
-            <ScrollView showsVerticalScrollIndicator>
+            <ScrollView showsVerticalScrollIndicator keyboardShouldPersistTaps="handled">
               {options.map((option, index) => (
                 <React.Fragment key={option.id}>
                   {index > 0 ? <View className="mx-md h-px bg-border-default" /> : null}
@@ -109,7 +114,7 @@ export const SearchInput = ({
                     onPress={() => onSelectOption?.(option.id)}
                     className="px-md py-lg"
                   >
-                    <Text numberOfLines={1} className="font-sans text-bodyText text-fg-secondary">
+                    <Text numberOfLines={1} className="font-sans text-bodyMd text-fg-secondary">
                       {option.label}
                     </Text>
                   </Pressable>

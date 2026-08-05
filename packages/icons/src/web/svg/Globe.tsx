@@ -1,7 +1,13 @@
 import * as React from 'react';
-const SvgGlobe = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21.5 21.5" {...props}>
-    <g stroke="#008C99" strokeWidth={1.5}>
+import type { SVGProps } from 'react';
+const SvgGlobe = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 21.5 21.5"
+    {...props}
+  >
+    <g stroke="#A3A3A3" strokeWidth={1.5}>
       <path d="M20.75 10.75c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10Z" />
       <path
         strokeLinejoin="round"
@@ -11,3 +17,4 @@ const SvgGlobe = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 export default SvgGlobe;
+

@@ -2,6 +2,8 @@
 export const sizes = {
   /** altura de campos de formulário (Input) — touch target confortável */
   control: 44,
+  /** altura do SearchInput — Figma Community (maior que o control padrão). */
+  controlLg: 56,
 } as const;
 
 export type Sizes = typeof sizes;

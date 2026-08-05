@@ -1,3 +1,4 @@
+import type { Config } from 'tailwindcss';
 import { colors } from './colors';
 import { colorVarRefs } from './themes';
 import { spacing } from './spacing';
@@ -31,6 +32,18 @@ const composedFontSize = Object.fromEntries(
     ],
   ]),
 );
+
+/**
+ * Escala do avatar em chaves **planas** (`avatar-sm`/`avatar-md`/`avatar-lg`), NÃO
+ * aninhada sob `avatar`. O Tailwind v3 só achata objeto aninhado em `colors` (via
+ * `flattenColorPalette`); em `width`/`height` o objeto vaza pro CSS como seletor
+ * malformado (`.w-avatar width { sm: 28px; … }`) e nenhum `w-avatar-lg` chega a ser
+ * gerado — o container do avatar fica sem dimensão e colapsa em todo consumidor.
+ * O `satisfies Partial<Config>` abaixo é o que impede a regressão voltar.
+ */
+const avatarScale = Object.fromEntries(
+  Object.entries(avatarSize).map(([key, value]) => [`avatar-${key}`, `${value}px`]),
+) as Record<`avatar-${keyof typeof avatarSize}`, string>;
 
 /**
  * Preset Tailwind gerado a partir dos tokens do Zupper (valores reais do
@@ -70,16 +83,15 @@ export const tailwindPreset = {
         scrim: colors.scrim, // bg-scrim — véu de bottom sheet / diálogo modal (literal, não-temável)
       },
       spacing: px(spacing),
-      // `avatar` é aninhado de propósito → gera `h-avatar-sm`/`w-avatar-lg` etc.
-      height: { ...px(sizes), avatar: px(avatarSize) },
+      height: { ...px(sizes), ...avatarScale },
       minHeight: px(sizes),
-      width: { avatar: px(avatarSize) },
+      width: avatarScale,
       borderRadius: px(radii),
       fontFamily: { sans: [typography.family] },
       fontSize: { ...px(typography.size), ...composedFontSize },
       fontWeight: typography.weight,
     },
   },
-};
+} satisfies Partial<Config>;
 
 export type TailwindPreset = typeof tailwindPreset;

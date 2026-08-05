@@ -137,6 +137,10 @@ Ação: designer definir a receita de sombra de cada degrau e **onde** se aplica
   e `AvatarFallback` migrados (`w-avatar-*`/`h-avatar-*`), fecha o gap "Avatar hardcoda"
   abaixo. `md` novo no `AvatarFallback` (KSA-337): antes só existiam `sm`/`lg`, então
   telas com avatar `md` sem foto caíam pra 28px em vez de 44px.
+  ⚠️ A escala entra no preset em chaves **planas** (`avatar-sm`…), nunca aninhada sob
+  `avatar`: o Tailwind v3 só achata objeto aninhado em `colors`, então em
+  `width`/`height` um objeto não gera classe nenhuma (a 0.9.0 saiu assim e o avatar
+  colapsou em todo consumidor). O `satisfies Partial<Config>` no preset trava isso.
 - ⚠️ **Outliers fora da escala** (pendente designer — viram `graphicSize`/novo degrau?):
   - **72** — glifos de status: `ContentRemovedSheet`, `ContentUnderReviewSheet`,
     `PublishedModal`, `TravelPreferencesResultCard`.

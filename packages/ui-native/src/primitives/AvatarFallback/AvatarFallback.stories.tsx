@@ -6,4 +6,5 @@ export default {
 };
 
 export const Small = { args: { size: 'sm', initials: 'AB' } };
+export const Medium = { args: { size: 'md', initials: 'CS' } };
 export const Large = { args: { size: 'lg', initials: 'HN' } };

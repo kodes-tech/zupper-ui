@@ -87,7 +87,7 @@ _(próximas telas a preencher: MyAccount, PersonalData, PublishContent, TravelPr
   `ReportConfirmSheet`, `ReportReasonsSheet`, `ContentUnderReviewSheet`,
   `OwnPostActionsSheet`, `RoteiroDayCard`, `RoteiroDayForm`, `SheetOption` (emoji).
 - **15px** — `SheetOption` (label). **22px** — `AccountGreeting`.
-- **32px** — `TravelPreferencesResultCard` (glifo ⚠). **7/16px** — `AvatarFallback`.
+- **32px** — `TravelPreferencesResultCard` (glifo ⚠). **7/12/16px** — `AvatarFallback` (sm/md/lg).
 - `leading` divergente no corpo 14px: `18` (maioria) vs `17` (`ReportReasonsSheet`).
 
 ---
@@ -168,7 +168,8 @@ Varredura de `packages/ui-native/src/primitives` por valores arbitrários
 
 ### ⚠️ Resta hardcode — precisa de token novo (decisão do designer)
 - **Tamanho de avatar** — `w/h-[28/44/64px]` (Avatar/AvatarFallback). Virar `sizes.avatar` (sm/md/lg).
-- **Fonte fora da escala** — `text-[17px]` (BottomSheet título), `text-[18px]`/`text-[15px]` (SheetOption), `text-[16px]`/`text-[14px]` (StatusBanner/BottomSheet corpo), `text-[7px]`/`text-[16px]` (AvatarFallback iniciais). Ver seção **Typography** acima (título de sheet 17/18, SheetOption 15, iniciais 7).
+- **Fonte fora da escala** — `text-[17px]` (BottomSheet título), `text-[18px]`/`text-[15px]` (SheetOption), `text-[16px]`/`text-[14px]` (StatusBanner/BottomSheet corpo), `text-[7px]`/`text-[12px]`/`text-[16px]` (AvatarFallback iniciais). Ver seção **Typography** acima (título de sheet 17/18, SheetOption 15, iniciais 7/12).
+- **`AvatarFallback` iniciais em `md` (44px, 12pt/16 leading)** — adicionado pra fechar o gap de tamanho abaixo (sem essa variante, `AvatarFallback` não tinha `md`, e telas com avatar 44px caíam pra `sm` — 28px, menor que o `Avatar` com foto no mesmo slot). O tamanho do **container** (44px) já é confirmado (mesmo do `Avatar`); o tamanho da **fonte das iniciais** (12/16) é **interpolado** entre sm (7/11) e lg (16/24) e arredondado pra escala existente — sem confirmação no Figma ainda. Ação: designer confirmar (ou ajustar) o par fonte/leading de `md`.
 - **Spacing/dimensão fora da escala** — `pb-[34px]` (safe-area BottomSheet), grabber `h-[4px] w-[40px]`, `h-[56px]`/`gap-[14px]` (SheetOption), `py-[14px]`/`px-[14px]` (StatusBanner), `pt-[40px]`/spacer `24×24` (ScreenHeader), `p-[2px]` (PhotoGrid), radio `20/12` (RadioOption). Catalogar como `sizes`/`spacing` novos.
 
 ### ✔️ Aceitável (não é violação)

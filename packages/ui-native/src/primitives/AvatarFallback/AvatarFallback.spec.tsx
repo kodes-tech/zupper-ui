@@ -7,7 +7,7 @@ describe('AvatarFallback', () => {
     expect(screen.getByText('HN')).toBeOnTheScreen();
   });
 
-  it.each(['sm', 'lg'] as const)('renders the %s size', async (size) => {
+  it.each(['sm', 'md', 'lg'] as const)('renders the %s size', async (size) => {
     await render(<AvatarFallback size={size} initials="AB" />);
     expect(screen.getByTestId('avatar-fallback')).toBeOnTheScreen();
   });

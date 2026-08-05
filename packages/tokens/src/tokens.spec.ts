@@ -40,6 +40,17 @@ describe('@kodes-tech/tokens', () => {
     expect(typography.weight.bold).toBe('700');
   });
 
+  it('bodyMd matches the Figma spec (Satoshi Medium 16/24, letter-spacing 2%)', () => {
+    // preset compartilhado por SearchInput, StatusMessage e Text variant="bodyMd" —
+    // trava o valor pra não regredir em silêncio de novo (ver KSA-338).
+    expect(typography.textVariant.bodyMd).toMatchObject({
+      fontSize: 16,
+      fontWeight: '500',
+      lineHeight: 24,
+      letterSpacing: 0.32,
+    });
+  });
+
   it('radii includes pill (fully rounded)', () => {
     expect(radii.pill).toBeGreaterThanOrEqual(999);
   });

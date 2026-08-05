@@ -2,8 +2,12 @@ import * as React from 'react';
 import Svg, { G, Path } from 'react-native-svg';
 import type { SvgProps } from 'react-native-svg';
 const SvgGlobe = (props: SvgProps) => (
-  <Svg fill="none" viewBox="0 0 21.5 21.5" {...props}>
-    <G stroke="#008C99" strokeWidth={1.5}>
+  <Svg
+    fill="none"
+    viewBox="0 0 21.5 21.5"
+    {...props}
+  >
+    <G stroke="#A3A3A3" strokeWidth={1.5}>
       <Path d="M20.75 10.75c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10Z" />
       <Path
         strokeLinejoin="round"
@@ -13,3 +17,4 @@ const SvgGlobe = (props: SvgProps) => (
   </Svg>
 );
 export default SvgGlobe;
+

@@ -76,7 +76,7 @@ export const textVariant = {
     fontFamily,
     fontSize: fontSize.lg,
     fontWeight: fontWeight.medium,
-    lineHeight: 16,
+    lineHeight: 24,
     letterSpacing: 0.32,
   },
   avatarFallback: {

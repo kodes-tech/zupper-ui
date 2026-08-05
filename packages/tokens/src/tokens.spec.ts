@@ -1,4 +1,4 @@
-import { tokens, colors, spacing, typography, radii, elevation, sizes } from './index';
+import { tokens, colors, spacing, typography, radii, elevation, sizes, avatarSize } from './index';
 import { themes, getTheme, themeVars, hexToTriplet, flattenColors, type ThemeName } from './themes';
 
 describe('@kodes-tech/tokens', () => {
@@ -16,6 +16,12 @@ describe('@kodes-tech/tokens', () => {
   it('sizes uses a numeric scale (px)', () => {
     expect(typeof sizes.control).toBe('number');
     expect(sizes.control).toBeGreaterThan(0);
+  });
+
+  it('avatarSize is an increasing numeric scale (px)', () => {
+    expect(avatarSize).toEqual({ sm: 28, md: 44, lg: 64 });
+    expect(avatarSize.sm).toBeLessThan(avatarSize.md);
+    expect(avatarSize.md).toBeLessThan(avatarSize.lg);
   });
 
   it('spacing uses a numeric scale (px)', () => {

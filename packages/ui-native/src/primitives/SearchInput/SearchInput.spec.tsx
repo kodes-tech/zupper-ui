@@ -39,6 +39,13 @@ describe('SearchInput', () => {
     expect(onSelectOption).toHaveBeenCalledWith('recife');
   });
 
+  it('keeps suggestions tappable with the keyboard open (regressão: exigia 2 toques)', async () => {
+    await render(<SearchInput value="Re" options={OPTIONS} />);
+    expect(screen.getByTestId('search-input-options-scroll').props.keyboardShouldPersistTaps).toBe(
+      'handled',
+    );
+  });
+
   it('fires onPressSearch when the search button is tapped', async () => {
     const onPressSearch = jest.fn();
     await render(<SearchInput onPressSearch={onPressSearch} />);

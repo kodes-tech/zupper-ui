@@ -31,7 +31,7 @@ const PANEL_TOP = sizes.controlLg + spacing.xl;
  * campo (depois do ícone) — `pl-xl` + ícone + `gap-lg` da linha do input, menos
  * o `px-md` que o próprio painel já aplica no conteúdo, menos 4px pra dar mais
  * largura ao painel (a pedido do design — desalinha levemente o texto). */
-const PANEL_LEFT = spacing.xl + iconSize.lg + spacing.lg - spacing.md - 4;
+const PANEL_LEFT = spacing.xl + iconSize.lg + spacing.lg - spacing.md - spacing.xs;
 /** Altura máx. do painel: mostra ~4–5 sugestões e rola o resto (mesmo critério do `SelectField`). */
 const PANEL_MAX_HEIGHT = 260;
 
@@ -104,7 +104,11 @@ export const SearchInput = ({
           style={{ top: PANEL_TOP, left: PANEL_LEFT, maxHeight: PANEL_MAX_HEIGHT }}
         >
           {options.length > 0 ? (
-            <ScrollView showsVerticalScrollIndicator keyboardShouldPersistTaps="handled">
+            <ScrollView
+              testID="search-input-options-scroll"
+              showsVerticalScrollIndicator
+              keyboardShouldPersistTaps="handled"
+            >
               {options.map((option, index) => (
                 <React.Fragment key={option.id}>
                   {index > 0 ? <View className="mx-md h-px bg-border-default" /> : null}
@@ -122,6 +126,8 @@ export const SearchInput = ({
               ))}
             </ScrollView>
           ) : (
+            // bodyText intencional: o spec do Figma revisado cobriu só o texto das
+            // opções (bodyMd) — este texto de estado vazio não teve spec conferido.
             <Text className="px-md py-lg text-center font-sans text-bodyText text-fg-muted">
               Nenhum resultado encontrado
             </Text>

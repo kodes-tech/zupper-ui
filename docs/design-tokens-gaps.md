@@ -73,10 +73,10 @@ Presets: `badge` · `caption` · `actionLabel` · `authorName` · `bodyText` ·
   (→ `text-brand-strong`) ao primitivo `Text`? (ver Colors abaixo).
 
 **CommunityProfile (KSA-31 — migrada p/ o app)** — idem primitivo `Text`:
-- ⚠️ **estado vazio**, linha 1: `text-[16px] leading-[24px]` (subtle) → mapeado p/
-  `variant="bodyMd"` (16px, mas `leading` 16, não 24). Linha 2: `text-[22px]
-  font-bold leading-[32px]` → `variant="heading"` (24px). **22 → 24** (mesmo gap
-  do `AccountGreeting`).
+- ✅ **estado vazio**, linha 1: `text-[16px] leading-[24px]` (subtle) → mapeado p/
+  `variant="bodyMd"` (16px, `leading` 24 — corrigido em KSA-338, era 16). Linha 2:
+  `text-[22px] font-bold leading-[32px]` → `variant="heading"` (24px). **22 → 24**
+  (mesmo gap do `AccountGreeting`).
 
 _(próximas telas a preencher: MyAccount, PersonalData, PublishContent, TravelPreferences…)_
 

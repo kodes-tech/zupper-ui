@@ -1,4 +1,4 @@
-import { tokens, colors, spacing, typography, radii, elevation, sizes } from './index';
+import { tokens, colors, spacing, typography, radii, elevation, sizes, avatarSize } from './index';
 import { themes, getTheme, themeVars, hexToTriplet, flattenColors, type ThemeName } from './themes';
 
 describe('@kodes-tech/tokens', () => {
@@ -18,6 +18,12 @@ describe('@kodes-tech/tokens', () => {
     expect(sizes.control).toBeGreaterThan(0);
   });
 
+  it('avatarSize is an increasing numeric scale (px)', () => {
+    expect(avatarSize).toEqual({ sm: 28, md: 44, lg: 64 });
+    expect(avatarSize.sm).toBeLessThan(avatarSize.md);
+    expect(avatarSize.md).toBeLessThan(avatarSize.lg);
+  });
+
   it('spacing uses a numeric scale (px)', () => {
     expect(typeof spacing.md).toBe('number');
     expect(spacing.md).toBeGreaterThan(0);
@@ -32,6 +38,17 @@ describe('@kodes-tech/tokens', () => {
     expect(typeof typography.family).toBe('string');
     expect(typeof typography.size.md).toBe('number');
     expect(typography.weight.bold).toBe('700');
+  });
+
+  it('bodyMd matches the Figma spec (Satoshi Medium 16/24, letter-spacing 2%)', () => {
+    // preset compartilhado por SearchInput, StatusMessage e Text variant="bodyMd" —
+    // trava o valor pra não regredir em silêncio de novo (ver KSA-338).
+    expect(typography.textVariant.bodyMd).toMatchObject({
+      fontSize: 16,
+      fontWeight: '500',
+      lineHeight: 24,
+      letterSpacing: 0.32,
+    });
   });
 
   it('radii includes pill (fully rounded)', () => {

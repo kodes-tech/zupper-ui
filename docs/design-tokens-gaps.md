@@ -15,7 +15,7 @@
 | **typography** | ⚠️ off-scale hardcoded + papéis divergentes | oficializar tamanhos (ver abaixo) |
 | **colors** | ⚠️ 3 valores sem Figma (`TODO`) | validar/gerar no Figma |
 | **elevation** | ⚠️ placeholder | calibrar sombras no Figma |
-| **sizes** | ⚠️ quase vazio (só `control: 44`) | definir dimensões fixas usadas |
+| **sizes** | ⚠️ magro (`control: 44` + `iconSize` + `avatarSize`) | definir as dimensões fixas restantes |
 | **spacing** | ✅ escala 8pt completa | — (sem gap conhecido) |
 | **radii** | ✅ escala completa | — (sem gap conhecido) |
 
@@ -41,6 +41,7 @@ Presets: `badge` · `caption` · `actionLabel` · `authorName` · `bodyText` ·
 | Título de dia de roteiro | **18** | ❌ | `RoteiroDayCard` · `RoteiroDayForm` (Publicar conteúdo → roteiro) | mesmo destino do "título de sheet" |
 | Display / ícone-glifo grande | **32** | ❌ | `TravelPreferencesResultCard` (Resultado de preferências) | ⚠ é glifo decorativo — provável não-texto (confirmar) |
 | Inicial de avatar (sm) | **7** | ❌ | `AvatarFallback` (avatares pequenos, vários) | tamanho de avatar pequeno; ok manter fora da escala? |
+| Inicial de avatar (md) | **12** (`xs`) · leading 16 | ✔ (provisório) | `AvatarFallback` (header de conteúdo/conta) | **variante não desenhada no Figma** — usamos o degrau `xs` + o leading 16 dos demais presets de 12px; confirmar ou ajustar |
 
 > **Headline:** o *título de sheet* renderiza **17px em 3 componentes e 18px em
 > ~7**, e nenhum existe na escala (que pula 16→20). Precisamos de **um** valor
@@ -73,10 +74,10 @@ Presets: `badge` · `caption` · `actionLabel` · `authorName` · `bodyText` ·
   (→ `text-brand-strong`) ao primitivo `Text`? (ver Colors abaixo).
 
 **CommunityProfile (KSA-31 — migrada p/ o app)** — idem primitivo `Text`:
-- ⚠️ **estado vazio**, linha 1: `text-[16px] leading-[24px]` (subtle) → mapeado p/
-  `variant="bodyMd"` (16px, mas `leading` 16, não 24). Linha 2: `text-[22px]
-  font-bold leading-[32px]` → `variant="heading"` (24px). **22 → 24** (mesmo gap
-  do `AccountGreeting`).
+- ✅ **estado vazio**, linha 1: `text-[16px] leading-[24px]` (subtle) → mapeado p/
+  `variant="bodyMd"` (16px, `leading` 24 — corrigido em KSA-338, era 16). Linha 2:
+  `text-[22px] font-bold leading-[32px]` → `variant="heading"` (24px). **22 → 24**
+  (mesmo gap do `AccountGreeting`).
 
 _(próximas telas a preencher: MyAccount, PersonalData, PublishContent, TravelPreferences…)_
 
@@ -87,7 +88,7 @@ _(próximas telas a preencher: MyAccount, PersonalData, PublishContent, TravelPr
   `ReportConfirmSheet`, `ReportReasonsSheet`, `ContentUnderReviewSheet`,
   `OwnPostActionsSheet`, `RoteiroDayCard`, `RoteiroDayForm`, `SheetOption` (emoji).
 - **15px** — `SheetOption` (label). **22px** — `AccountGreeting`.
-- **32px** — `TravelPreferencesResultCard` (glifo ⚠). **7/16px** — `AvatarFallback`.
+- **32px** — `TravelPreferencesResultCard` (glifo ⚠). **7/12/16px** — `AvatarFallback` (sm/md/lg).
 - `leading` divergente no corpo 14px: `18` (maioria) vs `17` (`ReportReasonsSheet`).
 
 ---
@@ -132,14 +133,16 @@ Ação: designer definir a receita de sombra de cada degrau e **onde** se aplica
 - ✅ **`iconSize` criado** (`xs 12 · sm 16 · md 20 · lg 24`, default lg) e **DS
   migrado** — 28 usos em 17 componentes do `ui-native` + o Feed do app agora usam o
   token. Specimen no Storybook: `Icons/Sizes`.
+- ✅ **`avatarSize` criado** (`sm 28 · md 44 · lg 64`, confirmado no Figma) — `Avatar`
+  e `AvatarFallback` migrados (`w-avatar-*`/`h-avatar-*`), fecha o gap "Avatar hardcoda"
+  abaixo. `md` novo no `AvatarFallback` (KSA-337): antes só existiam `sm`/`lg`, então
+  telas com avatar `md` sem foto caíam pra 28px em vez de 44px.
 - ⚠️ **Outliers fora da escala** (pendente designer — viram `graphicSize`/novo degrau?):
   - **72** — glifos de status: `ContentRemovedSheet`, `ContentUnderReviewSheet`,
     `PublishedModal`, `TravelPreferencesResultCard`.
   - **48** — `QuickAction` (ícone dos atalhos do Feed) — é UI, maior que `lg`; virar `xl`?
   - **14** — `PostCard` (badge de tipo dica/foto/roteiro).
   - **8** — `PostCard` (separador "·" — decorativo, provável não-ícone).
-- ❌ **`Avatar` hardcoda** sm **28** · md **44** · lg **64** px (raio **22** no md)
-  — candidatos a tokens de tamanho de avatar.
 - Provável faltarem outras dimensões (touch targets, header/bottom-nav). Ação:
   catalogar conforme migramos e tokenizar (evitar novos hardcodes).
 
@@ -162,13 +165,14 @@ Varredura de `packages/ui-native/src/primitives` por valores arbitrários
 
 ### ✅ Corrigido (usava/vira token existente — sem mudança visual)
 - **Avatar · AvatarFallback**: `rounded-[14/22/32px]` (metade do lado = círculo) → **`rounded-pill`**.
+- **Avatar · AvatarFallback**: `w/h-[28/44/64px]` → **`sizes.avatarSize`** (`w-avatar-*`/`h-avatar-*`, KSA-337).
 - **RoleBadge**: `text-[12px] leading-[16px]` → **`text-badge`** (preset já existente).
 - **StatusBanner**: `rounded-[12px]` → **`rounded-lg`** (radii.lg = 12).
 - **BottomSheet · ConfirmDialog**: véu `bg-[rgba(0,0,0,0.45)]` → **token novo `colors.scrim`** (`bg-scrim`). ⚠️ TODO(Figma): validar opacidade e reconciliar com o `PublishedModal` do app (`rgba(23,23,23,0.7)`).
 
 ### ⚠️ Resta hardcode — precisa de token novo (decisão do designer)
-- **Tamanho de avatar** — `w/h-[28/44/64px]` (Avatar/AvatarFallback). Virar `sizes.avatar` (sm/md/lg).
-- **Fonte fora da escala** — `text-[17px]` (BottomSheet título), `text-[18px]`/`text-[15px]` (SheetOption), `text-[16px]`/`text-[14px]` (StatusBanner/BottomSheet corpo), `text-[7px]`/`text-[16px]` (AvatarFallback iniciais). Ver seção **Typography** acima (título de sheet 17/18, SheetOption 15, iniciais 7).
+- **Fonte fora da escala** — `text-[17px]` (BottomSheet título), `text-[18px]`/`text-[15px]` (SheetOption), `text-[16px]`/`text-[14px]` (StatusBanner/BottomSheet corpo), `text-[7px]`/`text-[16px]` (AvatarFallback iniciais sm/lg). Ver seção **Typography** acima (título de sheet 17/18, SheetOption 15, iniciais 7).
+- **`AvatarFallback` iniciais em `md` (44px, `text-xs`/12pt · leading 16)** — adicionado pra fechar o gap de tamanho de container acima (sem essa variante, `AvatarFallback` não tinha `md`, e telas com avatar 44px caíam pra `sm` — 28px, menor que o `Avatar` com foto no mesmo slot). O tamanho do **container** (44px) já é confirmado (mesmo do `Avatar`, agora via token `avatarSize`); o **Figma não tem a variante `md` desenhada**, então o tamanho da fonte usa o degrau `xs` (12, já na escala) com o `leading` 16 comum aos demais presets de 12px — provisório até o designer oficializar. Ação: designer confirmar (ou ajustar) o par fonte/leading de `md`.
 - **Spacing/dimensão fora da escala** — `pb-[34px]` (safe-area BottomSheet), grabber `h-[4px] w-[40px]`, `h-[56px]`/`gap-[14px]` (SheetOption), `py-[14px]`/`px-[14px]` (StatusBanner), `pt-[40px]`/spacer `24×24` (ScreenHeader), `p-[2px]` (PhotoGrid), radio `20/12` (RadioOption). Catalogar como `sizes`/`spacing` novos.
 
 ### ✔️ Aceitável (não é violação)

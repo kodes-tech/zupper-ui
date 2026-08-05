@@ -2,9 +2,25 @@
 export const sizes = {
   /** altura de campos de formulário (Input) — touch target confortável */
   control: 44,
+  /** altura do SearchInput — Figma Community (maior que o control padrão). */
+  controlLg: 56,
 } as const;
 
 export type Sizes = typeof sizes;
+
+/**
+ * Lado do avatar (container quadrado, sempre `rounded-pill`). Mesmos slots para
+ * a versão com foto (`Avatar`) e a de iniciais (`AvatarFallback`) — as duas
+ * ocupam exatamente o mesmo espaço na tela.
+ *   sm = autor do post · md = header de conteúdo/conta · lg = saudação.
+ */
+export const avatarSize = {
+  sm: 28,
+  md: 44,
+  lg: 64,
+} as const;
+
+export type AvatarSizeScale = typeof avatarSize;
 
 /**
  * Escala de tamanho de ícone (passada ao `size` do `@kodes-tech/icons`).

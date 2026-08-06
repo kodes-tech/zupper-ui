@@ -14,6 +14,14 @@ export type SearchInputProps = {
   /** Notifica digitação (assinatura neutra: recebe a string, não o evento do RN). */
   onChangeText?: (value: string) => void;
   /**
+   * Foco/blur do campo (mesma assinatura do `Input`) — deixa o app reagir
+   * (ex.: escurecer o resto da tela) sem o SearchInput precisar saber o que
+   * tem por trás dele. `onBlur` respeita o mesmo atraso do fechamento do
+   * painel, então os dois somem em sincronia.
+   */
+  onFocus?: () => void;
+  onBlur?: () => void;
+  /**
    * Sugestões pro termo digitado — fetch/filtro fica por conta do app. Painel
    * some sem `value`; com `value` e lista vazia, mostra "Nenhum resultado
    * encontrado".
@@ -48,14 +56,18 @@ const searchButtonGradientStyle = {
  * painel de sugestões flutuando abaixo do campo. Três estados: sem `value` →
  * fechado (sem painel); `value` + `options` → painel com a lista; `value` sem
  * `options` → painel "Nenhum resultado encontrado". O painel só aparece com o
- * campo focado — perder o foco fecha, mesmo com `value` preenchido.
- * Apresentacional/controlado: o app decide `value`/`options` (fetch/filtro) e
- * trata a escolha via `onSelectOption` — mesma filosofia do `SelectField`.
+ * campo focado — perder o foco fecha, mesmo com `value` preenchido. `onFocus`/
+ * `onBlur` replicam esse mesmo estado pro app (ex.: overlay de destaque atrás
+ * do campo). Apresentacional/controlado: o app decide `value`/`options`
+ * (fetch/filtro) e trata a escolha via `onSelectOption` — mesma filosofia do
+ * `SelectField`.
  */
 export const SearchInput = ({
   value,
   placeholder = 'Qual seu destino?',
   onChangeText,
+  onFocus,
+  onBlur,
   options = [],
   onSelectOption,
   onPressSearch,
@@ -78,10 +90,14 @@ export const SearchInput = ({
   const handleFocus = () => {
     clearTimeout(blurTimeoutRef.current);
     setIsFocused(true);
+    onFocus?.();
   };
 
   const handleBlur = () => {
-    blurTimeoutRef.current = setTimeout(() => setIsFocused(false), 150);
+    blurTimeoutRef.current = setTimeout(() => {
+      setIsFocused(false);
+      onBlur?.();
+    }, 150);
   };
 
   return (

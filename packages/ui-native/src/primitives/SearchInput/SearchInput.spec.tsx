@@ -58,6 +58,38 @@ describe('SearchInput', () => {
     expect(screen.getByText('Florianópolis, SC')).toBeOnTheScreen();
   });
 
+  it('fires onFocus when the field is focused', async () => {
+    const onFocus = jest.fn();
+    await render(<SearchInput placeholder="Qual seu destino?" onFocus={onFocus} />);
+    await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it('fires onBlur in sync with the panel closing, not immediately on blur', async () => {
+    const onBlur = jest.fn();
+    await render(<SearchInput value="Fl" options={OPTIONS} onBlur={onBlur} />);
+    const input = screen.getByPlaceholderText('Qual seu destino?');
+    await fireEvent(input, 'focus');
+
+    await fireEvent(input, 'blur');
+    expect(onBlur).not.toHaveBeenCalled();
+
+    await waitFor(() => expect(onBlur).toHaveBeenCalledTimes(1));
+    expect(screen.queryByText('Florianópolis, SC')).toBeNull();
+  });
+
+  it('does not fire onBlur when refocused before the pending close resolves', async () => {
+    const onBlur = jest.fn();
+    await render(<SearchInput value="Fl" options={OPTIONS} onBlur={onBlur} />);
+    const input = screen.getByPlaceholderText('Qual seu destino?');
+    await fireEvent(input, 'focus');
+    await fireEvent(input, 'blur');
+    await fireEvent(input, 'focus');
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    expect(onBlur).not.toHaveBeenCalled();
+  });
+
   it('notifies typing via onChangeText', async () => {
     const onChangeText = jest.fn();
     await render(<SearchInput placeholder="Qual seu destino?" onChangeText={onChangeText} />);

@@ -4,14 +4,14 @@ import type { SvgProps } from 'react-native-svg';
 const SvgMediaCameraSwitch = (props: SvgProps) => (
   <Svg
     fill="none"
-    viewBox="0 0 19 19"
+    viewBox="0 0 24 24"
     {...props}
   >
     <Path
       stroke="#404040"
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M14.477 17A9 9 0 0 0 7.5.723M18 17h-3.523v-3.5M4.5 2.016a9 9 0 0 0 7 16.261M1 2.016h3.5V5.5"
+      d="M16.977 19.5A9 9 0 0 0 10 3.223M20.5 19.5h-3.523V16M7 4.516a9 9 0 0 0 7 16.261M3.5 4.516H7V8"
     />
   </Svg>
 );

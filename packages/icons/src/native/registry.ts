@@ -59,6 +59,7 @@ export const registry: Record<IconName, (props: SvgProps) => React.JSX.Element> 
   location: Svgs.Location,
   lock: Svgs.Lock,
   'media-camera': Svgs.MediaCamera,
+  'media-camera-switch': Svgs.MediaCameraSwitch,
   'media-gallery': Svgs.MediaGallery,
   'nav-conta': Svgs.NavConta,
   'nav-conta-active': Svgs.NavContaActive,

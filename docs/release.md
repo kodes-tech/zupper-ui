@@ -6,12 +6,12 @@
 
 ## Em uma frase
 
-Trabalho entra na `develop` → abre-se um PR **`develop → main`** → na `main`, um
-**bump de versão** + uma **tag `vX.Y.Z`** → a tag dispara o workflow que
-**publica os dois pacotes**.
+Trabalho entra na `develop` → o **bump de versão** é feito **na `develop`** (via PR) →
+**promove-se `develop → main`** (merge) → **tag `vX.Y.Z` na `main`** → a tag dispara o
+workflow que **publica os pacotes**. **Sem back-merge** (a develop já tem o bump).
 
 ```
-develop ──PR──▶ main ──bump version──▶ git tag vX.Y.Z ──push──▶ publish.yml ▶ GitHub Packages
+bump na develop ──PR──▶ promove develop→main ──▶ git tag vX.Y.Z (na main) ──push──▶ publish.yml ▶ GitHub Packages
 ```
 
 ## Conceitos que você precisa saber antes
@@ -31,11 +31,12 @@ develop ──PR──▶ main ──bump version──▶ git tag vX.Y.Z ──
   tag `icons-vX.Y.Z` da faixa pedida precisa ser publicada **antes** da tag `vX.Y.Z`
   do trem — senão o guard do `publish.yml` falha o release (o icons ainda não está no
   registry).
-- **⚠️ Caret no `0.x` fixa o minor:** em semver, `^0.3.0` = `>=0.3.0 <0.4.0` — logo
-  `0.4.0` **não** satisfaz `^0.3.0`. Ao bumpar um pacote-fonte de minor (ex.:
-  `tokens 0.3.0 → 0.4.0`), atualize **também** a faixa da dep interna que aponta pra
-  ele (`@kodes-tech/tokens` no `ui-native`: `^0.3.0` → `^0.4.0`), senão o consumidor
-  continua puxando a minor antiga.
+- **⚠️ Caret no `0.x` fixa o minor (vale para `tokens` E `icons`):** em semver,
+  `^0.5.0` = `>=0.5.0 <0.6.0` — logo `0.6.0` **não** satisfaz `^0.5.0`. Ao bumpar um
+  pacote-fonte de minor (`tokens` **ou** `icons`), atualize **também** a faixa da dep
+  interna do `ui-native` (ex.: `^0.5.0` → `^0.6.0`). No monorepo isso é **obrigatório
+  mesmo que o `ui-native` não use o recurso novo** — o workspace local só linka se a
+  faixa casar, senão o `npm install` quebra com 404.
 - **A tag é o gatilho:** os workflows disparam em `push` de tag — `v*.*.*` (trem) e
   `icons-v*.*.*` (isolado). Sem tag, nada publica.
 - **Registry:** GitHub Packages, escopo `@kodes-tech` (grátis, vinculado à org
@@ -57,40 +58,40 @@ correções — é o caso da maioria dos releases hoje.
 
 ## Passo a passo
 
-### 1. Abrir o PR de release (`develop → main`)
+> **Fluxo (a partir da KSA-352): bump na `develop` → promove `develop → main` → tag na
+> `main`. SEM back-merge.** A `main` é só um espelho promovido da develop — nunca
+> diverge, e a develop nunca fica atrás. (Ver "Por que sem back-merge".)
+
+### 1. Bump de versão (na `develop`, via PR)
 
 ```bash
-gh pr create --base main --head develop \
-  --title "release(ui-native): <resumo>" \
-  --body "<liste as features/PRs incluídas + Refs KSA-XX>"
-```
-
-- O **merge do PR é a aprovação** do release. Só mergeie com o **CI verde**.
-- Liste no corpo o que entra (facilita as notas da release depois).
-
-### 2. Bump de versão (na `main`, via PR)
-
-A `main` é protegida — o bump vai por um PR curto **base `main`**:
-
-```bash
-git checkout main && git pull
+git checkout develop && git pull
 git checkout -b chore/bump-vX.Y.Z
 # edite "version" em AMBOS: packages/tokens/package.json e packages/ui-native/package.json
-# se um pacote-fonte mudou de minor, atualize a faixa da dep interna (ver "caret no 0.x"):
-#   ex.: ui-native → dependencies["@kodes-tech/tokens"]: ^0.3.0 → ^0.4.0
-git commit -am "chore(release): vX.Y.Z"
-gh pr create --base main --head chore/bump-vX.Y.Z --title "chore(release): vX.Y.Z"
+# guard "caret 0.x": se tokens OU icons mudou de MINOR, atualize a faixa da dep interna
+#   do ui-native (ex.: tokens ^0.8.0 → ^0.9.0; icons ^0.5.0 → ^0.6.0)
+npm install --legacy-peer-deps   # OBRIGATÓRIO: sincroniza o package-lock (senão o npm ci do publish quebra)
+git commit -am "chore(release): vX.Y.Z"   # inclui os package.json E o package-lock.json
+gh pr create --base develop --head chore/bump-vX.Y.Z --title "chore(release): vX.Y.Z"
 # CI verde → merge
 ```
 
-> ⚠️ **O número aqui tem que bater exatamente com a tag do passo 3.** Divergência
-> = publica errado ou falha. (A automação disso é a **KSA-161** — quando entrar, a
-> tag vira a fonte única e este passo some.)
+### 2. Promover `develop → main`
+
+```bash
+gh pr create --base main --head develop \
+  --title "chore(release): promover develop → main para vX.Y.Z" \
+  --body "<liste as features/PRs incluídas + Refs KSA-XX>"
+# CI verde → merge (MERGE COMMIT — nunca squash na promoção)
+```
+
+- O **merge da promoção é a aprovação** do release. Só mergeie com o **CI verde**.
 
 ### 3. Cortar e enviar a tag (na `main`)
 
 ```bash
-git checkout main && git pull      # com o bump já mergeado
+git checkout main && git pull      # com a promoção já mergeada
+# confira: version de tokens E ui-native na main == X.Y.Z (tag == version)
 git tag vX.Y.Z                     # o "v" é obrigatório (o workflow filtra v*.*.*)
 git push origin vX.Y.Z
 ```
@@ -103,28 +104,17 @@ O push da tag dispara [`publish.yml`](../.github/workflows/publish.yml): faz
 - Acompanhe em **Actions → Publish packages**.
 - Ao terminar, confira os pacotes em **GitHub → org → Packages** com a versão nova.
 
-### 5. Back-merge `main → develop` (via PR — nunca push direto)
-
-Pra `develop` não ficar atrás do bump de versão. A `develop` é protegida
-(ruleset: mudança só por PR) e a regra vale inclusive pro release — não usar
-bypass de admin:
-
-```bash
-git fetch origin
-git push origin origin/main:refs/heads/chore/backmerge-vX.Y.Z
-gh pr create --base develop --head chore/backmerge-vX.Y.Z \
-  --title "chore(release): back-merge vX.Y.Z para develop" \
-  --body "<versões + Refs KSA-XX>"
-gh pr merge --merge --delete-branch <n>   # CI verde → merge
-```
+> **Sem passo de back-merge:** a develop já tem o bump (passo 1). Ver "Por que sem
+> back-merge" no fim.
 
 ## Release do `@kodes-tech/icons` (trem isolado)
 
-O `icons` publica sozinho, por tag própria — **não** entra no `vX.Y.Z`. Mesma regra
-de sempre: **a tag sai da `main`** (o código já revisado precisa estar lá; garanta o
-`develop → main` antes).
+O `icons` publica sozinho, por tag própria — **não** entra no `vX.Y.Z`. **Mesmo fluxo:**
+bump do `icons` **na develop** (via PR, com `npm install`) → promove `develop → main` →
+tag `icons-vX.Y.Z` na `main`. Sem back-merge.
 
 ```bash
+# passo 3, após o bump na develop + a promoção develop→main:
 git checkout main && git pull
 git tag icons-vX.Y.Z               # prefixo "icons-v" (o workflow filtra icons-v*.*.*)
 git push origin icons-vX.Y.Z
@@ -144,8 +134,9 @@ O push dispara [`publish-icons.yml`](../.github/workflows/publish-icons.yml): `n
 - [ ] `@kodes-tech/tokens` e `@kodes-tech/ui-native` aparecem em Packages na versão `X.Y.Z`.
 - [ ] Se houve release de icons: `@kodes-tech/icons` aparece em Packages na versão nova.
 - [ ] `version` nos `package.json` (na `main`) == a respectiva tag.
-- [ ] Faixas das deps internas coerentes (ex.: `ui-native` → `@kodes-tech/tokens@^X.Y.0`).
-- [ ] `develop` back-merged (sem ficar atrás da `main`).
+- [ ] `package-lock.json` em sync com o bump (rodou `npm install` no passo 1).
+- [ ] Faixas das deps internas coerentes (ui-native → `tokens`/`icons` no `^X.Y.0` certo).
+- [ ] `develop` == `main` (o bump nasceu na develop; `git diff origin/main origin/develop` vazio).
 - [ ] App consumidor: bump da dependência pra `^X.Y.Z` quando for consumir.
 
 ## Se algo der errado
@@ -158,7 +149,23 @@ O push dispara [`publish-icons.yml`](../.github/workflows/publish-icons.yml): `n
   tagueie de novo. Se **já publicou**, não dá pra sobrescrever — parta pro próximo
   patch.
 - **Tag != version nos package.json:** o publish sai com o número do `package.json`,
-  não da tag. Confira o passo 2 antes de taguear.
+  não da tag. Confira o passo 3 antes de taguear.
+- **`npm install` falhou (404) no bump:** o caret de uma dep interna não bate com o
+  workspace local após o bump (ex.: `icons` subiu de minor mas o `ui-native` segue
+  `^0.5.0`). Suba a faixa (ver "caret no 0.x") e rode `npm install` de novo.
+- **`npm ci` quebrou no publish:** o `package-lock.json` ficou fora de sync com o
+  `package.json`. Rode `npm install` no bump e commite o lock junto.
+
+## Por que sem back-merge
+
+O repo usa **squash-merge** nas features, então `develop` e `main` divergem de
+histórico. Com o fluxo antigo (*bump-na-main + back-merge*), o back-merge por merge
+completo **conflitava** (ex.: no `CLAUDE.md`). Bumpando **na develop** e só
+**promovendo** para a `main` (merge commit), a `main` nunca ganha commit próprio → não
+diverge, e não há back-merge. O conteúdo fica idêntico (`git diff origin/main
+origin/develop` vazio) mesmo com históricos diferentes. Se um dia precisar sincronizar
+uma develop já divergida, aplique o bump **direto nela** (mesmos valores da main), em
+vez de um merge/back-merge completo.
 
 ## Consumindo a versão publicada (no app)
 

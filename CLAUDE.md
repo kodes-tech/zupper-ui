@@ -73,6 +73,13 @@ zupper-ui/
    `peer` com faixa ampla. Nunca em `dependencies`. Ver
    [ADR 0004](docs/decisions/0004-distribution-safeguards.md).
 7. **Nada de segredo no repo**; PT-BR nas strings de UI.
+8. **Idioma** — inglês só onde a máquina lê: identificadores de código
+   (variáveis, funções, classes, tipos, arquivos, pastas) e configuração. **PT-BR
+   em tudo que uma pessoa lê para entender**: mensagens de commit, comentários de
+   código, `docs/`, PRs, issues e reviews. No Conventional Commits, o prefixo
+   `type(scope):` fica em inglês por ser metadado de tooling (semver, changelog,
+   checks de CI). Docs e comentários já em inglês migram **quando forem
+   mexidos** — sem mutirão de tradução nem reescrita de histórico.
 
 ## Comandos
 

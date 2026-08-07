@@ -51,6 +51,7 @@ export const iconNames = [
   'location',
   'lock',
   'media-camera',
+  'media-camera-switch',
   'media-gallery',
   'nav-conta',
   'nav-conta-active',

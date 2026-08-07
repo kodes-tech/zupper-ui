@@ -14,6 +14,14 @@ export type SearchInputProps = {
   /** Notifica digitação (assinatura neutra: recebe a string, não o evento do RN). */
   onChangeText?: (value: string) => void;
   /**
+   * Foco/blur do campo (mesma assinatura do `Input`) — deixa o app reagir
+   * (ex.: escurecer o resto da tela) sem o SearchInput precisar saber o que
+   * tem por trás dele. `onBlur` respeita o mesmo atraso do fechamento do
+   * painel, então os dois somem em sincronia.
+   */
+  onFocus?: () => void;
+  onBlur?: () => void;
+  /**
    * Sugestões pro termo digitado — fetch/filtro fica por conta do app. Painel
    * some sem `value`; com `value` e lista vazia, mostra "Nenhum resultado
    * encontrado".
@@ -27,11 +35,6 @@ export type SearchInputProps = {
 
 /** Campo + gap até o painel (ver `h-controlLg`) — offset do overlay flutuante. */
 const PANEL_TOP = sizes.controlLg + spacing.xl;
-/** Recuo esquerdo do painel: alinha o texto das opções com o texto digitado no
- * campo (depois do ícone) — `pl-xl` + ícone + `gap-lg` da linha do input, menos
- * o `px-md` que o próprio painel já aplica no conteúdo, menos 4px pra dar mais
- * largura ao painel (a pedido do design — desalinha levemente o texto). */
-const PANEL_LEFT = spacing.xl + iconSize.lg + spacing.lg - spacing.md - spacing.xs;
 /** Altura máx. do painel: mostra ~4–5 sugestões e rola o resto (mesmo critério do `SelectField`). */
 const PANEL_MAX_HEIGHT = 260;
 
@@ -52,21 +55,50 @@ const searchButtonGradientStyle = {
  * fixo à esquerda, botão de busca (lupa) redondo com gradiente à direita, e
  * painel de sugestões flutuando abaixo do campo. Três estados: sem `value` →
  * fechado (sem painel); `value` + `options` → painel com a lista; `value` sem
- * `options` → painel "Nenhum resultado encontrado". Apresentacional/controlado:
- * o app decide `value`/`options` (fetch/filtro) e trata a escolha via
- * `onSelectOption` — mesma filosofia do `SelectField`.
+ * `options` → painel "Nenhum resultado encontrado". O painel só aparece com o
+ * campo focado — perder o foco fecha, mesmo com `value` preenchido. `onFocus`/
+ * `onBlur` replicam esse mesmo estado pro app (ex.: overlay de destaque atrás
+ * do campo). Apresentacional/controlado: o app decide `value`/`options`
+ * (fetch/filtro) e trata a escolha via `onSelectOption` — mesma filosofia do
+ * `SelectField`.
  */
 export const SearchInput = ({
   value,
   placeholder = 'Qual seu destino?',
   onChangeText,
+  onFocus,
+  onBlur,
   options = [],
   onSelectOption,
   onPressSearch,
   testID,
 }: SearchInputProps): React.ReactElement => {
   const { colors } = useTheme();
-  const showPanel = Boolean(value);
+  const [isFocused, setIsFocused] = React.useState(false);
+  const showPanel = isFocused && Boolean(value);
+
+  // Blur chega antes do toque numa opção terminar de processar (o clique tira
+  // o foco do campo no meio do gesto) — sem esse atraso o painel some e a
+  // seleção se perde, voltando o bug dos "2 toques" que o `keyboardShouldPersistTaps`
+  // já tinha corrigido. Cancela o fechamento se o campo focar de novo a tempo.
+  const blurTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  React.useEffect(() => {
+    return () => clearTimeout(blurTimeoutRef.current);
+  }, []);
+
+  const handleFocus = () => {
+    clearTimeout(blurTimeoutRef.current);
+    setIsFocused(true);
+    onFocus?.();
+  };
+
+  const handleBlur = () => {
+    blurTimeoutRef.current = setTimeout(() => {
+      setIsFocused(false);
+      onBlur?.();
+    }, 150);
+  };
 
   return (
     <View className="relative w-full">
@@ -77,6 +109,8 @@ export const SearchInput = ({
           accessibilityLabel={placeholder}
           value={value}
           onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           placeholder={placeholder}
           className="flex-1 font-sans text-bodyMd text-fg-primary placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none"
           selectionColor={colors.surface.selection}
@@ -100,8 +134,8 @@ export const SearchInput = ({
 
       {showPanel ? (
         <View
-          className="absolute right-0 z-10 rounded-xl border border-border-default bg-surface-default"
-          style={{ top: PANEL_TOP, left: PANEL_LEFT, maxHeight: PANEL_MAX_HEIGHT }}
+          className="absolute left-0 right-0 z-10 rounded-xl border border-border-default bg-surface-default"
+          style={{ top: PANEL_TOP, maxHeight: PANEL_MAX_HEIGHT }}
         >
           {options.length > 0 ? (
             <ScrollView

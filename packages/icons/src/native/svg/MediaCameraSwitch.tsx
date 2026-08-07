@@ -8,7 +8,7 @@ const SvgMediaCameraSwitch = (props: SvgProps) => (
     {...props}
   >
     <Path
-      stroke="#A3A3A3"
+      stroke="#404040"
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M14.477 17A9 9 0 0 0 7.5.723M18 17h-3.523v-3.5M4.5 2.016a9 9 0 0 0 7 16.261M1 2.016h3.5V5.5"

@@ -79,6 +79,15 @@ export const textVariant = {
     lineHeight: 24,
     letterSpacing: 0.32,
   },
+  // "App/Paragrafo MD - App" (Figma do Travel) — número do dia no Calendar.
+  // Difere de `bodyText` no peso (medium, não regular) e na altura de linha (20).
+  paragraphMd: {
+    fontFamily,
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.medium,
+    lineHeight: 20,
+    letterSpacing: 0.28,
+  },
   avatarFallback: {
     fontFamily,
     fontSize: fontSize.lg,

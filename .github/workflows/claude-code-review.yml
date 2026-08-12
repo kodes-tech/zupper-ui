@@ -18,11 +18,19 @@ name: Claude Code Review
 #
 # Auth: assinatura Claude via secret CLAUDE_CODE_OAUTH_TOKEN.
 
+# `paths-ignore` no gatilho (KSA-439): mudança só de docs/markdown não sobe VM
+# (o guard interno poupava a cota da IA, mas o minuto do job era cobrado mesmo
+# assim). Se este check um dia virar `required` de branch protection, o
+# paths-ignore PRECISA sair (check obrigatório é avaliado por SHA).
+
 on:
   pull_request:
     # ready_for_review: draft promovida a ready dispara o review na hora,
     # sem exigir push novo. KSA-315.
     types: [opened, synchronize, ready_for_review]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
 
 permissions:
   contents: read

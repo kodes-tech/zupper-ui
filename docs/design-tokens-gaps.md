@@ -27,8 +27,13 @@
 `fontSize`: **12 · 13 · 14 · 16 · 20 · 24** (xs · sm · md · lg · xl · xxl)
 `fontWeight`: 400 (regular) · 500 (medium) · 700 (bold) · `fontFamily`: Satoshi
 Presets: `badge` · `caption` · `actionLabel` · `authorName` · `bodyText` ·
-`roteiroTitle` · `inputLabel` · `inputError` · `bodyMd` · `cardTitle` ·
-`buttonLabel` · `buttonLabelLg` · `sectionTitle` · `heading` · `avatarFallback`.
+`roteiroTitle` · `inputLabel` · `inputError` · `bodyMd` · `paragraphMd` ·
+`cardTitle` · `buttonLabel` · `buttonLabelLg` · `sectionTitle` · `heading` ·
+`avatarFallback`.
+
+> `paragraphMd` (14/20, medium, ls 0.28) entrou com o `Calendar` (KSA-425) — é o
+> "App/Paragrafo MD - App" do Figma do Travel, o número do dia. Não dava pra
+> reusar `bodyText`: mesmo tamanho, mas peso 400 e leading 17.
 
 ### Papéis observados (consolidado — atualizar a cada tela)
 
@@ -178,6 +183,7 @@ Varredura de `packages/ui-native/src/primitives` por valores arbitrários
 - **Fonte fora da escala** — `text-[17px]` (BottomSheet título), `text-[18px]`/`text-[15px]` (SheetOption), `text-[16px]`/`text-[14px]` (StatusBanner/BottomSheet corpo), `text-[7px]`/`text-[16px]` (AvatarFallback iniciais sm/lg). Ver seção **Typography** acima (título de sheet 17/18, SheetOption 15, iniciais 7).
 - **`AvatarFallback` iniciais em `md` (44px, `text-xs`/12pt · leading 16)** — adicionado pra fechar o gap de tamanho de container acima (sem essa variante, `AvatarFallback` não tinha `md`, e telas com avatar 44px caíam pra `sm` — 28px, menor que o `Avatar` com foto no mesmo slot). O tamanho do **container** (44px) já é confirmado (mesmo do `Avatar`, agora via token `avatarSize`); o **Figma não tem a variante `md` desenhada**, então o tamanho da fonte usa o degrau `xs` (12, já na escala) com o `leading` 16 comum aos demais presets de 12px — provisório até o designer oficializar. Ação: designer confirmar (ou ajustar) o par fonte/leading de `md`.
 - **Spacing/dimensão fora da escala** — `pb-[34px]` (safe-area BottomSheet), grabber `h-[4px] w-[40px]`, `h-[56px]`/`gap-[14px]` (SheetOption), `py-[14px]`/`px-[14px]` (StatusBanner), `pt-[40px]`/spacer `24×24` (ScreenHeader), `p-[2px]` (PhotoGrid), radio `20/12` (RadioOption). Catalogar como `sizes`/`spacing` novos.
+- **`Calendar` — geometria da grade** (KSA-425): `DAY_SIZE 32` (cápsula do dia), `ROW_GAP 1` e `LABEL_HEIGHT 20` são constantes em dp no componente, não tokens. Não é hardcode de estilo solto: as três **entram na conta de altura** do `getItemLayout`, que é o que faz o salto de ano (`scrollToIndex`) cair no mês certo sem medir layout. Se virarem token, o cálculo tem que continuar lendo do mesmo lugar. Os espaçamentos ao redor (`LABEL_GAP`, `MONTH_GAP`, padding) já usam `spacing`.
 
 ### ✔️ Aceitável (não é violação)
 - `Textarea` `style={{ minHeight }}` — valor **dinâmico** vindo de prop.

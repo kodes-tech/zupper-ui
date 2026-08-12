@@ -24,6 +24,7 @@ export const iconNames = [
   'chevron-right',
   'chevron-right-dark',
   'chevron-up',
+  'clear-field',
   'clock',
   'close',
   'close-circle',

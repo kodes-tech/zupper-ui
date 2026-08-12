@@ -31,6 +31,7 @@ export const registry: Record<IconName, (props: React.SVGProps<SVGSVGElement>) =
   'chevron-right': Svgs.ChevronRight,
   'chevron-right-dark': Svgs.ChevronRightDark,
   'chevron-up': Svgs.ChevronUp,
+  'clear-field': Svgs.ClearField,
   clock: Svgs.Clock,
   close: Svgs.Close,
   'close-circle': Svgs.CloseCircle,

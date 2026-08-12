@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { action } from '@storybook/addon-actions';
 import { AppHeader } from '../AppHeader';
+import { Button } from '../Button';
 import { CalendarYearSelect } from '../CalendarYearSelect';
+import { ClearableField } from '../ClearableField';
 import { Calendar } from './Calendar';
 import type { DateRange } from './date-utils';
 
@@ -76,23 +78,56 @@ const CalendarControlado = (): React.ReactElement => {
 /** Interativo: mostra a regra de seleção do Figma valendo de verdade. */
 export const Interativo = { render: () => <CalendarControlado /> };
 
-/**
- * Fiação dos dois primitivos — é a parte não-óbvia da API: o dropdown de ano não
- * mora dentro da grade, ele vai no slot `right` do `AppHeader`, e os dois se
- * ligam por `year`/`onYearChange` nos dois sentidos (escolher um ano rola a
- * lista; rolar a lista atualiza o rótulo).
- *
- * Não é a tela de datas: o rodapé (campos Ida/Volta, "Viagem: N dias", Aplicar)
- * é composição do app e fica no `zupper-superapp` (ADR 0009 — o DS não tem
- * `screens/`). Aqui é só a bancada pra conferir o encaixe.
- */
-const ComposicaoHeader = (): React.ReactElement => {
+// --- Daqui pra baixo: só bancada de comparação com o Figma ---------------------
+//
+// A tela "Selecionar data" NÃO é entregável do DS (ADR 0009 — o package não tem
+// `screens/`); ela é composição do app, no KSA-431. Montamos ela aqui só para
+// conferir os primitivos no enquadramento real do design.
+//
+// Por isso os dois helpers abaixo moram na story, e não num componente: formatar
+// data em pt-BR e contar os dias da viagem é regra do **app**. O DS recebe a
+// string já pronta.
+
+const DIAS_SEMANA = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const MESES = [
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
+];
+
+/** '2026-05-24' → 'Qua, 24 Maio' (formato do Figma). */
+const formatarData = (iso: string | null): string | null => {
+  if (!iso) return null;
+  const [ano, mes, dia] = iso.split('-').map(Number);
+  const data = new Date(Date.UTC(ano, mes - 1, dia));
+  return `${DIAS_SEMANA[data.getUTCDay()]}, ${dia} ${MESES[mes - 1]}`;
+};
+
+/** Dias da viagem, contando as duas pontas: 24 → 26 são 3 dias. */
+const contarDias = ({ start, end }: DateRange): number | null => {
+  if (!start || !end) return null;
+  const dia = 24 * 60 * 60 * 1000;
+  return Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / dia) + 1;
+};
+
+const TelaSelecionarData = (): React.ReactElement => {
   const [periodo, setPeriodo] = useState<DateRange>({ start: '2026-05-24', end: '2026-05-26' });
   const [ano, setAno] = useState(2026);
   const [anoAberto, setAnoAberto] = useState(false);
 
+  const dias = contarDias(periodo);
+
   return (
-    <>
+    <View className="flex-1">
       <AppHeader
         title="Selecionar data"
         onBack={action('onBack')}
@@ -110,6 +145,7 @@ const ComposicaoHeader = (): React.ReactElement => {
           />
         }
       />
+
       <Calendar
         mode="range"
         value={periodo}
@@ -122,9 +158,42 @@ const ComposicaoHeader = (): React.ReactElement => {
           setPeriodo(proximo);
         }}
       />
-    </>
+
+      {/* Rodapé: composição do app (KSA-431), montado aqui só pra comparação. */}
+      <View className="w-full gap-xl border-t border-border-default bg-surface-default px-xl py-xxl">
+        <Text className="w-full font-sans text-bodyMd text-brand-strong">
+          {dias ? `Viagem: ${dias} dias` : 'Selecione as datas da viagem'}
+        </Text>
+
+        <View className="w-full flex-row gap-xl">
+          <ClearableField
+            label="Ida"
+            value={formatarData(periodo.start)}
+            placeholder="Escolha a ida"
+            onPress={action('pressIda')}
+            onClear={() => setPeriodo({ start: null, end: null })}
+          />
+          <ClearableField
+            label="Volta"
+            value={formatarData(periodo.end)}
+            placeholder="Escolha a volta"
+            onPress={action('pressVolta')}
+            onClear={() => setPeriodo({ start: periodo.start, end: null })}
+          />
+        </View>
+
+        <Button label="Aplicar" variant="primary" fullWidth onPress={action('aplicar')} />
+      </View>
+    </View>
   );
 };
 
-/** Com o header: `AppHeader` + `CalendarYearSelect` + `Calendar` ligados. */
-export const ComHeader = { render: () => <ComposicaoHeader /> };
+/**
+ * Tela inteira, do jeito que o Figma enquadra — `AppHeader` + dropdown de ano +
+ * grade + rodapé. É a story de comparação visual com o design.
+ *
+ * ⚠️ Bancada, não entregável: o rodapé é composição do app (KSA-431). O que o DS
+ * publica aqui são os primitivos soltos — `Calendar`, `CalendarYearSelect` e
+ * `ClearableField`.
+ */
+export const TelaCompleta = { render: () => <TelaSelecionarData /> };

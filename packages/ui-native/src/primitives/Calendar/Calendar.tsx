@@ -70,6 +70,14 @@ const ROW_GAP = 1;
 const LABEL_HEIGHT = 20;
 const LABEL_GAP = spacing.xl;
 const MONTH_GAP = spacing.xxxl;
+/**
+ * Padding do `contentContainerStyle` da lista. Entra na conta dos offsets: o
+ * `paddingTop` faz parte do conteúdo rolável, então o topo do primeiro mês não
+ * está em 0 — está neste valor. Sem somar, o `contentOffset.y` (que já conta o
+ * padding) e os offsets ficariam defasados, e o salto de ano pararia um pouco
+ * antes do rótulo do mês.
+ */
+const LIST_PADDING = spacing.xl;
 
 const monthHeight = (weeks: number): number =>
   LABEL_HEIGHT + LABEL_GAP + weeks * DAY_SIZE + (weeks - 1) * ROW_GAP + MONTH_GAP;
@@ -139,9 +147,13 @@ export const Calendar = (props: CalendarProps): React.ReactElement => {
     [minDate, maxDate],
   );
 
-  /** Deslocamento acumulado de cada mês — base do `getItemLayout` e do sync de ano. */
+  /**
+   * Deslocamento acumulado de cada mês — base do `getItemLayout` e do sync de ano.
+   * Começa em `LIST_PADDING`, não em 0: o `paddingTop` da lista empurra o primeiro
+   * mês para baixo e conta como conteúdo rolável.
+   */
   const offsets = useMemo(() => {
-    let cursor = 0;
+    let cursor = LIST_PADDING;
     return months.map((month) => {
       const offset = cursor;
       cursor += monthHeight(month.weeks.length);
@@ -280,6 +292,7 @@ export const Calendar = (props: CalendarProps): React.ReactElement => {
 
       <FlatList
         ref={listRef}
+        testID="calendar-months"
         data={months}
         keyExtractor={(item) => `${item.year}-${item.month}`}
         renderItem={renderMonth}
@@ -291,7 +304,7 @@ export const Calendar = (props: CalendarProps): React.ReactElement => {
         onScroll={handleScroll}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: spacing.xl }}
+        contentContainerStyle={{ padding: LIST_PADDING }}
       />
     </View>
   );

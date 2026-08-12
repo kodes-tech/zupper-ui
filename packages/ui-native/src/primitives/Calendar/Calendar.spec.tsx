@@ -129,6 +129,45 @@ describe('Calendar', () => {
     scrollToIndex.mockRestore();
   });
 
+  /**
+   * Fecha o furo apontado no review: o `paddingTop` da lista faz parte do conteúdo
+   * rolável, então o topo do 1º mês não está em 0. Os offsets precisam incluí-lo,
+   * senão a detecção do ano (e o `scrollToIndex`) fica defasada nesse tanto.
+   *
+   * Janela nov/2026 → fev/2027. Alturas calculadas pela mesma geometria do
+   * componente: nov/2026 começa no domingo → 6 semanas → 265dp; dez/2026 começa na
+   * terça → 5 semanas → 232dp. Com o padding de 16, jan/2027 começa em 513.
+   */
+  it('reports the visible year from offsets that include the list padding', async () => {
+    const onYearChange = jest.fn();
+    await render(
+      <Calendar
+        minDate="2026-11-01"
+        maxDate="2027-02-28"
+        year={2026}
+        onYearChange={onYearChange}
+      />,
+    );
+
+    const rolarPara = async (y: number): Promise<void> => {
+      await fireEvent.scroll(screen.getByTestId('calendar-months'), {
+        nativeEvent: {
+          contentOffset: { x: 0, y },
+          contentSize: { width: 390, height: 2000 },
+          layoutMeasurement: { width: 390, height: 600 },
+        },
+      });
+    };
+
+    // 1dp antes do topo de janeiro: ainda é dezembro/2026.
+    await rolarPara(512);
+    expect(onYearChange).not.toHaveBeenCalled();
+
+    // Exatamente o topo de janeiro/2027.
+    await rolarPara(513);
+    expect(onYearChange).toHaveBeenCalledWith(2027);
+  });
+
   it('falls back to the first available month when the year starts mid-window', async () => {
     const scrollToIndex = jest.spyOn(FlatList.prototype, 'scrollToIndex').mockImplementation();
 

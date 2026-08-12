@@ -192,18 +192,25 @@ export const Calendar = (props: CalendarProps): React.ReactElement => {
     [months, offsets, onYearChange],
   );
 
-  const handleSelectDay = useCallback(
-    (iso: IsoDate): void => {
-      if (props.mode === 'range') {
-        props.onChange?.(nextRange(props.value ?? EMPTY_RANGE, iso));
-        return;
-      }
-      props.onChange?.(iso);
-    },
-    // O handler precisa da identidade atual de `value`/`onChange` a cada render —
-    // o objeto `props` inteiro é a dependência honesta aqui.
-    [props],
-  );
+  /**
+   * Espelho das props para o handler de toque. Existe por performance: `props` é um
+   * objeto novo a cada render do pai, então depender dele recriaria
+   * `handleSelectDay` — e, por tabela, `renderMonth` — sempre, anulando a
+   * memoização do `renderItem` do `FlatList` e re-renderizando todo dia da grade a
+   * cada mudança de estado da tela. Lendo do ref, o handler fica estável e
+   * `renderMonth` só troca quando o visual realmente muda (valor/janela).
+   */
+  const propsRef = useRef(props);
+  propsRef.current = props;
+
+  const handleSelectDay = useCallback((iso: IsoDate): void => {
+    const atual = propsRef.current;
+    if (atual.mode === 'range') {
+      atual.onChange?.(nextRange(atual.value ?? EMPTY_RANGE, iso));
+      return;
+    }
+    atual.onChange?.(iso);
+  }, []);
 
   const renderMonth = useCallback(
     ({ item }: { item: MonthData }) => (

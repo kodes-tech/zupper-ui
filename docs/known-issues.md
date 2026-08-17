@@ -91,3 +91,24 @@ Sintoma real: `Button` `variant="primary"` sumia em todos os CTAs do app no Andr
 `borderRadius` ao filho que pinta (o gradiente), como em `Button.tsx`. Com raio pequeno
 em relação à altura (ex.: `radii.xs` do RoleBadge, `rounded-pill` num avatar quadrado) o
 clip funciona.
+
+## `Button` primary desaparecia ao sair de `disabled` para habilitado (resolvido no primitivo — KSA-448)
+Na New Architecture o `react-native-linear-gradient` **mede errado** quando o container do
+`Button` troca de moldura (o outline neutro do `disabled`) para o gradiente **no mesmo
+mount**: o conteúdo colapsa e o botão desaparece. É primo do problema de `overflow: hidden`
+acima, mas o gatilho é outro — a *transição* de estado, não o clip.
+
+Sintoma real no app: telas do tipo "preencha o formulário para habilitar" (Login, Cadastro,
+Redefinir senha) perdiam o botão ao ficarem válidas. O contorno era do lado do consumidor —
+cada tela remontava o `Button` com um `key` derivado do estado habilitado
+(`key={canSubmit ? 'enabled' : 'disabled'}`), o que **só funcionava em quem sabia do
+truque**: as quatro telas de auth não sabiam e ficavam com o bug.
+
+Agora o primitivo remonta o **próprio container** na borda `disabled`↔habilitado (`key`
+interno derivado do estado visual). O `key` externo deixa de ser necessário e pode ser
+removido dos chamadores. Motivo de estar aqui e não lá: gesto e desenho são detalhe interno
+do primitivo (ADR 0010) — depender de disciplina do chamador é o que produziu o bug em
+metade das telas.
+
+⚠️ Teste unitário só prova a **remontagem** (container novo, gradiente presente); que ele
+passa a *medir* certo é comportamento nativo e exige validação em aparelho Android.

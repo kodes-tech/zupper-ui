@@ -1,6 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { radii, spacing } from '@kodes-tech/tokens';
 import { useTheme } from '../../theme/ThemeProvider';
 
@@ -35,6 +35,19 @@ export type ButtonProps = {
   /** Ocupa a largura do container (ex.: botão "Publicar" do formulário). */
   fullWidth?: boolean;
   disabled?: boolean;
+  /**
+   * Estado "Loading" (eixo State do Button no Figma) — a ação está em curso.
+   *
+   * **Não é `disabled`, e a diferença é o ponto de existir:** desabilitado comunica
+   * "não pode" (formulário incompleto) e por isso fica neutro/apagado; carregando
+   * comunica "estou trabalhando", então o botão **mantém a aparência da variante** e
+   * troca o conteúdo por um indicador. Usar o cinza de disabled nos dois casos era o
+   * que tornava "enviando" indistinguível de "faltou preencher".
+   *
+   * Bloqueia o toque **por dentro**: o guard é do primitivo, não confiança no chamador
+   * (KSA-448).
+   */
+  loading?: boolean;
   onPress?: () => void;
   /** Nome acessível — obrigatório na prática p/ botões só-ícone (sem `label`). */
   accessibilityLabel?: string;
@@ -117,6 +130,23 @@ const labelClassByVariant = (variant: ButtonVariant, tone: ButtonTone): string =
 };
 
 /**
+ * Cor do indicador de carregamento: a mesma do rótulo que ele substitui.
+ *
+ * Lida em JS porque `ActivityIndicator` recebe `color` por prop e não acompanha a
+ * cascata do NativeWind — mesma exceção do gradiente, logo acima.
+ */
+const spinnerColorByVariant = (
+  variant: ButtonVariant,
+  tone: ButtonTone,
+  colors: ReturnType<typeof useTheme>['colors'],
+): string => {
+  if (variant === 'primary' || variant === 'danger') return colors.text.inverse;
+  if (variant === 'secondary') return tone === 'highlight' ? colors.brand.strong : colors.brand.zupper;
+  // `ghost` sem tone é o vermelho destrutivo; com `highlight`, o teal de baixa ênfase.
+  return tone === 'highlight' ? colors.brand.strong : colors.feedback.danger;
+};
+
+/**
  * Button — botão base do design system, no padrão pill.
  * `primary` corresponde ao "Botão LG primario normal" do Figma (gradiente,
  * usado no FAB de Publicar/Dica/Foto/Roteiro/fechar). `secondary` corresponde
@@ -135,13 +165,42 @@ export const Button = ({
   tone = 'brand',
   fullWidth = false,
   disabled,
+  loading = false,
   onPress,
   accessibilityLabel,
   testID = 'button',
 }: ButtonProps) => {
   // Gradiente é lido em JS (não acompanha a cascata de classes) — pega do tema ativo.
   const { colors } = useTheme();
-  const content = (
+  // Carregando também não é tocável, mas por outro motivo que `disabled` (ver a prop):
+  // a aparência segue a da variante, só o toque morre.
+  const isPressBlocked = Boolean(disabled) || loading;
+  /**
+   * `key` do container — conserto do bug 🔴 do gradiente, movido para DENTRO do primitivo.
+   *
+   * O `react-native-linear-gradient` mede errado na New Architecture quando o container
+   * troca de moldura (outline do disabled) para gradiente **no mesmo mount**: o conteúdo
+   * colapsa e o botão desaparece. Até aqui, cada tela contornava remontando o `Button`
+   * com um `key` externo (`personal-data.tsx`, `address.tsx`, `change-password.tsx`,
+   * `ChangePhotoModal.tsx`) — e as quatro telas de auth, que não conheciam o truque,
+   * ficavam com o bug.
+   *
+   * Chave que muda na borda disabled↔habilitado = mount novo do container e do gradiente,
+   * medidos do zero. Sai de graça para o chamador, que é onde isso deveria estar desde o
+   * começo: o gesto e o desenho são detalhe interno do primitivo (ADR 0010).
+   *
+   * ⚠️ Só o aparelho prova: é bug de medição nativa, invisível em teste unitário.
+   */
+  const visualState = disabled ? 'disabled' : variant;
+  const content = loading ? (
+    // O spinner OCUPA o lugar do conteúdo, no mesmo slot — mesmo princípio do
+    // ResultModal do app, onde ele vira o ícone em vez de aparecer ao lado.
+    <ActivityIndicator
+      testID="button-spinner"
+      accessibilityLabel="Carregando"
+      color={spinnerColorByVariant(variant, tone, colors)}
+    />
+  ) : (
     <>
       {icon && iconPosition === 'left' ? icon : null}
       {label ? (
@@ -159,12 +218,13 @@ export const Button = ({
         testID={testID}
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? label}
-        accessibilityState={{ disabled: Boolean(disabled) }}
+        accessibilityState={{ disabled: isPressBlocked, busy: loading }}
         className={fullWidth ? 'w-full' : undefined}
-        disabled={disabled}
+        disabled={isPressBlocked}
         onPress={onPress}
       >
         <View
+          key={visualState}
           testID="button-container"
           className={`${disabled ? disabledContainerClass : containerClassByVariant(variant as 'secondary' | 'ghost' | 'danger', tone)} ${fullWidth ? 'w-full' : ''}`}
         >
@@ -179,10 +239,13 @@ export const Button = ({
       testID={testID}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityState={{ disabled: isPressBlocked, busy: loading }}
       className={fullWidth ? 'w-full' : undefined}
+      disabled={isPressBlocked}
       onPress={onPress}
     >
       <View
+        key={visualState}
         testID="button-container"
         style={fullWidth ? { ...gradientStyle, width: '100%' } : gradientStyle}
       >

@@ -3,8 +3,16 @@ name: CI
 on:
   pull_request:
     branches: [develop, main]
+    # Docs não têm typecheck/teste/build — mudança SÓ de docs/markdown não sobe
+    # VM (KSA-439; minuto é cobrado cheio por job).
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
   push:
     branches: [develop, main]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
 
 concurrency:
   group: ci-${{ github.ref }}

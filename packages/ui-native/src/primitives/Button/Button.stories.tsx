@@ -51,3 +51,14 @@ export const FullWidth = { args: { label: 'Publicar', fullWidth: true } };
 // Estado "Disabled" — mesma aparência neutra (borda/texto cinza) em qualquer
 // variante, ex.: CTA "Avançar" do quiz de preferências antes de uma seleção.
 export const Disabled = { args: { label: 'Avançar', fullWidth: true, disabled: true } };
+
+// Estado "Loading" (eixo State do Figma) — a ação está em curso. Ao contrário do
+// Disabled acima, a variante MANTÉM a aparência: o spinner substitui o conteúdo no
+// mesmo slot, porque "estou trabalhando" não pode parecer "não pode tocar".
+export const Loading = { args: { label: 'Fazer login', fullWidth: true, loading: true } };
+export const LoadingSecondary = {
+  args: { label: 'Iniciar sessão', variant: 'secondary', fullWidth: true, loading: true },
+};
+export const LoadingDanger = {
+  args: { label: 'Denunciar publicação', variant: 'danger', fullWidth: true, loading: true },
+};

@@ -119,4 +119,12 @@ describe('SearchInput', () => {
     await fireEvent.press(screen.getByLabelText('Buscar'));
     expect(onPressSearch).toHaveBeenCalledTimes(1);
   });
+
+  // KSA-446 — botão de busca é preenchido por gradiente FILHO (véu via active:bg ficaria atrás
+  // dele), alvo pequeno e circular → opacidade; linhas de opção → fundo sutil.
+  it('pede o retorno de toque no botão de busca e nas opções', async () => {
+    await render(<SearchInput placeholder="Qual seu destino?" options={OPTIONS} />);
+    expect(screen.getByLabelText('Buscar').props.className).toContain('active:opacity-pressed');
+  });
+
 });

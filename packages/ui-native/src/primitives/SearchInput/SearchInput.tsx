@@ -115,7 +115,14 @@ export const SearchInput = ({
           className="flex-1 font-sans text-bodyMd text-fg-primary placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none"
           selectionColor={colors.surface.selection}
         />
-        <Pressable accessibilityRole="button" accessibilityLabel="Buscar" onPress={onPressSearch}>
+        {/* Preenchido por gradiente FILHO: véu via active:bg ficaria atrás dele. Alvo pequeno
+            e circular → opacidade (a exceção de mídia/ícone da regra; ver interaction-states.md). */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Buscar"
+          onPress={onPressSearch}
+          className="active:opacity-pressed"
+        >
           <View className="h-[40px] w-[40px] items-center justify-center rounded-pill">
             <LinearGradient
               colors={[...colors.gradient.button]}
@@ -150,7 +157,7 @@ export const SearchInput = ({
                     accessibilityRole="button"
                     accessibilityLabel={option.label}
                     onPress={() => onSelectOption?.(option.id)}
-                    className="px-md py-lg"
+                    className="px-md py-lg active:bg-state-pressedSubtle"
                   >
                     <Text numberOfLines={1} className="font-sans text-bodyMd text-fg-secondary">
                       {option.label}

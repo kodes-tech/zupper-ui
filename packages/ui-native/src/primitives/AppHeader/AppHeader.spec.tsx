@@ -21,4 +21,11 @@ describe('AppHeader', () => {
     await fireEvent.press(screen.getByLabelText('Voltar'));
     expect(onBack).toHaveBeenCalledTimes(1);
   });
+
+  // KSA-446 — alvo só-ícone: opacidade.
+  it('pede o retorno de toque (opacidade) no voltar', async () => {
+    await render(<AppHeader title="Meu Perfil" onBack={() => undefined} />);
+    expect(screen.getByLabelText('Voltar').props.className).toContain('active:opacity-pressed');
+  });
+
 });

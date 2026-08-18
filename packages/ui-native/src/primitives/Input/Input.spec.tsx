@@ -81,4 +81,15 @@ describe('Input', () => {
     await fireEvent.press(screen.getByLabelText('Alternar visibilidade: Senha'));
     expect(onPressTrailingIcon).toHaveBeenCalledTimes(1);
   });
+
+  // KSA-446 — ícone trailing (alternar visibilidade): opacidade.
+  it('pede o retorno de toque no ícone trailing', async () => {
+    await render(
+      <Input label="Senha" trailingIcon="eye" onPressTrailingIcon={() => undefined} />,
+    );
+    expect(screen.getByLabelText('Alternar visibilidade: Senha').props.className).toContain(
+      'active:opacity-pressed',
+    );
+  });
+
 });

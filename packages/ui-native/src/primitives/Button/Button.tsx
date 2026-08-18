@@ -261,8 +261,9 @@ export const Button = ({
           testID="button-container"
           className={`${disabled ? disabledContainerClass : containerClassByVariant(variant as 'secondary' | 'ghost' | 'danger', tone)} ${fullWidth ? 'w-full' : ''} ${pressedContainerClass}`}
         >
-          {content}
+          {/* Véu ANTES do conteúdo: o state layer fica entre a superfície e o label (Material). */}
           {variant === 'danger' ? pressedOverlay : null}
+          {content}
         </View>
       </Pressable>
     );
@@ -292,8 +293,9 @@ export const Button = ({
           end={{ x: 1, y: 0 }}
           style={gradientBackgroundStyle}
         />
-        {content}
+        {/* Véu entre o gradiente e o conteúdo — o label não é tingido pelo state layer. */}
         {pressedOverlay}
+        {content}
       </View>
     </Pressable>
   );

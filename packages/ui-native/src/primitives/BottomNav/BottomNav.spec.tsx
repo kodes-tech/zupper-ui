@@ -40,4 +40,13 @@ describe('BottomNav', () => {
       expect(screen.getByText(label)).toBeOnTheScreen();
     });
   });
+
+  // KSA-446 — item ícone+rótulo: opacidade.
+  it('pede o retorno de toque (opacidade) em cada item', async () => {
+    await render(<BottomNav items={items} />);
+    for (const tab of screen.getAllByRole('button')) {
+      expect(tab.props.className).toContain('active:opacity-pressed');
+    }
+  });
+
 });

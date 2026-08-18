@@ -39,7 +39,7 @@ export const BottomNav = ({ items, active, onNavigate }: BottomNavProps): React.
           accessibilityRole="button"
           accessibilityState={{ selected: isActive }}
           onPress={() => onNavigate?.(item.key)}
-          className="flex-1 items-center gap-md"
+          className="flex-1 items-center gap-md active:opacity-pressed"
         >
           <Icon name={iconName} size={iconSize.lg} />
           <Text

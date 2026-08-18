@@ -18,7 +18,7 @@ export const PhotoGrid = ({ photos, onPressPhoto }: PhotoGridProps): React.React
         key={index}
         accessibilityRole="button"
         onPress={() => onPressPhoto?.(index)}
-        className="aspect-square w-1/3 p-[2px]"
+        className="aspect-square w-1/3 p-[2px] active:opacity-pressed"
       >
         <Image source={photo} resizeMode="cover" className="h-full w-full" />
       </Pressable>

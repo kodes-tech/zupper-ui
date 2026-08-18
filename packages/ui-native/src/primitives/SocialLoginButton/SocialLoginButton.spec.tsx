@@ -25,4 +25,13 @@ describe('SocialLoginButton', () => {
     await fireEvent.press(screen.getByLabelText('Acessar com Google'));
     expect(onPress).not.toHaveBeenCalled();
   });
+
+  // KSA-446 — superfície clara: fundo sutil (ver interaction-states.md).
+  it('pede o retorno de toque no pill', async () => {
+    await render(<SocialLoginButton provider="facebook" label="Acessar com Facebook" />);
+    expect(screen.getByLabelText('Acessar com Facebook').props.className).toContain(
+      'active:bg-state-pressedSubtle',
+    );
+  });
+
 });

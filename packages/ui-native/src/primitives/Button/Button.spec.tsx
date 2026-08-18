@@ -143,4 +143,46 @@ describe('Button', () => {
     expect(screen.getByTestId('button-container')).not.toBe(disabledContainer);
     expect(screen.getByTestId('button-gradient')).toBeOnTheScreen();
   });
+  /**
+   * Retorno do toque (KSA-446) — o que dá para afirmar em unidade é a ESTRUTURA: o véu
+   * monta no pressIn e desmonta no pressOut. A cor/percepção é validação de Storybook e
+   * aparelho (o jest daqui não compila NativeWind).
+   */
+  describe('pressed state', () => {
+    it('primary: o véu aparece no pressIn e some no pressOut', async () => {
+      await render(<Button label="Publicar" />);
+      const button = screen.getByTestId('button');
+
+      await fireEvent(button, 'pressIn');
+      expect(screen.getByTestId('button-pressed-overlay')).toBeOnTheScreen();
+
+      await fireEvent(button, 'pressOut');
+      expect(screen.queryByTestId('button-pressed-overlay')).toBeNull();
+    });
+
+    it('danger: superfície preenchida também ganha o véu', async () => {
+      await render(<Button label="Denunciar publicação" variant="danger" />);
+
+      await fireEvent(screen.getByTestId('button'), 'pressIn');
+
+      expect(screen.getByTestId('button-pressed-overlay')).toBeOnTheScreen();
+    });
+
+    it('desabilitado não reage ao toque — não há o que afirmar num alvo que não pode', async () => {
+      await render(<Button label="Avançar" disabled />);
+
+      await fireEvent(screen.getByTestId('button'), 'pressIn');
+
+      expect(screen.queryByTestId('button-pressed-overlay')).toBeNull();
+    });
+
+    it('o véu nunca rouba o toque (pointerEvents none)', async () => {
+      await render(<Button label="Publicar" />);
+
+      await fireEvent(screen.getByTestId('button'), 'pressIn');
+
+      expect(screen.getByTestId('button-pressed-overlay').props.pointerEvents).toBe('none');
+    });
+  });
+
 });

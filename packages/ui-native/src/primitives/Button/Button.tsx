@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { radii, spacing } from '@kodes-tech/tokens';
@@ -192,6 +192,37 @@ export const Button = ({
    * ⚠️ Só o aparelho prova: é bug de medição nativa, invisível em teste unitário.
    */
   const visualState = disabled ? 'disabled' : variant;
+  /**
+   * Retorno do toque (KSA-446) — a regra por superfície mora em
+   * `docs/conventions/interaction-states.md`: preenchida = véu forte por cima;
+   * clara/outline = fundo sutil; só-texto = opacidade.
+   *
+   * Estado interno em vez da variante `active:` do NativeWind: aqui quem pinta é o
+   * CONTAINER (filho), e o `active:` só acompanha o elemento que recebe o gesto (o
+   * Pressable). Nos primitivos em que o className mora no próprio Pressable, a
+   * variante resolve — ver FilterChip/SheetOption.
+   */
+  const [isPressed, setIsPressed] = useState(false);
+  const handlePressIn = () => setIsPressed(true);
+  const handlePressOut = () => setIsPressed(false);
+  // Véu do state layer — pinta o próprio raio (mesma regra do gradiente: nada de
+  // overflow hidden no pai). `pointerEvents="none"`: o véu nunca rouba o toque.
+  const pressedOverlay =
+    isPressed && !disabled ? (
+      <View
+        pointerEvents="none"
+        testID="button-pressed-overlay"
+        className="absolute inset-0 rounded-pill bg-state-pressedStrong"
+      />
+    ) : null;
+  const pressedContainerClass =
+    !isPressed || disabled
+      ? ''
+      : variant === 'ghost'
+        ? 'opacity-pressed'
+        : variant === 'secondary'
+          ? 'bg-state-pressedSubtle'
+          : '';
   const content = loading ? (
     // O spinner OCUPA o lugar do conteúdo, no mesmo slot — mesmo princípio do
     // ResultModal do app, onde ele vira o ícone em vez de aparecer ao lado.
@@ -222,12 +253,16 @@ export const Button = ({
         className={fullWidth ? 'w-full' : undefined}
         disabled={isPressBlocked}
         onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
       >
         <View
           key={visualState}
           testID="button-container"
-          className={`${disabled ? disabledContainerClass : containerClassByVariant(variant as 'secondary' | 'ghost' | 'danger', tone)} ${fullWidth ? 'w-full' : ''}`}
+          className={`${disabled ? disabledContainerClass : containerClassByVariant(variant as 'secondary' | 'ghost' | 'danger', tone)} ${fullWidth ? 'w-full' : ''} ${pressedContainerClass}`}
         >
+          {/* Véu ANTES do conteúdo: o state layer fica entre a superfície e o label (Material). */}
+          {variant === 'danger' ? pressedOverlay : null}
           {content}
         </View>
       </Pressable>
@@ -243,6 +278,8 @@ export const Button = ({
       className={fullWidth ? 'w-full' : undefined}
       disabled={isPressBlocked}
       onPress={onPress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
     >
       <View
         key={visualState}
@@ -256,6 +293,8 @@ export const Button = ({
           end={{ x: 1, y: 0 }}
           style={gradientBackgroundStyle}
         />
+        {/* Véu entre o gradiente e o conteúdo — o label não é tingido pelo state layer. */}
+        {pressedOverlay}
         {content}
       </View>
     </Pressable>

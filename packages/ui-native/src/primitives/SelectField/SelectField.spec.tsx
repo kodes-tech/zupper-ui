@@ -41,4 +41,13 @@ describe('SelectField', () => {
     await fireEvent.press(screen.getByText('Recife, PE'));
     expect(onSelectOption).toHaveBeenCalledWith('recife');
   });
+
+  // KSA-446 — campo e opções: fundo sutil (a linha de opção é gêmea da do SearchInput).
+  it('pede o retorno de toque no campo fechado', async () => {
+    await render(<SelectField value="Recife, PE" />);
+    expect(screen.getByLabelText('Recife, PE').props.className).toContain(
+      'active:bg-state-pressedSubtle',
+    );
+  });
+
 });

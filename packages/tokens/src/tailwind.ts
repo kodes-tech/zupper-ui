@@ -5,6 +5,7 @@ import { spacing } from './spacing';
 import { radii } from './radii';
 import { typography } from './typography';
 import { sizes, avatarSize } from './sizes';
+import { interaction } from './state';
 
 /** Converte uma escala numérica (px) em strings com unidade (`16` → `'16px'`). */
 const px = <T extends Record<string, number>>(obj: T): Record<keyof T, string> =>
@@ -81,7 +82,15 @@ export const tailwindPreset = {
         border: themedColors.border, // border-border-default
         feedback: themedColors.feedback, // border-feedback-danger / text-feedback-danger
         scrim: colors.scrim, // bg-scrim — véu de bottom sheet / diálogo modal (literal, não-temável)
+        // Estados de interação (KSA-446): `active:bg-state-pressedStrong` / `-pressedSubtle`.
+        // Literais como o scrim — ver o porquê em `state.ts`.
+        state: {
+          pressedStrong: interaction.pressedOverlay.strong,
+          pressedSubtle: interaction.pressedOverlay.subtle,
+        },
       },
+      // `active:opacity-pressed` — alvo só de texto/ícone e mídia (KSA-446).
+      opacity: { pressed: `${interaction.pressedOpacity}` },
       spacing: px(spacing),
       height: { ...px(sizes), ...avatarScale },
       minHeight: px(sizes),

@@ -59,7 +59,7 @@ export const SelectField = ({
         accessibilityElementsHidden={open}
         importantForAccessibility={open ? 'no-hide-descendants' : 'auto'}
         onPress={onPress}
-        className="w-full flex-row items-center justify-between rounded-md border border-border-default bg-surface-default px-md py-lg"
+        className="w-full flex-row items-center justify-between rounded-md border border-border-default bg-surface-default active:bg-state-pressedSubtle px-md py-lg"
       >
         {label}
         <Icon name="dropdown-arrow" size={iconSize.lg} />
@@ -75,7 +75,7 @@ export const SelectField = ({
             accessibilityLabel={value ?? placeholder}
             accessibilityState={{ expanded: true }}
             onPress={onPress}
-            className="w-full flex-row items-center justify-between px-md py-lg"
+            className="w-full flex-row items-center justify-between active:bg-state-pressedSubtle px-md py-lg"
           >
             {label}
             <Icon name="chevron-up" size={iconSize.lg} />
@@ -89,7 +89,7 @@ export const SelectField = ({
                   accessibilityRole="button"
                   accessibilityLabel={option.label}
                   onPress={() => onSelectOption?.(option.id)}
-                  className="px-md py-lg"
+                  className="px-md py-lg active:bg-state-pressedSubtle"
                 >
                   <Text numberOfLines={1} className="font-sans text-bodyText text-fg-secondary">
                     {option.label}

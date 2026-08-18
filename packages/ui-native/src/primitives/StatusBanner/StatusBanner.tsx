@@ -60,7 +60,7 @@ export const StatusBanner = ({
         accessibilityRole="button"
         accessibilityLabel={actionLabel}
         onPress={onPressAction}
-        className={`self-start rounded-pill border bg-surface-default px-[14px] py-md ${actionBorderClass[tone]}`}
+        className={`self-start rounded-pill border bg-surface-default active:bg-state-pressedSubtle px-[14px] py-md ${actionBorderClass[tone]}`}
       >
         <Text className={`font-sans text-actionLabel ${contentClass[tone]}`}>{actionLabel}</Text>
       </Pressable>

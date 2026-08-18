@@ -50,7 +50,12 @@ export const AppHeader = ({
       background === 'surface' ? 'bg-surface-default' : ''
     }`}
   >
-    <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={onBack}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="Voltar"
+      onPress={onBack}
+      className="active:opacity-pressed"
+    >
       <Icon name="back-arrow" size={iconSize.lg} />
     </Pressable>
     {/* Sem título = modo "só voltar" (auth): apenas a seta, alinhada à esquerda. */}

@@ -26,7 +26,7 @@ export const RadioOption = ({
     accessibilityLabel={label}
     disabled={disabled}
     onPress={onPress}
-    className="flex-row items-center gap-sm"
+    className="flex-row items-center gap-sm active:bg-state-pressedSubtle"
   >
     <View
       className={`h-[20px] w-[20px] items-center justify-center rounded-pill border ${

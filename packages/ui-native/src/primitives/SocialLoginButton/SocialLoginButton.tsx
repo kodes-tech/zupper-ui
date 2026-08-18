@@ -58,7 +58,7 @@ export const SocialLoginButton = ({
       disabled={disabled}
       onPress={onPress}
       testID={testID}
-      className={`w-full flex-row items-center justify-center gap-md rounded-pill border bg-surface-default px-xxl py-md ${brandBorderClass[provider]}`}
+      className={`w-full flex-row items-center justify-center gap-md rounded-pill border bg-surface-default active:bg-state-pressedSubtle px-xxl py-md ${brandBorderClass[provider]}`}
     >
       {icon ? <Icon name={icon} size={iconSize.md} /> : null}
       <Text className={`font-sans text-buttonLabelLg ${brandTextClass[provider]}`}>{label}</Text>

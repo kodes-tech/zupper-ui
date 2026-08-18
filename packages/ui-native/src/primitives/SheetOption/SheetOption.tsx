@@ -43,7 +43,7 @@ export const SheetOption = ({
     accessibilityRole="button"
     accessibilityLabel={label}
     onPress={onPress}
-    className={`h-[56px] w-full flex-row items-center justify-between ${padded ? 'px-screenMargin' : ''}`}
+    className={`h-[56px] w-full flex-row items-center justify-between active:bg-state-pressedSubtle ${padded ? 'px-screenMargin' : ''}`}
   >
     <View className="flex-1 flex-row items-center gap-[14px]">
       {emoji ? <Text className="font-sans text-[18px]">{emoji}</Text> : null}

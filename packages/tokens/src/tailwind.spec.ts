@@ -51,4 +51,18 @@ describe('tailwindPreset — escalas de dimensão', () => {
 
     expect(css).toMatch(rule('h-control', 'height', `${sizes.control}px`));
   });
+  /**
+   * Classes de estado de interação (KSA-446). Mesmo footgun do w-avatar-*: `state` é objeto
+   * ANINHADO em `colors` — hoje o Tailwind achata cores, mas isso está a um refactor de gerar
+   * zero CSS em silêncio. Este teste é a trava: a classe tem de EMITIR a regra, com o valor
+   * do token.
+   */
+  it('emite as classes de pressed com os valores dos tokens', async () => {
+    const css = await compile(['bg-state-pressedStrong', 'bg-state-pressedSubtle', 'opacity-pressed']);
+
+    expect(css).toContain('rgba(0, 0, 0, 0.12)');
+    expect(css).toContain('rgba(0, 0, 0, 0.08)');
+    expect(css).toMatch(/opacity-pressed[^}]*opacity: 0\.6/);
+  });
+
 });

@@ -27,4 +27,21 @@ describe('StatusBanner', () => {
     await render(<StatusBanner tone="warning" title="Em análise" description="Avaliando." />);
     expect(screen.queryByRole('button')).toBeNull();
   });
+
+  // KSA-446 — CTA outline: fundo sutil.
+  it('pede o retorno de toque no CTA', async () => {
+    await render(
+      <StatusBanner
+        tone="warning"
+        title="Publicação em análise"
+        description="Avaliando."
+        actionLabel="Entenda as regras"
+        onPressAction={() => undefined}
+      />,
+    );
+    expect(screen.getByLabelText('Entenda as regras').props.className).toContain(
+      'active:bg-state-pressedSubtle',
+    );
+  });
+
 });

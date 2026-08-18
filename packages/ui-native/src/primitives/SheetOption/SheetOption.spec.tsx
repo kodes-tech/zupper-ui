@@ -19,4 +19,11 @@ describe('SheetOption', () => {
     await render(<SheetOption label="Excluir publicação" icon="trash" />);
     expect(screen.getByText('Excluir publicação')).toBeOnTheScreen();
   });
+
+  // KSA-446 — ver interaction-states.md; a emissão do CSS é travada no tailwind.spec dos tokens.
+  it('pede o retorno de toque (fundo sutil) na linha', async () => {
+    await render(<SheetOption emoji="🔖" label="Salvar publicação" />);
+    expect(screen.getByLabelText('Salvar publicação').props.className).toContain('active:bg-state-pressedSubtle');
+  });
+
 });

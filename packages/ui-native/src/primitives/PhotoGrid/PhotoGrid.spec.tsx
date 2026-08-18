@@ -15,4 +15,13 @@ describe('PhotoGrid', () => {
     await fireEvent.press(screen.getAllByRole('button')[1]);
     expect(onPressPhoto).toHaveBeenCalledWith(1);
   });
+
+  // KSA-446 — célula de imagem: véu não aparece atrás da foto, então opacidade.
+  it('pede o retorno de toque (opacidade) nas células', async () => {
+    await render(<PhotoGrid photos={photos} />);
+    for (const cell of screen.getAllByRole('button')) {
+      expect(cell.props.className).toContain('active:opacity-pressed');
+    }
+  });
+
 });

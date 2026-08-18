@@ -38,7 +38,7 @@ export const FilterChip = ({
       accessibilityState={{ selected }}
       accessibilityLabel={accessibilityLabel ?? label}
       onPress={onPress}
-      className={`flex-row items-center justify-center gap-xs rounded-md border bg-surface-default px-md py-md ${
+      className={`flex-row items-center justify-center gap-xs rounded-md border bg-surface-default active:bg-state-pressedSubtle px-md py-md ${
         fill ? 'flex-1' : ''
       } ${borderClassName}`}
     >

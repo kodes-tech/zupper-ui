@@ -174,6 +174,7 @@ export const Input = ({
               accessibilityLabel={label ? `Alternar visibilidade: ${label}` : 'Alternar visibilidade'}
               disabled={disabled}
               onPress={onPressTrailingIcon}
+              className="active:opacity-pressed"
             >
               <Icon name={trailingIcon} size={iconSize.md} />
             </Pressable>

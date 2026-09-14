@@ -112,3 +112,17 @@ metade das telas.
 
 ⚠️ Teste unitário só prova a **remontagem** (container novo, gradiente presente); que ele
 passa a *medir* certo é comportamento nativo e exige validação em aparelho Android.
+
+## Android: `TextInput` nasce com o padding do `EditText` do sistema
+
+O React Native copia para todo `TextInput` o padding do `EditText` do tema Android
+(`ReactTextInputShadowNode.setThemedContext` → `setDefaultPadding`). Com o
+`rn_edit_text_material` do template do app consumidor, isso dá um inset de **10dp em cima e
+7dp embaixo** (4dp nos lados), mais o padding do 9-patch. Sem padding explícito, a caixa do
+campo mede mais alta que a linha de texto e de forma **assimétrica**; numa linha
+`flex-row items-center` o pai centra a **caixa**, e o texto assenta abaixo do centro dos irmãos
+(ícone, botão). iOS e web não têm esse padding — o desvio só aparece no Android.
+
+Regra no DS: **todo `TextInput` declara o próprio `py-*`** — `Input` e `Textarea` usam `py-lg`;
+o `SearchInput` usa `py-0` (a altura é do container, `h-controlLg`) e `textAlignVertical="center"`.
+Achado na pílula de busca da Home da comunidade (DEV-15816, superapp).

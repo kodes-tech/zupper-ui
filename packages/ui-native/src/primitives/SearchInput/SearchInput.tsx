@@ -104,15 +104,23 @@ export const SearchInput = ({
     <View className="relative w-full">
       <View className="h-controlLg w-full flex-row items-center gap-lg rounded-pill border border-border-default bg-surface-default pl-xl pr-md">
         <Icon name="globe" size={iconSize.lg} />
+        {/* `py-0` + `textAlignVertical`: no Android o TextInput nasce com o padding do EditText do
+            sistema (inset de 10 em cima e 7 embaixo no tema material), então a caixa mede mais alta
+            que a linha de texto e o `items-center` da linha centra a CAIXA, não o glifo — o texto
+            assentava abaixo do centro do globo e da lupa (DEV-15816). Zerar o padding devolve a
+            caixa à altura da própria linha (`bodyMd`, 24) e o centro passa a ser o do texto.
+            `Input` e `Textarea` não sofrem disso porque fixam o próprio `py-lg`. iOS e web não têm
+            o padding e ignoram o `textAlignVertical`. Ver docs/known-issues.md. */}
         <TextInput
           testID={testID}
+          textAlignVertical="center"
           accessibilityLabel={placeholder}
           value={value}
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder}
-          className="flex-1 font-sans text-bodyMd text-fg-primary placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none"
+          className="flex-1 py-0 font-sans text-bodyMd text-fg-primary placeholder:text-fg-muted web:selection:bg-surface-selection web:outline-none"
           selectionColor={colors.surface.selection}
         />
         {/* Preenchido por gradiente FILHO: véu via active:bg ficaria atrás dele. Alvo pequeno

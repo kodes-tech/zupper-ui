@@ -39,11 +39,13 @@ jobs:
           BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           text="$(printf '%s\n%s\n%s' "$TITLE" "$BODY" "$BRANCH" | tr '[:lower:]' '[:upper:]')"
-          if printf '%s' "$text" | grep -Eq '\b(KSA|BFF)-[0-9]+\b'; then
-            key="$(printf '%s' "$text" | grep -Eo '\b(KSA|BFF)-[0-9]+\b' | head -1)"
+          # O Jira migrou para o projeto DEV (09/2026): DEV- é a chave corrente; KSA-/BFF-
+          # seguem aceitas só para PR antiga ainda em voo com card do Jira anterior.
+          if printf '%s' "$text" | grep -Eq '\b(DEV|KSA|BFF)-[0-9]+\b'; then
+            key="$(printf '%s' "$text" | grep -Eo '\b(DEV|KSA|BFF)-[0-9]+\b' | head -1)"
             echo "OK — PR referencia a task do Jira: ${key}"
           else
-            echo "::error::Esta PR não referencia nenhuma task do Jira (ex.: KSA-123 ou BFF-45). Adicione a chave/link da task no título ou na descrição da PR."
+            echo "::error::Esta PR não referencia nenhuma task do Jira (ex.: DEV-123). Adicione a chave/link da task no título ou na descrição da PR."
             exit 1
           fi
 

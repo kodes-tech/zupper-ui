@@ -127,4 +127,13 @@ describe('SearchInput', () => {
     expect(screen.getByLabelText('Buscar').props.className).toContain('active:opacity-pressed');
   });
 
+  // DEV-15816 — no Android o TextInput herda o padding assimétrico do EditText do sistema (10 em
+  // cima, 7 embaixo); sem zerar, a caixa mede mais alta que o texto e o `items-center` da linha
+  // centra a caixa, não o glifo. O campo zera o padding e centra o texto na própria caixa.
+  it('zera o padding vertical do campo e centra o texto, para alinhar com o globo e a lupa (DEV-15816)', async () => {
+    await render(<SearchInput placeholder="Qual seu destino?" />);
+    const input = screen.getByPlaceholderText('Qual seu destino?');
+    expect(input.props.className).toContain('py-0');
+    expect(input.props.textAlignVertical).toBe('center');
+  });
 });

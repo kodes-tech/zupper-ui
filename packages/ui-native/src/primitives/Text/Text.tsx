@@ -53,6 +53,17 @@ export type TextProps = {
   underline?: boolean;
   numberOfLines?: number;
   /**
+   * Reduz a fonte até o texto caber em `numberOfLines`, em vez de quebrar ou
+   * truncar — ex.: um título que precisa ficar numa linha só em tela estreita.
+   * Sem `numberOfLines` não há limite a respeitar, e nada encolhe.
+   */
+  adjustsFontSizeToFit?: boolean;
+  /**
+   * Piso da redução do `adjustsFontSizeToFit` (de 0.01 a 1; `0.8` = no máximo
+   * 20% menor). Só o iOS respeita: no Android a fonte encolhe sem piso.
+   */
+  minimumFontScale?: number;
+  /**
    * Torna o texto tocável (papel de a11y `link`). Serve para o texto inteiro ou,
    * aninhado dentro de outro `Text`, para um trecho clicável no meio de um
    * parágrafo que flui/quebra naturalmente (ex.: "Termos de Aceite"). Sem
@@ -115,12 +126,16 @@ export const Text = ({
   align,
   underline = false,
   numberOfLines,
+  adjustsFontSizeToFit,
+  minimumFontScale,
   onPress,
   accessibilityLabel,
   testID,
 }: TextProps): React.ReactElement => (
   <RNText
     numberOfLines={numberOfLines}
+    adjustsFontSizeToFit={adjustsFontSizeToFit}
+    minimumFontScale={minimumFontScale}
     onPress={onPress}
     accessibilityRole={onPress ? 'link' : undefined}
     accessibilityLabel={accessibilityLabel}

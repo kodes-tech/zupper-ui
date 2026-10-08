@@ -39,6 +39,26 @@ export const Variants = {
   ),
 };
 
+/** Título que precisa caber numa linha: a fonte encolhe em vez de quebrar. */
+export const FitToOneLine = {
+  render: (): React.ReactElement => (
+    <View style={{ gap: 12, width: 240 }}>
+      <Text variant="heading" align="center">
+        Ainda não há publicações por aqui
+      </Text>
+      <Text
+        variant="heading"
+        align="center"
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.7}
+      >
+        Ainda não há publicações por aqui
+      </Text>
+    </View>
+  ),
+};
+
 export const Colors = {
   render: (): React.ReactElement => (
     <View style={{ gap: 8 }}>

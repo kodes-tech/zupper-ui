@@ -11,11 +11,11 @@ describe('SearchInput', () => {
     await render(<SearchInput placeholder="Qual seu destino?" options={OPTIONS} />);
     expect(screen.getByPlaceholderText('Qual seu destino?')).toBeOnTheScreen();
     expect(screen.queryByText('Florianópolis, SC')).toBeNull();
-    expect(screen.queryByText('Nenhum resultado encontrado')).toBeNull();
+    expect(screen.queryByText('Nenhum destino encontrado para esta busca.')).toBeNull();
   });
 
   it('lists the options when there is a value with suggestions and the field is focused', async () => {
-    await render(<SearchInput value="Fl" options={OPTIONS} />);
+    await render(<SearchInput value="Flo" options={OPTIONS} />);
     await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
     expect(screen.getByText('Florianópolis, SC')).toBeOnTheScreen();
     expect(screen.getByText('Recife, PE')).toBeOnTheScreen();
@@ -24,16 +24,45 @@ describe('SearchInput', () => {
   it('shows the empty state when the term has no matching options and the field is focused', async () => {
     await render(<SearchInput value="Atlântida perdida" options={[]} />);
     await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
-    expect(screen.getByText('Nenhum resultado encontrado')).toBeOnTheScreen();
+    expect(screen.getByText('Nenhum destino encontrado para esta busca.')).toBeOnTheScreen();
+  });
+
+  // DEV-16866 — o cartão segue o destino da Publicar do app: linha em bodyText primário.
+  it('desenha cada opção em bodyText na cor primária (DEV-16866 AC-1)', async () => {
+    await render(<SearchInput value="Flo" options={OPTIONS} />);
+    await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
+    expect(screen.getByText('Recife, PE').props.className).toContain(
+      'text-bodyText text-fg-primary',
+    );
+  });
+
+  it('pede 3 letras no lugar das opções enquanto o termo é curto (DEV-16866 AC-2)', async () => {
+    await render(<SearchInput value=" Fl " options={OPTIONS} />);
+    await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
+    expect(screen.getByText('Digite ao menos 3 letras para buscar.')).toBeOnTheScreen();
+    expect(screen.queryByText('Florianópolis, SC')).toBeNull();
+  });
+
+  it('mostra o spinner, e não o vazio, enquanto a busca do app roda (DEV-16866 AC-3)', async () => {
+    await render(<SearchInput value="Flo" options={[]} loading />);
+    await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
+    expect(screen.getByTestId('search-input-loading')).toBeOnTheScreen();
+    expect(screen.queryByText('Nenhum destino encontrado para esta busca.')).toBeNull();
+  });
+
+  it('não abre o painel no foco com o campo vazio (DEV-16866 AC-5)', async () => {
+    await render(<SearchInput value="" options={OPTIONS} />);
+    await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
+    expect(screen.queryByText('Digite ao menos 3 letras para buscar.')).toBeNull();
   });
 
   it('keeps the panel closed while the field has a value but was never focused', async () => {
-    await render(<SearchInput value="Fl" options={OPTIONS} />);
+    await render(<SearchInput value="Flo" options={OPTIONS} />);
     expect(screen.queryByText('Florianópolis, SC')).toBeNull();
   });
 
   it('closes the panel shortly after the field loses focus, without dropping a tap on an option (regressão: blur competia com o toque)', async () => {
-    await render(<SearchInput value="Fl" options={OPTIONS} />);
+    await render(<SearchInput value="Flo" options={OPTIONS} />);
     const input = screen.getByPlaceholderText('Qual seu destino?');
     await fireEvent(input, 'focus');
     expect(screen.getByText('Florianópolis, SC')).toBeOnTheScreen();
@@ -49,7 +78,7 @@ describe('SearchInput', () => {
   });
 
   it('reopens on refocus without waiting out a pending close from a previous blur', async () => {
-    await render(<SearchInput value="Fl" options={OPTIONS} />);
+    await render(<SearchInput value="Flo" options={OPTIONS} />);
     const input = screen.getByPlaceholderText('Qual seu destino?');
     await fireEvent(input, 'focus');
     await fireEvent(input, 'blur');
@@ -67,7 +96,7 @@ describe('SearchInput', () => {
 
   it('fires onBlur in sync with the panel closing, not immediately on blur', async () => {
     const onBlur = jest.fn();
-    await render(<SearchInput value="Fl" options={OPTIONS} onBlur={onBlur} />);
+    await render(<SearchInput value="Flo" options={OPTIONS} onBlur={onBlur} />);
     const input = screen.getByPlaceholderText('Qual seu destino?');
     await fireEvent(input, 'focus');
 
@@ -80,7 +109,7 @@ describe('SearchInput', () => {
 
   it('does not fire onBlur when refocused before the pending close resolves', async () => {
     const onBlur = jest.fn();
-    await render(<SearchInput value="Fl" options={OPTIONS} onBlur={onBlur} />);
+    await render(<SearchInput value="Flo" options={OPTIONS} onBlur={onBlur} />);
     const input = screen.getByPlaceholderText('Qual seu destino?');
     await fireEvent(input, 'focus');
     await fireEvent(input, 'blur');
@@ -99,14 +128,14 @@ describe('SearchInput', () => {
 
   it('fires onSelectOption with the option id when a suggestion is tapped', async () => {
     const onSelectOption = jest.fn();
-    await render(<SearchInput value="Re" options={OPTIONS} onSelectOption={onSelectOption} />);
+    await render(<SearchInput value="Rec" options={OPTIONS} onSelectOption={onSelectOption} />);
     await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
     await fireEvent.press(screen.getByText('Recife, PE'));
     expect(onSelectOption).toHaveBeenCalledWith('recife');
   });
 
   it('keeps suggestions tappable with the keyboard open (regressão: exigia 2 toques)', async () => {
-    await render(<SearchInput value="Re" options={OPTIONS} />);
+    await render(<SearchInput value="Rec" options={OPTIONS} />);
     await fireEvent(screen.getByPlaceholderText('Qual seu destino?'), 'focus');
     expect(screen.getByTestId('search-input-options-scroll').props.keyboardShouldPersistTaps).toBe(
       'handled',

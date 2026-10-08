@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-import { iconSize, radii, sizes, spacing } from '@kodes-tech/tokens';
+import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { elevation, iconSize, radii, sizes, spacing } from '@kodes-tech/tokens';
 import { Icon } from '@kodes-tech/icons';
 import { useTheme } from '../../theme/ThemeProvider';
 
@@ -22,11 +22,12 @@ export type SearchInputProps = {
   onFocus?: () => void;
   onBlur?: () => void;
   /**
-   * Sugestões pro termo digitado — fetch/filtro fica por conta do app. Painel
-   * some sem `value`; com `value` e lista vazia, mostra "Nenhum resultado
-   * encontrado".
+   * Sugestões pro termo digitado — fetch/filtro fica por conta do app. Abaixo
+   * de 3 letras o painel pede mais letras e não lista nada.
    */
   options?: SearchInputOption[];
+  /** Busca em andamento no app: spinner sob as opções, no lugar do texto de vazio. */
+  loading?: boolean;
   onSelectOption?: (id: string) => void;
   /** Toque no botão de busca (lupa) à direita. */
   onPressSearch?: () => void;
@@ -34,9 +35,18 @@ export type SearchInputProps = {
 };
 
 /** Campo + gap até o painel (ver `h-controlLg`) — offset do overlay flutuante. */
-const PANEL_TOP = sizes.controlLg + spacing.xl;
+const PANEL_TOP = sizes.controlLg + spacing.lg;
 /** Altura máx. do painel: mostra ~4–5 sugestões e rola o resto (mesmo critério do `SelectField`). */
 const PANEL_MAX_HEIGHT = 260;
+const MIN_TERM_LENGTH = 3;
+/** Sombra `elevation.low`, na mesma conta do specimen `Tokens/Elevation`. */
+const panelShadowStyle = {
+  shadowColor: '#000000',
+  shadowOffset: { width: 0, height: elevation.low },
+  shadowOpacity: 0.12 + elevation.low * 0.02,
+  shadowRadius: elevation.low * 2,
+  elevation: elevation.low,
+};
 
 // Fundo do botão redondo: absoluto, preenchendo o círculo (mesma ressalva do
 // Button — em Android/New Architecture, `overflow:hidden` num container com
@@ -53,9 +63,9 @@ const searchButtonGradientStyle = {
 /**
  * SearchInput — campo pill de busca com sugestões (typeahead): ícone de globo
  * fixo à esquerda, botão de busca (lupa) redondo com gradiente à direita, e
- * painel de sugestões flutuando abaixo do campo. Três estados: sem `value` →
- * fechado (sem painel); `value` + `options` → painel com a lista; `value` sem
- * `options` → painel "Nenhum resultado encontrado". O painel só aparece com o
+ * painel de sugestões flutuando abaixo do campo. Estados: sem `value` → fechado;
+ * menos de 3 letras → pede mais letras; `options` → a lista (+ spinner com
+ * `loading`); sem `options` nem `loading` → vazio. O painel só aparece com o
  * campo focado — perder o foco fecha, mesmo com `value` preenchido. `onFocus`/
  * `onBlur` replicam esse mesmo estado pro app (ex.: overlay de destaque atrás
  * do campo). Apresentacional/controlado: o app decide `value`/`options`
@@ -69,6 +79,7 @@ export const SearchInput = ({
   onFocus,
   onBlur,
   options = [],
+  loading = false,
   onSelectOption,
   onPressSearch,
   testID,
@@ -76,6 +87,7 @@ export const SearchInput = ({
   const { colors } = useTheme();
   const [isFocused, setIsFocused] = React.useState(false);
   const showPanel = isFocused && Boolean(value);
+  const termTooShort = (value ?? '').trim().length < MIN_TERM_LENGTH;
 
   // Blur chega antes do toque numa opção terminar de processar (o clique tira
   // o foco do campo no meio do gesto) — sem esse atraso o painel some e a
@@ -149,38 +161,47 @@ export const SearchInput = ({
 
       {showPanel ? (
         <View
-          className="absolute left-0 right-0 z-10 rounded-xl border border-border-default bg-surface-default"
-          style={{ top: PANEL_TOP, maxHeight: PANEL_MAX_HEIGHT }}
+          className="absolute left-0 right-0 z-10 rounded-xl bg-surface-default"
+          style={[{ top: PANEL_TOP, maxHeight: PANEL_MAX_HEIGHT }, panelShadowStyle]}
         >
-          {options.length > 0 ? (
-            <ScrollView
-              testID="search-input-options-scroll"
-              showsVerticalScrollIndicator
-              keyboardShouldPersistTaps="handled"
-            >
-              {options.map((option, index) => (
-                <React.Fragment key={option.id}>
-                  {index > 0 ? <View className="mx-md h-px bg-border-default" /> : null}
+          <ScrollView
+            testID="search-input-options-scroll"
+            showsVerticalScrollIndicator
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ padding: spacing.xl, gap: spacing.xl }}
+          >
+            {termTooShort ? (
+              <Text className="font-sans text-bodyMd text-fg-muted">
+                Digite ao menos 3 letras para buscar.
+              </Text>
+            ) : (
+              <>
+                {options.map((option) => (
                   <Pressable
+                    key={option.id}
                     accessibilityRole="button"
                     accessibilityLabel={option.label}
                     onPress={() => onSelectOption?.(option.id)}
-                    className="px-md py-lg active:bg-state-pressedSubtle"
+                    className="flex-row items-center gap-xs rounded-md active:bg-state-pressedSubtle"
                   >
-                    <Text numberOfLines={1} className="font-sans text-bodyMd text-fg-secondary">
+                    <Icon name="location" size={iconSize.lg} />
+                    <Text
+                      numberOfLines={1}
+                      className="flex-1 font-sans text-bodyText text-fg-primary"
+                    >
                       {option.label}
                     </Text>
                   </Pressable>
-                </React.Fragment>
-              ))}
-            </ScrollView>
-          ) : (
-            // bodyText intencional: o spec do Figma revisado cobriu só o texto das
-            // opções (bodyMd) — este texto de estado vazio não teve spec conferido.
-            <Text className="px-md py-lg text-center font-sans text-bodyText text-fg-muted">
-              Nenhum resultado encontrado
-            </Text>
-          )}
+                ))}
+                {loading ? <ActivityIndicator testID="search-input-loading" /> : null}
+                {!loading && options.length === 0 ? (
+                  <Text className="font-sans text-bodyMd text-fg-muted">
+                    Nenhum destino encontrado para esta busca.
+                  </Text>
+                ) : null}
+              </>
+            )}
+          </ScrollView>
         </View>
       ) : null}
     </View>

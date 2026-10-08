@@ -56,7 +56,7 @@ export const Fechado = {
 // O painel só aparece com o campo focado — sem o `play`, a story renderizaria
 // fechada (só o pill), mesmo com `value`/`options` preenchidos.
 export const DigitandoComSugestoes = {
-  args: { value: 'Fl', options: DESTINATIONS },
+  args: { value: 'Flo', options: DESTINATIONS },
   play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     await userEvent.click(within(canvasElement).getByPlaceholderText('Qual seu destino?'));
   },
@@ -64,6 +64,20 @@ export const DigitandoComSugestoes = {
 
 export const Vazio = {
   args: { value: 'Atlantida perdida', options: [] },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    await userEvent.click(within(canvasElement).getByPlaceholderText('Qual seu destino?'));
+  },
+};
+
+export const TermoCurto = {
+  args: { value: 'Fl', options: DESTINATIONS },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    await userEvent.click(within(canvasElement).getByPlaceholderText('Qual seu destino?'));
+  },
+};
+
+export const Buscando = {
+  args: { value: 'Flo', options: [], loading: true },
   play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     await userEvent.click(within(canvasElement).getByPlaceholderText('Qual seu destino?'));
   },
@@ -77,7 +91,7 @@ export const Vazio = {
  * nunca dispara.
  */
 export const FechaAoPerderFoco = {
-  args: { value: 'Fl', options: DESTINATIONS, onSelectOption: fn(action('onSelectOption')) },
+  args: { value: 'Flo', options: DESTINATIONS, onSelectOption: fn(action('onSelectOption')) },
   play: async ({ canvasElement, args }: { canvasElement: HTMLElement; args: { onSelectOption: (id: string) => void } }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByPlaceholderText('Qual seu destino?');
